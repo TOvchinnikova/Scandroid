@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Scandroid</string>
+    <string name="scanner">Scanner</string>
+    <string name="history">History</string>
+    <string name="create">Create</string>
+    <string name="settings">Settings</string>
+</resources>
