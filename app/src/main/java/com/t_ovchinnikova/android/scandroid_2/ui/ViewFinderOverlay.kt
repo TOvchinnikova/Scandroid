@@ -1,5 +1,6 @@
 package com.t_ovchinnikova.android.scandroid_2.ui
 
+import android.Manifest
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
@@ -8,6 +9,7 @@ import androidx.core.content.ContextCompat
 import com.t_ovchinnikova.android.scandroid_2.R
 
 class ViewFinderOverlay(context: Context, attrs: AttributeSet) : View(context, attrs) {
+
 
     private val boxPaint: Paint = Paint().apply {
         color = ContextCompat.getColor(context, R.color.barcode_reticle_stroke)
@@ -34,15 +36,14 @@ class ViewFinderOverlay(context: Context, attrs: AttributeSet) : View(context, a
         val overlayWidth =  width.toFloat()
         val overlayHeight = height.toFloat()
 
-        val boxWidth = overlayWidth * 80 /100
-        val boxHeight = overlayHeight * 36 / 100
-
-        val cx = overlayWidth / 2
-        val cy = overlayHeight / 2
-
-        boxRect = RectF(cx - boxWidth / 2, cy - boxHeight / 2, cx + boxWidth / 2, cy + boxHeight / 2)
+        val rectTop = overlayHeight * DESIRED_HEIGHT_CROP_PERCENT / 2 / 100f
+        val rectLeft = overlayWidth * DESIRED_WIDTH_CROP_PERCENT / 2 / 100f
+        val rectRight = overlayWidth * (1 - DESIRED_WIDTH_CROP_PERCENT / 2 / 100f)
+        val rectBottom = overlayHeight * (1 - DESIRED_HEIGHT_CROP_PERCENT / 2 / 100f)
+        boxRect = RectF(rectLeft, rectTop, rectRight, rectBottom)
 
         invalidate()
+
     }
 
     override fun draw(canvas: Canvas) {
@@ -58,5 +59,10 @@ class ViewFinderOverlay(context: Context, attrs: AttributeSet) : View(context, a
             // Draws the box.
             canvas.drawRoundRect(it, boxCornerRadius, boxCornerRadius, boxPaint)
         }
+    }
+
+    companion object {
+        const val DESIRED_WIDTH_CROP_PERCENT = 20
+        const val DESIRED_HEIGHT_CROP_PERCENT = 74
     }
 }
