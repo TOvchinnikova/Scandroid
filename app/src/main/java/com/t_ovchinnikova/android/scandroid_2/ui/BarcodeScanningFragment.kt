@@ -26,6 +26,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.t_ovchinnikova.android.scandroid_2.BarcodeAnalyzer
 import com.t_ovchinnikova.android.scandroid_2.camera.CameraSource
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScannerBinding
+import kotlinx.android.synthetic.main.bottom_action_bar_scanning.view.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import kotlin.properties.Delegates
@@ -36,6 +37,7 @@ class BarcodeScanningFragment : Fragment() {
     private var requestPermissionLauncher : ActivityResultLauncher<String>? = null
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var viewFinder: PreviewView
+    private lateinit var cameraProvider: ProcessCameraProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +62,15 @@ class BarcodeScanningFragment : Fragment() {
         binding.overlay.post {
             binding.overlay.setViewFinder()
         }
+        binding.container.flashButton.setOnClickListener{
+            Toast.makeText(requireContext(), "wowwwww!!!", Toast.LENGTH_SHORT).show()
+          //  if ( cameraProvider.cameraInfo().hasFlashUnit() ) {
+          //      cameraProvider.getCameraControl().enableTorch(true); // or false
+          //  }
+        }
+        binding.container.imageAnalizeButton.setOnClickListener{
+            Toast.makeText(requireContext(), "supa dupa!!!", Toast.LENGTH_SHORT).show()
+        }
 
         viewFinder = binding.viewFinder
 
@@ -76,7 +87,6 @@ class BarcodeScanningFragment : Fragment() {
                     //finish()
                 }
             }
-
     }
 
     override fun onStart() {
@@ -108,7 +118,7 @@ class BarcodeScanningFragment : Fragment() {
 
         cameraProviderFuture.addListener(Runnable {
             //Используется для привязки жизненного цикла камер к владельцу жизненного цикла
-            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+            cameraProvider = cameraProviderFuture.get()
             bindCameraUseCases(cameraProvider)
         }, ContextCompat.getMainExecutor(requireContext()))
 
