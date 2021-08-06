@@ -2,10 +2,7 @@ package com.t_ovchinnikova.android.scandroid_2.ui
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.pm.PackageManager
-import android.graphics.*
-import android.hardware.display.DisplayManager
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
@@ -22,15 +19,15 @@ import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
-import com.t_ovchinnikova.android.scandroid_2.BarcodeAnalyzer
-import com.t_ovchinnikova.android.scandroid_2.camera.CameraSource
+import com.t_ovchinnikova.android.scandroid_2.ScanAnalyzer
+import com.t_ovchinnikova.android.scandroid_2.ScanResultListener
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScannerBinding
 import kotlinx.android.synthetic.main.bottom_action_bar_scanning.view.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-import kotlin.properties.Delegates
 
-class BarcodeScanningFragment : Fragment() {
+
+class ScanningFragment : Fragment() {
 
     private lateinit var binding: FragmentScannerBinding
     private lateinit var requestPermissionLauncher : ActivityResultLauncher<String>
@@ -75,7 +72,8 @@ class BarcodeScanningFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d("MyLog", "onViewCreated start")
+
+        requestPermissionLauncher.launch(Manifest.permission.CAMERA)
 
         binding.overlay.post {
             binding.overlay.setViewFinder()
@@ -87,42 +85,16 @@ class BarcodeScanningFragment : Fragment() {
 
         viewFinder = binding.viewFinder
 
-        requestPermissionLauncher.launch(Manifest.permission.CAMERA)
-
         flashButton = binding.container.flashButton
-       // if (camera.cameraInfo.hasFlashUnit()) {
 
-            //flashButton.visibility = View.VISIBLE
+        if(isFlashAvailable()) {
+            flashButton.visibility = View.VISIBLE
 
-            flashButton.setOnClickListener{
+            flashButton.setOnClickListener {
                 toggleFlash()
-            //}
-
-            /*camera.cameraInfo.torchState.observe(this@BarcodeScanningFragment) {
-                it?.let { torchState ->
-                    if (torchState == TorchState.ON) {
-                        flashEnabled = true
-                        binding.ivFlashControl.setImageResource(R.drawable.ic_round_flash_on)
-                    } else {
-                        flashEnabled = false
-                        binding.ivFlashControl.setImageResource(R.drawable.ic_round_flash_off)
-                    }
-                }
-            }*/
+            }
 
         }
-        Log.d("MyLog", "onViewCreated finish")
-
-    }
-
-    private fun checkPreviewStreamState(){
-
-    }
-
-    override fun onStart() {
-        super.onStart()
-
-
     }
 
     override fun onDestroy() {
@@ -143,26 +115,22 @@ class BarcodeScanningFragment : Fragment() {
 
     }
 
-   /* private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
-        Log.d("MyLog", "allPermissionsGranted start")
-        ContextCompat.checkSelfPermission(
-            requireContext(), it) == PackageManager.PERMISSION_GRANTED
-    }*/
-
     private fun startCamera() {
-        Log.d("MyLog", "startCamera start")
+
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
 
         cameraProviderFuture.addListener(Runnable {
             cameraProvider = cameraProviderFuture.get()
             bindCameraUseCases(cameraProvider)
-        }, ContextCompat.getMainExecutor(requireContext()))
-        Log.d("MyLog", "startCamera finish")
+                                                  },
+            ContextCompat.getMainExecutor(requireContext())
+        )
+
     }
 
     @SuppressLint("UnsafeOptInUsageError")
     private fun bindCameraUseCases(cameraProvider: ProcessCameraProvider) {
-        Log.d("MyLog", "bindCameraUseCases start")
+
         val metrics = DisplayMetrics().also { viewFinder.display.getRealMetrics(it) }
         val screenAspectRatio = Rational(metrics.widthPixels, metrics.heightPixels).toInt()
         val rotation = viewFinder.display.rotation
@@ -202,7 +170,24 @@ class BarcodeScanningFragment : Fragment() {
 
         cameraExecutor = Executors.newSingleThreadExecutor()
 
-        val analyzer = BarcodeAnalyzer()
+        class ScanListener : ScanResultListener{
+            override fun onScanned(result: String) {
+                imageAnalysis.clearAnalyzer()
+                cameraProvider.unbindAll()
+                ScanResultDialog.newInstance(
+                    result,
+                    object : ScanResultDialog.DialogDismissListener {
+                        override fun onDismiss() {
+                            bindCameraUseCases(cameraProvider)
+                        }
+
+
+                    }
+                ).show(parentFragmentManager, ScanResultDialog :: class.java.simpleName)
+            }
+        }
+
+        val analyzer = ScanAnalyzer(ScanListener())
         imageAnalysis.setAnalyzer(cameraExecutor, analyzer)
 
         val useCaseGroup = UseCaseGroup.Builder()
@@ -218,10 +203,13 @@ class BarcodeScanningFragment : Fragment() {
         }
     }
 
+    private fun isFlashAvailable() = requireContext().packageManager
+        .hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)
+
+
     companion object {
 
-        fun newInstance() = BarcodeScanningFragment()
-        //private val REQUIRED_PERMISSIONS = Manifest.permission.CAMERA
+        fun newInstance() = ScanningFragment()
 
     }
 

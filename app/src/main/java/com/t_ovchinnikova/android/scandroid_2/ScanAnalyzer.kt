@@ -17,7 +17,7 @@ import com.google.mlkit.vision.common.InputImage
 
 
 
-class BarcodeAnalyzer : ImageAnalysis.Analyzer {
+class ScanAnalyzer(private val listener: ScanResultListener) : ImageAnalysis.Analyzer {
 
     private val CHANNEL_RANGE = 0 until (1 shl 18)
 
@@ -49,11 +49,11 @@ class BarcodeAnalyzer : ImageAnalysis.Analyzer {
 
     private fun checkList(list: List<Barcode>) {
 
-        list?.firstOrNull().let { barcode ->
+        list.firstOrNull().let { barcode ->
             val rawValue = barcode?.rawValue
             rawValue?.let {
                 Log.d("MyLog", it)
-                //listener.onScanned(it)
+                listener.onScanned(it)
             }
         }
     }

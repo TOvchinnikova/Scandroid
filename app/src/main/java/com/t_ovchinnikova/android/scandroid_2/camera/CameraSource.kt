@@ -1,36 +1,21 @@
 package com.t_ovchinnikova.android.scandroid_2.camera
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.pm.PackageManager
 import android.util.DisplayMetrics
-import android.util.Log
 import android.util.Rational
-import android.util.Size
 import android.view.OrientationEventListener
 import android.view.Surface
-import android.view.Surface.ROTATION_0
-import android.widget.Toast
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
-import com.google.common.util.concurrent.ListenableFuture
-import com.google.mlkit.vision.barcode.Barcode
-import com.google.mlkit.vision.barcode.BarcodeScannerOptions
-import com.google.mlkit.vision.barcode.BarcodeScanning
-import com.google.mlkit.vision.common.InputImage
-import com.t_ovchinnikova.android.scandroid_2.BarcodeAnalyzer
-import com.t_ovchinnikova.android.scandroid_2.ui.ViewFinderOverlay
+import com.t_ovchinnikova.android.scandroid_2.ScanAnalyzer
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-import kotlin.math.abs
-import kotlin.math.max
-import kotlin.math.min
 
 
-class CameraSource {
+/*class CameraSource {
 
     private lateinit var cameraExecutor: ExecutorService
 
@@ -85,7 +70,7 @@ class CameraSource {
 
         cameraExecutor = Executors.newSingleThreadExecutor()
 
-        val analyzer = BarcodeAnalyzer()
+        val analyzer = ScanAnalyzer()
 
         imageAnalysis.setAnalyzer(cameraExecutor, analyzer)
 
@@ -97,4 +82,4 @@ class CameraSource {
         cameraProvider.bindToLifecycle(context as LifecycleOwner, cameraSelector, useCaseGroup)
     }
 
-}
+}*/

@@ -56,7 +56,6 @@ class ViewFinderOverlay(context: Context, attrs: AttributeSet) : View(context, a
             canvas.drawRoundRect(it, boxCornerRadius, boxCornerRadius, eraserPaint)
             eraserPaint.style = Paint.Style.STROKE
             canvas.drawRoundRect(it, boxCornerRadius, boxCornerRadius, eraserPaint)
-            // Draws the box.
             canvas.drawRoundRect(it, boxCornerRadius, boxCornerRadius, boxPaint)
         }
     }

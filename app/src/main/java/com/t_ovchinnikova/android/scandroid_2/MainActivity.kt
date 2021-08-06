@@ -3,7 +3,7 @@ package com.t_ovchinnikova.android.scandroid_2
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.t_ovchinnikova.android.scandroid_2.databinding.ActivityMainBinding
-import com.t_ovchinnikova.android.scandroid_2.ui.BarcodeScanningFragment
+import com.t_ovchinnikova.android.scandroid_2.ui.ScanningFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,8 +20,9 @@ class MainActivity : AppCompatActivity() {
         if (currentFragment == null) {
             supportFragmentManager
                 .beginTransaction()
-                .add(R.id.fragment_container, BarcodeScanningFragment.newInstance())
+                .add(R.id.fragment_container, ScanningFragment.newInstance())
                 .commit()
         }
+
     }
 }
