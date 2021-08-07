@@ -174,6 +174,11 @@ class ScanningFragment : Fragment() {
             override fun onScanned(result: String) {
                 imageAnalysis.clearAnalyzer()
                 cameraProvider.unbindAll()
+                ScanResultDialog.showScanResult(result, parentFragmentManager)
+            }
+            /*override fun onScanned(result: String) {
+                imageAnalysis.clearAnalyzer()
+                cameraProvider.unbindAll()
                 ScanResultDialog.newInstance(
                     result,
                     object : ScanResultDialog.DialogDismissListener {
@@ -184,7 +189,7 @@ class ScanningFragment : Fragment() {
 
                     }
                 ).show(parentFragmentManager, ScanResultDialog :: class.java.simpleName)
-            }
+            }*/
         }
 
         val analyzer = ScanAnalyzer(ScanListener())
