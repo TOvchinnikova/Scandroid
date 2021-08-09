@@ -52,7 +52,8 @@ class ScanAnalyzer(private val listener: ScanResultListener) : ImageAnalysis.Ana
         list.firstOrNull().let { barcode ->
             val rawValue = barcode?.rawValue
             rawValue?.let {
-                Log.d("MyLog", it)
+                val format = barcode.format
+                val type = barcode.valueType
                 listener.onScanned(it)
             }
         }

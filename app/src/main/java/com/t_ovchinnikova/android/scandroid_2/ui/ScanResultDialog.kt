@@ -11,7 +11,7 @@ import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanResultDial
 import kotlinx.android.synthetic.main.activity_main.*
 
 class ScanResultDialog: BottomSheetDialogFragment() {
-//(private val listener: DialogDismissListener)
+
     private lateinit var binding: FragmentScanResultDialogBinding
 
     override fun onCreateView(

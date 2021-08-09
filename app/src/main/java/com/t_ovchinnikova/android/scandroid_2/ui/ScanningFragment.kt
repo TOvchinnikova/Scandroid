@@ -34,9 +34,9 @@ class ScanningFragment : Fragment() {
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var viewFinder: PreviewView
     private lateinit var cameraProvider: ProcessCameraProvider
+    private lateinit var imageAnalysis: ImageAnalysis
     private lateinit var flashButton: ImageButton
     private lateinit var camera: Camera
-    private var flashEnabled = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -143,7 +143,8 @@ class ScanningFragment : Fragment() {
                 it.setSurfaceProvider(viewFinder.surfaceProvider)
             }
 
-        val imageAnalysis = ImageAnalysis.Builder()
+        //val
+                imageAnalysis = ImageAnalysis.Builder()
             .setTargetAspectRatio(screenAspectRatio)
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
             .setTargetRotation(rotation)
@@ -170,29 +171,16 @@ class ScanningFragment : Fragment() {
 
         cameraExecutor = Executors.newSingleThreadExecutor()
 
-        class ScanListener : ScanResultListener{
+        /*class ScanListener : ScanResultListener{
             override fun onScanned(result: String) {
                 imageAnalysis.clearAnalyzer()
                 cameraProvider.unbindAll()
                 ScanResultDialog.showScanResult(result, parentFragmentManager)
             }
-            /*override fun onScanned(result: String) {
-                imageAnalysis.clearAnalyzer()
-                cameraProvider.unbindAll()
-                ScanResultDialog.newInstance(
-                    result,
-                    object : ScanResultDialog.DialogDismissListener {
-                        override fun onDismiss() {
-                            bindCameraUseCases(cameraProvider)
-                        }
+        }*/
+        val scanListener =  ScanListener()
 
-
-                    }
-                ).show(parentFragmentManager, ScanResultDialog :: class.java.simpleName)
-            }*/
-        }
-
-        val analyzer = ScanAnalyzer(ScanListener())
+        val analyzer = ScanAnalyzer(scanListener)
         imageAnalysis.setAnalyzer(cameraExecutor, analyzer)
 
         val useCaseGroup = UseCaseGroup.Builder()
@@ -211,11 +199,17 @@ class ScanningFragment : Fragment() {
     private fun isFlashAvailable() = requireContext().packageManager
         .hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)
 
+    inner class ScanListener : ScanResultListener{
+        override fun onScanned(result: String) {
+            imageAnalysis.clearAnalyzer()
+            cameraProvider.unbindAll()
+            ScanResultDialog.showScanResult(result, parentFragmentManager)
+        }
+    }
 
     companion object {
 
         fun newInstance() = ScanningFragment()
 
     }
-
 }
