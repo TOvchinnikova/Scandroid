@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanResultDialogBinding
-import kotlinx.android.synthetic.main.activity_main.*
+//import kotlinx.android.synthetic.main.activity_main.*
 
 class ScanResultDialog: BottomSheetDialogFragment() {
 

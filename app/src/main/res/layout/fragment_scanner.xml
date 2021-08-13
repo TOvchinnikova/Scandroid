@@ -25,6 +25,7 @@
 
     <include
         layout="@layout/bottom_action_bar_scanning"
+        android:id="@+id/bottomActionBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top"

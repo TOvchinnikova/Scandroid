@@ -18,7 +18,7 @@ interface BarcodeDao {
     @Insert
     fun addBarcode(barcode: Barcode)
 
-    @Delete
+    @Query("DELETE FROM codes WHERE id = :id")
     fun delete(id: Long)
 
 

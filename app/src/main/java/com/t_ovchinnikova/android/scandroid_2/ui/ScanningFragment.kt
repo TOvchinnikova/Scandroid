@@ -22,7 +22,6 @@ import androidx.lifecycle.LifecycleOwner
 import com.t_ovchinnikova.android.scandroid_2.ScanAnalyzer
 import com.t_ovchinnikova.android.scandroid_2.ScanResultListener
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScannerBinding
-import kotlinx.android.synthetic.main.bottom_action_bar_scanning.view.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -79,13 +78,13 @@ class ScanningFragment : Fragment() {
             binding.overlay.setViewFinder()
         }
 
-        binding.container.imageAnalizeButton.setOnClickListener{
+        binding.bottomActionBar.imageAnalizeButton.setOnClickListener{
             Toast.makeText(requireContext(), "supa dupa!!!", Toast.LENGTH_SHORT).show()
         }
 
         viewFinder = binding.viewFinder
 
-        flashButton = binding.container.flashButton
+        flashButton = binding.bottomActionBar.flashButton
 
         if(isFlashAvailable()) {
             flashButton.visibility = View.VISIBLE
