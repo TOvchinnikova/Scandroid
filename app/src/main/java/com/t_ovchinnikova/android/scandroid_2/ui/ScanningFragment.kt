@@ -45,7 +45,8 @@ class ScanningFragment : Fragment() {
         requestPermissionLauncher =
             registerForActivityResult(
                 ActivityResultContracts.RequestPermission()
-            ) { isGranted: Boolean ->0
+            ) { isGranted: Boolean ->
+                Log.d("MyLog", "requestPermissionLauncher")
                 if (isGranted) {
                     Log.d("MyLog", "allPermissionsGranted why")
                     startCamera()
@@ -92,8 +93,8 @@ class ScanningFragment : Fragment() {
             flashButton.setOnClickListener {
                 toggleFlash()
             }
-
         }
+        Log.d("MyLog", "1111")
     }
 
     override fun onDestroy() {
@@ -120,9 +121,11 @@ class ScanningFragment : Fragment() {
 
         cameraProviderFuture.addListener(Runnable {
             cameraProvider = cameraProviderFuture.get()
+            Log.d("MyLog", "startCamera")
             bindCameraUseCases(cameraProvider)
                                                   },
             ContextCompat.getMainExecutor(requireContext())
+
         )
 
     }
@@ -133,7 +136,7 @@ class ScanningFragment : Fragment() {
         val metrics = DisplayMetrics().also { viewFinder.display.getRealMetrics(it) }
         val screenAspectRatio = Rational(metrics.widthPixels, metrics.heightPixels).toInt()
         val rotation = viewFinder.display.rotation
-
+        Log.d("MyLog", "bindCameraUseCases start")
         val preview = Preview.Builder()
             .setTargetAspectRatio(screenAspectRatio)
             .setTargetRotation(rotation)
@@ -193,6 +196,7 @@ class ScanningFragment : Fragment() {
         if (camera.cameraInfo.hasFlashUnit()) {
             flashButton.visibility = View.VISIBLE
         }
+        Log.d("MyLog", "bindCameraUseCases stop")
     }
 
     private fun isFlashAvailable() = requireContext().packageManager

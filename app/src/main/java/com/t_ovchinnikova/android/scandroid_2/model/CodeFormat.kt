@@ -1,6 +1,6 @@
 package com.t_ovchinnikova.android.scandroid_2.model
 
-enum class BarcodeFormat {
+enum class CodeFormat {
 
     FORMAT_UNKNOWN,
     FORMAT_ALL_FORMATS,

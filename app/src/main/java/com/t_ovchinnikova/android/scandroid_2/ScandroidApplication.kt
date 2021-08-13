@@ -7,6 +7,6 @@ class ScandroidApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        BarcodeRepository.initialize(this)
+        CodeRepository.initialize(this)
     }
 }

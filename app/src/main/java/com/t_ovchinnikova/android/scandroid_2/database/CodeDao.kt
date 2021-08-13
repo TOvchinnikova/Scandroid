@@ -1,22 +1,21 @@
 package com.t_ovchinnikova.android.scandroid_2.database
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import com.t_ovchinnikova.android.scandroid_2.model.Barcode
+import com.t_ovchinnikova.android.scandroid_2.model.Code
 
 @Dao
-interface BarcodeDao {
+interface CodeDao {
 
     @Query("SELECT * FROM codes ORDER BY date DESC")
-    fun getBarcodes(): List<Barcode>
+    fun getCodes(): List<Code>
 
     @Query("SELECT * FROM codes WHERE id = :id")
-    fun getBarcode(id: Long): Barcode
+    fun getCode(id: Long): Code
 
     @Insert
-    fun addBarcode(barcode: Barcode)
+    fun addCode(code: Code)
 
     @Query("DELETE FROM codes WHERE id = :id")
     fun delete(id: Long)

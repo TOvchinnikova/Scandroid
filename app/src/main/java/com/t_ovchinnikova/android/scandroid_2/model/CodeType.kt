@@ -1,6 +1,6 @@
 package com.t_ovchinnikova.android.scandroid_2.model
 
-enum class BarcodeType {
+enum class CodeType {
 
     TYPE_UNKNOWN,
     TYPE_CONTACT_INFO,

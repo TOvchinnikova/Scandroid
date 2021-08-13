@@ -4,12 +4,12 @@ import android.Manifest
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.t_ovchinnikova.android.scandroid_2.R
 
 class ViewFinderOverlay(context: Context, attrs: AttributeSet) : View(context, attrs) {
-
 
     private val boxPaint: Paint = Paint().apply {
         color = ContextCompat.getColor(context, R.color.barcode_reticle_stroke)
@@ -32,6 +32,7 @@ class ViewFinderOverlay(context: Context, attrs: AttributeSet) : View(context, a
     var boxRect: RectF? = null
 
     fun setViewFinder() {
+        Log.d("MyLog", "setViewFinder start")
 
         val overlayWidth =  width.toFloat()
         val overlayHeight = height.toFloat()
@@ -43,12 +44,13 @@ class ViewFinderOverlay(context: Context, attrs: AttributeSet) : View(context, a
         boxRect = RectF(rectLeft, rectTop, rectRight, rectBottom)
 
         invalidate()
-
+        Log.d("MyLog", "setViewFinder stop")
     }
 
     override fun draw(canvas: Canvas) {
         super.draw(canvas)
         boxRect?.let {
+            Log.d("MyLog", "draw")
 
             canvas.drawRect(0f, 0f, canvas.width.toFloat(), canvas.height.toFloat(), scrimPaint)
 

@@ -3,18 +3,15 @@ package com.t_ovchinnikova.android.scandroid_2
 import android.annotation.SuppressLint
 import android.graphics.*
 import android.media.Image
-import android.util.Log
-import android.view.SurfaceHolder
 import androidx.annotation.ColorInt
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
-import androidx.core.graphics.toRect
 import com.google.android.gms.tasks.Task
 import com.google.mlkit.vision.barcode.Barcode
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
-
+import com.t_ovchinnikova.android.scandroid_2.model.Code
 
 
 class ScanAnalyzer(private val listener: ScanResultListener) : ImageAnalysis.Analyzer {
@@ -29,6 +26,8 @@ class ScanAnalyzer(private val listener: ScanResultListener) : ImageAnalysis.Ana
             Barcode.FORMAT_AZTEC,
             Barcode.FORMAT_EAN_13)
         .build()
+
+    private val codeRepository = CodeRepository.get()
 
     @SuppressLint("UnsafeOptInUsageError")
     override fun analyze(imageProxy: ImageProxy) {
@@ -54,6 +53,8 @@ class ScanAnalyzer(private val listener: ScanResultListener) : ImageAnalysis.Ana
             rawValue?.let {
                 val format = barcode.format
                 val type = barcode.valueType
+                var code = Code(text = rawValue, format = format, type = type)
+                codeRepository.addCode(code)
                 listener.onScanned(it)
             }
         }
