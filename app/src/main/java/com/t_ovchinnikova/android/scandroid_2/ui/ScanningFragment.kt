@@ -18,7 +18,11 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.t_ovchinnikova.android.scandroid_2.ScanAnalyzer
 import com.t_ovchinnikova.android.scandroid_2.ScanResultListener
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScannerBinding
@@ -29,26 +33,33 @@ import java.util.concurrent.Executors
 class ScanningFragment : Fragment() {
 
     private lateinit var binding: FragmentScannerBinding
-    private lateinit var requestPermissionLauncher : ActivityResultLauncher<String>
+  //  private lateinit var requestPermissionLauncher : ActivityResultLauncher<String>
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var viewFinder: PreviewView
-    private lateinit var cameraProvider: ProcessCameraProvider
-    private lateinit var imageAnalysis: ImageAnalysis
+    private var cameraProvider: ProcessCameraProvider? = null
+    private var imageAnalysis: ImageAnalysis? = null
     private lateinit var flashButton: ImageButton
     private lateinit var camera: Camera
+
+    private val viewModel by viewModels<ScanningViewModel>()
+
+    //private var viewModel: ScanningViewModel? = null
+
+   /* private val viewModel: ScanningViewModel by lazy {
+        ViewModelProvider(this).get(ScanningViewModel::class.java)
+    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         cameraExecutor = Executors.newSingleThreadExecutor()
 
-        requestPermissionLauncher =
+     /*   requestPermissionLauncher =
             registerForActivityResult(
                 ActivityResultContracts.RequestPermission()
             ) { isGranted: Boolean ->
-                Log.d("MyLog", "requestPermissionLauncher")
                 if (isGranted) {
-                    Log.d("MyLog", "allPermissionsGranted why")
+                    //viewModel.setScannerWorkState(true)//
                     startCamera()
                 } else {
                     Toast.makeText(requireContext(),
@@ -56,14 +67,14 @@ class ScanningFragment : Fragment() {
                         Toast.LENGTH_SHORT).show()
                     //finish()
                 }
-            }
+            }*/
     }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         binding = FragmentScannerBinding.inflate(layoutInflater, container, false)
 
@@ -73,7 +84,11 @@ class ScanningFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        requestPermissionLauncher.launch(Manifest.permission.CAMERA)
+        setUpViewModel()
+
+        if (savedInstanceState == null) viewModel.setScannerWorkState(true)
+
+        //requestPermissionLauncher.launch(Manifest.permission.CAMERA)
 
         binding.overlay.post {
             binding.overlay.setViewFinder()
@@ -94,13 +109,30 @@ class ScanningFragment : Fragment() {
                 toggleFlash()
             }
         }
-        Log.d("MyLog", "1111")
     }
 
     override fun onDestroy() {
         super.onDestroy()
 
         cameraExecutor.shutdown()
+    }
+
+    private fun setUpViewModel() {
+        //viewModel = ViewModelProvider(this).get(ScanningViewModel::class.java)
+
+        viewModel.scannerWorkState.observe(viewLifecycleOwner, Observer {
+            Log.d("MyLog", "Observer")
+            if (it) {
+                startCamera()
+            } else {
+                Log.d("MyLog", "Stop")
+                stopCamera()
+            }
+        })
+    }
+
+    fun setScannerWorkState(state: Boolean) {
+        viewModel.setScannerWorkState(state)
     }
 
     private fun toggleFlash() {
@@ -112,7 +144,11 @@ class ScanningFragment : Fragment() {
         } else {
             camera.cameraControl.enableTorch(true)
         }
+    }
 
+    private fun stopCamera() {
+        imageAnalysis?.clearAnalyzer()
+        cameraProvider?.unbindAll()
     }
 
     private fun startCamera() {
@@ -121,13 +157,13 @@ class ScanningFragment : Fragment() {
 
         cameraProviderFuture.addListener(Runnable {
             cameraProvider = cameraProviderFuture.get()
-            Log.d("MyLog", "startCamera")
-            bindCameraUseCases(cameraProvider)
+
+            cameraProvider?.let {
+                bindCameraUseCases(it)
+            }
                                                   },
             ContextCompat.getMainExecutor(requireContext())
-
         )
-
     }
 
     @SuppressLint("UnsafeOptInUsageError")
@@ -136,7 +172,7 @@ class ScanningFragment : Fragment() {
         val metrics = DisplayMetrics().also { viewFinder.display.getRealMetrics(it) }
         val screenAspectRatio = Rational(metrics.widthPixels, metrics.heightPixels).toInt()
         val rotation = viewFinder.display.rotation
-        Log.d("MyLog", "bindCameraUseCases start")
+
         val preview = Preview.Builder()
             .setTargetAspectRatio(screenAspectRatio)
             .setTargetRotation(rotation)
@@ -145,8 +181,7 @@ class ScanningFragment : Fragment() {
                 it.setSurfaceProvider(viewFinder.surfaceProvider)
             }
 
-        //val
-                imageAnalysis = ImageAnalysis.Builder()
+        imageAnalysis = ImageAnalysis.Builder()
             .setTargetAspectRatio(screenAspectRatio)
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
             .setTargetRotation(rotation)
@@ -165,7 +200,7 @@ class ScanningFragment : Fragment() {
                     else -> Surface.ROTATION_0
                 }
                 preview.targetRotation = rotation
-                imageAnalysis.targetRotation = rotation
+                imageAnalysis?.targetRotation = rotation
             }
         }
 
@@ -183,11 +218,11 @@ class ScanningFragment : Fragment() {
         val scanListener =  ScanListener()
 
         val analyzer = ScanAnalyzer(scanListener)
-        imageAnalysis.setAnalyzer(cameraExecutor, analyzer)
+        imageAnalysis?.setAnalyzer(cameraExecutor, analyzer)
 
         val useCaseGroup = UseCaseGroup.Builder()
             .addUseCase(preview)
-            .addUseCase(imageAnalysis)
+            .addUseCase(imageAnalysis ?: throw IllegalStateException("imageAnalysis must be initialized"))
             .build()
 
         cameraProvider.unbindAll()
@@ -196,7 +231,6 @@ class ScanningFragment : Fragment() {
         if (camera.cameraInfo.hasFlashUnit()) {
             flashButton.visibility = View.VISIBLE
         }
-        Log.d("MyLog", "bindCameraUseCases stop")
     }
 
     private fun isFlashAvailable() = requireContext().packageManager
@@ -204,8 +238,9 @@ class ScanningFragment : Fragment() {
 
     inner class ScanListener : ScanResultListener{
         override fun onScanned(result: String) {
-            imageAnalysis.clearAnalyzer()
-            cameraProvider.unbindAll()
+            //imageAnalysis.clearAnalyzer()
+            //cameraProvider.unbindAll()
+            viewModel.setScannerWorkState(false)
             ScanResultDialog.showScanResult(result, parentFragmentManager)
         }
     }
