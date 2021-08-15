@@ -20,13 +20,6 @@ class ScanAnalyzer(private val listener: ScanResultListener) : ImageAnalysis.Ana
 
     private val scanner = BarcodeScanning.getClient()
 
-    private val options = BarcodeScannerOptions.Builder()
-        .setBarcodeFormats(
-            Barcode.FORMAT_QR_CODE,
-            Barcode.FORMAT_AZTEC,
-            Barcode.FORMAT_EAN_13)
-        .build()
-
     private val codeRepository = CodeRepository.get()
 
     @SuppressLint("UnsafeOptInUsageError")
@@ -53,7 +46,7 @@ class ScanAnalyzer(private val listener: ScanResultListener) : ImageAnalysis.Ana
             rawValue?.let {
                 val format = barcode.format
                 val type = barcode.valueType
-                var code = Code(text = rawValue, format = format, type = type)
+                val code = Code(text = rawValue, format = format, type = type)
                 codeRepository.addCode(code)
                 listener.onScanned(it)
             }

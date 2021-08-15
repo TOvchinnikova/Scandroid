@@ -30,7 +30,6 @@ class CodeRepository private constructor(context: Context){
         fun initialize(context: Context) {
             if (INSTANCE == null) {
                 INSTANCE = CodeRepository(context)
-                Log.d("MyLog", "initialize")
             }
         }
 
