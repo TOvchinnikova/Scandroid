@@ -11,14 +11,18 @@ import androidx.lifecycle.ViewModel
 
 class ScanningViewModel: ViewModel() {
 
-    val scannerWorkState = MutableLiveData<Boolean>()
-    //val scannerWorkState: LiveData<Boolean> = _scannerWorkState
+    private val _scannerWorkState = MutableLiveData<Boolean>()
+    val scannerWorkState: LiveData<Boolean> = _scannerWorkState
 
+    private val _flashState = MutableLiveData<Boolean>()
+    val flashState: LiveData<Boolean> = _flashState
 
-    @MainThread
     fun setScannerWorkState(state: Boolean) {
-        Log.d("MyLog", "setScannerWorkState $state")
-        this.scannerWorkState.value = state
+        _scannerWorkState.value = state
+    }
+
+    fun switchFlash(state: Boolean) {
+        _flashState.value = state
     }
 
 }

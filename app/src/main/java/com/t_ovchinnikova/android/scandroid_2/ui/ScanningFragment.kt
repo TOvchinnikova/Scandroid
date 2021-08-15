@@ -29,6 +29,7 @@ import com.t_ovchinnikova.android.scandroid_2.ScanResultListener
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScannerBinding
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import kotlin.properties.Delegates
 
 
 class ScanningFragment : Fragment() {
@@ -40,6 +41,7 @@ class ScanningFragment : Fragment() {
     private var imageAnalysis: ImageAnalysis? = null
     private lateinit var flashButton: ImageButton
     private lateinit var camera: Camera
+    private var flashState: Boolean = false
 
     private val viewModel by viewModels<ScanningViewModel>()
 
@@ -66,7 +68,10 @@ class ScanningFragment : Fragment() {
 
         setUpViewModel()
 
-        if (savedInstanceState == null) viewModel.setScannerWorkState(true)
+        if (savedInstanceState == null) {
+            viewModel.setScannerWorkState(true)
+            viewModel.switchFlash(false)
+        }
 
         binding.overlay.post {
             binding.overlay.setViewFinder()
@@ -84,6 +89,7 @@ class ScanningFragment : Fragment() {
             flashButton.visibility = View.VISIBLE
 
             flashButton.setOnClickListener {
+                viewModel.switchFlash(flashState.not())
                 toggleFlash()
             }
         }
@@ -98,25 +104,28 @@ class ScanningFragment : Fragment() {
     private fun setUpViewModel() {
 
         viewModel.scannerWorkState.observe(viewLifecycleOwner, Observer {
-            Log.d("MyLog", "Observer")
             if (it) {
                 startCamera()
             } else {
-                Log.d("MyLog", "Stop")
                 stopCamera()
             }
+        })
+
+        viewModel.flashState.observe(viewLifecycleOwner, {
+            Log.d("MyLog", "flashState.observe $it")
+            flashState = it
         })
     }
 
     private fun toggleFlash() {
 
-        flashButton.isActivated = flashButton.isActivated.not()
+        flashButton.isActivated = flashState//flashButton.isActivated.not()
 
-        if (camera.cameraInfo.torchState.value == TorchState.ON) {
-            camera.cameraControl.enableTorch(false)
-        } else {
-            camera.cameraControl.enableTorch(true)
-        }
+        //if (camera.cameraInfo.torchState.value == TorchState.ON) {
+        camera.cameraControl.enableTorch(flashState)
+        //} else {
+          //  camera.cameraControl.enableTorch(true)
+        //}
     }
 
     private fun stopCamera() {
@@ -196,6 +205,7 @@ class ScanningFragment : Fragment() {
 
         if (camera.cameraInfo.hasFlashUnit()) {
             flashButton.visibility = View.VISIBLE
+            toggleFlash()
         }
     }
 
