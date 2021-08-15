@@ -2,6 +2,7 @@ package com.t_ovchinnikova.android.scandroid_2.ui
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.ProgressDialog.show
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.DisplayMetrics
@@ -33,7 +34,6 @@ import java.util.concurrent.Executors
 class ScanningFragment : Fragment() {
 
     private lateinit var binding: FragmentScannerBinding
-  //  private lateinit var requestPermissionLauncher : ActivityResultLauncher<String>
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var viewFinder: PreviewView
     private var cameraProvider: ProcessCameraProvider? = null
@@ -43,31 +43,11 @@ class ScanningFragment : Fragment() {
 
     private val viewModel by viewModels<ScanningViewModel>()
 
-    //private var viewModel: ScanningViewModel? = null
-
-   /* private val viewModel: ScanningViewModel by lazy {
-        ViewModelProvider(this).get(ScanningViewModel::class.java)
-    }*/
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         cameraExecutor = Executors.newSingleThreadExecutor()
 
-     /*   requestPermissionLauncher =
-            registerForActivityResult(
-                ActivityResultContracts.RequestPermission()
-            ) { isGranted: Boolean ->
-                if (isGranted) {
-                    //viewModel.setScannerWorkState(true)//
-                    startCamera()
-                } else {
-                    Toast.makeText(requireContext(),
-                        "Permissions not granted by the user.",
-                        Toast.LENGTH_SHORT).show()
-                    //finish()
-                }
-            }*/
     }
 
     override fun onCreateView(
@@ -87,8 +67,6 @@ class ScanningFragment : Fragment() {
         setUpViewModel()
 
         if (savedInstanceState == null) viewModel.setScannerWorkState(true)
-
-        //requestPermissionLauncher.launch(Manifest.permission.CAMERA)
 
         binding.overlay.post {
             binding.overlay.setViewFinder()
@@ -118,7 +96,6 @@ class ScanningFragment : Fragment() {
     }
 
     private fun setUpViewModel() {
-        //viewModel = ViewModelProvider(this).get(ScanningViewModel::class.java)
 
         viewModel.scannerWorkState.observe(viewLifecycleOwner, Observer {
             Log.d("MyLog", "Observer")
@@ -129,10 +106,6 @@ class ScanningFragment : Fragment() {
                 stopCamera()
             }
         })
-    }
-
-    fun setScannerWorkState(state: Boolean) {
-        viewModel.setScannerWorkState(state)
     }
 
     private fun toggleFlash() {
@@ -208,13 +181,6 @@ class ScanningFragment : Fragment() {
 
         cameraExecutor = Executors.newSingleThreadExecutor()
 
-        /*class ScanListener : ScanResultListener{
-            override fun onScanned(result: String) {
-                imageAnalysis.clearAnalyzer()
-                cameraProvider.unbindAll()
-                ScanResultDialog.showScanResult(result, parentFragmentManager)
-            }
-        }*/
         val scanListener =  ScanListener()
 
         val analyzer = ScanAnalyzer(scanListener)
@@ -238,10 +204,11 @@ class ScanningFragment : Fragment() {
 
     inner class ScanListener : ScanResultListener{
         override fun onScanned(result: String) {
-            //imageAnalysis.clearAnalyzer()
-            //cameraProvider.unbindAll()
+
             viewModel.setScannerWorkState(false)
-            ScanResultDialog.showScanResult(result, parentFragmentManager)
+            ScanResultDialog.newInstance(result)
+                .show(childFragmentManager, ScanResultDialog::class.java.simpleName)
+
         }
     }
 
