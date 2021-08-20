@@ -48,7 +48,7 @@ class ScanAnalyzer(private val listener: ScanResultListener) : ImageAnalysis.Ana
                 val type = barcode.valueType
                 val code = Code(text = rawValue, format = format, type = type)
                 codeRepository.addCode(code)
-                listener.onScanned(it)
+                listener.onScanned(code)
             }
         }
     }
