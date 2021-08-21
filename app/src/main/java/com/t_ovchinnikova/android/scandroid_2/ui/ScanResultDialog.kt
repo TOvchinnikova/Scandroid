@@ -10,7 +10,10 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.mlkit.vision.barcode.Barcode
+import com.t_ovchinnikova.android.scandroid_2.R
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanResultDialogBinding
+import com.t_ovchinnikova.android.scandroid_2.model.Code
 
 class ScanResultDialog: BottomSheetDialogFragment() {
 
@@ -34,7 +37,11 @@ class ScanResultDialog: BottomSheetDialogFragment() {
 
         binding = FragmentScanResultDialogBinding.inflate(inflater, container, false)
 
-        binding.tvResult.text = arguments?.getString(ARG_SCAN_RESULT)
+        val resultCode: Code = arguments?.getSerializable(ARG_SCAN_RESULT) as Code
+
+
+        binding.tvResult.text = resultCode.text
+        binding.tvType.text = resultCode.type.toString()
 
         return binding.root
 
@@ -54,10 +61,10 @@ class ScanResultDialog: BottomSheetDialogFragment() {
         private const val TAG = "ScanResultDialog"
         private const val ARG_SCAN_RESULT = "scan result"
 
-        fun newInstance(scanResult: String): ScanResultDialog {
+        fun newInstance(scanResult: Code): ScanResultDialog {
 //, fragmentManager: FragmentManager
             val args = Bundle().apply {
-                putString(ARG_SCAN_RESULT, scanResult)
+                putSerializable(ARG_SCAN_RESULT, scanResult)
             }
 
             val fragment = ScanResultDialog()

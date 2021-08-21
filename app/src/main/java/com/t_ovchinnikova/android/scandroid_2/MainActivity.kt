@@ -1,18 +1,15 @@
 package com.t_ovchinnikova.android.scandroid_2
 
-import android.Manifest
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.t_ovchinnikova.android.scandroid_2.databinding.ActivityMainBinding
 import com.t_ovchinnikova.android.scandroid_2.ui.ScanningFragment
+import com.t_ovchinnikova.android.scandroid_2.ui.ScanningHistoryFragment
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var binding: ActivityMainBinding
-    private lateinit var requestPermissionLauncher : ActivityResultLauncher<String>
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,33 +17,28 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        requestPermissionLauncher =
-            registerForActivityResult(
-                ActivityResultContracts.RequestPermission()
-            ) { isGranted: Boolean ->
-                if (isGranted) {
-                    //viewModel.setScannerWorkState(true)//
-                    startScanner()
-                } else {
-                    Toast.makeText(this,
-                        "Permissions not granted by the user.",
-                        Toast.LENGTH_SHORT).show()
-                    //finish()
-                }
-            }
+        if(savedInstanceState == null)
+            setupBottomNavigation(binding.bottomNavigationView.selectedItemId)
 
-        requestPermissionLauncher.launch(Manifest.permission.CAMERA)
+        binding.bottomNavigationView.setOnItemSelectedListener  {
+            setupBottomNavigation(it.itemId)
+            true
+        }
 
     }
 
-    fun startScanner() {
-        val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
-
-        if (currentFragment == null) {
-            supportFragmentManager
-                .beginTransaction()
-                .add(R.id.fragment_container, ScanningFragment.newInstance())
-                .commit()
+    private fun setupBottomNavigation(bottomItemId: Int) {
+        when (bottomItemId) {
+            R.id.menu_scanner -> replaceFragment(ScanningFragment.newInstance())
+            R.id.menu_history -> replaceFragment(ScanningHistoryFragment.newInstance())
         }
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .setReorderingAllowed(true)
+            .commit()
     }
 }

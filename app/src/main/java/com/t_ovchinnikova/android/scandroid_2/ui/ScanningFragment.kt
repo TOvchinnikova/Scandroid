@@ -2,11 +2,9 @@ package com.t_ovchinnikova.android.scandroid_2.ui
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.ProgressDialog.show
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.util.Log
 import android.util.Rational
 import android.view.*
 import android.widget.ImageButton
@@ -22,19 +20,18 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
+import com.t_ovchinnikova.android.scandroid_2.R
 import com.t_ovchinnikova.android.scandroid_2.ScanAnalyzer
 import com.t_ovchinnikova.android.scandroid_2.ScanResultListener
-import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScannerBinding
+import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanningBinding
+import com.t_ovchinnikova.android.scandroid_2.model.Code
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-import kotlin.properties.Delegates
 
 
 class ScanningFragment : Fragment() {
 
-    private lateinit var binding: FragmentScannerBinding
+    private lateinit var binding: FragmentScanningBinding
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var viewFinder: PreviewView
     private var cameraProvider: ProcessCameraProvider? = null
@@ -42,6 +39,7 @@ class ScanningFragment : Fragment() {
     private lateinit var flashButton: ImageButton
     private lateinit var camera: Camera
     private var flashState: Boolean = false
+    private lateinit var requestPermissionLauncher : ActivityResultLauncher<String>
 
     private val viewModel by viewModels<ScanningViewModel>()
 
@@ -58,13 +56,29 @@ class ScanningFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        binding = FragmentScannerBinding.inflate(layoutInflater, container, false)
+        binding = FragmentScanningBinding.inflate(layoutInflater, container, false)
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        requestPermissionLauncher =
+            registerForActivityResult(
+                ActivityResultContracts.RequestPermission()
+            ) { isGranted: Boolean ->
+                if (isGranted) {
+                    setUpViewModel()
+                } else {
+                    Toast.makeText(requireContext(),
+                        "Permissions not granted by the user.",
+                        Toast.LENGTH_SHORT).show()
+                    //finish()
+                }
+            }
+
+        requestPermissionLauncher.launch(Manifest.permission.CAMERA)
 
         setUpViewModel()
 
@@ -112,7 +126,6 @@ class ScanningFragment : Fragment() {
         })
 
         viewModel.flashState.observe(viewLifecycleOwner, {
-            Log.d("MyLog", "flashState.observe $it")
             flashState = it
         })
     }
@@ -213,7 +226,7 @@ class ScanningFragment : Fragment() {
         .hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)
 
     inner class ScanListener : ScanResultListener{
-        override fun onScanned(result: String) {
+        override fun onScanned(result: Code) {
 
             viewModel.setScannerWorkState(false)
             ScanResultDialog.newInstance(result)

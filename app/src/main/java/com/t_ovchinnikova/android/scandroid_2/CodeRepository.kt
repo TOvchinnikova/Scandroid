@@ -2,6 +2,7 @@ package com.t_ovchinnikova.android.scandroid_2
 
 import android.content.Context
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.room.Room
 import com.t_ovchinnikova.android.scandroid_2.database.CodeDatabase
 import com.t_ovchinnikova.android.scandroid_2.model.Code
@@ -23,6 +24,8 @@ class CodeRepository private constructor(context: Context){
             codeDao.addCode(code)
         }
     }
+
+    fun getCodes(): LiveData<List<Code>> = codeDao.getCodes()
 
     companion object {
         private var INSTANCE: CodeRepository? = null
