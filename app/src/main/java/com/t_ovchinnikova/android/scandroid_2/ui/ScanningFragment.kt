@@ -1,5 +1,6 @@
 package com.t_ovchinnikova.android.scandroid_2.ui
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -8,6 +9,8 @@ import android.util.Rational
 import android.view.*
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.*
 import androidx.camera.core.Camera
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -17,6 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import com.t_ovchinnikova.android.scandroid_2.R
 import com.t_ovchinnikova.android.scandroid_2.ScanAnalyzer
 import com.t_ovchinnikova.android.scandroid_2.ScanResultListener
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanningBinding
@@ -35,6 +39,7 @@ class ScanningFragment : Fragment() {
     private lateinit var flashButton: ImageButton
     private lateinit var camera: Camera
     private var flashState: Boolean = false
+    private lateinit var requestPermissionLauncher : ActivityResultLauncher<String>
 
     private val viewModel by viewModels<ScanningViewModel>()
 
@@ -58,6 +63,22 @@ class ScanningFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        requestPermissionLauncher =
+            registerForActivityResult(
+                ActivityResultContracts.RequestPermission()
+            ) { isGranted: Boolean ->
+                if (isGranted) {
+                    setUpViewModel()
+                } else {
+                    Toast.makeText(requireContext(),
+                        "Permissions not granted by the user.",
+                        Toast.LENGTH_SHORT).show()
+                    //finish()
+                }
+            }
+
+        requestPermissionLauncher.launch(Manifest.permission.CAMERA)
 
         setUpViewModel()
 
