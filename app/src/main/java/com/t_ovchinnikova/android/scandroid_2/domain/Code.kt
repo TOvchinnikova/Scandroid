@@ -15,6 +15,6 @@ data class Code(
     val type: Int,
     val date: Date = Date(),
     val note: String = "",
-    val isFavorite: Boolean = false
+    var isFavorite: Boolean = false
 ) : Serializable
 

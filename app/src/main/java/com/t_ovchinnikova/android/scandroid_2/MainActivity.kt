@@ -1,14 +1,12 @@
 package com.t_ovchinnikova.android.scandroid_2
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigation.NavigationView
 import com.t_ovchinnikova.android.scandroid_2.databinding.ActivityMainBinding
 import com.t_ovchinnikova.android.scandroid_2.presentation.ScanningFragment
-import com.t_ovchinnikova.android.scandroid_2.presentation.ScanningHistoryFragment
+import com.t_ovchinnikova.android.scandroid_2.presentation.HistoryFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,7 +35,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupBottomNavigation(bottomItemId: Int) {
         when (bottomItemId) {
             R.id.menu_scanner -> replaceFragment(ScanningFragment.newInstance())
-            R.id.menu_history -> replaceFragment(ScanningHistoryFragment.newInstance())
+            R.id.menu_history -> replaceFragment(HistoryFragment.newInstance())
         }
     }
 

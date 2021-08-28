@@ -1,9 +1,7 @@
 package com.t_ovchinnikova.android.scandroid_2.data
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 
 @Dao
@@ -17,6 +15,9 @@ interface CodeDao {
 
     @Insert
     fun addCode(code: Code)
+
+    @Update
+    fun updateCode(code: Code)
 
     @Query("DELETE FROM codes WHERE id = :id")
     fun deleteCode(id: Long)

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanningHistoryBinding
 
-class ScanningHistoryFragment : Fragment() {
+class HistoryFragment : Fragment() {
 
     private lateinit var rvHistoryList: RecyclerView
     private lateinit var binding: FragmentScanningHistoryBinding
@@ -73,8 +73,8 @@ class ScanningHistoryFragment : Fragment() {
 
     companion object {
 
-        fun newInstance(): ScanningHistoryFragment {
-            return ScanningHistoryFragment()
+        fun newInstance(): HistoryFragment {
+            return HistoryFragment()
         }
     }
 
