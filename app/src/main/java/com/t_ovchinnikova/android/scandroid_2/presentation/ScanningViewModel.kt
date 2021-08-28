@@ -1,4 +1,4 @@
-package com.t_ovchinnikova.android.scandroid_2.ui
+package com.t_ovchinnikova.android.scandroid_2.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

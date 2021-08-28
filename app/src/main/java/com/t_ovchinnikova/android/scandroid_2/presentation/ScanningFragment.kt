@@ -1,4 +1,4 @@
-package com.t_ovchinnikova.android.scandroid_2.ui
+package com.t_ovchinnikova.android.scandroid_2.presentation
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -20,11 +20,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import com.t_ovchinnikova.android.scandroid_2.R
 import com.t_ovchinnikova.android.scandroid_2.ScanAnalyzer
 import com.t_ovchinnikova.android.scandroid_2.ScanResultListener
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanningBinding
-import com.t_ovchinnikova.android.scandroid_2.model.Code
+import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 

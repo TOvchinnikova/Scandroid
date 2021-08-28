@@ -1,4 +1,4 @@
-package com.t_ovchinnikova.android.scandroid_2.model
+package com.t_ovchinnikova.android.scandroid_2.domain
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -9,9 +9,12 @@ import java.util.*
 
 @Entity(tableName = "codes")
 data class Code(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val text: String,
     val format: Int,
     val type: Int,
-    val date: Date = Date()
+    val date: Date = Date(),
+    val note: String = "",
+    val isFavorite: Boolean = false
 ) : Serializable
+

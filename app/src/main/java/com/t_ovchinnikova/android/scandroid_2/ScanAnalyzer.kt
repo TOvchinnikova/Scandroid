@@ -8,10 +8,10 @@ import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
 import com.google.android.gms.tasks.Task
 import com.google.mlkit.vision.barcode.Barcode
-import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
-import com.t_ovchinnikova.android.scandroid_2.model.Code
+import com.t_ovchinnikova.android.scandroid_2.data.CodeRepository
+import com.t_ovchinnikova.android.scandroid_2.domain.Code
 
 
 class ScanAnalyzer(private val listener: ScanResultListener) : ImageAnalysis.Analyzer {
@@ -33,11 +33,10 @@ class ScanAnalyzer(private val listener: ScanResultListener) : ImageAnalysis.Ana
     }
 
     private fun recognizeCode(image: InputImage): Task<List<Barcode>> =
-
         scanner.process(image)
             .addOnSuccessListener {
-                if (it.isNotEmpty()) checkList(it)
-            }
+        if (it.isNotEmpty()) checkList(it)
+    }
 
     private fun checkList(list: List<Barcode>) {
 

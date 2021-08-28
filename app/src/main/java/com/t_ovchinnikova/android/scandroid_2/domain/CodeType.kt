@@ -1,4 +1,4 @@
-package com.t_ovchinnikova.android.scandroid_2.model
+package com.t_ovchinnikova.android.scandroid_2.domain
 
 enum class CodeType {
 

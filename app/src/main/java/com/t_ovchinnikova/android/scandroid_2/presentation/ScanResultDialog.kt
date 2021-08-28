@@ -1,19 +1,15 @@
-package com.t_ovchinnikova.android.scandroid_2.ui
+package com.t_ovchinnikova.android.scandroid_2.presentation
 
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.mlkit.vision.barcode.Barcode
-import com.t_ovchinnikova.android.scandroid_2.R
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanResultDialogBinding
-import com.t_ovchinnikova.android.scandroid_2.model.Code
+import com.t_ovchinnikova.android.scandroid_2.domain.Code
+import com.t_ovchinnikova.android.scandroid_2.domain.formatToStringId
 
 class ScanResultDialog: BottomSheetDialogFragment() {
 
@@ -33,7 +29,7 @@ class ScanResultDialog: BottomSheetDialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         binding = FragmentScanResultDialogBinding.inflate(inflater, container, false)
 
@@ -41,7 +37,7 @@ class ScanResultDialog: BottomSheetDialogFragment() {
 
 
         binding.tvResult.text = resultCode.text
-        binding.tvType.text = resultCode.type.toString()
+        binding.tvType.text = getString(resultCode.formatToStringId())
 
         return binding.root
 
@@ -62,7 +58,7 @@ class ScanResultDialog: BottomSheetDialogFragment() {
         private const val ARG_SCAN_RESULT = "scan result"
 
         fun newInstance(scanResult: Code): ScanResultDialog {
-//, fragmentManager: FragmentManager
+
             val args = Bundle().apply {
                 putSerializable(ARG_SCAN_RESULT, scanResult)
             }

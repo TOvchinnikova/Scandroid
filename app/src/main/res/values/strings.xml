@@ -6,4 +6,36 @@
     <string name="settings">Settings</string>
     <string name="light">Light</string>
     <string name="scan_file">Scan file</string>
+
+    <!--Barcode formats-->
+    <string name="barcode_format_aztec">Aztec</string>
+    <string name="barcode_format_codabar">Codabar</string>
+    <string name="barcode_format_code_39">Code 39</string>
+    <string name="barcode_format_code_93">Code 93</string>
+    <string name="barcode_format_code_128">Code 128</string>
+    <string name="barcode_format_data_matrix">Data Matrix</string>
+    <string name="barcode_format_ean_8">EAN-8</string>
+    <string name="barcode_format_ean_13">EAN-13</string>
+    <string name="barcode_format_itf">ITF</string>
+    <string name="barcode_format_pdf_417">PDF417</string>
+    <string name="barcode_format_qr_code">QR Code</string>
+    <string name="barcode_format_UPC_A">UPC-A</string>
+    <string name="barcode_format_UPC_E">UPC-E</string>
+    <string name="barcode_format_unknown">Unknown Format</string>
+
+    <!--Barcode types-->
+    <string name="barcode_type_contact_info">Contact</string>
+    <string name="barcode_type_unknown">Unknown Type</string>
+    <string name="barcode_type_email">Email</string>
+    <string name="barcode_type_isbn">Isbn</string>
+    <string name="barcode_type_phone">Phone</string>
+    <string name="barcode_type_product">Product</string>
+    <string name="barcode_type_sms">SMS</string>
+    <string name="barcode_type_text">Text</string>
+    <string name="barcode_type_url">URL</string>
+    <string name="barcode_type_wifi">Wi-Fi</string>
+    <string name="barcode_type_geo">Location</string>
+    <string name="barcode_type_calendar_event">Event</string>
+    <string name="barcode_driver_license">Location</string>
+
 </resources>

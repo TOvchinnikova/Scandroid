@@ -1,11 +1,9 @@
-package com.t_ovchinnikova.android.scandroid_2
+package com.t_ovchinnikova.android.scandroid_2.data
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.room.Room
-import com.t_ovchinnikova.android.scandroid_2.database.CodeDatabase
-import com.t_ovchinnikova.android.scandroid_2.model.Code
+import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import java.util.concurrent.Executors
 
 class CodeRepository private constructor(context: Context){
@@ -14,7 +12,8 @@ class CodeRepository private constructor(context: Context){
         context.applicationContext,
         CodeDatabase::class.java,
         "scandroid"
-    ).build()
+    ).addMigrations(migration_1_2, migration_2_3)
+        .build()
 
     private val codeDao = database.CodeDao()
     private val executor = Executors.newSingleThreadExecutor()
@@ -22,6 +21,12 @@ class CodeRepository private constructor(context: Context){
     fun addCode(code: Code) {
         executor.execute {
             codeDao.addCode(code)
+        }
+    }
+
+    fun deleteCode(codeId: Long) {
+        executor.execute {
+            codeDao.deleteCode(codeId)
         }
     }
 

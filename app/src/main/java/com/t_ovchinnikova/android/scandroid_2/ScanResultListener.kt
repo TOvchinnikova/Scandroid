@@ -1,6 +1,6 @@
 package com.t_ovchinnikova.android.scandroid_2
 
-import com.t_ovchinnikova.android.scandroid_2.model.Code
+import com.t_ovchinnikova.android.scandroid_2.domain.Code
 
 interface ScanResultListener {
 

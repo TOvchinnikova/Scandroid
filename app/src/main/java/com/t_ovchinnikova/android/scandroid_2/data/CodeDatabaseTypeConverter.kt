@@ -1,8 +1,6 @@
-package com.t_ovchinnikova.android.scandroid_2.database
+package com.t_ovchinnikova.android.scandroid_2.data
 
 import androidx.room.TypeConverter
-import com.t_ovchinnikova.android.scandroid_2.model.CodeFormat
-import com.t_ovchinnikova.android.scandroid_2.model.CodeType
 import java.util.*
 
 class CodeDatabaseTypeConverter {

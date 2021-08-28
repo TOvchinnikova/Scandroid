@@ -1,4 +1,4 @@
-package com.t_ovchinnikova.android.scandroid_2.ui
+package com.t_ovchinnikova.android.scandroid_2.presentation
 
 import android.content.Context
 import android.graphics.*

@@ -1,15 +1,19 @@
 package com.t_ovchinnikova.android.scandroid_2
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationView
 import com.t_ovchinnikova.android.scandroid_2.databinding.ActivityMainBinding
-import com.t_ovchinnikova.android.scandroid_2.ui.ScanningFragment
-import com.t_ovchinnikova.android.scandroid_2.ui.ScanningHistoryFragment
+import com.t_ovchinnikova.android.scandroid_2.presentation.ScanningFragment
+import com.t_ovchinnikova.android.scandroid_2.presentation.ScanningHistoryFragment
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var bottomNavigationView: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,14 +21,17 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if(savedInstanceState == null)
-            setupBottomNavigation(binding.bottomNavigationView.selectedItemId)
+        bottomNavigationView = binding.bottomNavigationView
 
-        binding.bottomNavigationView.setOnItemSelectedListener  {
-            setupBottomNavigation(it.itemId)
+        if(savedInstanceState == null)
+            setupBottomNavigation(R.id.menu_scanner)
+
+        bottomNavigationView.setOnItemSelectedListener  {
+            if (it.itemId != bottomNavigationView.selectedItemId)
+                setupBottomNavigation(it.itemId)
+
             true
         }
-
     }
 
     private fun setupBottomNavigation(bottomItemId: Int) {
