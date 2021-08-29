@@ -50,6 +50,14 @@ class HistoryFragment : Fragment() {
             CodeHistoryListAdapter.VIEW_TYPE_DEFAULT,
             CodeHistoryListAdapter.MAX_POOL_SIZE
         )
+        setupClickListener()
+    }
+
+    private fun setupClickListener() {
+        codeListAdapter.onCodeItemClickListener = {
+            ScanResultDialog.newInstance(it)
+                .show(childFragmentManager, ScanResultDialog::class.java.simpleName)
+        }
     }
 
     private fun setupSwipeListener(rvHistory: RecyclerView?) {

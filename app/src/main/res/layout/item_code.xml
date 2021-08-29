@@ -11,14 +11,15 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="15dp"
-        android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:text="TextView"
+        android:layout_marginEnd="10dp"
         android:textColor="@color/black"
+        android:maxLines="1"
         app:layout_constraintBottom_toTopOf="@+id/tvDate"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ivIsFavorite"
         app:layout_constraintStart_toEndOf="@+id/ivCode"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="TextView" />
 
     <TextView
         android:id="@+id/tvDate"
@@ -26,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginBottom="15dp"
-        android:text="TextView"
+        tools:text="TextView"
         android:textColor="@color/gray"
         app:layout_constraintBottom_toTopOf="@id/view"
         app:layout_constraintEnd_toStartOf="@+id/tvFormat"
@@ -38,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
-        android:padding="2dp"
+        android:padding="4dp"
         android:background="@color/gray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,10 +63,21 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="15dp"
-        android:text="TextView"
+        tools:text="TextView"
         android:textColor="@color/gray"
         app:layout_constraintBottom_toTopOf="@id/view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tvDate" />
+
+    <ImageView
+        android:id="@+id/ivIsFavorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/favorite_barcode" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

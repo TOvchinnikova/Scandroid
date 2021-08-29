@@ -43,6 +43,20 @@
                 tools:text="Format" />
 
             <TextView
+                android:id="@+id/tvNote"
+                style="@style/DefaultTextViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:textColor="@color/black"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDate"
+                tools:text="Note" />
+
+            <TextView
                 android:id="@+id/tvResult"
                 style="@style/DefaultTextViewStyle"
                 android:layout_width="wrap_content"
@@ -52,7 +66,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvDate"
+                app:layout_constraintTop_toBottomOf="@+id/tvNote"
                 tools:text="BarcodeResult" />
 
             <TextView
@@ -64,6 +78,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="28.08.2021 16:58" />
+
+            <ImageView
+                android:id="@+id/ivEditNote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvDate"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:srcCompat="@drawable/ic_edit" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -13,4 +13,5 @@
     <color name="barcode_reticle_stroke">#ffffff</color>
     <color name="disabled">#00000000</color>
     <color name="gray">#686565</color>
+    <color name="light_blue">#50DADF</color>
 </resources>

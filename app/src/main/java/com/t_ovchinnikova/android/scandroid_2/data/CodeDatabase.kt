@@ -10,7 +10,6 @@ import com.t_ovchinnikova.android.scandroid_2.domain.Code
 @Database(entities = [Code::class], version = 3)
 @TypeConverters(CodeDatabaseTypeConverter::class)
 abstract class CodeDatabase : RoomDatabase() {
-
     abstract fun CodeDao(): CodeDao
 }
 

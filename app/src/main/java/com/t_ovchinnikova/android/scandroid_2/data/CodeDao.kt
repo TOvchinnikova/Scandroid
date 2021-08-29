@@ -14,7 +14,7 @@ interface CodeDao {
     fun getCode(id: Long): Code
 
     @Insert
-    fun addCode(code: Code)
+    fun addCode(code: Code): Long
 
     @Update
     fun updateCode(code: Code)
