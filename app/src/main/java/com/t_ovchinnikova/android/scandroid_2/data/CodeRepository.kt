@@ -1,8 +1,10 @@
 package com.t_ovchinnikova.android.scandroid_2.data
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.room.Room
+import com.t_ovchinnikova.android.scandroid_2.ScanAnalyzer
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import java.util.concurrent.Executors
 
@@ -27,6 +29,12 @@ class CodeRepository private constructor(context: Context){
     fun deleteCode(codeId: Long) {
         executor.execute {
             codeDao.deleteCode(codeId)
+        }
+    }
+
+    fun updateCode(code: Code) {
+        executor.execute {
+            codeDao.updateCode(code)
         }
     }
 

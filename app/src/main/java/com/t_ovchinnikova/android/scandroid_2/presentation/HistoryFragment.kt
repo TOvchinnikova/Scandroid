@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanningHistoryBinding
 
-class ScanningHistoryFragment : Fragment() {
+class HistoryFragment : Fragment() {
 
     private lateinit var rvHistoryList: RecyclerView
     private lateinit var binding: FragmentScanningHistoryBinding
@@ -50,6 +50,14 @@ class ScanningHistoryFragment : Fragment() {
             CodeHistoryListAdapter.VIEW_TYPE_DEFAULT,
             CodeHistoryListAdapter.MAX_POOL_SIZE
         )
+        setupClickListener()
+    }
+
+    private fun setupClickListener() {
+        codeListAdapter.onCodeItemClickListener = {
+            ScanResultDialog.newInstance(it)
+                .show(childFragmentManager, ScanResultDialog::class.java.simpleName)
+        }
     }
 
     private fun setupSwipeListener(rvHistory: RecyclerView?) {
@@ -73,8 +81,8 @@ class ScanningHistoryFragment : Fragment() {
 
     companion object {
 
-        fun newInstance(): ScanningHistoryFragment {
-            return ScanningHistoryFragment()
+        fun newInstance(): HistoryFragment {
+            return HistoryFragment()
         }
     }
 

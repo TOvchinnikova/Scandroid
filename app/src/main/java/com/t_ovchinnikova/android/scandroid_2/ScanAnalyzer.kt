@@ -3,6 +3,7 @@ package com.t_ovchinnikova.android.scandroid_2
 import android.annotation.SuppressLint
 import android.graphics.*
 import android.media.Image
+import android.util.Log
 import androidx.annotation.ColorInt
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
@@ -17,16 +18,12 @@ import com.t_ovchinnikova.android.scandroid_2.domain.Code
 class ScanAnalyzer(private val listener: ScanResultListener) : ImageAnalysis.Analyzer {
 
     private val CHANNEL_RANGE = 0 until (1 shl 18)
-
     private val scanner = BarcodeScanning.getClient()
-
     private val codeRepository = CodeRepository.get()
 
     @SuppressLint("UnsafeOptInUsageError")
     override fun analyze(imageProxy: ImageProxy) {
-
         val mediaImage = imageProxy.image
-
         if (mediaImage != null) {
             checkHolderDrawState(imageProxy, mediaImage)
         }
@@ -39,7 +36,6 @@ class ScanAnalyzer(private val listener: ScanResultListener) : ImageAnalysis.Ana
     }
 
     private fun checkList(list: List<Barcode>) {
-
         list.firstOrNull().let { barcode ->
             val rawValue = barcode?.rawValue
             rawValue?.let {
@@ -47,6 +43,7 @@ class ScanAnalyzer(private val listener: ScanResultListener) : ImageAnalysis.Ana
                 val type = barcode.valueType
                 val code = Code(text = rawValue, format = format, type = type)
                 codeRepository.addCode(code)
+                //TODO необходимо знать id записи, чтобы в открывшемся окне можно было удалить запись по id
                 listener.onScanned(code)
             }
         }
@@ -168,5 +165,9 @@ class ScanAnalyzer(private val listener: ScanResultListener) : ImageAnalysis.Ana
 
     private fun Byte.toIntUnsigned(): Int {
         return toInt() and 0xFF
+    }
+
+    companion object {
+        var codeId: Long = 0
     }
 }
