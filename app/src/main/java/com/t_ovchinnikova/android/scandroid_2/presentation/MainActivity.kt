@@ -1,12 +1,11 @@
-package com.t_ovchinnikova.android.scandroid_2
+package com.t_ovchinnikova.android.scandroid_2.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.t_ovchinnikova.android.scandroid_2.R
 import com.t_ovchinnikova.android.scandroid_2.databinding.ActivityMainBinding
-import com.t_ovchinnikova.android.scandroid_2.presentation.ScanningFragment
-import com.t_ovchinnikova.android.scandroid_2.presentation.HistoryFragment
 
 class MainActivity : AppCompatActivity() {
 

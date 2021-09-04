@@ -17,6 +17,7 @@
     <string name="note">Note</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
+    <string name="copy_to_clipboard">Copy to clipboard</string>
 
     <!--Barcode formats-->
     <string name="barcode_format_aztec">Aztec</string>

@@ -38,5 +38,9 @@
         <item name="liftOnScroll">true</item>
         <item name="liftOnScrollTargetViewId">@id/scrollView</item>
     </style>
+
+    <style name="ClickableBackground">
+        <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
 </resources>
 

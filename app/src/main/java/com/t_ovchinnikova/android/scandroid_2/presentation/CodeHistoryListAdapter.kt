@@ -1,6 +1,5 @@
 package com.t_ovchinnikova.android.scandroid_2.presentation
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
@@ -26,14 +25,15 @@ class CodeHistoryListAdapter : ListAdapter<Code, CodeHistoryListViewHolder>(Code
 
     override fun onBindViewHolder(holder: CodeHistoryListViewHolder, position: Int) {
         val code = getItem(position)
-        Log.d("MyLog", "$code")
-        holder.tvCode.text = code.text
-        holder.tvDate.text = dateFormatter.format(code.date)
-        holder.ivIsFavorite.isActivated = code.isFavorite
-        holder.tvFormat.setText(code.formatToStringId())
-        holder.ivCode.setImageResource(code.formatToImageId())
-        holder.itemView.setOnClickListener {
-            onCodeItemClickListener?.invoke(code)
+        with(holder) {
+            tvCode.text = code.text
+            tvDate.text = dateFormatter.format(code.date)
+            ivIsFavorite.isActivated = code.isFavorite
+            tvFormat.setText(code.formatToStringId())
+            ivCode.setImageResource(code.formatToImageId())
+            itemView.setOnClickListener {
+                onCodeItemClickListener?.invoke(code)
+            }
         }
     }
 

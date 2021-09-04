@@ -1,10 +1,8 @@
 package com.t_ovchinnikova.android.scandroid_2.data
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.room.Room
-import com.t_ovchinnikova.android.scandroid_2.ScanAnalyzer
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import java.util.concurrent.Executors
 
@@ -50,9 +48,7 @@ class CodeRepository private constructor(context: Context){
         }
 
         fun get(): CodeRepository {
-            return INSTANCE ?:
-            throw IllegalStateException("CodeRepository must be initialized")
+            return INSTANCE ?: throw IllegalStateException("CodeRepository must be initialized")
         }
     }
-
 }

@@ -21,8 +21,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.t_ovchinnikova.android.scandroid_2.ScanAnalyzer
-import com.t_ovchinnikova.android.scandroid_2.ScanResultListener
-import com.t_ovchinnikova.android.scandroid_2.data.CodeRepository
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanningBinding
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import java.util.concurrent.ExecutorService

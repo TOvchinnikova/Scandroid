@@ -4,4 +4,7 @@
     <dimen name="barcode_reticle_corner_radius">8dp</dimen>
     <dimen name="default_text_size">15sp</dimen>
     <dimen name="default_text_size_very_small">12sp</dimen>
+    <dimen name="icon_button_icon_size">16dp</dimen>
+    <dimen name="default_margin">16dp</dimen>
+    <dimen name="icon_button_vertical_padding">12dp</dimen>
 </resources>
