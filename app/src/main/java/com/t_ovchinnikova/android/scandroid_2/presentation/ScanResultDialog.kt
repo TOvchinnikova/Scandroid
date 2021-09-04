@@ -1,20 +1,15 @@
 package com.t_ovchinnikova.android.scandroid_2.presentation
 
 import android.content.DialogInterface
-import android.opengl.Visibility
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Toast
-import android.widget.Toolbar
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.t_ovchinnikova.android.scandroid_2.R
-import com.t_ovchinnikova.android.scandroid_2.data.CodeRepository
 import com.t_ovchinnikova.android.scandroid_2.databinding.DialogEditCodeNoteBinding
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanResultDialogBinding
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
@@ -49,8 +44,13 @@ class ScanResultDialog: BottomSheetDialogFragment() {
         binding = FragmentScanResultDialogBinding.inflate(inflater, container, false)
         resultCode = arguments?.getSerializable(ARG_SCAN_RESULT) as Code
         editedCode = resultCode.copy()
-        initView()
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initView()
+        setupClickListeners()
     }
 
     override fun onDismiss(dialog: DialogInterface) {
@@ -58,6 +58,21 @@ class ScanResultDialog: BottomSheetDialogFragment() {
 
         parentFragment?.let {
             ViewModelProvider(it).get(ScanningViewModel::class.java).setScannerWorkState(true)
+        }
+    }
+
+    private fun setupClickListeners() {
+        with(binding) {
+            buttonCopy.setOnClickListener {
+                viewModel.copyToClipboard(resultCode.text)
+                Toast.makeText(requireContext(), R.string.barcode_copied, Toast.LENGTH_SHORT).show()
+            }
+            buttonSearchOnInternet.setOnClickListener {
+                searchWeb()
+            }
+            buttonSend.setOnClickListener {
+                sendText()
+            }
         }
     }
 
@@ -84,6 +99,14 @@ class ScanResultDialog: BottomSheetDialogFragment() {
         }
     }
 
+    private fun searchWeb() {
+        viewModel.searchWeb(editedCode.text)
+    }
+
+    private fun sendText() {
+        viewModel.sendText(editedCode.text)
+    }
+
     private fun showNote() {
         binding.tvNote.text = editedCode.note
         binding.tvNote.visibility = if (editedCode.note != "") View.VISIBLE else View.GONE
@@ -94,7 +117,8 @@ class ScanResultDialog: BottomSheetDialogFragment() {
             R.drawable.ic_favorite_on
         else
             R.drawable.ic_favorite_off
-        binding.toolbar.menu.findItem(R.id.isFavorite).icon = ContextCompat.getDrawable(requireContext(), iconId)
+        binding.toolbar.menu.findItem(R.id.isFavorite).icon =
+            ContextCompat.getDrawable(requireContext(), iconId)
     }
 
     private fun showDeleteDialog() {

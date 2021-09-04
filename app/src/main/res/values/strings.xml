@@ -18,6 +18,9 @@
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="copy_to_clipboard">Copy to clipboard</string>
+    <string name="barcode_copied">Copied to clipboard</string>
+    <string name="barcode_search">Search on the internet</string>
+    <string name="barcode_share_text">Share as text</string>
 
     <!--Barcode formats-->
     <string name="barcode_format_aztec">Aztec</string>
