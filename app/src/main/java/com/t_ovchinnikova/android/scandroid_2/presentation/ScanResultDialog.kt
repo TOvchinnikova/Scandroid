@@ -10,6 +10,7 @@ import android.widget.Toolbar
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.t_ovchinnikova.android.scandroid_2.R
@@ -27,7 +28,8 @@ class ScanResultDialog: BottomSheetDialogFragment() {
     private lateinit var binding: FragmentScanResultDialogBinding
     private lateinit var resultCode: Code
     private lateinit var editedCode: Code
-    private val codeRepository = CodeRepository.get()
+
+    private val viewModel by viewModels<ScanResultViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -121,7 +123,7 @@ class ScanResultDialog: BottomSheetDialogFragment() {
                     val note = noteBinding.etNote.text.toString()
                     if (editedCode.note != note) {
                         editedCode.note = note
-                        updateBarcode(editedCode)
+                        viewModel.updateBarcode(editedCode)
                         showNote()
                     }
                 }
@@ -140,20 +142,15 @@ class ScanResultDialog: BottomSheetDialogFragment() {
     }
 
     private fun deleteBarcode() {
-        codeRepository.deleteCode(editedCode.id)
+        viewModel.deleteBarcode(editedCode.id)
         dismiss()
     }
 
     private fun toggleIsFavorite() {
         val isFavorite = editedCode.isFavorite.not()
         editedCode.isFavorite = isFavorite
-        Log.d("MyLog", "toggleIsFavorite $editedCode")
-        updateBarcode(editedCode)
+        viewModel.updateBarcode(editedCode)
         showCodeIsFavorite(isFavorite)
-    }
-
-    private fun updateBarcode(code: Code) {
-        codeRepository.updateCode(code)
     }
 
     companion object {
