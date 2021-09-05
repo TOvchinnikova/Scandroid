@@ -17,6 +17,7 @@
     <string name="note">Note</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
+    <string name="close">Close</string>
     <string name="copy_to_clipboard">Copy to clipboard</string>
     <string name="barcode_copied">Copied to clipboard</string>
     <string name="barcode_search">Search on the internet</string>

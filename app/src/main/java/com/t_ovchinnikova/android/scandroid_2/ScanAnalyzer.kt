@@ -3,6 +3,7 @@ package com.t_ovchinnikova.android.scandroid_2
 import android.annotation.SuppressLint
 import android.graphics.*
 import android.media.Image
+import android.util.Log
 import androidx.annotation.ColorInt
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
@@ -41,6 +42,12 @@ class ScanAnalyzer(private val listener: ScanResultListener) : ImageAnalysis.Ana
             rawValue?.let {
                 val format = barcode.format
                 val type = barcode.valueType
+                /*val encryptionType = barcode.wifi.encryptionType
+                val password = barcode.wifi.password
+                val ssid = barcode.wifi.ssid
+                Log.d("MyLog", "$encryptionType")
+                Log.d("MyLog", "$password")
+                Log.d("MyLog", "$ssid")*/
                 val code = Code(text = rawValue, format = format, type = type)
                 codeRepository.addCode(code)
                 //TODO необходимо знать id записи, чтобы в открывшемся окне можно было удалить запись по id

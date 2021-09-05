@@ -1,14 +1,20 @@
 package com.t_ovchinnikova.android.scandroid_2.presentation
 
+import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.libraries.barhopper.Barcode.WIFI
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.mlkit.vision.barcode.Barcode
 import com.t_ovchinnikova.android.scandroid_2.R
 import com.t_ovchinnikova.android.scandroid_2.databinding.DialogEditCodeNoteBinding
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanResultDialogBinding
@@ -18,6 +24,7 @@ import com.t_ovchinnikova.android.scandroid_2.domain.typeToString
 import java.text.SimpleDateFormat
 import java.util.*
 
+@Suppress("NAME_SHADOWING")
 class ScanResultDialog: BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentScanResultDialogBinding
@@ -25,6 +32,21 @@ class ScanResultDialog: BottomSheetDialogFragment() {
     private lateinit var editedCode: Code
 
     private val viewModel by viewModels<ScanResultViewModel>()
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = BottomSheetDialog(requireContext(), theme)
+        dialog.setOnShowListener {
+            val bottomSheetDialog = it as BottomSheetDialog
+            val parentLayout =
+                bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+            parentLayout?.let { it ->
+                val behaviour = BottomSheetBehavior.from(it)
+                setupFullHeight(it)
+                behaviour.state = BottomSheetBehavior.STATE_EXPANDED
+            }
+        }
+        return dialog
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,26 +99,29 @@ class ScanResultDialog: BottomSheetDialogFragment() {
     }
 
     private fun initView() {
-        binding.tvType.text = getString(editedCode.typeToString())
-        binding.tvResult.text = editedCode.text.toString()
         val dateFormatter = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.ENGLISH)
-        binding.tvDate.text = dateFormatter.format(editedCode.date)
-        showCodeIsFavorite(editedCode.isFavorite)
-        showNote()
-        binding.toolbar.apply {
-            setTitle(editedCode.formatToStringId())
-            setOnMenuItemClickListener {
-                when (it.itemId) {
-                    R.id.delete -> showDeleteDialog()
-                    R.id.isFavorite -> toggleIsFavorite()
-                    else -> throw RuntimeException("Unknown clicked item")
+        with(binding) {
+            tvType.text = getString(editedCode.typeToString())
+            tvResult.text = editedCode.text.toString()
+            tvDate.text = dateFormatter.format(editedCode.date)
+            toolbar.apply {
+                setTitle(editedCode.formatToStringId())
+                setOnMenuItemClickListener {
+                    when (it.itemId) {
+                        R.id.delete -> showDeleteDialog()
+                        R.id.isFavorite -> toggleIsFavorite()
+                        R.id.close -> dismiss()
+                        else -> throw RuntimeException("Unknown clicked item")
+                    }
+                    return@setOnMenuItemClickListener true
                 }
-                return@setOnMenuItemClickListener true
+            }
+            ivEditNote.setOnClickListener {
+                showEditDialog()
             }
         }
-        binding.ivEditNote.setOnClickListener {
-            showEditDialog()
-        }
+        showCodeIsFavorite(editedCode.isFavorite)
+        showNote()
     }
 
     private fun searchWeb() {
@@ -175,6 +200,12 @@ class ScanResultDialog: BottomSheetDialogFragment() {
         editedCode.isFavorite = isFavorite
         viewModel.updateBarcode(editedCode)
         showCodeIsFavorite(isFavorite)
+    }
+
+    private fun setupFullHeight(bottomSheet: View) {
+        val layoutParams = bottomSheet.layoutParams
+        layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT
+        bottomSheet.layoutParams = layoutParams
     }
 
     companion object {
