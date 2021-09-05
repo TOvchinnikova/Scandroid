@@ -37,7 +37,7 @@ class ScanningFragment : Fragment() {
     private lateinit var flashButton: ImageButton
     private lateinit var camera: Camera
     private var flashState: Boolean = false
-    private lateinit var requestPermissionLauncher : ActivityResultLauncher<String>
+    private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
 
     private val viewModel by viewModels<ScanningViewModel>()
 
@@ -57,26 +57,13 @@ class ScanningFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requestPermissionLauncher =
-            registerForActivityResult(
-                ActivityResultContracts.RequestPermission()
-            ) { isGranted: Boolean ->
-                if (isGranted) {
-                    setupViewModel()
-                } else {
-                    Toast.makeText(requireContext(),
-                        "Permissions not granted by the user.",
-                        Toast.LENGTH_SHORT).show()
-                    //finish()
-                }
-            }
-        requestPermissionLauncher.launch(Manifest.permission.CAMERA)
+        launchPermission()
         setupViewModel()
         if (savedInstanceState == null) {
             viewModel.setScannerWorkState(true)
             viewModel.switchFlash(false)
         }
-        setupView()
+        initView()
     }
 
     override fun onDestroy() {
@@ -84,17 +71,35 @@ class ScanningFragment : Fragment() {
         cameraExecutor.shutdown()
     }
 
-    private fun setupView() {
-        binding.overlay.post {
-            binding.overlay.setViewFinder()
-        }
+    private fun launchPermission() {
+        requestPermissionLauncher =
+            registerForActivityResult(
+                ActivityResultContracts.RequestPermission()
+            ) { isGranted: Boolean ->
+                if (isGranted) {
+                    setupViewModel()
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "Permissions not granted by the user.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        requestPermissionLauncher.launch(Manifest.permission.CAMERA)
+    }
 
-        binding.bottomActionBar.imageAnalizeButton.setOnClickListener{
-            Toast.makeText(requireContext(), "supa dupa!!!", Toast.LENGTH_SHORT).show()
-        }
+    private fun initView() {
         viewFinder = binding.viewFinder
-        flashButton = binding.bottomActionBar.flashButton
-
+        with(binding) {
+            overlay.post {
+                overlay.setViewFinder()
+            }
+            bottomActionBar.imageAnalizeButton.setOnClickListener {
+                Toast.makeText(requireContext(), "supa dupa!!!", Toast.LENGTH_SHORT).show()
+            }
+            flashButton = bottomActionBar.flashButton
+        }
         if (isFlashAvailable()) {
             flashButton.visibility = View.VISIBLE
             flashButton.setOnClickListener {
@@ -105,16 +110,16 @@ class ScanningFragment : Fragment() {
     }
 
     private fun setupViewModel() {
-        viewModel.scannerWorkState.observe(viewLifecycleOwner, Observer {
+        viewModel.scannerWorkState.observe(viewLifecycleOwner) {
             if (it) {
                 startCamera()
             } else {
                 stopCamera()
             }
-        })
-        viewModel.flashState.observe(viewLifecycleOwner, {
+        }
+        viewModel.flashState.observe(viewLifecycleOwner) {
             flashState = it
-        })
+        }
     }
 
     private fun toggleFlash() {
@@ -130,7 +135,7 @@ class ScanningFragment : Fragment() {
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
         cameraProviderFuture.addListener(
-            Runnable {
+            {
                 cameraProvider = cameraProviderFuture.get()
                 cameraProvider?.let {
                     bindCameraUseCases(it)
@@ -145,28 +150,63 @@ class ScanningFragment : Fragment() {
         val metrics = DisplayMetrics().also { viewFinder.display.getRealMetrics(it) }
         val screenAspectRatio = Rational(metrics.widthPixels, metrics.heightPixels).toInt()
         val rotation = viewFinder.display.rotation
+        val preview = buildPreview(screenAspectRatio, rotation)
+        imageAnalysis = buildImageAnalysis(screenAspectRatio, rotation)
+        val cameraSelector = buildCameraSelector()
+        addOrientationEventListener(preview)
+        cameraExecutor = Executors.newSingleThreadExecutor()
+        val scanListener = ScanListener()
+        val analyzer = ScanAnalyzer(scanListener)
+        imageAnalysis?.setAnalyzer(cameraExecutor, analyzer)
+        val useCaseGroup = buildUseCaseGroup(preview)
+        cameraProvider.unbindAll()
+        camera = cameraProvider
+            .bindToLifecycle(this as LifecycleOwner, cameraSelector, useCaseGroup)
+        if (camera.cameraInfo.hasFlashUnit()) {
+            flashButton.visibility = View.VISIBLE
+            toggleFlash()
+        }
+    }
 
-        val preview = Preview.Builder()
+    private fun buildPreview(screenAspectRatio: Int, rotation: Int): Preview {
+        return Preview.Builder()
             .setTargetAspectRatio(screenAspectRatio)
             .setTargetRotation(rotation)
             .build()
             .also {
                 it.setSurfaceProvider(viewFinder.surfaceProvider)
             }
+    }
 
-        imageAnalysis = ImageAnalysis.Builder()
+    private fun buildImageAnalysis(screenAspectRatio: Int, rotation: Int): ImageAnalysis? {
+        return ImageAnalysis.Builder()
             .setTargetAspectRatio(screenAspectRatio)
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
             .setTargetRotation(rotation)
             .build()
+    }
 
-        var cameraSelector : CameraSelector = CameraSelector.Builder()
+    private fun buildCameraSelector(): CameraSelector {
+        return CameraSelector.Builder()
             .requireLensFacing(CameraSelector.LENS_FACING_BACK)
             .build()
+    }
 
+    @SuppressLint("UnsafeOptInUsageError")
+    private fun buildUseCaseGroup(preview: Preview): UseCaseGroup {
+        return UseCaseGroup.Builder()
+            .addUseCase(preview)
+            .addUseCase(
+                imageAnalysis ?: throw IllegalStateException("imageAnalysis must be initialized")
+            )
+            .build()
+    }
+
+    @SuppressLint("UnsafeOptInUsageError")
+    private fun addOrientationEventListener(preview: Preview) {
         val orientationEventListener = object : OrientationEventListener(requireContext()) {
-            override fun onOrientationChanged(orientation : Int) {
-                val rotation : Int = when (orientation) {
+            override fun onOrientationChanged(orientation: Int) {
+                val rotation: Int = when (orientation) {
                     in 45..134 -> Surface.ROTATION_270
                     in 135..224 -> Surface.ROTATION_180
                     in 225..314 -> Surface.ROTATION_90
@@ -176,28 +216,7 @@ class ScanningFragment : Fragment() {
                 imageAnalysis?.targetRotation = rotation
             }
         }
-
         orientationEventListener.enable()
-
-        cameraExecutor = Executors.newSingleThreadExecutor()
-
-        val scanListener =  ScanListener()
-
-        val analyzer = ScanAnalyzer(scanListener)
-        imageAnalysis?.setAnalyzer(cameraExecutor, analyzer)
-
-        val useCaseGroup = UseCaseGroup.Builder()
-            .addUseCase(preview)
-            .addUseCase(imageAnalysis ?: throw IllegalStateException("imageAnalysis must be initialized"))
-            .build()
-
-        cameraProvider.unbindAll()
-        camera = cameraProvider.bindToLifecycle(this as LifecycleOwner, cameraSelector, useCaseGroup)
-
-        if (camera.cameraInfo.hasFlashUnit()) {
-            flashButton.visibility = View.VISIBLE
-            toggleFlash()
-        }
     }
 
     private fun isFlashAvailable() = requireContext().packageManager

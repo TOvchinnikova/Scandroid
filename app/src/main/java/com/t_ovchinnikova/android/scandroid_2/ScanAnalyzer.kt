@@ -42,12 +42,6 @@ class ScanAnalyzer(private val listener: ScanResultListener) : ImageAnalysis.Ana
             rawValue?.let {
                 val format = barcode.format
                 val type = barcode.valueType
-                /*val encryptionType = barcode.wifi.encryptionType
-                val password = barcode.wifi.password
-                val ssid = barcode.wifi.ssid
-                Log.d("MyLog", "$encryptionType")
-                Log.d("MyLog", "$password")
-                Log.d("MyLog", "$ssid")*/
                 val code = Code(text = rawValue, format = format, type = type)
                 codeRepository.addCode(code)
                 //TODO необходимо знать id записи, чтобы в открывшемся окне можно было удалить запись по id
@@ -57,39 +51,28 @@ class ScanAnalyzer(private val listener: ScanResultListener) : ImageAnalysis.Ana
     }
 
     private fun checkHolderDrawState(image: ImageProxy, mediaImage: Image) {
-
         val rotationDegrees = image.imageInfo.rotationDegrees
-
         val imageHeight = mediaImage.height
         val imageWidth = mediaImage.width
-
         val convertImageToBitmap = mediaImage.convertYuv420888ImageToBitmap()
-
         val cropRect = Rect(0, 0, imageWidth, imageHeight)
-
         val heightCropPercent = 74
         val widthCropPercent = 20
         val (widthCrop, heightCrop) = when (rotationDegrees) {
             90, 270 -> Pair(heightCropPercent / 100f, widthCropPercent / 100f)
             else -> Pair(widthCropPercent / 100f, heightCropPercent / 100f)
         }
-
         cropRect.inset(
             (imageWidth * widthCrop / 2).toInt(),
             (imageHeight * heightCrop / 2).toInt()
         )
-
         if (cropRect.height() > 0 && cropRect.width() > 0) {
             val croppedBitmap = rotateAndCrop(convertImageToBitmap, rotationDegrees, cropRect)
-            recognizeCode(InputImage.fromBitmap(croppedBitmap, 0)).addOnSuccessListener {
-                image.close()
-            }
-        } /*else {
-            //imageCropPercentages.postValue(CameraHolderState.Failure)
-            recognizeCode(InputImage.fromBitmap(convertImageToBitmap, 0)).addOnSuccessListener {
-                image.close()
-            }
-        }*/
+            recognizeCode(InputImage.fromBitmap(croppedBitmap, 0))
+                .addOnSuccessListener {
+                    image.close()
+                }
+        }
     }
 
     private fun rotateAndCrop(
@@ -114,9 +97,7 @@ class ScanAnalyzer(private val listener: ScanResultListener) : ImageAnalysis.Ana
         require(this.format == ImageFormat.YUV_420_888) {
             "Unsupported image format $(image.format)"
         }
-
         val planes = this.planes
-
         val yuvBytes = planes.map { plane ->
             val buffer = plane.buffer
             val yuvBytes = ByteArray(buffer.capacity())
@@ -124,7 +105,6 @@ class ScanAnalyzer(private val listener: ScanResultListener) : ImageAnalysis.Ana
             buffer.rewind()
             yuvBytes
         }
-
         val yRowStride = planes[0].rowStride
         val uvRowStride = planes[1].rowStride
         val uvPixelStride = planes[1].pixelStride
@@ -172,9 +152,5 @@ class ScanAnalyzer(private val listener: ScanResultListener) : ImageAnalysis.Ana
 
     private fun Byte.toIntUnsigned(): Int {
         return toInt() and 0xFF
-    }
-
-    companion object {
-        var codeId: Long = 0
     }
 }

@@ -102,7 +102,7 @@ class ScanResultDialog: BottomSheetDialogFragment() {
         val dateFormatter = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.ENGLISH)
         with(binding) {
             tvType.text = getString(editedCode.typeToString())
-            tvResult.text = editedCode.text.toString()
+            tvResult.text = editedCode.text
             tvDate.text = dateFormatter.format(editedCode.date)
             toolbar.apply {
                 setTitle(editedCode.formatToStringId())

@@ -24,10 +24,8 @@ class HistoryFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         binding = FragmentScanningHistoryBinding.inflate(layoutInflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -35,11 +33,9 @@ class HistoryFragment : Fragment() {
 
         setupRecyclerView()
         setupSwipeListener(rvHistoryList)
-
         viewModel.codeListLiveData.observe(viewLifecycleOwner, Observer {
             codeListAdapter.submitList(it)
         })
-
     }
 
     private fun setupRecyclerView() {
@@ -62,7 +58,7 @@ class HistoryFragment : Fragment() {
 
     private fun setupSwipeListener(rvHistory: RecyclerView?) {
         val callback = object :
-        ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
@@ -80,7 +76,6 @@ class HistoryFragment : Fragment() {
     }
 
     companion object {
-
         fun newInstance(): HistoryFragment {
             return HistoryFragment()
         }

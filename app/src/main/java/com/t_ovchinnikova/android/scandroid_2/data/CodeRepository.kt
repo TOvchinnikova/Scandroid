@@ -6,9 +6,9 @@ import androidx.room.Room
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import java.util.concurrent.Executors
 
-class CodeRepository private constructor(context: Context){
+class CodeRepository private constructor(context: Context) {
 
-    private val database : CodeDatabase = Room.databaseBuilder(
+    private val database: CodeDatabase = Room.databaseBuilder(
         context.applicationContext,
         CodeDatabase::class.java,
         "scandroid"

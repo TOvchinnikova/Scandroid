@@ -14,19 +14,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         bottomNavigationView = binding.bottomNavigationView
-
-        if(savedInstanceState == null)
+        if (savedInstanceState == null)
             setupBottomNavigation(R.id.menu_scanner)
-
-        bottomNavigationView.setOnItemSelectedListener  {
+        bottomNavigationView.setOnItemSelectedListener {
             if (it.itemId != bottomNavigationView.selectedItemId)
                 setupBottomNavigation(it.itemId)
-
             true
         }
     }
