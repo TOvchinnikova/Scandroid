@@ -13,8 +13,8 @@ class CodeRepository (application: Application) {
 
     private val codeDao = database.CodeDao()
 
-    suspend fun addCode(code: Code) {
-        codeDao.addCode(mapper.mapEntityToDbModel(code))
+    suspend fun addCode(code: Code): Long {
+        return codeDao.addCode(mapper.mapEntityToDbModel(code))
     }
 
     suspend fun deleteCode(codeId: Long) {

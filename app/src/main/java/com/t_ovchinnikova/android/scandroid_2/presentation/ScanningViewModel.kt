@@ -18,8 +18,13 @@ class ScanningViewModel: ViewModel() {
     private val _flashState = MutableLiveData<Boolean>()
     val flashState: LiveData<Boolean> = _flashState
 
+    private val _newCode = MutableLiveData<Code?>()
+    val newCode: LiveData<Code?>
+        get() = _newCode
+
     fun setScannerWorkState(state: Boolean) {
         _scannerWorkState.value = state
+        if (state) _newCode.value = null
     }
 
     fun switchFlash(state: Boolean) {
@@ -28,7 +33,9 @@ class ScanningViewModel: ViewModel() {
 
     fun addCode(code: Code) {
         viewModelScope.launch {
-            codeRepository.addCode(code)
+            val id = codeRepository.addCode(code)
+            code.id = id
+            _newCode.value = code
         }
     }
 }

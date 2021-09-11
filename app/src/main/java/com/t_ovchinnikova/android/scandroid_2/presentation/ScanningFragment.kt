@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.util.Log
 import android.util.Rational
 import android.view.*
 import android.widget.ImageButton
@@ -114,11 +115,24 @@ class ScanningFragment : Fragment() {
                 startCamera()
             } else {
                 stopCamera()
+
             }
         }
         viewModel.flashState.observe(viewLifecycleOwner) {
             flashState = it
         }
+        viewModel.newCode.observe(viewLifecycleOwner) {
+            val newCode = it
+            if(newCode != null && viewModel.scannerWorkState.value != false) {
+                viewModel.setScannerWorkState(false)
+                showScanResultDialog(newCode)
+            }
+        }
+    }
+
+    private fun showScanResultDialog(code: Code) {
+        ScanResultDialog.newInstance(code)
+            .show(childFragmentManager, ScanResultDialog::class.java.simpleName)
     }
 
     private fun toggleFlash() {
@@ -222,11 +236,9 @@ class ScanningFragment : Fragment() {
         .hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)
 
     inner class ScanListener : ScanResultListener {
+
         override fun onScanned(resultCode: Code) {
             viewModel.addCode(resultCode)
-            viewModel.setScannerWorkState(false)
-            ScanResultDialog.newInstance(resultCode)
-                .show(childFragmentManager, ScanResultDialog::class.java.simpleName)
         }
     }
 

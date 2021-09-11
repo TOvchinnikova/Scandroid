@@ -41,6 +41,7 @@ class ScanResultDialog: BottomSheetDialogFragment() {
             parentLayout?.let { it ->
                 val behaviour = BottomSheetBehavior.from(it)
                 setupFullHeight(it)
+                setupFullWidth(it)
                 behaviour.state = BottomSheetBehavior.STATE_EXPANDED
             }
         }
@@ -204,6 +205,12 @@ class ScanResultDialog: BottomSheetDialogFragment() {
     private fun setupFullHeight(bottomSheet: View) {
         val layoutParams = bottomSheet.layoutParams
         layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT
+        bottomSheet.layoutParams = layoutParams
+    }
+
+    private fun setupFullWidth(bottomSheet: View) {
+        val layoutParams = bottomSheet.layoutParams
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT
         bottomSheet.layoutParams = layoutParams
     }
 

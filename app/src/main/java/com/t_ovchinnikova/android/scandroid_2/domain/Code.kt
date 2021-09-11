@@ -4,7 +4,7 @@ import java.io.Serializable
 import java.util.*
 
 data class Code(
-    val id: Long = UNDEFINED_ID,
+    var id: Long = UNDEFINED_ID,
     val text: String,
     val format: Int,
     val type: Int,

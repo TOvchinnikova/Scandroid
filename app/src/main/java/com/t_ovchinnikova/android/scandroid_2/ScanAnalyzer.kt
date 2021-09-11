@@ -30,7 +30,10 @@ class ScanAnalyzer(private val listener: ScanResultListener) : ImageAnalysis.Ana
     private fun recognizeCode(image: InputImage): Task<List<Barcode>> =
         scanner.process(image)
             .addOnSuccessListener {
-                if (it.isNotEmpty()) checkList(it)
+                if (it.isNotEmpty()) {
+                    checkList(it)
+                    scanner.close()
+                }
             }
 
     private fun checkList(list: List<Barcode>) {
