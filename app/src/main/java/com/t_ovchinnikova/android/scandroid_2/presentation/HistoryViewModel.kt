@@ -1,7 +1,9 @@
 package com.t_ovchinnikova.android.scandroid_2.presentation
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.t_ovchinnikova.android.scandroid_2.data.CodeRepository
+import kotlinx.coroutines.launch
 
 class HistoryViewModel: ViewModel() {
 
@@ -10,7 +12,8 @@ class HistoryViewModel: ViewModel() {
     val codeListLiveData = codeRepository.getCodes()
 
     fun deleteCode(codeId: Long) {
-        codeRepository.deleteCode(codeId)
+        viewModelScope.launch {
+            codeRepository.deleteCode(codeId)
+        }
     }
-
 }

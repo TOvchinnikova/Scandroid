@@ -4,16 +4,13 @@ import android.app.Application
 import android.app.SearchManager
 import android.content.ClipData
 import android.content.ClipboardManager
-import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
 import android.content.Intent
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.t_ovchinnikova.android.scandroid_2.data.CodeRepository
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
+import kotlinx.coroutines.launch
 
 class ScanResultViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -21,11 +18,15 @@ class ScanResultViewModel(application: Application) : AndroidViewModel(applicati
     private val context = application
 
     fun updateBarcode(code: Code) {
-        codeRepository.updateCode(code)
+        viewModelScope.launch {
+            codeRepository.addCode(code)
+        }
     }
 
     fun deleteBarcode(id: Long) {
-        codeRepository.deleteCode(id)
+        viewModelScope.launch {
+            codeRepository.deleteCode(id)
+        }
     }
 
     fun copyToClipboard(text: String) {

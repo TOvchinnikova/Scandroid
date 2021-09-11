@@ -19,7 +19,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import com.t_ovchinnikova.android.scandroid_2.ScanAnalyzer
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanningBinding
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
@@ -223,9 +222,10 @@ class ScanningFragment : Fragment() {
         .hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)
 
     inner class ScanListener : ScanResultListener {
-        override fun onScanned(result: Code) {
+        override fun onScanned(resultCode: Code) {
+            viewModel.addCode(resultCode)
             viewModel.setScannerWorkState(false)
-            ScanResultDialog.newInstance(result)
+            ScanResultDialog.newInstance(resultCode)
                 .show(childFragmentManager, ScanResultDialog::class.java.simpleName)
         }
     }

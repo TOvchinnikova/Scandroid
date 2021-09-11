@@ -3,7 +3,6 @@ package com.t_ovchinnikova.android.scandroid_2
 import android.annotation.SuppressLint
 import android.graphics.*
 import android.media.Image
-import android.util.Log
 import androidx.annotation.ColorInt
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
@@ -11,16 +10,14 @@ import com.google.android.gms.tasks.Task
 import com.google.mlkit.vision.barcode.Barcode
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
-import com.t_ovchinnikova.android.scandroid_2.data.CodeRepository
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import com.t_ovchinnikova.android.scandroid_2.presentation.ScanResultListener
 
 
 class ScanAnalyzer(private val listener: ScanResultListener) : ImageAnalysis.Analyzer {
 
-    private val CHANNEL_RANGE = 0 until (1 shl 18)
+    private val channelRange = 0 until (1 shl 18)
     private val scanner = BarcodeScanning.getClient()
-    private val codeRepository = CodeRepository.get()
 
     @SuppressLint("UnsafeOptInUsageError")
     override fun analyze(imageProxy: ImageProxy) {
@@ -33,8 +30,8 @@ class ScanAnalyzer(private val listener: ScanResultListener) : ImageAnalysis.Ana
     private fun recognizeCode(image: InputImage): Task<List<Barcode>> =
         scanner.process(image)
             .addOnSuccessListener {
-        if (it.isNotEmpty()) checkList(it)
-    }
+                if (it.isNotEmpty()) checkList(it)
+            }
 
     private fun checkList(list: List<Barcode>) {
         list.firstOrNull().let { barcode ->
@@ -43,8 +40,6 @@ class ScanAnalyzer(private val listener: ScanResultListener) : ImageAnalysis.Ana
                 val format = barcode.format
                 val type = barcode.valueType
                 val code = Code(text = rawValue, format = format, type = type)
-                codeRepository.addCode(code)
-                //TODO необходимо знать id записи, чтобы в открывшемся окне можно было удалить запись по id
                 listener.onScanned(code)
             }
         }
@@ -144,9 +139,9 @@ class ScanAnalyzer(private val listener: ScanResultListener) : ImageAnalysis.Ana
         var nG = 1192 * nY - 833 * nV - 400 * nU
         var nB = 1192 * nY + 2066 * nU
 
-        nR = nR.coerceIn(CHANNEL_RANGE) shr 10 and 0xff
-        nG = nG.coerceIn(CHANNEL_RANGE) shr 10 and 0xff
-        nB = nB.coerceIn(CHANNEL_RANGE) shr 10 and 0xff
+        nR = nR.coerceIn(channelRange) shr 10 and 0xff
+        nG = nG.coerceIn(channelRange) shr 10 and 0xff
+        nB = nB.coerceIn(channelRange) shr 10 and 0xff
         return -0x1000000 or (nR shl 16) or (nG shl 8) or nB
     }
 

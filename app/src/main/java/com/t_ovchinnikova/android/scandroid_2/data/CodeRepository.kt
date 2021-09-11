@@ -1,49 +1,37 @@
 package com.t_ovchinnikova.android.scandroid_2.data
 
-import android.content.Context
+import android.app.Application
 import androidx.lifecycle.LiveData
-import androidx.room.Room
+import androidx.lifecycle.Transformations
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
-import java.util.concurrent.Executors
 
-class CodeRepository private constructor(context: Context) {
+class CodeRepository (application: Application) {
 
-    private val database: CodeDatabase = Room.databaseBuilder(
-        context.applicationContext,
-        CodeDatabase::class.java,
-        "scandroid"
-    ).addMigrations(migration_1_2, migration_2_3)
-        .build()
+    private val database: CodeDatabase = CodeDatabase.newInstance(application)
+
+    private val mapper = CodeMapper()
 
     private val codeDao = database.CodeDao()
-    private val executor = Executors.newSingleThreadExecutor()
 
-    fun addCode(code: Code) {
-        executor.execute {
-            codeDao.addCode(code)
-        }
+    suspend fun addCode(code: Code) {
+        codeDao.addCode(mapper.mapEntityToDbModel(code))
     }
 
-    fun deleteCode(codeId: Long) {
-        executor.execute {
-            codeDao.deleteCode(codeId)
-        }
+    suspend fun deleteCode(codeId: Long) {
+        codeDao.deleteCode(codeId)
     }
 
-    fun updateCode(code: Code) {
-        executor.execute {
-            codeDao.updateCode(code)
+    fun getCodes(): LiveData<List<Code>> =
+        Transformations.map(codeDao.getCodes()) {
+            mapper.mapListDbModelToListEntity(it)
         }
-    }
-
-    fun getCodes(): LiveData<List<Code>> = codeDao.getCodes()
 
     companion object {
         private var INSTANCE: CodeRepository? = null
 
-        fun initialize(context: Context) {
+        fun initialize(application: Application) {
             if (INSTANCE == null) {
-                INSTANCE = CodeRepository(context)
+                INSTANCE = CodeRepository(application)
             }
         }
 

@@ -24,7 +24,6 @@ class CodeDatabaseTypeConverter {
     fun toBoolean(int: Int): Boolean {
         return int.toBoolean()
     }
-
 }
 
 fun Boolean.toInt() = if (this) 1 else 0

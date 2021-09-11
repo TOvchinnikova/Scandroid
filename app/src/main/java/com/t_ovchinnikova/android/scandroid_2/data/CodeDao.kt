@@ -8,19 +8,15 @@ import com.t_ovchinnikova.android.scandroid_2.domain.Code
 interface CodeDao {
 
     @Query("SELECT * FROM codes ORDER BY date DESC")
-    fun getCodes(): LiveData<List<Code>>
+    fun getCodes(): LiveData<List<CodeDbModel>>
 
     @Query("SELECT * FROM codes WHERE id = :id")
-    fun getCode(id: Long): Code
+    suspend fun getCode(id: Long): CodeDbModel
 
-    @Insert
-    fun addCode(code: Code): Long
-
-    @Update
-    fun updateCode(code: Code)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addCode(code: CodeDbModel): Long
 
     @Query("DELETE FROM codes WHERE id = :id")
-    fun deleteCode(id: Long)
-
+    suspend fun deleteCode(id: Long)
 
 }
