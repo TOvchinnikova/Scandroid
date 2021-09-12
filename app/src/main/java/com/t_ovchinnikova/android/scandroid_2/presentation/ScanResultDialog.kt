@@ -1,7 +1,8 @@
 package com.t_ovchinnikova.android.scandroid_2.presentation
 
 import android.app.Dialog
-import android.content.DialogInterface
+import android.app.SearchManager
+import android.content.*
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -86,16 +87,22 @@ class ScanResultDialog: BottomSheetDialogFragment() {
     private fun setupClickListeners() {
         with(binding) {
             buttonCopy.setOnClickListener {
-                viewModel.copyToClipboard(resultCode.text)
-                Toast.makeText(requireContext(), R.string.barcode_copied, Toast.LENGTH_SHORT).show()
+                copyToClipboard(resultCode.text)
             }
             buttonSearchOnInternet.setOnClickListener {
-                searchWeb()
+                searchWeb(resultCode.text)
             }
             buttonSend.setOnClickListener {
-                sendText()
+                sendText(resultCode.text)
             }
         }
+    }
+
+    private fun copyToClipboard(text: String) {
+        val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip: ClipData = ClipData.newPlainText("code text", text)
+        clipboard.setPrimaryClip(clip)
+        Toast.makeText(requireContext(), R.string.barcode_copied, Toast.LENGTH_SHORT).show()
     }
 
     private fun initView() {
@@ -124,12 +131,28 @@ class ScanResultDialog: BottomSheetDialogFragment() {
         showNote()
     }
 
-    private fun searchWeb() {
-        viewModel.searchWeb(editedCode.text)
+    private fun searchWeb(queryText: String) {
+        val intent = Intent(Intent.ACTION_WEB_SEARCH).apply {
+            putExtra(SearchManager.QUERY, queryText)
+        }
+        startAction(intent)
     }
 
-    private fun sendText() {
-        viewModel.sendText(editedCode.text)
+    private fun sendText(text: String) {
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, text)
+        }
+        startAction(intent)
+    }
+
+    private fun startAction(intent: Intent) {
+        intent.apply {
+            flags = flags or Intent.FLAG_ACTIVITY_NEW_TASK
+        }
+        if (intent.resolveActivity(requireContext().packageManager) != null) {
+            requireContext().startActivity(intent)
+        }
     }
 
     private fun showNote() {
