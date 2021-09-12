@@ -38,6 +38,7 @@ class ScanningFragment : Fragment() {
     private lateinit var camera: Camera
     private var flashState: Boolean = false
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
+    private var newCode: Code? = null
 
     private val viewModel by viewModels<ScanningViewModel>()
 
@@ -115,17 +116,19 @@ class ScanningFragment : Fragment() {
                 startCamera()
             } else {
                 stopCamera()
-
+                newCode = null
             }
         }
         viewModel.flashState.observe(viewLifecycleOwner) {
             flashState = it
         }
         viewModel.newCode.observe(viewLifecycleOwner) {
-            val newCode = it
-            if(newCode != null && viewModel.scannerWorkState.value != false) {
-                viewModel.setScannerWorkState(false)
-                showScanResultDialog(newCode)
+            if (newCode == null) {
+                it?.let {
+                    newCode = it
+                    binding.scanProgress.visibility = View.GONE
+                    showScanResultDialog(it)
+                }
             }
         }
     }
@@ -191,7 +194,7 @@ class ScanningFragment : Fragment() {
             }
     }
 
-    private fun buildImageAnalysis(screenAspectRatio: Int, rotation: Int): ImageAnalysis? {
+    private fun buildImageAnalysis(screenAspectRatio: Int, rotation: Int): ImageAnalysis {
         return ImageAnalysis.Builder()
             .setTargetAspectRatio(screenAspectRatio)
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
@@ -239,6 +242,8 @@ class ScanningFragment : Fragment() {
 
         override fun onScanned(resultCode: Code) {
             viewModel.addCode(resultCode)
+            viewModel.setScannerWorkState(false)
+            binding.scanProgress.visibility = View.VISIBLE
         }
     }
 
