@@ -4,7 +4,7 @@ import android.app.Dialog
 import android.app.SearchManager
 import android.content.*
 import android.os.Bundle
-import android.util.Log
+import android.os.Parcelable
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -14,18 +14,18 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.mlkit.vision.barcode.Barcode
 import com.t_ovchinnikova.android.scandroid_2.R
 import com.t_ovchinnikova.android.scandroid_2.databinding.DialogEditCodeNoteBinding
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanResultDialogBinding
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import com.t_ovchinnikova.android.scandroid_2.domain.formatToStringId
 import com.t_ovchinnikova.android.scandroid_2.domain.typeToString
+import com.t_ovchinnikova.android.scandroid_2.presentation.view.EditCodeNoteListener
 import java.text.SimpleDateFormat
 import java.util.*
 
 @Suppress("NAME_SHADOWING")
-class ScanResultDialog: BottomSheetDialogFragment() {
+class ScanResultDialog : BottomSheetDialogFragment(), EditCodeNoteListener {
 
     private lateinit var binding: FragmentScanResultDialogBinding
     private lateinit var resultCode: Code
@@ -99,7 +99,8 @@ class ScanResultDialog: BottomSheetDialogFragment() {
     }
 
     private fun copyToClipboard(text: String) {
-        val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clipboard =
+            requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip: ClipData = ClipData.newPlainText("code text", text)
         clipboard.setPrimaryClip(clip)
         Toast.makeText(requireContext(), R.string.barcode_copied, Toast.LENGTH_SHORT).show()
@@ -171,7 +172,7 @@ class ScanResultDialog: BottomSheetDialogFragment() {
 
     private fun showDeleteDialog() {
         val listener = DialogInterface.OnClickListener { dialog, which ->
-            when(which) {
+            when (which) {
                 DialogInterface.BUTTON_POSITIVE -> deleteBarcode()
                 DialogInterface.BUTTON_NEGATIVE -> dialog.dismiss()
             }
@@ -187,10 +188,10 @@ class ScanResultDialog: BottomSheetDialogFragment() {
     }
 
     private fun showEditDialog() {
-        val noteBinding = DialogEditCodeNoteBinding.inflate(layoutInflater)
+        /*val noteBinding = DialogEditCodeNoteBinding.inflate(layoutInflater)
         noteBinding.etNote.setText(editedCode.note)
-        val listener = DialogInterface.OnClickListener{ dialog, which ->
-            when(which) {
+        val listener = DialogInterface.OnClickListener { dialog, which ->
+            when (which) {
                 DialogInterface.BUTTON_POSITIVE -> {
                     val note = noteBinding.etNote.text.toString()
                     if (editedCode.note != note) {
@@ -210,7 +211,10 @@ class ScanResultDialog: BottomSheetDialogFragment() {
             .setPositiveButton(R.string.save, listener)
             .setNegativeButton(R.string.cancel, listener)
             .create()
-        dialog.show()
+        dialog.show()*/
+
+        val dialog = EditCodeNoteDialogFragment.newInstance(editedCode.note)
+        dialog.show(childFragmentManager, "")
     }
 
     private fun deleteBarcode() {
@@ -235,6 +239,12 @@ class ScanResultDialog: BottomSheetDialogFragment() {
         val layoutParams = bottomSheet.layoutParams
         layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT
         bottomSheet.layoutParams = layoutParams
+    }
+
+    override fun onNoteConfirmed(note: String) {
+        editedCode.note = note
+        viewModel.updateBarcode(editedCode)
+        showNote()
     }
 
     companion object {

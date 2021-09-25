@@ -33,7 +33,7 @@ class HistoryFragment : Fragment() {
 
         setupRecyclerView()
         setupSwipeListener(rvHistoryList)
-        viewModel.codeListLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.codeListLiveData.observe(viewLifecycleOwner, {
             codeListAdapter.submitList(it)
         })
     }
