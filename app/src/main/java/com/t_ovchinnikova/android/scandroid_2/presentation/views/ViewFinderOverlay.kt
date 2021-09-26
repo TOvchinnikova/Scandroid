@@ -1,4 +1,4 @@
-package com.t_ovchinnikova.android.scandroid_2.presentation.view
+package com.t_ovchinnikova.android.scandroid_2.presentation.views
 
 import android.content.Context
 import android.graphics.*

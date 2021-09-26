@@ -99,7 +99,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvType" />
 
-            <com.t_ovchinnikova.android.scandroid_2.presentation.view.IconButton
+            <com.t_ovchinnikova.android.scandroid_2.presentation.views.IconButton
                 android:id="@+id/buttonCopy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -110,7 +110,7 @@
                 app:layout_constraintTop_toBottomOf="@id/viewLine"
                 />
 
-            <com.t_ovchinnikova.android.scandroid_2.presentation.view.IconButton
+            <com.t_ovchinnikova.android.scandroid_2.presentation.views.IconButton
                 android:id="@+id/buttonSearchOnInternet"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -121,7 +121,7 @@
                 app:layout_constraintTop_toBottomOf="@id/buttonCopy"
                 />
 
-            <com.t_ovchinnikova.android.scandroid_2.presentation.view.IconButton
+            <com.t_ovchinnikova.android.scandroid_2.presentation.views.IconButton
                 android:id="@+id/buttonSend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
