@@ -19,8 +19,8 @@ class EditCodeNoteDialogFragment : DialogFragment() {
             when (which) {
                 DialogInterface.BUTTON_POSITIVE -> {
                     val listener = requireParentFragment() as EditCodeNoteListener
-                    val note = noteBinding.etNote.text.toString()
-                    listener.onNoteConfirmed(note)
+                    val newNote = noteBinding.etNote.text.toString()
+                    listener.onNoteConfirmed(newNote)
                 }
                 DialogInterface.BUTTON_NEGATIVE -> dialog.dismiss()
             }

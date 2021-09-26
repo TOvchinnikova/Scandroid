@@ -5,6 +5,7 @@ import android.app.SearchManager
 import android.content.*
 import android.os.Bundle
 import android.os.Parcelable
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -65,8 +66,16 @@ class ScanResultDialog : BottomSheetDialogFragment(), EditCodeNoteListener {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentScanResultDialogBinding.inflate(inflater, container, false)
-        resultCode = arguments?.getSerializable(ARG_SCAN_RESULT) as Code
-        editedCode = resultCode.copy()
+
+        if (savedInstanceState == null) {
+            resultCode = arguments?.getSerializable(ARG_SCAN_RESULT) as Code
+            viewModel.editCode(resultCode)
+            editedCode = resultCode.copy()
+        } else {
+            editedCode = viewModel.code.value ?: throw RuntimeException("Unknown code")
+            Log.d("MyLog", "$editedCode")
+        }
+
         return binding.root
     }
 
