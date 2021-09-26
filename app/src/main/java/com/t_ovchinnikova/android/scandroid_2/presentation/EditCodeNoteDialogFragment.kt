@@ -7,7 +7,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.t_ovchinnikova.android.scandroid_2.R
 import com.t_ovchinnikova.android.scandroid_2.databinding.DialogEditCodeNoteBinding
-import com.t_ovchinnikova.android.scandroid_2.presentation.view.EditCodeNoteListener
 
 class EditCodeNoteDialogFragment : DialogFragment() {
 

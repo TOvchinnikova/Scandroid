@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.app.SearchManager
 import android.content.*
 import android.os.Bundle
-import android.os.Parcelable
 import android.util.Log
 import android.view.*
 import android.widget.Toast
@@ -16,17 +15,15 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.t_ovchinnikova.android.scandroid_2.R
-import com.t_ovchinnikova.android.scandroid_2.databinding.DialogEditCodeNoteBinding
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanResultDialogBinding
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import com.t_ovchinnikova.android.scandroid_2.domain.formatToStringId
 import com.t_ovchinnikova.android.scandroid_2.domain.typeToString
-import com.t_ovchinnikova.android.scandroid_2.presentation.view.EditCodeNoteListener
 import java.text.SimpleDateFormat
 import java.util.*
 
 @Suppress("NAME_SHADOWING")
-class ScanResultDialog : BottomSheetDialogFragment(), EditCodeNoteListener {
+class ScanResultDialog : BottomSheetDialogFragment(), EditCodeNoteListener, DeleteCodeListener {
 
     private lateinit var binding: FragmentScanResultDialogBinding
     private lateinit var resultCode: Code
@@ -180,48 +177,11 @@ class ScanResultDialog : BottomSheetDialogFragment(), EditCodeNoteListener {
     }
 
     private fun showDeleteDialog() {
-        val listener = DialogInterface.OnClickListener { dialog, which ->
-            when (which) {
-                DialogInterface.BUTTON_POSITIVE -> deleteBarcode()
-                DialogInterface.BUTTON_NEGATIVE -> dialog.dismiss()
-            }
-        }
-        val dialog = AlertDialog.Builder(requireContext())
-            .setCancelable(false)
-            .setIcon(R.drawable.ic_delete_light_blue)
-            .setTitle(R.string.delete_question_dialog)
-            .setPositiveButton(R.string.yes, listener)
-            .setNegativeButton(R.string.no, listener)
-            .create()
-        dialog.show()
+        val dialog = DeleteCodeDialogFragment.newInstance()
+        dialog.show(childFragmentManager, "")
     }
 
     private fun showEditDialog() {
-        /*val noteBinding = DialogEditCodeNoteBinding.inflate(layoutInflater)
-        noteBinding.etNote.setText(editedCode.note)
-        val listener = DialogInterface.OnClickListener { dialog, which ->
-            when (which) {
-                DialogInterface.BUTTON_POSITIVE -> {
-                    val note = noteBinding.etNote.text.toString()
-                    if (editedCode.note != note) {
-                        editedCode.note = note
-                        viewModel.updateBarcode(editedCode)
-                        showNote()
-                    }
-                }
-                DialogInterface.BUTTON_NEGATIVE -> dialog.dismiss()
-            }
-        }
-        val dialog = AlertDialog.Builder(requireContext())
-            .setCancelable(false)
-            .setIcon(R.drawable.ic_edit_light_blue)
-            .setTitle(R.string.note)
-            .setView(noteBinding.root)
-            .setPositiveButton(R.string.save, listener)
-            .setNegativeButton(R.string.cancel, listener)
-            .create()
-        dialog.show()*/
-
         val dialog = EditCodeNoteDialogFragment.newInstance(editedCode.note)
         dialog.show(childFragmentManager, "")
     }
@@ -254,6 +214,10 @@ class ScanResultDialog : BottomSheetDialogFragment(), EditCodeNoteListener {
         editedCode.note = note
         viewModel.updateBarcode(editedCode)
         showNote()
+    }
+
+    override fun onNoteConfirmed() {
+        deleteBarcode()
     }
 
     companion object {
