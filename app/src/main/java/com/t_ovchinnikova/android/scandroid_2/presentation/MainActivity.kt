@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         when (bottomItemId) {
             R.id.menu_scanner -> replaceFragment(ScanningFragment.newInstance())
             R.id.menu_history -> replaceFragment(HistoryFragment.newInstance())
+            R.id.menu_settings -> replaceFragment(SettingsFragment.newInstance())
         }
     }
 
