@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import com.t_ovchinnikova.android.scandroid_2.ScanAnalyzer
+import com.t_ovchinnikova.android.scandroid_2.Settings
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanningBinding
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import java.util.concurrent.ExecutorService
@@ -39,12 +40,14 @@ class ScanningFragment : Fragment() {
     private var flashState: Boolean = false
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
     private var newCode: Code? = null
+    private lateinit var settings: Settings
 
     private val viewModel by viewModels<ScanningViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         cameraExecutor = Executors.newSingleThreadExecutor()
+        settings = Settings(requireContext())
     }
 
     override fun onCreateView(
@@ -62,7 +65,7 @@ class ScanningFragment : Fragment() {
         setupViewModel()
         if (savedInstanceState == null) {
             viewModel.setScannerWorkState(true)
-            viewModel.switchFlash(false)
+            viewModel.switchFlash(settings.flash)
         }
         initView()
     }
@@ -125,8 +128,9 @@ class ScanningFragment : Fragment() {
         viewModel.newCode.observe(viewLifecycleOwner) {
             if (newCode == null) {
                 it?.let {
-                    newCode = it
+                    Log.d("MyLog", "newCode.observe")
                     binding.scanProgress.visibility = View.GONE
+                    newCode = it
                     showScanResultDialog(it)
                 }
             }
@@ -241,9 +245,9 @@ class ScanningFragment : Fragment() {
     inner class ScanListener : ScanResultListener {
 
         override fun onScanned(resultCode: Code) {
-            viewModel.addCode(resultCode)
-            viewModel.setScannerWorkState(false)
             binding.scanProgress.visibility = View.VISIBLE
+            viewModel.addCode(resultCode, settings.saveScannedBarcodesToHistory)
+            viewModel.setScannerWorkState(false)
         }
     }
 

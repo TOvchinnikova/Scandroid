@@ -32,10 +32,15 @@ class ScanningViewModel: ViewModel() {
         _flashState.value = state
     }
 
-    fun addCode(code: Code) {
-        viewModelScope.launch {
-            val id = codeRepository.addCode(code)
-            code.id = id
+    fun addCode(code: Code, isSave: Boolean) {
+        if (isSave) {
+            viewModelScope.launch {
+                delay(5000)
+                val id = codeRepository.addCode(code)
+                code.id = id
+                _newCode.value = code
+            }
+        } else {
             _newCode.value = code
         }
     }
