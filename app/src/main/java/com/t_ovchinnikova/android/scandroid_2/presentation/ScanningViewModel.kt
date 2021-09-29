@@ -35,7 +35,6 @@ class ScanningViewModel: ViewModel() {
     fun addCode(code: Code, isSave: Boolean) {
         if (isSave) {
             viewModelScope.launch {
-                delay(5000)
                 val id = codeRepository.addCode(code)
                 code.id = id
                 _newCode.value = code

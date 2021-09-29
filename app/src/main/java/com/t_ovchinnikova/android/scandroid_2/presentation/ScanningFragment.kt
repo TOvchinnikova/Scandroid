@@ -2,8 +2,12 @@ package com.t_ovchinnikova.android.scandroid_2.presentation
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.Rational
@@ -13,10 +17,10 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.*
-import androidx.camera.core.Camera
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
@@ -41,6 +45,7 @@ class ScanningFragment : Fragment() {
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
     private var newCode: Code? = null
     private lateinit var settings: Settings
+    private val vibrationPattern = arrayOf<Long>(0, 350).toLongArray()
 
     private val viewModel by viewModels<ScanningViewModel>()
 
@@ -242,9 +247,19 @@ class ScanningFragment : Fragment() {
     private fun isFlashAvailable() = requireContext().packageManager
         .hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)
 
+    private fun vibrate() {
+        val vibrator = context?.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createOneShot(350, VibrationEffect.DEFAULT_AMPLITUDE))
+        } else {
+            vibrator.vibrate(350)
+       }
+    }
+
     inner class ScanListener : ScanResultListener {
 
         override fun onScanned(resultCode: Code) {
+            if (settings.vibrate) vibrate()
             binding.scanProgress.visibility = View.VISIBLE
             viewModel.addCode(resultCode, settings.saveScannedBarcodesToHistory)
             viewModel.setScannerWorkState(false)
