@@ -133,7 +133,6 @@ class ScanningFragment : Fragment() {
         viewModel.newCode.observe(viewLifecycleOwner) {
             if (newCode == null) {
                 it?.let {
-                    Log.d("MyLog", "newCode.observe")
                     binding.scanProgress.visibility = View.GONE
                     newCode = it
                     showScanResultDialog(it)

@@ -21,6 +21,7 @@
     <string name="copy_to_clipboard">Copy to clipboard</string>
     <string name="barcode_copied">Copied to clipboard</string>
     <string name="barcode_search">Search on the internet</string>
+    <string name="barcode_search_on_list">Search on the list</string>
     <string name="barcode_share_text">Share as text</string>
 
     <!--Settings-->
