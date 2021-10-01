@@ -70,9 +70,7 @@ class ScanResultDialog : BottomSheetDialogFragment(), EditCodeNoteListener, Dele
             editedCode = resultCode.copy()
         } else {
             editedCode = viewModel.code.value ?: throw RuntimeException("Unknown code")
-            Log.d("MyLog", "$editedCode")
         }
-
         return binding.root
     }
 
@@ -84,9 +82,15 @@ class ScanResultDialog : BottomSheetDialogFragment(), EditCodeNoteListener, Dele
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-
-        parentFragment?.let {
-            ViewModelProvider(it).get(ScanningViewModel::class.java).setScannerWorkState(true)
+        if (parentFragment is ScanningFragment) {
+            parentFragment?.let {
+                ViewModelProvider(it).get(ScanningViewModel::class.java).setScannerWorkState(true)
+            }
+        }
+        if (parentFragment is HistoryFragment) {
+            parentFragment?.let {
+                ViewModelProvider(it).get(HistoryViewModel::class.java).showCodeDialog(false)
+            }
         }
     }
 

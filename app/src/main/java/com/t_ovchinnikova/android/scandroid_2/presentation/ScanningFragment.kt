@@ -45,7 +45,6 @@ class ScanningFragment : Fragment() {
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
     private var newCode: Code? = null
     private lateinit var settings: Settings
-    private val vibrationPattern = arrayOf<Long>(0, 350).toLongArray()
 
     private val viewModel by viewModels<ScanningViewModel>()
 

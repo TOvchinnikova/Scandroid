@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanningHistoryBinding
@@ -51,8 +50,11 @@ class HistoryFragment : Fragment() {
 
     private fun setupClickListener() {
         codeListAdapter.onCodeItemClickListener = {
-            ScanResultDialog.newInstance(it)
-                .show(childFragmentManager, ScanResultDialog::class.java.simpleName)
+            if (viewModel.codeDialogShowed.value != true) {
+                viewModel.showCodeDialog(true)
+                ScanResultDialog.newInstance(it)
+                    .show(childFragmentManager, ScanResultDialog::class.java.simpleName)
+            }
         }
     }
 
