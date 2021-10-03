@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
-        style="@style/AppBarLayoutStyle">
+    <com.google.android.material.appbar.AppBarLayout style="@style/AppBarLayoutStyle">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
@@ -30,22 +29,20 @@
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-        <EditText
-            android:id="@+id/etSearch"
+        <include
+            android:id="@+id/searchContainer"
+            layout="@layout/search_header_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="7dp"
-            android:drawableStart="@drawable/ic_search_gray"
-            android:hint="@string/barcode_search_on_list"
-            android:textColor="@color/white"
-            android:textColorHint="@color/light_gray"
-            android:background="@drawable/edit_text_bg"
-            android:padding="5dp"/>
+            />
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
