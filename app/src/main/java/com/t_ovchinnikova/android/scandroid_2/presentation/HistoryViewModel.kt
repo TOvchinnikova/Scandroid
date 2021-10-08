@@ -7,11 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.t_ovchinnikova.android.scandroid_2.data.CodeRepository
 import kotlinx.coroutines.launch
 
-class HistoryViewModel: ViewModel() {
+class HistoryViewModel : ViewModel() {
 
     private val codeRepository = CodeRepository.get()
 
     val codeListLiveData = codeRepository.getCodes()
+
     private val _codeDialogShowed = MutableLiveData<Boolean>()
     val codeDialogShowed: LiveData<Boolean> = _codeDialogShowed
 
@@ -24,4 +25,5 @@ class HistoryViewModel: ViewModel() {
     fun showCodeDialog(isShowed: Boolean) {
         _codeDialogShowed.value = isShowed
     }
+
 }

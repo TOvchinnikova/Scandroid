@@ -3,6 +3,7 @@ package com.t_ovchinnikova.android.scandroid_2.data
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
+import org.jetbrains.annotations.NotNull
 
 @Dao
 interface CodeDao {
@@ -18,5 +19,8 @@ interface CodeDao {
 
     @Query("DELETE FROM codes WHERE id = :id")
     suspend fun deleteCode(id: Long)
+
+    @Query("SELECT * FROM codes WHERE text LIKE '%' || :filterText || '%' ORDER BY date DESC")
+    fun getCodesWithFilter(filterText: String): LiveData<List<CodeDbModel>>
 
 }
