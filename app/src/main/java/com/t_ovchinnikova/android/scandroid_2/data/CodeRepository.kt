@@ -1,11 +1,12 @@
 package com.t_ovchinnikova.android.scandroid_2.data
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 
-class CodeRepository (application: Application) {
+class CodeRepository(application: Application) {
 
     private val database: CodeDatabase = CodeDatabase.newInstance(application)
 
@@ -25,6 +26,12 @@ class CodeRepository (application: Application) {
         Transformations.map(codeDao.getCodes()) {
             mapper.mapListDbModelToListEntity(it)
         }
+
+    fun getCodesWithFilter(filterText: String = ""): LiveData<List<Code>> =
+        Transformations.map(codeDao.getCodesWithFilter(filterText)) {
+            mapper.mapListDbModelToListEntity(it)
+        }
+
 
     companion object {
         private var INSTANCE: CodeRepository? = null

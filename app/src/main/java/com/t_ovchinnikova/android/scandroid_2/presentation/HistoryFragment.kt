@@ -57,7 +57,7 @@ class HistoryFragment : Fragment() {
                     }
                 }
                 etSearch.doOnTextChanged { text, _, _, _ ->
-                    Log.d("MyLog", "$text")
+                    //Log.d("MyLog", "$text")
                     filterList(text.toString())
                 }
                 etSearch.setOnKeyListener { view, keyCode, _ ->
@@ -69,20 +69,6 @@ class HistoryFragment : Fragment() {
                 }
             }
         }
-    }
-
-    private fun filterList(text: String) {
-
-    }
-
-    private fun hideKeyboard(activity: Activity) {
-        val imm: InputMethodManager =
-            activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        var view = activity.currentFocus
-        if (view == null) {
-            view = View(activity)
-        }
-        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     private fun setupRecyclerView() {
@@ -127,8 +113,24 @@ class HistoryFragment : Fragment() {
 
     private fun setupViewModel() {
         viewModel.codeListLiveData.observe(viewLifecycleOwner, {
-            codeListAdapter.submitList(it)
+            val list = it.filter { it.text.contains(binding.searchContainer.etSearch.text.toString()) }
+            codeListAdapter.submitList(list)
         })
+    }
+
+    private fun filterList(filterText: String) {
+        val list = viewModel.codeListLiveData.value?.filter { it.text.contains(filterText) }
+        codeListAdapter.submitList(list)
+    }
+
+    private fun hideKeyboard(activity: Activity) {
+        val imm: InputMethodManager =
+            activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        var view = activity.currentFocus
+        if (view == null) {
+            view = View(activity)
+        }
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     companion object {
