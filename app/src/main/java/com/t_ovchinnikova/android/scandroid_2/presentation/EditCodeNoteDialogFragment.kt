@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.t_ovchinnikova.android.scandroid_2.R
 import com.t_ovchinnikova.android.scandroid_2.databinding.DialogEditCodeNoteBinding
 
@@ -25,7 +26,7 @@ class EditCodeNoteDialogFragment : DialogFragment() {
             }
         }
 
-        return AlertDialog.Builder(requireContext())
+        return MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogTheme)
             .setCancelable(false)
             .setIcon(R.drawable.ic_edit_light_blue)
             .setTitle(R.string.note)

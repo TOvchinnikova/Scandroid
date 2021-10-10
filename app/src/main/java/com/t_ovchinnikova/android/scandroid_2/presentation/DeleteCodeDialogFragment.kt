@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.t_ovchinnikova.android.scandroid_2.R
 
 class DeleteCodeDialogFragment : DialogFragment() {
@@ -19,7 +20,7 @@ class DeleteCodeDialogFragment : DialogFragment() {
                 DialogInterface.BUTTON_NEGATIVE -> dialog.dismiss()
             }
         }
-        return AlertDialog.Builder(requireContext())
+        return MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogTheme)
             .setCancelable(false)
             .setIcon(R.drawable.ic_delete_light_blue)
             .setTitle(R.string.delete_question_dialog)
