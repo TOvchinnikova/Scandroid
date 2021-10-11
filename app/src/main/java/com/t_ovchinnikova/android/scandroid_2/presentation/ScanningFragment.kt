@@ -16,6 +16,8 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.MainThread
+import androidx.annotation.RequiresApi
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
@@ -30,6 +32,16 @@ import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanningBindin
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import android.view.WindowManager
+import android.view.WindowInsets
+
+import android.view.WindowMetrics
+
+
+
+
+
+
 
 
 class ScanningFragment : Fragment() {
@@ -104,7 +116,7 @@ class ScanningFragment : Fragment() {
                 overlay.setViewFinder()
             }
             bottomActionBar.imageAnalizeButton.setOnClickListener {
-                Toast.makeText(requireContext(), "supa dupa!!!", Toast.LENGTH_SHORT).show()
+                //Todo
             }
             flashButton = bottomActionBar.flashButton
         }
@@ -170,14 +182,13 @@ class ScanningFragment : Fragment() {
 
     @SuppressLint("UnsafeOptInUsageError")
     private fun bindCameraUseCases(cameraProvider: ProcessCameraProvider) {
-        val metrics = DisplayMetrics().also { viewFinder.display.getRealMetrics(it) }
-        val screenAspectRatio = Rational(metrics.widthPixels, metrics.heightPixels).toInt()
-        val rotation = viewFinder.display.rotation
+        val display = viewFinder.display
+        val screenAspectRatio = getScreenAspectRatio()
+        val rotation = display.rotation
         val preview = buildPreview(screenAspectRatio, rotation)
         imageAnalysis = buildImageAnalysis(screenAspectRatio, rotation)
         val cameraSelector = buildCameraSelector()
         addOrientationEventListener(preview)
-        cameraExecutor = Executors.newSingleThreadExecutor()
         val scanListener = ScanListener()
         val analyzer = ScanAnalyzer(scanListener)
         imageAnalysis?.setAnalyzer(cameraExecutor, analyzer)
@@ -189,6 +200,22 @@ class ScanningFragment : Fragment() {
             flashButton.visibility = View.VISIBLE
             toggleFlash()
         }
+    }
+
+    private fun getScreenAspectRatio(): Int {
+        val width: Int
+        val height: Int
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val windowMetrics = requireContext().getSystemService(Context.WINDOW_SERVICE) as WindowManager
+            val currentWindowMetrics = windowMetrics.currentWindowMetrics
+            width = currentWindowMetrics.bounds.width()
+            height = currentWindowMetrics.bounds.height()
+        } else {
+            val metrics = DisplayMetrics().also { viewFinder.display.getRealMetrics(it) }
+            width = metrics.widthPixels
+            height = metrics.heightPixels
+        }
+        return Rational(width, height).toInt()
     }
 
     private fun buildPreview(screenAspectRatio: Int, rotation: Int): Preview {
