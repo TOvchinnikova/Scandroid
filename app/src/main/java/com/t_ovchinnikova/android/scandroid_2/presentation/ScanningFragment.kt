@@ -3,11 +3,9 @@ package com.t_ovchinnikova.android.scandroid_2.presentation
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Context.VIBRATOR_SERVICE
 import android.content.pm.PackageManager
-import android.os.Build
-import android.os.Bundle
-import android.os.VibrationEffect
-import android.os.Vibrator
+import android.os.*
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.Rational
@@ -36,12 +34,6 @@ import android.view.WindowManager
 import android.view.WindowInsets
 
 import android.view.WindowMetrics
-
-
-
-
-
-
 
 
 class ScanningFragment : Fragment() {
@@ -205,7 +197,7 @@ class ScanningFragment : Fragment() {
     private fun getScreenAspectRatio(): Int {
         val width: Int
         val height: Int
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             val windowMetrics = requireContext().getSystemService(Context.WINDOW_SERVICE) as WindowManager
             val currentWindowMetrics = windowMetrics.currentWindowMetrics
             width = currentWindowMetrics.bounds.width()
@@ -273,7 +265,13 @@ class ScanningFragment : Fragment() {
         .hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)
 
     private fun vibrate() {
-        val vibrator = context?.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val vibratorManager =  requireContext()
+                .getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
+            vibratorManager.defaultVibrator;
+        } else {
+            requireContext().getSystemService(VIBRATOR_SERVICE) as Vibrator
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             vibrator.vibrate(VibrationEffect.createOneShot(350, VibrationEffect.DEFAULT_AMPLITUDE))
         } else {
