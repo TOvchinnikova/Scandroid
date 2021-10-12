@@ -56,9 +56,7 @@
 
             <View
                 android:id="@+id/viewVibrate"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/light_blue"
+                style="@style/LineViewStyle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvVibrateHint"
@@ -95,9 +93,7 @@
 
             <View
                 android:id="@+id/viewFlash"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/light_blue"
+                style="@style/LineViewStyle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvFlashHint"
@@ -133,9 +129,7 @@
                 tools:ignore="UseSwitchCompatOrMaterialXml" />
 
             <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/light_blue"
+                style="@style/LineViewStyle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvSaveHint"
