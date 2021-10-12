@@ -6,6 +6,9 @@
     <attr name="isDelimiterVisible" format="boolean" />
     <attr name="icon" format="reference" />
     <attr name="iconBackground" format="color" />
+    <attr name="iconBackgroundStrokeColor" format="color" />
+    <attr name="editSearchViewBackgroundColor" format="color" />
+    <attr name="editSearchViewBackgroundStrokeColor" format="color" />
 
     <declare-styleable name="IconButton">
         <attr name="icon" />

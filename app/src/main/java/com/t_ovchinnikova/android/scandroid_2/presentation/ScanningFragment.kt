@@ -203,7 +203,9 @@ class ScanningFragment : Fragment() {
             width = currentWindowMetrics.bounds.width()
             height = currentWindowMetrics.bounds.height()
         } else {
-            val metrics = DisplayMetrics().also { viewFinder.display.getRealMetrics(it) }
+            val displayMetrics = DisplayMetrics()
+            val display = viewFinder.display
+            val metrics = displayMetrics.also { display.getRealMetrics(it) }
             width = metrics.widthPixels
             height = metrics.heightPixels
         }

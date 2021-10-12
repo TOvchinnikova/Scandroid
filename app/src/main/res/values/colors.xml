@@ -15,4 +15,8 @@
     <color name="gray">#686565</color>
     <color name="dark_gray">#4C4B4B</color>
     <color name="light_blue">#50DADF</color>
+    <color name="search_view_backgroundColor">#4C4B4B</color>
+    <color name="search_view_backgroundStrokeColor">#48CFC6C6</color>
+    <color name="buttonOval_backgroundStrokeColor">#48CFC6C6</color>
+    <color name="buttonOval_backgroundColor">#FF018786</color>
 </resources>

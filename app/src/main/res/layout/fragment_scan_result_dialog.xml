@@ -89,12 +89,10 @@
 
             <View
                 android:id="@+id/viewLine"
-                android:layout_width="match_parent"
-                android:layout_height="1.5dp"
+                style="@style/LineViewStyle"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="15dp"
-                android:background="@color/light_blue"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvType" />
