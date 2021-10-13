@@ -15,9 +15,15 @@
         <entry key="..\:/Users/User/AndroidStudioProjects/Scandroid/app/src/main/res/drawable/ic_barcode.xml" value="0.22135416666666666" />
         <entry key="..\:/Users/User/AndroidStudioProjects/Scandroid/app/src/main/res/drawable/ic_clear.xml" value="0.3177083333333333" />
         <entry key="..\:/Users/User/AndroidStudioProjects/Scandroid/app/src/main/res/drawable/ic_close.xml" value="0.3769230769230769" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/Scandroid/app/src/main/res/drawable/ic_edit.xml" value="0.3828125" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/Scandroid/app/src/main/res/drawable/ic_favorite_off.xml" value="0.3828125" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/Scandroid/app/src/main/res/drawable/ic_favorite_on.xml" value="0.3828125" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/Scandroid/app/src/main/res/drawable/ic_scanner_qr.xml" value="0.3177083333333333" />
         <entry key="..\:/Users/User/AndroidStudioProjects/Scandroid/app/src/main/res/drawable/ic_search.xml" value="0.3769230769230769" />
         <entry key="..\:/Users/User/AndroidStudioProjects/Scandroid/app/src/main/res/drawable/ic_search_gray.xml" value="0.3828125" />
         <entry key="..\:/Users/User/AndroidStudioProjects/Scandroid/app/src/main/res/drawable/ic_send.xml" value="0.3177083333333333" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/Scandroid/app/src/main/res/drawable/ic_settings.xml" value="0.3177083333333333" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/Scandroid/app/src/main/res/layout/activity_main.xml" value="0.3015625" />
         <entry key="..\:/Users/User/AndroidStudioProjects/Scandroid/app/src/main/res/layout/bottom_action_bar_scanning.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/User/AndroidStudioProjects/Scandroid/app/src/main/res/layout/dialog_edit_code_note.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/User/AndroidStudioProjects/Scandroid/app/src/main/res/layout/fragment_scan_result_dialog.xml" value="0.36102564102564105" />

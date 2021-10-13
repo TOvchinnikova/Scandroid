@@ -3,20 +3,42 @@
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_200">#20D3C1</color>
+    <color name="teal_100">#77A59F</color>
     <color name="teal_700">#FF018786</color>
+    <color name="dark_teal">#024A4A</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="light_gray">#48CFC6C6</color>
+    <color name="off_white">#BEFFFFFF</color>
+    <color name="gray">#686565</color>
+    <color name="dark_gray">#4C4B4B</color>
+    <color name="light_blue">#50DADF</color>
+    <color name="yellow">#FFEA00</color>
+
+    <color name="colorPrimary">@color/teal_700</color>
+    <color name="colorPrimaryVariant">@color/teal_700</color>
 
     <color name="barcode_reticle_background">#99000000</color>
     <color name="barcode_reticle_stroke">#ffffff</color>
     <color name="disabled">#00000000</color>
-    <color name="gray">#686565</color>
-    <color name="dark_gray">#4C4B4B</color>
-    <color name="light_blue">#50DADF</color>
-    <color name="search_view_backgroundColor">#4C4B4B</color>
-    <color name="search_view_backgroundStrokeColor">#48CFC6C6</color>
-    <color name="buttonOval_backgroundStrokeColor">#48CFC6C6</color>
-    <color name="buttonOval_backgroundColor">#FF018786</color>
+
+    <color name="search_view_backgroundColor">@color/dark_teal</color>
+    <color name="search_view_backgroundStrokeColor">@color/light_gray</color>
+    <color name="search_view_textColor">@color/white</color>
+    <color name="search_view_HintTextColor">@color/teal_100</color>
+
+    <color name="buttonOval_backgroundStrokeColor">@color/light_gray</color>
+    <color name="buttonOval_backgroundColor">@color/teal_700</color>
+
+    <color name="default_text_color">@color/black</color>
+    <color name="secondary_text_color">@color/gray</color>
+
+    <color name="favorite_icon_on">@color/yellow</color>
+    <color name="favorite_icon_off">@color/off_white</color>
+
+    <color name="toolbar_color">@color/colorPrimary</color>
+    <color name="toolbar_title_color">@color/white</color>
+
+    <color name="note_icon_color">@color/gray</color>
 </resources>

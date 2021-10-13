@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/teal_700</color>
+    <color name="colorPrimaryVariant">@color/teal_700</color>
+
+    <color name="search_view_backgroundColor">@color/off_white</color>
+    <color name="search_view_backgroundStrokeColor">@color/gray</color>
+    <color name="buttonOval_backgroundStrokeColor">@color/light_gray</color>
+
+    <color name="default_text_color">@color/white</color>
+    <color name="secondary_text_color">@color/gray</color>
+
+    <color name="search_view_textColor">@color/white</color>
+    <color name="search_view_HintTextColor">@color/gray</color>
+
+    <color name="toolbar_color">@color/teal_700</color>
+    <color name="toolbar_title_color">@color/white</color>
+
+    <color name="note_icon_color">@color/off_white</color>
+
+    <color name="favorite_icon_on">@color/white</color>
+    <color name="favorite_icon_off">@color/off_white</color>
+</resources>

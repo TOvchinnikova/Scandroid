@@ -7,13 +7,13 @@
 
     <TextView
         android:id="@+id/tvCode"
+        style="@style/DefaultTextViewStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="10dp"
         android:layout_marginEnd="10dp"
-        android:textColor="@color/black"
         android:maxLines="1"
         app:layout_constraintBottom_toTopOf="@+id/tvDate"
         app:layout_constraintEnd_toStartOf="@+id/ivIsFavorite"
@@ -23,12 +23,12 @@
 
     <TextView
         android:id="@+id/tvDate"
+        style="@style/SecondaryTextViewStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginBottom="15dp"
         tools:text="TextView"
-        android:textColor="@color/gray"
         app:layout_constraintBottom_toTopOf="@id/view"
         app:layout_constraintEnd_toStartOf="@+id/tvFormat"
         app:layout_constraintStart_toEndOf="@+id/ivCode"
@@ -58,13 +58,13 @@
 
     <TextView
         android:id="@+id/tvFormat"
+        style="@style/SecondaryTextViewStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="15dp"
         tools:text="TextView"
-        android:textColor="@color/gray"
         app:layout_constraintBottom_toTopOf="@id/view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tvDate" />
