@@ -65,7 +65,8 @@ class ScanResultDialog : BottomSheetDialogFragment(), EditCodeNoteListener, Dele
         binding = FragmentScanResultDialogBinding.inflate(inflater, container, false)
 
         if (savedInstanceState == null) {
-            resultCode = arguments?.getSerializable(ARG_SCAN_RESULT) as Code
+            resultCode = arguments?.getParcelable(ARG_SCAN_RESULT)
+                ?: throw RuntimeException("Required arguments were not passed")
             viewModel.editCode(resultCode)
             editedCode = resultCode.copy()
         } else {
@@ -230,7 +231,7 @@ class ScanResultDialog : BottomSheetDialogFragment(), EditCodeNoteListener, Dele
         fun newInstance(scanResult: Code): ScanResultDialog {
             return ScanResultDialog().apply {
                 arguments = Bundle().apply {
-                    putSerializable(ARG_SCAN_RESULT, scanResult)
+                    putParcelable(ARG_SCAN_RESULT, scanResult)
                 }
             }
         }
