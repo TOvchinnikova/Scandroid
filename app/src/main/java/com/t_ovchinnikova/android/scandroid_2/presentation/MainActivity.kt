@@ -41,4 +41,12 @@ class MainActivity : AppCompatActivity() {
             .setReorderingAllowed(true)
             .commit()
     }
+
+    override fun onBackPressed() {
+        if (bottomNavigationView.selectedItemId == R.id.menu_scanner) {
+            super.onBackPressed()
+        } else {
+            bottomNavigationView.selectedItemId = R.id.menu_scanner
+        }
+    }
 }
