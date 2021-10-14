@@ -22,6 +22,12 @@ class HistoryViewModel : ViewModel() {
         }
     }
 
+    fun deleteAllCodes() {
+        viewModelScope.launch {
+            codeRepository.deleteAllCodes()
+        }
+    }
+
     fun showCodeDialog(isShowed: Boolean) {
         _codeDialogShowed.value = isShowed
     }

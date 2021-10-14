@@ -36,7 +36,8 @@ class ScanResultDialog : BottomSheetDialogFragment(), EditCodeNoteListener, Dele
         dialog.setOnShowListener {
             val bottomSheetDialog = it as BottomSheetDialog
             val parentLayout =
-                bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+                bottomSheetDialog
+                    .findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
             parentLayout?.let { it ->
                 val behaviour = BottomSheetBehavior.from(it)
                 setupFullHeight(it)
@@ -182,7 +183,7 @@ class ScanResultDialog : BottomSheetDialogFragment(), EditCodeNoteListener, Dele
     }
 
     private fun showDeleteDialog() {
-        val dialog = DeleteCodeDialogFragment.newInstance()
+        val dialog = DeleteCodeDialogFragment.newInstance(DeleteCodeDialogFragment.DELETE_CODE)
         dialog.show(childFragmentManager, "")
     }
 
@@ -221,7 +222,7 @@ class ScanResultDialog : BottomSheetDialogFragment(), EditCodeNoteListener, Dele
         showNote()
     }
 
-    override fun onNoteConfirmed() {
+    override fun onDeleteConfirmed() {
         deleteBarcode()
     }
 

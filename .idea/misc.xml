@@ -19,6 +19,7 @@
         <entry key="..\:/Users/User/AndroidStudioProjects/Scandroid/app/src/main/res/drawable/ic_delete_light_blue.xml" value="0.3177083333333333" />
         <entry key="..\:/Users/User/AndroidStudioProjects/Scandroid/app/src/main/res/drawable/ic_edit.xml" value="0.3828125" />
         <entry key="..\:/Users/User/AndroidStudioProjects/Scandroid/app/src/main/res/drawable/ic_edit_light_blue.xml" value="0.3177083333333333" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/Scandroid/app/src/main/res/drawable/ic_edit_light_dialog.xml" value="0.3828125" />
         <entry key="..\:/Users/User/AndroidStudioProjects/Scandroid/app/src/main/res/drawable/ic_favorite_off.xml" value="0.3828125" />
         <entry key="..\:/Users/User/AndroidStudioProjects/Scandroid/app/src/main/res/drawable/ic_favorite_on.xml" value="0.3828125" />
         <entry key="..\:/Users/User/AndroidStudioProjects/Scandroid/app/src/main/res/drawable/ic_scanner_qr.xml" value="0.3177083333333333" />
@@ -37,6 +38,7 @@
         <entry key="..\:/Users/User/AndroidStudioProjects/Scandroid/app/src/main/res/layout/layout_icon_button.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/User/AndroidStudioProjects/Scandroid/app/src/main/res/layout/search_header_layout.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/User/AndroidStudioProjects/Scandroid/app/src/main/res/layout/test.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/Scandroid/app/src/main/res/menu/history_menu.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/User/AndroidStudioProjects/Scandroid/app/src/main/res/menu/main_menu.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/User/AndroidStudioProjects/Scandroid/app/src/main/res/menu/scan_result_dialog_menu.xml" value="0.36102564102564105" />
       </map>

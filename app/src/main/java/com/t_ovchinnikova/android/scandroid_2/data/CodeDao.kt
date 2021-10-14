@@ -20,6 +20,9 @@ interface CodeDao {
     @Query("DELETE FROM codes WHERE id = :id")
     suspend fun deleteCode(id: Long)
 
+    @Query("DELETE FROM codes")
+    suspend fun deleteAllCodes()
+
     @Query("SELECT * FROM codes WHERE text LIKE '%' || :filterText || '%' ORDER BY date DESC")
     fun getCodesWithFilter(filterText: String): LiveData<List<CodeDbModel>>
 

@@ -22,6 +22,10 @@ class CodeRepository(application: Application) {
         codeDao.deleteCode(codeId)
     }
 
+    suspend fun deleteAllCodes() {
+        codeDao.deleteAllCodes()
+    }
+
     fun getCodes(): LiveData<List<Code>> =
         Transformations.map(codeDao.getCodes()) {
             mapper.mapListDbModelToListEntity(it)

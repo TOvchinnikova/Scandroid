@@ -13,10 +13,12 @@ import android.app.Activity
 import android.util.Log
 import android.view.KeyEvent
 import android.view.inputmethod.InputMethodManager
+import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
+import com.t_ovchinnikova.android.scandroid_2.R
 
 
-class HistoryFragment : Fragment() {
+class HistoryFragment : Fragment(), DeleteCodeListener {
 
     private lateinit var rvHistoryList: RecyclerView
     private lateinit var binding: FragmentScanningHistoryBinding
@@ -57,7 +59,6 @@ class HistoryFragment : Fragment() {
                     }
                 }
                 etSearch.doOnTextChanged { text, _, _, _ ->
-                    //Log.d("MyLog", "$text")
                     filterList(text.toString())
                 }
                 etSearch.setOnKeyListener { view, keyCode, _ ->
@@ -67,6 +68,13 @@ class HistoryFragment : Fragment() {
                     }
                     return@setOnKeyListener true
                 }
+            }
+            tbHistory.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.delete -> showDeleteDialog()
+                    else -> throw RuntimeException("Unknown clicked item")
+                }
+                return@setOnMenuItemClickListener true
             }
         }
     }
@@ -113,7 +121,8 @@ class HistoryFragment : Fragment() {
 
     private fun setupViewModel() {
         viewModel.codeListLiveData.observe(viewLifecycleOwner, {
-            val list = it.filter { it.text.contains(binding.searchContainer.etSearch.text.toString()) }
+            val list =
+                it.filter { it.text.contains(binding.searchContainer.etSearch.text.toString()) }
             codeListAdapter.submitList(list)
         })
     }
@@ -137,6 +146,15 @@ class HistoryFragment : Fragment() {
         fun newInstance(): HistoryFragment {
             return HistoryFragment()
         }
+    }
+
+    private fun showDeleteDialog() {
+        val dialog = DeleteCodeDialogFragment.newInstance(DeleteCodeDialogFragment.DELETE_ALL_CODES)
+        dialog.show(childFragmentManager, "")
+    }
+
+    override fun onDeleteConfirmed() {
+        viewModel.deleteAllCodes()
     }
 
 }

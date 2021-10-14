@@ -9,8 +9,10 @@
     <string name="delete">Delete</string>
     <string name="favorite">Is favorite</string>
     <string name="delete_question_dialog">Delete?</string>
+    <string name="delete_all_question_dialog">Delete history?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="isEmpty">The list is empty</string>
 
     <string name="barcode_format">Format:</string>
     <string name="barcode_type">Type:</string>
