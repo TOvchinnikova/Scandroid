@@ -205,6 +205,8 @@ class ScanningFragment : Fragment() {
         } else {
             val displayMetrics = DisplayMetrics()
             val display = viewFinder.display
+            Log.d("MyLog", "displayMetrics $displayMetrics")
+            Log.d("MyLog", "display $display")
             val metrics = displayMetrics.also { display.getRealMetrics(it) }
             width = metrics.widthPixels
             height = metrics.heightPixels

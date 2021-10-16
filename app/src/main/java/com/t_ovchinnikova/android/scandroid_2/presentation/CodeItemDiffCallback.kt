@@ -11,8 +11,6 @@ class CodeItemDiffCallback: DiffUtil.ItemCallback<Code>() {
     }
 
     override fun areContentsTheSame(oldItem: Code, newItem: Code): Boolean {
-        Log.d("MyLog", "old $oldItem")
-        Log.d("MyLog", "new $newItem")
         return oldItem == newItem
     }
 }
