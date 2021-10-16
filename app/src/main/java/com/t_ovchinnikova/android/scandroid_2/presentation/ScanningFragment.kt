@@ -56,6 +56,7 @@ class ScanningFragment : Fragment() {
         super.onCreate(savedInstanceState)
         cameraExecutor = Executors.newSingleThreadExecutor()
         settings = Settings(requireContext())
+        launchPermission()
     }
 
     override fun onCreateView(
@@ -69,13 +70,12 @@ class ScanningFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        launchPermission()
+        initView()
         setupViewModel()
         if (savedInstanceState == null) {
             viewModel.setScannerWorkState(true)
             viewModel.switchFlash(settings.flash)
         }
-        initView()
     }
 
     override fun onDestroy() {
@@ -83,32 +83,11 @@ class ScanningFragment : Fragment() {
         cameraExecutor.shutdown()
     }
 
-    private fun launchPermission() {
-        requestPermissionLauncher =
-            registerForActivityResult(
-                ActivityResultContracts.RequestPermission()
-            ) { isGranted: Boolean ->
-                if (isGranted) {
-                    setupViewModel()
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        "Permissions not granted by the user.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-        requestPermissionLauncher.launch(Manifest.permission.CAMERA)
-    }
-
     private fun initView() {
         viewFinder = binding.viewFinder
         with(binding) {
             overlay.post {
                 overlay.setViewFinder()
-            }
-            bottomActionBar.imageAnalizeButton.setOnClickListener {
-                //Todo
             }
             flashButton = bottomActionBar.flashButton
         }
@@ -124,7 +103,9 @@ class ScanningFragment : Fragment() {
     private fun setupViewModel() {
         viewModel.scannerWorkState.observe(viewLifecycleOwner) {
             if (it) {
-                startCamera()
+                viewFinder.post {
+                    startCamera()
+                }
             } else {
                 stopCamera()
                 newCode = null
@@ -175,6 +156,7 @@ class ScanningFragment : Fragment() {
     @SuppressLint("UnsafeOptInUsageError")
     private fun bindCameraUseCases(cameraProvider: ProcessCameraProvider) {
         val display = viewFinder.display
+        Log.d("MyLog", "bindCameraUseCases: display $display")
         val screenAspectRatio = getScreenAspectRatio()
         val rotation = display.rotation
         val preview = buildPreview(screenAspectRatio, rotation)
@@ -205,8 +187,8 @@ class ScanningFragment : Fragment() {
         } else {
             val displayMetrics = DisplayMetrics()
             val display = viewFinder.display
-            Log.d("MyLog", "displayMetrics $displayMetrics")
-            Log.d("MyLog", "display $display")
+            Log.d("MyLog", "getScreenAspectRatio: displayMetrics $displayMetrics")
+            Log.d("MyLog", "getScreenAspectRatio: display $display")
             val metrics = displayMetrics.also { display.getRealMetrics(it) }
             width = metrics.widthPixels
             height = metrics.heightPixels
@@ -263,6 +245,24 @@ class ScanningFragment : Fragment() {
             }
         }
         orientationEventListener.enable()
+    }
+
+    private fun launchPermission() {
+        requestPermissionLauncher =
+            registerForActivityResult(
+                ActivityResultContracts.RequestPermission()
+            ) { isGranted: Boolean ->
+                if (isGranted) {
+                    return@registerForActivityResult
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "Permissions not granted by the user.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        requestPermissionLauncher.launch(Manifest.permission.CAMERA)
     }
 
     private fun isFlashAvailable() = requireContext().packageManager

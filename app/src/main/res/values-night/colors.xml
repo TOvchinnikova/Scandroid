@@ -18,6 +18,6 @@
 
     <color name="note_icon_color">@color/off_white</color>
 
-    <color name="favorite_icon_on">@color/white</color>
+    <color name="favorite_icon_on">@color/yellow</color>
     <color name="favorite_icon_off">@color/off_white</color>
 </resources>
