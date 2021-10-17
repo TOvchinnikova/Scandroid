@@ -10,9 +10,13 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanningHistoryBinding
 import android.app.Activity
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.util.Log
 import android.view.KeyEvent
 import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import com.t_ovchinnikova.android.scandroid_2.R
@@ -114,6 +118,64 @@ class HistoryFragment : Fragment(), DeleteCodeListener {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val item = codeListAdapter.currentList[viewHolder.adapterPosition]
                 viewModel.deleteCode(item.id)
+            }
+
+            override fun onChildDraw(
+                canvas: Canvas,
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                dX: Float,
+                dY: Float,
+                actionState: Int,
+                isCurrentlyActive: Boolean
+            ) {
+                super.onChildDraw(
+                    canvas,
+                    recyclerView,
+                    viewHolder,
+                    dX,
+                    dY,
+                    actionState,
+                    isCurrentlyActive
+                )
+                val itemView = viewHolder.itemView
+                val itemHeight = itemView.height
+                val background = ColorDrawable()
+                when {
+                    dX < 0 -> {
+                        background.color = Color.RED
+                        background.setBounds(
+                            itemView.right + dX.toInt(),
+                            itemView.top,
+                            itemView.right,
+                            itemView.bottom
+                        )
+                        background.draw(canvas)
+
+                        val deleteIcon =
+                            ContextCompat.getDrawable(requireContext(), R.drawable.ic_delete)
+                        val intrinsicWidth = deleteIcon?.intrinsicWidth
+                            ?: throw RuntimeException("Unknown intrinsicWidth")
+                        val intrinsicHeight = deleteIcon.intrinsicHeight
+                        val deleteIconTop = itemView.top + (itemHeight - intrinsicHeight) / 2
+                        val deleteIconMargin = (itemHeight - intrinsicHeight) / 2
+                        val deleteIconLeft = itemView.right - deleteIconMargin - intrinsicWidth
+                        val deleteIconRight = itemView.right - deleteIconMargin
+                        val deleteIconBottom = deleteIconTop + intrinsicHeight
+
+                        deleteIcon.setBounds(
+                            deleteIconLeft,
+                            deleteIconTop,
+                            deleteIconRight,
+                            deleteIconBottom
+                        )
+                        deleteIcon.draw(canvas)
+                    }
+                    else -> {
+                        background.setBounds(0, 0, 0, 0)
+                        background.draw(canvas)
+                    }
+                }
             }
         }
         ItemTouchHelper(callback).attachToRecyclerView(rvHistory)
