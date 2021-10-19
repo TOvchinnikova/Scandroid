@@ -14,26 +14,20 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.MainThread
-import androidx.annotation.RequiresApi
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
-import com.t_ovchinnikova.android.scandroid_2.ScanAnalyzer
 import com.t_ovchinnikova.android.scandroid_2.Settings
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanningBinding
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import android.view.WindowManager
-import android.view.WindowInsets
-
-import android.view.WindowMetrics
+import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.ScanResultDialog
 
 
 class ScanningFragment : Fragment() {

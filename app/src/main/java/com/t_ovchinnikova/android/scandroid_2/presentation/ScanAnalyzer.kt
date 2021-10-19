@@ -1,4 +1,4 @@
-package com.t_ovchinnikova.android.scandroid_2
+package com.t_ovchinnikova.android.scandroid_2.presentation
 
 import android.annotation.SuppressLint
 import android.graphics.*
@@ -11,7 +11,6 @@ import com.google.mlkit.vision.barcode.Barcode
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
-import com.t_ovchinnikova.android.scandroid_2.presentation.ScanResultListener
 
 
 class ScanAnalyzer(private val listener: ScanResultListener) : ImageAnalysis.Analyzer {

@@ -24,7 +24,7 @@
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/tbHistory"
                     style="@style/ToolbarStyle"
-                    app:title="History"
+                    app:title="@string/history"
                     app:menu="@menu/history_menu"/>
 
             </LinearLayout>

@@ -1,13 +1,11 @@
-package com.t_ovchinnikova.android.scandroid_2.presentation
+package com.t_ovchinnikova.android.scandroid_2.presentation.dialogs
 
 import android.app.Dialog
 import android.app.SearchManager
 import android.content.*
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -19,6 +17,7 @@ import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanResultDial
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import com.t_ovchinnikova.android.scandroid_2.domain.formatToStringId
 import com.t_ovchinnikova.android.scandroid_2.domain.typeToString
+import com.t_ovchinnikova.android.scandroid_2.presentation.*
 import java.text.SimpleDateFormat
 import java.util.*
 

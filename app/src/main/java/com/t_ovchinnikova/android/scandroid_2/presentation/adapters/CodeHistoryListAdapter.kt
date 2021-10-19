@@ -1,4 +1,4 @@
-package com.t_ovchinnikova.android.scandroid_2.presentation
+package com.t_ovchinnikova.android.scandroid_2.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

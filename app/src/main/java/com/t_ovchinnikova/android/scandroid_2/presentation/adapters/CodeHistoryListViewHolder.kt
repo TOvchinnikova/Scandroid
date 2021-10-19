@@ -1,4 +1,4 @@
-package com.t_ovchinnikova.android.scandroid_2.presentation
+package com.t_ovchinnikova.android.scandroid_2.presentation.adapters
 
 import androidx.recyclerview.widget.RecyclerView
 import com.t_ovchinnikova.android.scandroid_2.databinding.ItemCodeBinding

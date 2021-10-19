@@ -1,18 +1,15 @@
 <resources>
-    <string name="app_name">Scandroid</string>
+    <string name="app_name" translatable="false">Scandroid</string>
     <string name="scanner">Scanner</string>
     <string name="history">History</string>
     <string name="create">Create</string>
     <string name="settings">Settings</string>
-    <string name="light">Light</string>
-    <string name="scan_file">Scan file</string>
     <string name="delete">Delete</string>
     <string name="favorite">Is favorite</string>
     <string name="delete_question_dialog">Delete?</string>
     <string name="delete_all_question_dialog">Delete history?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="isEmpty">The list is empty</string>
 
     <string name="barcode_format">Format:</string>
     <string name="barcode_type">Type:</string>
@@ -35,34 +32,34 @@
     <string name="fragment_settings_save_scanned_barcodes_to_history_hint">Save scanned barcodes to history</string>
 
     <!--Barcode formats-->
-    <string name="barcode_format_aztec">Aztec</string>
-    <string name="barcode_format_codabar">Codabar</string>
-    <string name="barcode_format_code_39">Code 39</string>
-    <string name="barcode_format_code_93">Code 93</string>
-    <string name="barcode_format_code_128">Code 128</string>
-    <string name="barcode_format_data_matrix">Data Matrix</string>
-    <string name="barcode_format_ean_8">EAN-8</string>
-    <string name="barcode_format_ean_13">EAN-13</string>
-    <string name="barcode_format_itf">ITF</string>
-    <string name="barcode_format_pdf_417">PDF417</string>
+    <string name="barcode_format_aztec" translatable="false">Aztec</string>
+    <string name="barcode_format_codabar" translatable="false">Codabar</string>
+    <string name="barcode_format_code_39" translatable="false">Code 39</string>
+    <string name="barcode_format_code_93" translatable="false">Code 93</string>
+    <string name="barcode_format_code_128" translatable="false">Code 128</string>
+    <string name="barcode_format_data_matrix" translatable="false">Data Matrix</string>
+    <string name="barcode_format_ean_8" translatable="false">EAN-8</string>
+    <string name="barcode_format_ean_13" translatable="false">EAN-13</string>
+    <string name="barcode_format_itf" translatable="false">ITF</string>
+    <string name="barcode_format_pdf_417" translatable="false">PDF417</string>
     <string name="barcode_format_qr_code">QR Code</string>
-    <string name="barcode_format_UPC_A">UPC-A</string>
-    <string name="barcode_format_UPC_E">UPC-E</string>
+    <string name="barcode_format_UPC_A" translatable="false">UPC-A</string>
+    <string name="barcode_format_UPC_E" translatable="false">UPC-E</string>
     <string name="barcode_format_unknown">Unknown Format</string>
 
     <!--Barcode types-->
     <string name="barcode_type_contact_info">Contact</string>
     <string name="barcode_type_unknown">Unknown Type</string>
-    <string name="barcode_type_email">Email</string>
-    <string name="barcode_type_isbn">Isbn</string>
+    <string name="barcode_type_email" translatable="false">Email</string>
+    <string name="barcode_type_isbn" translatable="false">Isbn</string>
     <string name="barcode_type_phone">Phone</string>
     <string name="barcode_type_product">Product</string>
     <string name="barcode_type_sms">SMS</string>
     <string name="barcode_type_text">Text</string>
-    <string name="barcode_type_url">URL</string>
-    <string name="barcode_type_wifi">Wi-Fi</string>
+    <string name="barcode_type_url" translatable="false">URL</string>
+    <string name="barcode_type_wifi" translatable="false">Wi-Fi</string>
     <string name="barcode_type_geo">Location</string>
     <string name="barcode_type_calendar_event">Event</string>
-    <string name="barcode_driver_license">Location</string>
+    <string name="barcode_driver_license">Driver license</string>
 
 </resources>

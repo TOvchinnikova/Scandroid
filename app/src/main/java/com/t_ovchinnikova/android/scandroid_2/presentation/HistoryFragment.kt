@@ -13,13 +13,15 @@ import android.app.Activity
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.util.Log
 import android.view.KeyEvent
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import com.t_ovchinnikova.android.scandroid_2.R
+import com.t_ovchinnikova.android.scandroid_2.presentation.adapters.CodeHistoryListAdapter
+import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.DeleteCodeDialogFragment
+import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.DeleteCodeListener
+import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.ScanResultDialog
 
 
 class HistoryFragment : Fragment(), DeleteCodeListener {
