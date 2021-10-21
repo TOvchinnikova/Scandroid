@@ -3,7 +3,6 @@ package com.t_ovchinnikova.android.scandroid_2.presentation.views
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.t_ovchinnikova.android.scandroid_2.R
@@ -13,7 +12,8 @@ class ViewFinderOverlay(context: Context, attrs: AttributeSet) : View(context, a
     private val boxPaint: Paint = Paint().apply {
         color = ContextCompat.getColor(context, R.color.barcode_reticle_stroke)
         style = Paint.Style.STROKE
-        strokeWidth = context.resources.getDimensionPixelOffset(R.dimen.barcode_stroke_width).toFloat()
+        strokeWidth =
+            context.resources.getDimensionPixelOffset(R.dimen.barcode_stroke_width).toFloat()
     }
 
     private val scrimPaint: Paint = Paint().apply {
@@ -31,7 +31,7 @@ class ViewFinderOverlay(context: Context, attrs: AttributeSet) : View(context, a
     var boxRect: RectF? = null
 
     fun setViewFinder() {
-        val overlayWidth =  width.toFloat()
+        val overlayWidth = width.toFloat()
         val overlayHeight = height.toFloat()
 
         val rectTop = overlayHeight * DESIRED_HEIGHT_CROP_PERCENT / 2 / 100f

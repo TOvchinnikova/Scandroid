@@ -1,9 +1,10 @@
 package com.t_ovchinnikova.android.scandroid_2.data
 
 import androidx.lifecycle.LiveData
-import androidx.room.*
-import com.t_ovchinnikova.android.scandroid_2.domain.Code
-import org.jetbrains.annotations.NotNull
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 
 @Dao
 interface CodeDao {

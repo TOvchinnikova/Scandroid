@@ -6,10 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.t_ovchinnikova.android.scandroid_2.data.CodeRepository
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class ScanningViewModel: ViewModel() {
+class ScanningViewModel : ViewModel() {
 
     private val codeRepository = CodeRepository.get()
 

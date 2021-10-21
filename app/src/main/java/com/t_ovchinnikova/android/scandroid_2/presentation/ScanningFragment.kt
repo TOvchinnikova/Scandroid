@@ -150,7 +150,6 @@ class ScanningFragment : Fragment() {
     @SuppressLint("UnsafeOptInUsageError")
     private fun bindCameraUseCases(cameraProvider: ProcessCameraProvider) {
         val display = viewFinder.display
-        Log.d("MyLog", "bindCameraUseCases: display $display")
         val screenAspectRatio = getScreenAspectRatio()
         val rotation = display.rotation
         val preview = buildPreview(screenAspectRatio, rotation)
@@ -181,8 +180,6 @@ class ScanningFragment : Fragment() {
         } else {
             val displayMetrics = DisplayMetrics()
             val display = viewFinder.display
-            Log.d("MyLog", "getScreenAspectRatio: displayMetrics $displayMetrics")
-            Log.d("MyLog", "getScreenAspectRatio: display $display")
             val metrics = displayMetrics.also { display.getRealMetrics(it) }
             width = metrics.widthPixels
             height = metrics.heightPixels

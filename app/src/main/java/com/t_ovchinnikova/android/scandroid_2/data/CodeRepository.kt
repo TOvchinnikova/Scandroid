@@ -1,7 +1,6 @@
 package com.t_ovchinnikova.android.scandroid_2.data
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.t_ovchinnikova.android.scandroid_2.domain.Code

@@ -1,8 +1,7 @@
 package com.t_ovchinnikova.android.scandroid_2.domain
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-import java.io.Serializable
+import kotlinx.parcelize.Parcelize
 import java.util.*
 
 @Parcelize
