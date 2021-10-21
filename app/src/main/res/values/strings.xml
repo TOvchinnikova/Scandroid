@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Scandroid</string>
+    <string name="app_name" translatable="false">ScandroidX</string>
     <string name="scanner">Scanner</string>
     <string name="history">History</string>
     <string name="create">Create</string>
