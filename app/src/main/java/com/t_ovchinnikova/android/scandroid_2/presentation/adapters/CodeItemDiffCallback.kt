@@ -1,6 +1,5 @@
 package com.t_ovchinnikova.android.scandroid_2.presentation.adapters
 
-import android.util.Log
 import androidx.recyclerview.widget.DiffUtil
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 

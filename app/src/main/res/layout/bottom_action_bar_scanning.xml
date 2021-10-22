@@ -11,7 +11,7 @@
 
     <ImageButton
         android:id="@+id/flashButton"
-        style="@style/ButtonActionBarScannig"
+        style="@style/ButtonActionBarScanning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
@@ -20,7 +20,7 @@
 
     <ImageButton
         android:id="@+id/imageAnalizeButton"
-        style="@style/ButtonActionBarScannig"
+        style="@style/ButtonActionBarScanning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"

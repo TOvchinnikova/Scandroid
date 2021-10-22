@@ -186,7 +186,9 @@ class HistoryFragment : Fragment(), DeleteCodeListener {
     private fun setupViewModel() {
         viewModel.codeListLiveData.observe(viewLifecycleOwner, {
             val list =
-                it.filter { it.text.contains(binding.searchContainer.etSearch.text.toString()) }
+                it.filter { code ->
+                    code.text.contains(binding.searchContainer.etSearch.text.toString())
+                }
             codeListAdapter.submitList(list)
         })
     }

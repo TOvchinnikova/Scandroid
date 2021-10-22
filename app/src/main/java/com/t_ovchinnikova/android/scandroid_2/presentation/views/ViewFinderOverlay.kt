@@ -10,14 +10,14 @@ import com.t_ovchinnikova.android.scandroid_2.R
 class ViewFinderOverlay(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     private val boxPaint: Paint = Paint().apply {
-        color = ContextCompat.getColor(context, R.color.barcode_reticle_stroke)
+        color = ContextCompat.getColor(context, R.color.barcode_recticle_stroke)
         style = Paint.Style.STROKE
         strokeWidth =
             context.resources.getDimensionPixelOffset(R.dimen.barcode_stroke_width).toFloat()
     }
 
     private val scrimPaint: Paint = Paint().apply {
-        color = ContextCompat.getColor(context, R.color.barcode_reticle_background)
+        color = ContextCompat.getColor(context, R.color.barcode_recticle_background)
     }
 
     private val eraserPaint: Paint = Paint().apply {
@@ -26,9 +26,9 @@ class ViewFinderOverlay(context: Context, attrs: AttributeSet) : View(context, a
     }
 
     private val boxCornerRadius: Float =
-        context.resources.getDimensionPixelOffset(R.dimen.barcode_reticle_corner_radius).toFloat()
+        context.resources.getDimensionPixelOffset(R.dimen.barcode_recticle_corner_radius).toFloat()
 
-    var boxRect: RectF? = null
+    private var boxRect: RectF? = null
 
     fun setViewFinder() {
         val overlayWidth = width.toFloat()

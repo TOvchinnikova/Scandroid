@@ -79,7 +79,7 @@
         <item name="background">@color/colorPrimary</item>
     </style>
     
-    <style name="ButtonActionBarScannig">
+    <style name="ButtonActionBarScanning">
         <item name="android:layout_margin">8dp</item>
         <item name="android:backgroundTint">@color/disabled</item>
     </style>

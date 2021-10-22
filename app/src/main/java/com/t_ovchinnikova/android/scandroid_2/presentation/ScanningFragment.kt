@@ -7,7 +7,6 @@ import android.content.Context.VIBRATOR_SERVICE
 import android.content.pm.PackageManager
 import android.os.*
 import android.util.DisplayMetrics
-import android.util.Log
 import android.util.Rational
 import android.view.*
 import android.widget.ImageButton
@@ -263,7 +262,7 @@ class ScanningFragment : Fragment() {
         val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val vibratorManager =  requireContext()
                 .getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
-            vibratorManager.defaultVibrator;
+            vibratorManager.defaultVibrator
         } else {
             requireContext().getSystemService(VIBRATOR_SERVICE) as Vibrator
         }
