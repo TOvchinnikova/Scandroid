@@ -1,5 +1,6 @@
 package com.t_ovchinnikova.android.scandroid_2.presentation
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,7 +14,7 @@ import kotlinx.coroutines.launch
 class HistoryViewModel(
     private val deleteCodeUseCase: DeleteCodeUseCase,
     private val deleteAllCodesUseCase: DeleteAllCodesUseCase,
-    getCodesUseCase: GetCodesUseCase,
+    val getCodesUseCase: GetCodesUseCase,
 ) : ViewModel() {
 
     val codeListLiveData = getCodesUseCase.getCodes()
@@ -36,5 +37,4 @@ class HistoryViewModel(
     fun showCodeDialog(isShowed: Boolean) {
         _codeDialogShowed.value = isShowed
     }
-
 }

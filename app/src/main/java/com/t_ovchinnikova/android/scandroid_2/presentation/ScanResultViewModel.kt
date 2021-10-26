@@ -1,5 +1,6 @@
 package com.t_ovchinnikova.android.scandroid_2.presentation
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

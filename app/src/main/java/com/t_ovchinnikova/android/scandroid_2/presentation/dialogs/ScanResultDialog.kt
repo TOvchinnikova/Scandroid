@@ -52,8 +52,11 @@ class ScanResultDialog : BottomSheetDialogFragment(), EditCodeNoteListener, Dele
         super.onCreate(savedInstanceState)
 
         if (savedInstanceState != null) {
-            parentFragment?.let {
-                ViewModelProvider(it).get(ScanningViewModel::class.java).setScannerWorkState(false)
+            if (parentFragment is ScanningFragment) {
+                parentFragment?.let {
+                    ViewModelProvider(it).get(ScanningViewModel::class.java)
+                        .setScannerWorkState(false)
+                }
             }
         }
     }
