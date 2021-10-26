@@ -1,18 +1,15 @@
 package com.t_ovchinnikova.android.scandroid_2.data
 
-import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import com.t_ovchinnikova.android.scandroid_2.domain.CodeRepository
 
-class CodeRepositoryImpl(application: Application): CodeRepository {
+class CodeRepositoryImpl(private val mapper: CodeMapper, private val codeDao: CodeDao): CodeRepository {
 
-    private val database: CodeDatabase = CodeDatabase.newInstance(application)
+    /*private val mapper = CodeMapper()
 
-    private val mapper = CodeMapper()
-
-    private val codeDao = database.CodeDao()
+    private val codeDao = database.CodeDao()*/
 
     override suspend fun addCode(code: Code): Long {
         return codeDao.addCode(mapper.mapEntityToDbModel(code))
@@ -40,10 +37,11 @@ class CodeRepositoryImpl(application: Application): CodeRepository {
     companion object {
         private var INSTANCE: CodeRepositoryImpl? = null
 
-        fun initialize(application: Application) {
+        fun initialize(mapper: CodeMapper, codeDao: CodeDao): CodeRepositoryImpl {
             if (INSTANCE == null) {
-                INSTANCE = CodeRepositoryImpl(application)
+                INSTANCE = CodeRepositoryImpl(mapper, codeDao)
             }
+            return INSTANCE ?: throw IllegalStateException("CodeRepository must be initialized")
         }
 
         fun get(): CodeRepositoryImpl {

@@ -7,16 +7,16 @@ import androidx.lifecycle.viewModelScope
 import com.t_ovchinnikova.android.scandroid_2.data.CodeRepositoryImpl
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.DeleteAllCodesUseCase
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.DeleteCodeUseCase
+import com.t_ovchinnikova.android.scandroid_2.domain.usecases.GetCodesUseCase
 import kotlinx.coroutines.launch
 
-class HistoryViewModel : ViewModel() {
+class HistoryViewModel(
+    private val deleteCodeUseCase: DeleteCodeUseCase,
+    private val deleteAllCodesUseCase: DeleteAllCodesUseCase,
+    getCodesUseCase: GetCodesUseCase,
+) : ViewModel() {
 
-    private val codeRepository = CodeRepositoryImpl.get()
-
-    private val deleteCodeUseCase = DeleteCodeUseCase(codeRepository)
-    private val deleteAllCodesUseCase = DeleteAllCodesUseCase(codeRepository)
-
-    val codeListLiveData = codeRepository.getCodes()
+    val codeListLiveData = getCodesUseCase.getCodes()
 
     private val _codeDialogShowed = MutableLiveData<Boolean>()
     val codeDialogShowed: LiveData<Boolean> = _codeDialogShowed

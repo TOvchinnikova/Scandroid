@@ -27,6 +27,7 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import android.view.WindowManager
 import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.ScanResultDialog
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class ScanningFragment : Fragment() {
@@ -43,7 +44,7 @@ class ScanningFragment : Fragment() {
     private var newCode: Code? = null
     private lateinit var settings: Settings
 
-    private val viewModel by viewModels<ScanningViewModel>()
+    private val viewModel by viewModel<ScanningViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

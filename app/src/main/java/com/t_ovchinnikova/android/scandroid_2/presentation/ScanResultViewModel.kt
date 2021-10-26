@@ -10,12 +10,10 @@ import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.DeleteCodeUseCase
 import kotlinx.coroutines.launch
 
-class ScanResultViewModel : ViewModel() {
-
-    private val codeRepository = CodeRepositoryImpl.get()
-
-    private val deleteCodeUseCase = DeleteCodeUseCase(codeRepository)
-    private val addCodeUseCase = AddCodeUseCase(codeRepository)
+class ScanResultViewModel(
+    private val deleteCodeUseCase: DeleteCodeUseCase,
+    private val addCodeUseCase: AddCodeUseCase,
+) : ViewModel() {
 
     private val _code = MutableLiveData<Code>()
     val code: LiveData<Code> = _code

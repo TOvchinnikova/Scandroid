@@ -22,6 +22,7 @@ import com.t_ovchinnikova.android.scandroid_2.presentation.adapters.CodeHistoryL
 import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.DeleteCodeDialogFragment
 import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.DeleteCodeListener
 import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.ScanResultDialog
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class HistoryFragment : Fragment(), DeleteCodeListener {
@@ -30,7 +31,7 @@ class HistoryFragment : Fragment(), DeleteCodeListener {
     private lateinit var binding: FragmentScanningHistoryBinding
     private lateinit var codeListAdapter: CodeHistoryListAdapter
 
-    private val viewModel by viewModels<HistoryViewModel>()
+    private val viewModel by viewModel<HistoryViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
