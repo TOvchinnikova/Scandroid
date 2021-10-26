@@ -4,12 +4,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.t_ovchinnikova.android.scandroid_2.data.CodeRepository
+import com.t_ovchinnikova.android.scandroid_2.data.CodeRepositoryImpl
+import com.t_ovchinnikova.android.scandroid_2.domain.usecases.DeleteAllCodesUseCase
+import com.t_ovchinnikova.android.scandroid_2.domain.usecases.DeleteCodeUseCase
 import kotlinx.coroutines.launch
 
 class HistoryViewModel : ViewModel() {
 
-    private val codeRepository = CodeRepository.get()
+    private val codeRepository = CodeRepositoryImpl.get()
+
+    private val deleteCodeUseCase = DeleteCodeUseCase(codeRepository)
+    private val deleteAllCodesUseCase = DeleteAllCodesUseCase(codeRepository)
 
     val codeListLiveData = codeRepository.getCodes()
 
@@ -18,13 +23,13 @@ class HistoryViewModel : ViewModel() {
 
     fun deleteCode(codeId: Long) {
         viewModelScope.launch {
-            codeRepository.deleteCode(codeId)
+            deleteCodeUseCase.deleteCode(codeId)
         }
     }
 
     fun deleteAllCodes() {
         viewModelScope.launch {
-            codeRepository.deleteAllCodes()
+            deleteAllCodesUseCase.deleteAllCodes()
         }
     }
 

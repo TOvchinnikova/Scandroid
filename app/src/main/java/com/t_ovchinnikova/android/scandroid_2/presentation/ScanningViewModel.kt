@@ -4,13 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.t_ovchinnikova.android.scandroid_2.data.CodeRepository
+import com.t_ovchinnikova.android.scandroid_2.data.CodeRepositoryImpl
+import com.t_ovchinnikova.android.scandroid_2.domain.usecases.AddCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import kotlinx.coroutines.launch
 
 class ScanningViewModel : ViewModel() {
 
-    private val codeRepository = CodeRepository.get()
+    private val codeRepository = CodeRepositoryImpl.get()
+
+    private val addCodeUseCase = AddCodeUseCase(codeRepository)
 
     private val _scannerWorkState = MutableLiveData<Boolean>()
     val scannerWorkState: LiveData<Boolean> = _scannerWorkState
@@ -34,7 +37,7 @@ class ScanningViewModel : ViewModel() {
     fun addCode(code: Code, isSave: Boolean) {
         if (isSave) {
             viewModelScope.launch {
-                val id = codeRepository.addCode(code)
+                val id = addCodeUseCase.addCode(code)
                 code.id = id
                 _newCode.value = code
             }

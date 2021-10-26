@@ -4,8 +4,9 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
+import com.t_ovchinnikova.android.scandroid_2.domain.CodeRepository
 
-class CodeRepository(application: Application) {
+class CodeRepositoryImpl(application: Application): CodeRepository {
 
     private val database: CodeDatabase = CodeDatabase.newInstance(application)
 
@@ -13,39 +14,39 @@ class CodeRepository(application: Application) {
 
     private val codeDao = database.CodeDao()
 
-    suspend fun addCode(code: Code): Long {
+    override suspend fun addCode(code: Code): Long {
         return codeDao.addCode(mapper.mapEntityToDbModel(code))
     }
 
-    suspend fun deleteCode(codeId: Long) {
+    override suspend fun deleteCode(codeId: Long) {
         codeDao.deleteCode(codeId)
     }
 
-    suspend fun deleteAllCodes() {
+    override suspend fun deleteAllCodes() {
         codeDao.deleteAllCodes()
     }
 
-    fun getCodes(): LiveData<List<Code>> =
+    override fun getCodes(): LiveData<List<Code>> =
         Transformations.map(codeDao.getCodes()) {
             mapper.mapListDbModelToListEntity(it)
         }
 
-    fun getCodesWithFilter(filterText: String = ""): LiveData<List<Code>> =
+    override fun getCodesWithFilter(filterText: String): LiveData<List<Code>> =
         Transformations.map(codeDao.getCodesWithFilter(filterText)) {
             mapper.mapListDbModelToListEntity(it)
         }
 
 
     companion object {
-        private var INSTANCE: CodeRepository? = null
+        private var INSTANCE: CodeRepositoryImpl? = null
 
         fun initialize(application: Application) {
             if (INSTANCE == null) {
-                INSTANCE = CodeRepository(application)
+                INSTANCE = CodeRepositoryImpl(application)
             }
         }
 
-        fun get(): CodeRepository {
+        fun get(): CodeRepositoryImpl {
             return INSTANCE ?: throw IllegalStateException("CodeRepository must be initialized")
         }
     }
