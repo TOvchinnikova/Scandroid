@@ -4,13 +4,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.t_ovchinnikova.android.scandroid_2.data.CodeRepository
+import com.t_ovchinnikova.android.scandroid_2.data.CodeRepositoryImpl
+import com.t_ovchinnikova.android.scandroid_2.domain.usecases.AddCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
+import com.t_ovchinnikova.android.scandroid_2.domain.usecases.DeleteCodeUseCase
 import kotlinx.coroutines.launch
 
 class ScanResultViewModel : ViewModel() {
 
-    private val codeRepository = CodeRepository.get()
+    private val codeRepository = CodeRepositoryImpl.get()
+
+    private val deleteCodeUseCase = DeleteCodeUseCase(codeRepository)
+    private val addCodeUseCase = AddCodeUseCase(codeRepository)
 
     private val _code = MutableLiveData<Code>()
     val code: LiveData<Code> = _code
@@ -18,13 +23,13 @@ class ScanResultViewModel : ViewModel() {
     fun updateBarcode(code: Code) {
         _code.value = code
         viewModelScope.launch {
-            codeRepository.addCode(code)
+            addCodeUseCase.addCode(code)
         }
     }
 
     fun deleteBarcode(id: Long) {
         viewModelScope.launch {
-            codeRepository.deleteCode(id)
+            deleteCodeUseCase.deleteCode(id)
         }
     }
 
