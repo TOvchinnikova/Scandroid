@@ -12,7 +12,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 @TypeConverters(CodeDatabaseTypeConverter::class)
 abstract class CodeDatabase : RoomDatabase() {
 
-    abstract fun CodeDao(): CodeDao
+    abstract fun codeDao(): CodeDao
 
     companion object {
         private var INSTANCE: CodeDatabase? = null

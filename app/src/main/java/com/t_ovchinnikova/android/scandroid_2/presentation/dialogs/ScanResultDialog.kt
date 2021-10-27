@@ -18,6 +18,7 @@ import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import com.t_ovchinnikova.android.scandroid_2.domain.formatToStringId
 import com.t_ovchinnikova.android.scandroid_2.domain.typeToString
 import com.t_ovchinnikova.android.scandroid_2.presentation.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -28,7 +29,7 @@ class ScanResultDialog : BottomSheetDialogFragment(), EditCodeNoteListener, Dele
     private lateinit var resultCode: Code
     private lateinit var editedCode: Code
 
-    private val viewModel by viewModels<ScanResultViewModel>()
+    private val viewModel by viewModel<ScanResultViewModel>()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = BottomSheetDialog(requireContext(), theme)
@@ -51,8 +52,11 @@ class ScanResultDialog : BottomSheetDialogFragment(), EditCodeNoteListener, Dele
         super.onCreate(savedInstanceState)
 
         if (savedInstanceState != null) {
-            parentFragment?.let {
-                ViewModelProvider(it).get(ScanningViewModel::class.java).setScannerWorkState(false)
+            if (parentFragment is ScanningFragment) {
+                parentFragment?.let {
+                    ViewModelProvider(it).get(ScanningViewModel::class.java)
+                        .setScannerWorkState(false)
+                }
             }
         }
     }
