@@ -24,3 +24,5 @@ Features of the app:
 ![Screenshot_2021-10-23-14-48-53-064_com](https://user-images.githubusercontent.com/84726881/139527085-cafc6d18-b7ab-45fc-8664-d43882dc30c2.png)
 ![Screenshot_2021-10-23-14-49-19-230_com](https://user-images.githubusercontent.com/84726881/139527089-a350ee80-62f5-4fa8-bbe5-08ec02941ef8.png)
 
+## Stack
+ Kotlin, Android architecture component, Room, ML Kit, Coroutines, Koin, Figma
