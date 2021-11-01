@@ -38,6 +38,7 @@ class SettingsFragment : Fragment() {
             swFlash.isChecked = settings.flash
             swVibrate.isChecked = settings.vibrate
             swSave.isChecked = settings.saveScannedBarcodesToHistory
+            swSendNote.isChecked = settings.sendingNote
             swFlash.setOnCheckedChangeListener { _, _ ->
                 settings.flash = swFlash.isChecked
             }
@@ -46,6 +47,9 @@ class SettingsFragment : Fragment() {
             }
             swVibrate.setOnCheckedChangeListener { _, _ ->
                 settings.vibrate = swVibrate.isChecked
+            }
+            swSendNote.setOnCheckedChangeListener { _, _ ->
+                settings.sendingNote = swSendNote.isChecked
             }
         }
     }

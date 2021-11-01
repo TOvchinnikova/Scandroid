@@ -13,11 +13,13 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.t_ovchinnikova.android.scandroid_2.R
+import com.t_ovchinnikova.android.scandroid_2.Settings
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanResultDialogBinding
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import com.t_ovchinnikova.android.scandroid_2.domain.formatToStringId
 import com.t_ovchinnikova.android.scandroid_2.domain.typeToString
 import com.t_ovchinnikova.android.scandroid_2.presentation.*
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -30,6 +32,8 @@ class ScanResultDialog : BottomSheetDialogFragment(), EditCodeNoteListener, Dele
     private lateinit var editedCode: Code
 
     private val viewModel by viewModel<ScanResultViewModel>()
+
+    private val settings: Settings by inject()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = BottomSheetDialog(requireContext(), theme)
@@ -64,7 +68,7 @@ class ScanResultDialog : BottomSheetDialogFragment(), EditCodeNoteListener, Dele
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentScanResultDialogBinding.inflate(inflater, container, false)
 
@@ -102,13 +106,13 @@ class ScanResultDialog : BottomSheetDialogFragment(), EditCodeNoteListener, Dele
     private fun setupClickListeners() {
         with(binding) {
             buttonCopy.setOnClickListener {
-                copyToClipboard(resultCode.text)
+                copyToClipboard(editedCode.text)
             }
             buttonSearchOnInternet.setOnClickListener {
-                searchWeb(resultCode.text)
+                searchWeb(editedCode.text)
             }
             buttonSend.setOnClickListener {
-                sendText(resultCode.text)
+                sendText(editedCode.text, editedCode.note)
             }
         }
     }
@@ -154,10 +158,15 @@ class ScanResultDialog : BottomSheetDialogFragment(), EditCodeNoteListener, Dele
         startAction(intent)
     }
 
-    private fun sendText(text: String) {
+    private fun sendText(text: String, note: String) {
+        val message =
+            if (note.isNotBlank() && settings.sendingNote)
+                text + '\n' + note
+            else
+                text
         val intent = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
-            putExtra(Intent.EXTRA_TEXT, text)
+            putExtra(Intent.EXTRA_TEXT, message)
         }
         startAction(intent)
     }
