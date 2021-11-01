@@ -129,10 +129,47 @@
                 tools:ignore="UseSwitchCompatOrMaterialXml" />
 
             <View
+                android:id="@+id/viewSave"
                 style="@style/LineViewStyle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvSaveHint"
+                android:layout_margin="10dp" />
+
+            <TextView
+                android:id="@+id/tvSendingNote"
+                style="@style/DefaultTextViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:text="@string/fragment_settings_sending_note"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/viewSave" />
+
+            <TextView
+                android:id="@+id/tvSendingNoteHint"
+                style="@style/SecondaryTextViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:text="@string/fragment_settings_sending_note_hint"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvSendingNote" />
+
+            <Switch
+                android:id="@+id/swSendNote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/viewSave"
+                android:layout_margin="15dp"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+            <View
+                style="@style/LineViewStyle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvSendingNoteHint"
                 android:layout_margin="10dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

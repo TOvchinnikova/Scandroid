@@ -26,7 +26,9 @@ import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import android.view.WindowManager
+import androidx.lifecycle.lifecycleScope
 import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.ScanResultDialog
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -42,14 +44,14 @@ class ScanningFragment : Fragment() {
     private var flashState: Boolean = false
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
     private var newCode: Code? = null
-    private lateinit var settings: Settings
+
+    private val settings: Settings by inject()
 
     private val viewModel by viewModel<ScanningViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         cameraExecutor = Executors.newSingleThreadExecutor()
-        settings = Settings(requireContext())
         launchPermission()
     }
 
