@@ -28,6 +28,7 @@ class CodeHistoryListAdapter : ListAdapter<Code, CodeHistoryListViewHolder>(Code
         with(holder) {
             tvCode.text = code.text
             tvDate.text = dateFormatter.format(code.date)
+            tvNote.text = code.note
             ivIsFavorite.isActivated = code.isFavorite
             tvFormat.setText(code.formatToStringId())
             ivCode.setImageResource(code.formatToImageId())

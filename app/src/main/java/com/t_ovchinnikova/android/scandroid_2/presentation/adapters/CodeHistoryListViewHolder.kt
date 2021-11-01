@@ -8,6 +8,7 @@ class CodeHistoryListViewHolder(binding: ItemCodeBinding) : RecyclerView.ViewHol
     val tvCode = binding.tvCode
     val tvDate = binding.tvDate
     val tvFormat = binding.tvFormat
+    val tvNote = binding.tvNote
     val ivCode = binding.ivCode
     val ivIsFavorite = binding.ivIsFavorite
 
