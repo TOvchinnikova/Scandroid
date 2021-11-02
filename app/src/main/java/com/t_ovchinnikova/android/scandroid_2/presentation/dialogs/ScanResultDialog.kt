@@ -24,7 +24,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
-@Suppress("NAME_SHADOWING")
 class ScanResultDialog : BottomSheetDialogFragment(), EditCodeNoteListener, DeleteCodeListener {
 
     private lateinit var binding: FragmentScanResultDialogBinding
@@ -42,10 +41,10 @@ class ScanResultDialog : BottomSheetDialogFragment(), EditCodeNoteListener, Dele
             val parentLayout =
                 bottomSheetDialog
                     .findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
-            parentLayout?.let { it ->
-                val behaviour = BottomSheetBehavior.from(it)
-                setupFullHeight(it)
-                setupFullWidth(it)
+            parentLayout?.let { view ->
+                val behaviour = BottomSheetBehavior.from(view)
+                setupFullHeight(view)
+                setupFullWidth(view)
                 behaviour.state = BottomSheetBehavior.STATE_EXPANDED
             }
         }

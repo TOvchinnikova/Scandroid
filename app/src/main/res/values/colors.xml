@@ -30,7 +30,7 @@
     <color name="secondary_text_color">@color/gray</color>
 
     <color name="favorite_icon_on">@color/yellow</color>
-    <color name="favorite_icon_off">@color/off_white</color>
+    <color name="favorite_icon_off">@color/light_gray</color>
 
     <color name="toolbar_color">@color/colorPrimary</color>
     <color name="toolbar_title_color">@color/white</color>
