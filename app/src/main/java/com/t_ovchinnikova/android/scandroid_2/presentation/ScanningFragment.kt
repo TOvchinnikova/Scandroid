@@ -4,8 +4,10 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Context.VIBRATOR_SERVICE
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.*
+import android.provider.MediaStore
 import android.util.DisplayMetrics
 import android.util.Rational
 import android.view.*
@@ -22,6 +24,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.t_ovchinnikova.android.scandroid_2.Settings
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanningBinding
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
+import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.ScanFromImageDialog
 import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.ScanResultDialog
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -90,6 +93,11 @@ class ScanningFragment : Fragment() {
                 overlay.setViewFinder()
             }
             flashButton = bottomActionBar.flashButton
+            bottomActionBar.imageScanButton.setOnClickListener {
+                viewModel.setScannerWorkState(false)
+                ScanFromImageDialog.newInstance()
+                    .show(childFragmentManager, ScanFromImageDialog::class.java.simpleName)
+            }
         }
         if (isFlashAvailable()) {
             flashButton.visibility = View.VISIBLE
@@ -108,7 +116,7 @@ class ScanningFragment : Fragment() {
                 }
             } else {
                 stopCamera()
-                newCode = null
+                //newCode = null
             }
         }
         viewModel.flashState.observe(viewLifecycleOwner) {

@@ -1,17 +1,12 @@
 package com.t_ovchinnikova.android.scandroid_2.presentation.dialogs
 
-import android.app.Dialog
 import android.app.SearchManager
 import android.content.*
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.t_ovchinnikova.android.scandroid_2.R
 import com.t_ovchinnikova.android.scandroid_2.Settings
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanResultDialogBinding
@@ -24,7 +19,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ScanResultDialog : BottomSheetDialogFragment(), EditCodeNoteListener, DeleteCodeListener {
+class ScanResultDialog : BaseBottomSheetDialog(), EditCodeNoteListener, DeleteCodeListener {
 
     private lateinit var binding: FragmentScanResultDialogBinding
     private lateinit var resultCode: Code
@@ -33,23 +28,6 @@ class ScanResultDialog : BottomSheetDialogFragment(), EditCodeNoteListener, Dele
     private val viewModel by viewModel<ScanResultViewModel>()
 
     private val settings: Settings by inject()
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = BottomSheetDialog(requireContext(), theme)
-        dialog.setOnShowListener {
-            val bottomSheetDialog = it as BottomSheetDialog
-            val parentLayout =
-                bottomSheetDialog
-                    .findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
-            parentLayout?.let { view ->
-                val behaviour = BottomSheetBehavior.from(view)
-                setupFullHeight(view)
-                setupFullWidth(view)
-                behaviour.state = BottomSheetBehavior.STATE_EXPANDED
-            }
-        }
-        return dialog
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -213,18 +191,6 @@ class ScanResultDialog : BottomSheetDialogFragment(), EditCodeNoteListener, Dele
         editedCode.isFavorite = isFavorite
         viewModel.updateBarcode(editedCode)
         showCodeIsFavorite(isFavorite)
-    }
-
-    private fun setupFullHeight(bottomSheet: View) {
-        val layoutParams = bottomSheet.layoutParams
-        layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT
-        bottomSheet.layoutParams = layoutParams
-    }
-
-    private fun setupFullWidth(bottomSheet: View) {
-        val layoutParams = bottomSheet.layoutParams
-        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT
-        bottomSheet.layoutParams = layoutParams
     }
 
     override fun onNoteConfirmed(note: String) {
