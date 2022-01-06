@@ -18,18 +18,15 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import com.t_ovchinnikova.android.scandroid_2.Settings
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanningBinding
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
-import android.view.WindowManager
-import androidx.lifecycle.lifecycleScope
 import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.ScanResultDialog
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 
 class ScanningFragment : Fragment() {
@@ -40,7 +37,7 @@ class ScanningFragment : Fragment() {
     private var cameraProvider: ProcessCameraProvider? = null
     private var imageAnalysis: ImageAnalysis? = null
     private lateinit var flashButton: ImageButton
-    private lateinit var camera: Camera
+    private var camera: Camera? = null
     private var flashState: Boolean = false
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
     private var newCode: Code? = null
@@ -58,7 +55,7 @@ class ScanningFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentScanningBinding.inflate(layoutInflater, container, false)
         return binding.root
@@ -71,6 +68,13 @@ class ScanningFragment : Fragment() {
         if (savedInstanceState == null) {
             viewModel.setScannerWorkState(true)
             viewModel.switchFlash(settings.flash)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        camera?.let {
+            toggleFlash()
         }
     }
 
@@ -97,8 +101,8 @@ class ScanningFragment : Fragment() {
     }
 
     private fun setupViewModel() {
-        viewModel.scannerWorkState.observe(viewLifecycleOwner) {
-            if (it) {
+        viewModel.scannerWorkState.observe(viewLifecycleOwner) { scannerWorkState ->
+            if (scannerWorkState) {
                 viewFinder.post {
                     startCamera()
                 }
@@ -128,7 +132,8 @@ class ScanningFragment : Fragment() {
 
     private fun toggleFlash() {
         flashButton.isActivated = flashState
-        camera.cameraControl.enableTorch(flashState)
+        camera?.cameraControl?.enableTorch(flashState)
+            ?: throw RuntimeException("Camera value cannot be equal to cash")
     }
 
     private fun stopCamera() {
@@ -165,7 +170,8 @@ class ScanningFragment : Fragment() {
         cameraProvider.unbindAll()
         camera = cameraProvider
             .bindToLifecycle(this as LifecycleOwner, cameraSelector, useCaseGroup)
-        if (camera.cameraInfo.hasFlashUnit()) {
+
+        if (isFlashAvailable()) {
             flashButton.visibility = View.VISIBLE
             toggleFlash()
         }
@@ -175,7 +181,8 @@ class ScanningFragment : Fragment() {
         val width: Int
         val height: Int
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            val windowMetrics = requireContext().getSystemService(Context.WINDOW_SERVICE) as WindowManager
+            val windowMetrics =
+                requireContext().getSystemService(Context.WINDOW_SERVICE) as WindowManager
             val currentWindowMetrics = windowMetrics.currentWindowMetrics
             width = currentWindowMetrics.bounds.width()
             height = currentWindowMetrics.bounds.height()
@@ -263,7 +270,7 @@ class ScanningFragment : Fragment() {
 
     private fun vibrate() {
         val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            val vibratorManager =  requireContext()
+            val vibratorManager = requireContext()
                 .getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
             vibratorManager.defaultVibrator
         } else {
@@ -273,7 +280,7 @@ class ScanningFragment : Fragment() {
             vibrator.vibrate(VibrationEffect.createOneShot(350, VibrationEffect.DEFAULT_AMPLITUDE))
         } else {
             vibrator.vibrate(350)
-       }
+        }
     }
 
     inner class ScanListener : ScanResultListener {
