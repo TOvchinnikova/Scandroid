@@ -1,6 +1,6 @@
 package com.t_ovchinnikova.android.scandroid_2.domain
 
-import com.google.mlkit.vision.barcode.Barcode.*
+import com.google.mlkit.vision.barcode.common.Barcode.*
 import com.t_ovchinnikova.android.scandroid_2.R
 
 fun Code.formatToStringId(): Int {

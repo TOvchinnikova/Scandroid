@@ -107,6 +107,16 @@ class HistoryFragment : Fragment(), DeleteCodeListener {
         }
     }
 
+    private fun setupViewModel() {
+        viewModel.codeListLiveData.observe(viewLifecycleOwner, {
+            val list =
+                it.filter { code ->
+                    code.text.contains(binding.searchContainer.etSearch.text.toString())
+                }
+            codeListAdapter.submitList(list)
+        })
+    }
+
     private fun setupSwipeListener(rvHistory: RecyclerView?) {
         val callback = object :
             ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
@@ -184,16 +194,6 @@ class HistoryFragment : Fragment(), DeleteCodeListener {
         ItemTouchHelper(callback).attachToRecyclerView(rvHistory)
     }
 
-    private fun setupViewModel() {
-        viewModel.codeListLiveData.observe(viewLifecycleOwner, {
-            val list =
-                it.filter { code ->
-                    code.text.contains(binding.searchContainer.etSearch.text.toString())
-                }
-            codeListAdapter.submitList(list)
-        })
-    }
-
     private fun filterList(filterText: String) {
         val list = viewModel.codeListLiveData.value?.filter { it.text.contains(filterText) }
         codeListAdapter.submitList(list)
@@ -209,12 +209,6 @@ class HistoryFragment : Fragment(), DeleteCodeListener {
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    companion object {
-        fun newInstance(): HistoryFragment {
-            return HistoryFragment()
-        }
-    }
-
     private fun showDeleteDialog() {
         val dialog = DeleteCodeDialogFragment.newInstance(DeleteCodeDialogFragment.DELETE_ALL_CODES)
         dialog.show(childFragmentManager, "")
@@ -222,6 +216,12 @@ class HistoryFragment : Fragment(), DeleteCodeListener {
 
     override fun onDeleteConfirmed() {
         viewModel.deleteAllCodes()
+    }
+
+    companion object {
+        fun newInstance(): HistoryFragment {
+            return HistoryFragment()
+        }
     }
 
 }

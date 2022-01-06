@@ -10,7 +10,9 @@ import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.GetCodesUseCase
 import kotlinx.coroutines.launch
 
-class ScanningViewModel(private val addCodeUseCase: AddCodeUseCase) : ViewModel() {
+class ScanningViewModel(
+    private val addCodeUseCase: AddCodeUseCase,
+) : ViewModel() {
 
     private val _scannerWorkState = MutableLiveData<Boolean>()
     val scannerWorkState: LiveData<Boolean> = _scannerWorkState

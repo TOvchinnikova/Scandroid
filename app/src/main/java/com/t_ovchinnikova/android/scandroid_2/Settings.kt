@@ -1,18 +1,15 @@
 package com.t_ovchinnikova.android.scandroid_2
 
-import android.content.Context
+import android.content.SharedPreferences
 
-private const val SHARED_PREFERENCES_NAME = "SHARED_PREFERENCES_NAME"
 private const val VIBRATE = "vibrate"
 private const val SAVE_SCANNED_BARCODES_TO_HISTORY = "save_scanned_barcodes_to_history"
 private const val FLASH = "flash"
 private const val SEND_NOTE = "sending note"
 
-class Settings(private val context: Context) {
-
-    private val sharedPreferences by lazy {
-        context.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
-    }
+class Settings(
+    private val sharedPreferences: SharedPreferences,
+) {
 
     var vibrate: Boolean
         get() = get(VIBRATE, true)
@@ -38,6 +35,10 @@ class Settings(private val context: Context) {
         sharedPreferences.edit()
             .putBoolean(key, value)
             .apply()
+    }
+
+    companion object {
+        const val SHARED_PREFERENCES_SETTINGS = "SHARED_PREFERENCES_SETTINGS"
     }
 
 }
