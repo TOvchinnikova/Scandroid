@@ -13,9 +13,8 @@ class ScandroidApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-
         startKoin {
-            androidLogger(Level.DEBUG)
+            androidLogger(if (BuildConfig.DEBUG) Level.ERROR else Level.NONE)
             androidContext(this@ScandroidApplication)
             modules(appModule, domainModule, dataModule)
         }

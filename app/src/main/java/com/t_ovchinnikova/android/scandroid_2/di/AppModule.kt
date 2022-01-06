@@ -1,10 +1,12 @@
 package com.t_ovchinnikova.android.scandroid_2.di
 
+import android.content.Context
 import com.t_ovchinnikova.android.scandroid_2.Settings
 import com.t_ovchinnikova.android.scandroid_2.presentation.HistoryViewModel
 import com.t_ovchinnikova.android.scandroid_2.presentation.ScanResultViewModel
 import com.t_ovchinnikova.android.scandroid_2.presentation.ScanningViewModel
 import org.koin.android.ext.koin.androidApplication
+import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -32,6 +34,11 @@ val appModule = module {
     }
 
     single<Settings> {
-        Settings(context = androidApplication())
+        Settings(
+            sharedPreferences = androidContext().getSharedPreferences(
+                Settings.SHARED_PREFERENCES_SETTINGS,
+                Context.MODE_PRIVATE
+            )
+        )
     }
 }

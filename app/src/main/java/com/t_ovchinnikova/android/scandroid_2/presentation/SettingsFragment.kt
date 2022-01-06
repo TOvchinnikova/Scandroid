@@ -7,16 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.t_ovchinnikova.android.scandroid_2.Settings
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentSettingsBinding
+import org.koin.android.ext.android.inject
 
 class SettingsFragment : Fragment() {
 
-    private lateinit var settings: Settings
     private lateinit var binding: FragmentSettingsBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        settings = Settings(requireContext())
-    }
+    private val settings: Settings by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,7 +25,6 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setupView()
     }
 
