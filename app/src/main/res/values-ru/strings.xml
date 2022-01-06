@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="scanner">Сканер</string>
+    <string name="scan_image">Сканировать изображение</string>
     <string name="history">История</string>
     <string name="create">Создать</string>
     <string name="settings">Настройки</string>
@@ -10,6 +11,7 @@
     <string name="delete_all_question_dialog">Очистить историю?</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
+    <string name="done">Готово</string>
 
     <string name="barcode_format">Формат:</string>
     <string name="barcode_type">Тип:</string>

@@ -1,9 +1,25 @@
 package com.t_ovchinnikova.android.scandroid_2.presentation.dialogs
 
 import android.content.Intent
+import android.os.Bundle
 import android.provider.MediaStore
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanFromImageDialogBinding
 
 class ScanFromImageDialog : BaseBottomSheetDialog() {
+
+    private lateinit var binding: FragmentScanFromImageDialogBinding
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentScanFromImageDialogBinding.inflate(inflater, container, false)
+        return  binding.root
+    }
 
     private fun chooseImageGallery() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
