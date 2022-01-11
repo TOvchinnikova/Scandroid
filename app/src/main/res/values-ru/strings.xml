@@ -12,6 +12,10 @@
     <string name="yes">Да</string>
     <string name="no">Нет</string>
     <string name="done">Готово</string>
+    <string name="scan">Сканировать</string>
+
+    <string name="detected">Обнаружен:</string>
+    <string name="scan_image_hint">Передвигайте маркеры для уточнения сканируемой области.</string>
 
     <string name="barcode_format">Формат:</string>
     <string name="barcode_type">Тип:</string>

@@ -27,13 +27,49 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/scanImageHint"
+                style="@style/SecondaryTextViewStyle"
+                android:layout_margin="15dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/scanIntermediateResult"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Передвигайте маркеры" />
+                android:text="@string/scan_image_hint" />
+
+            <TextView
+                android:id="@+id/scanIntermediateResult"
+                style="@style/DefaultTextViewStyle"
+                android:layout_margin="15dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@id/scanImage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="Обнаружен EAN-13" />
+
+            <ImageView
+                android:id="@+id/scanImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                app:srcCompat="@drawable/scan_from_image"
+                app:layout_constraintTop_toBottomOf="@id/scanImageHint"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/scan" />
+
+            <Button
+                android:id="@+id/scan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/scanImage"
+                android:text="@string/scan"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

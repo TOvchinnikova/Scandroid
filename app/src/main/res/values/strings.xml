@@ -12,6 +12,10 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="done">Done</string>
+    <string name="scan">Scan</string>
+    
+    <string name="detected">Detected:</string>
+    <string name="scan_image_hint">Move the markers to refine the scanned area.</string>
 
     <string name="barcode_format">Format:</string>
     <string name="barcode_type">Type:</string>
