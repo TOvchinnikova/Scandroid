@@ -95,8 +95,7 @@ class ScanningFragment : Fragment() {
             flashButton = bottomActionBar.flashButton
             bottomActionBar.imageScanButton.setOnClickListener {
                 viewModel.setScannerWorkState(false)
-                ScanFromImageDialog.newInstance()
-                    .show(childFragmentManager, ScanFromImageDialog::class.java.simpleName)
+                showScanFromImageDialog()
             }
         }
         if (isFlashAvailable()) {
@@ -131,6 +130,11 @@ class ScanningFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun showScanFromImageDialog() {
+        ScanFromImageDialog.newInstance()
+            .show(childFragmentManager, ScanFromImageDialog::class.java.simpleName)
     }
 
     private fun showScanResultDialog(code: Code) {
