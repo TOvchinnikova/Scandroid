@@ -6,13 +6,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 32
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.t_ovchinnikova.android.scandroid_2"
         minSdkVersion 21
-        targetSdkVersion 31
+        targetSdkVersion 32
         versionCode 1
         versionName "1.0"
 
@@ -30,6 +30,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = '1.8'
     }
@@ -41,24 +42,24 @@ android {
 dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.4.0'
-    implementation 'com.google.android.material:material:1.4.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
+    implementation 'androidx.core:core-ktx:1.8.0'
+    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:4.13.2'
-    implementation 'androidx.fragment:fragment-ktx:1.4.0'
+    implementation 'androidx.fragment:fragment-ktx:1.5.0'
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
-    implementation 'com.google.android.material:material:1.4.0'
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0"
+    implementation 'com.google.android.material:material:1.6.1'
 
     //ML kit
-    implementation 'com.google.mlkit:barcode-scanning:17.0.1'
+    implementation 'com.google.mlkit:barcode-scanning:17.0.2'
 
     // Object feature and model
-    implementation 'com.google.mlkit:object-detection:16.2.8'
+    implementation 'com.google.mlkit:object-detection:17.0.0'
 
     // Custom model
-    implementation 'com.google.mlkit:object-detection-custom:16.3.4'
+    implementation 'com.google.mlkit:object-detection-custom:17.0.0'
 
     // CameraX
     implementation "androidx.camera:camera-camera2:1.0.2"
@@ -66,17 +67,19 @@ dependencies {
     implementation "androidx.camera:camera-view:1.0.0-alpha32"
 
     //Room
-    implementation 'androidx.room:room-runtime:2.4.0'
-    implementation "androidx.room:room-ktx:2.4.0"
-    kapt 'androidx.room:room-compiler:2.4.0'
+    implementation 'androidx.room:room-runtime:2.4.2'
+    implementation "androidx.room:room-ktx:2.4.2"
+    kapt 'androidx.room:room-compiler:2.4.2'
 
     //Coroutine
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.3"
 
     //Koin
-    implementation "io.insert-koin:koin-core:3.1.4"
-    implementation "io.insert-koin:koin-android:3.1.4"
+    implementation "io.insert-koin:koin-core:3.2.0"
+    implementation "io.insert-koin:koin-android:3.2.0"
+
+    implementation 'com.github.CanHub:Android-Image-Cropper:4.3.1'
 
 
 }

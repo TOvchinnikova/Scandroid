@@ -6,6 +6,9 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toBitmap
+import com.t_ovchinnikova.android.scandroid_2.R
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanFromImageDialogBinding
 
 class ScanFromImageDialog : BaseBottomSheetDialog() {
@@ -18,6 +21,13 @@ class ScanFromImageDialog : BaseBottomSheetDialog() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentScanFromImageDialogBinding.inflate(inflater, container, false)
+        binding.toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.chooseImage -> chooseImageGallery()
+                else -> throw RuntimeException("Unknown clicked item")
+            }
+            return@setOnMenuItemClickListener true
+        }
         return  binding.root
     }
 

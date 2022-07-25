@@ -1,23 +1,22 @@
 package com.t_ovchinnikova.android.scandroid_2.presentation
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
-import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanningHistoryBinding
 import android.app.Activity
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Bundle
 import android.view.KeyEvent
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.t_ovchinnikova.android.scandroid_2.R
+import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanningHistoryBinding
 import com.t_ovchinnikova.android.scandroid_2.presentation.adapters.CodeHistoryListAdapter
 import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.DeleteCodeDialogFragment
 import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.DeleteCodeListener
@@ -108,13 +107,13 @@ class HistoryFragment : Fragment(), DeleteCodeListener {
     }
 
     private fun setupViewModel() {
-        viewModel.codeListLiveData.observe(viewLifecycleOwner, {
+        viewModel.codeListLiveData.observe(viewLifecycleOwner) {
             val list =
                 it.filter { code ->
                     code.text.contains(binding.searchContainer.etSearch.text.toString())
                 }
             codeListAdapter.submitList(list)
-        })
+        }
     }
 
     private fun setupSwipeListener(rvHistory: RecyclerView?) {
