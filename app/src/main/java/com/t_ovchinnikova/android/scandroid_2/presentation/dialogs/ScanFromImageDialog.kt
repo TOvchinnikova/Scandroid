@@ -31,6 +31,11 @@ class ScanFromImageDialog : BaseBottomSheetDialog() {
         return  binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        chooseImageGallery()
+    }
+
     private fun chooseImageGallery() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
         //intent.type = "image/*"
