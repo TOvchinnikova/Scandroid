@@ -26,7 +26,7 @@ class ScanAnalyzer(private val listener: ScanResultListener) : ImageAnalysis.Ana
         }
     }
 
-    private fun recognizeCode(image: InputImage): Task<List<Barcode>> =
+    fun recognizeCode(image: InputImage): Task<List<Barcode>> =
         scanner.process(image)
             .addOnSuccessListener {
                 if (it.isNotEmpty()) {

@@ -14,6 +14,9 @@ import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import com.t_ovchinnikova.android.scandroid_2.domain.formatToStringId
 import com.t_ovchinnikova.android.scandroid_2.domain.typeToString
 import com.t_ovchinnikova.android.scandroid_2.presentation.*
+import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.HistoryViewModel
+import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.ScanResultViewModel
+import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.ScanningViewModel
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat

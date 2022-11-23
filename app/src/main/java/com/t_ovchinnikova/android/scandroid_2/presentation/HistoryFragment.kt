@@ -21,6 +21,7 @@ import com.t_ovchinnikova.android.scandroid_2.presentation.adapters.CodeHistoryL
 import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.DeleteCodeDialogFragment
 import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.DeleteCodeListener
 import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.ScanResultDialog
+import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.HistoryViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 

@@ -4,10 +4,8 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Context.VIBRATOR_SERVICE
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.*
-import android.provider.MediaStore
 import android.util.DisplayMetrics
 import android.util.Rational
 import android.view.*
@@ -26,6 +24,7 @@ import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanningBindin
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.ScanFromImageDialog
 import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.ScanResultDialog
+import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.ScanningViewModel
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.concurrent.ExecutorService
@@ -166,7 +165,7 @@ class ScanningFragment : Fragment() {
         )
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
+   // @SuppressLint("UnsafeOptInUsageError")
     private fun bindCameraUseCases(cameraProvider: ProcessCameraProvider) {
         val display = viewFinder.display
         val screenAspectRatio = getScreenAspectRatio()

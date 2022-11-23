@@ -2,12 +2,19 @@ package com.t_ovchinnikova.android.scandroid_2.presentation.dialogs
 
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.mlkit.vision.common.InputImage
 import com.t_ovchinnikova.android.scandroid_2.PickImage
 import com.t_ovchinnikova.android.scandroid_2.R
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanFromImageDialogBinding
+import com.t_ovchinnikova.android.scandroid_2.domain.Code
+import com.t_ovchinnikova.android.scandroid_2.domain.formatToStringId
+import com.t_ovchinnikova.android.scandroid_2.presentation.ScanAnalyzer
+import com.t_ovchinnikova.android.scandroid_2.presentation.ScanResultListener
+import java.io.IOException
 
 
 class ScanFromImageDialog : BaseBottomSheetDialog() {
@@ -18,6 +25,15 @@ class ScanFromImageDialog : BaseBottomSheetDialog() {
             uri: Uri? ->
         uri?.let {
             binding.scanImage.setImageUriAsync(uri)
+            val image: InputImage
+            try {
+                image = InputImage.fromFilePath(requireContext(), uri)
+                val scanListener = ScanListener()
+                val analyzer = ScanAnalyzer(scanListener)
+                analyzer.recognizeCode(image)
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
         }
     }
 
@@ -44,6 +60,14 @@ class ScanFromImageDialog : BaseBottomSheetDialog() {
 
     private fun chooseImageGallery() {
         pickImageFromGallery.launch("image/*")
+    }
+
+    inner class ScanListener : ScanResultListener {
+
+        override fun onScanned(resultCode: Code) {
+            Log.d("MyLog", "onScanned resultCode: $resultCode")
+            binding.scanIntermediateResult.text = getString(R.string.scan_result_from_image, getString(resultCode.formatToStringId()), resultCode.text)
+        }
     }
 
     companion object {
