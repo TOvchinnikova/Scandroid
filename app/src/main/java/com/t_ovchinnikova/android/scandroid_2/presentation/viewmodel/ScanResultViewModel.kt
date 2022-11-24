@@ -20,13 +20,13 @@ class ScanResultViewModel(
     fun updateBarcode(code: Code) {
         _code.value = code
         viewModelScope.launch {
-            addCodeUseCase.addCode(code)
+            addCodeUseCase(code)
         }
     }
 
     fun deleteBarcode(id: Long) {
         viewModelScope.launch {
-            deleteCodeUseCase.deleteCode(id)
+            deleteCodeUseCase(id)
         }
     }
 

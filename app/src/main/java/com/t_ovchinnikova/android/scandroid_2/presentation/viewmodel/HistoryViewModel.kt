@@ -15,20 +15,20 @@ class HistoryViewModel(
     val getCodesUseCase: GetCodesUseCase,
 ) : ViewModel() {
 
-    val codeListLiveData = getCodesUseCase.getCodes()
+    val codeListLiveData = getCodesUseCase()
 
     private val _codeDialogShowed = MutableLiveData<Boolean>()
     val codeDialogShowed: LiveData<Boolean> = _codeDialogShowed
 
     fun deleteCode(codeId: Long) {
         viewModelScope.launch {
-            deleteCodeUseCase.deleteCode(codeId)
+            deleteCodeUseCase(codeId)
         }
     }
 
     fun deleteAllCodes() {
         viewModelScope.launch {
-            deleteAllCodesUseCase.deleteAllCodes()
+            deleteAllCodesUseCase()
         }
     }
 

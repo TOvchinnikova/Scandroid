@@ -1,35 +1,39 @@
 package com.t_ovchinnikova.android.scandroid_2.di
 
-import com.google.mlkit.vision.barcode.BarcodeScanning
+import com.t_ovchinnikova.android.scandroid_2.domain.CodeRepository
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.*
-import com.t_ovchinnikova.android.scandroid_2.domain.usecases.interactors.RecognizeCodeInteractor
+import com.t_ovchinnikova.android.scandroid_2.domain.usecases.interactors.*
 import org.koin.dsl.module
 
 val domainModule = module {
 
     factory<AddCodeUseCase> {
-        AddCodeUseCase(repository = get())
+        AddCodeInteractor(
+            repository = get() as CodeRepository
+        )
     }
 
     factory<DeleteAllCodesUseCase> {
-        DeleteAllCodesUseCase(repository = get())
+        DeleteAllCodesInteractor(
+            repository = get() as CodeRepository
+        )
     }
 
     factory<DeleteCodeUseCase> {
-        DeleteCodeUseCase(repository = get())
+        DeleteCodeInteractor(
+            repository = get() as CodeRepository
+        )
     }
 
     factory<GetCodesUseCase> {
-        GetCodesUseCase(repository = get())
+        GetCodesInteractor(
+            repository = get() as CodeRepository
+        )
     }
 
     factory<GetCodesWithFilterUseCase> {
-        GetCodesWithFilterUseCase(repository = get())
+        GetCodesWithFilterInteractor(
+            repository = get() as CodeRepository
+        )
     }
-
-//    factory<RecognizeCodeUseCase> {
-//        RecognizeCodeInteractor(
-//            scanner = BarcodeScanning.getClient()
-//        )
-//    }
 }
