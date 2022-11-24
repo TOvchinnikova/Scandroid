@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">ScandroidX</string>
     <string name="scanner">Scanner</string>
+    <string name="scan_image">Scan image</string>
     <string name="history">History</string>
     <string name="create">Create</string>
     <string name="settings">Settings</string>
@@ -10,6 +11,12 @@
     <string name="delete_all_question_dialog">Delete history?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="done">Done</string>
+    <string name="scan">Scan</string>
+    <string name="scan_result_from_image">Found %s: %s</string>
+    
+    <string name="detected">Detected:</string>
+    <string name="scan_image_hint">Move the markers to refine the scanned area.</string>
 
     <string name="barcode_format">Format:</string>
     <string name="barcode_type">Type:</string>

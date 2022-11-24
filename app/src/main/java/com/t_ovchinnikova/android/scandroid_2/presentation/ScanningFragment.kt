@@ -22,7 +22,9 @@ import androidx.lifecycle.LifecycleOwner
 import com.t_ovchinnikova.android.scandroid_2.Settings
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanningBinding
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
+import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.ScanFromImageDialog
 import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.ScanResultDialog
+import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.ScanningViewModel
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.concurrent.ExecutorService
@@ -90,6 +92,10 @@ class ScanningFragment : Fragment() {
                 overlay.setViewFinder()
             }
             flashButton = bottomActionBar.flashButton
+            bottomActionBar.imageScanButton.setOnClickListener {
+                viewModel.setScannerWorkState(false)
+                showScanFromImageDialog()
+            }
         }
         if (isFlashAvailable()) {
             flashButton.visibility = View.VISIBLE
@@ -108,7 +114,7 @@ class ScanningFragment : Fragment() {
                 }
             } else {
                 stopCamera()
-                newCode = null
+                //newCode = null
             }
         }
         viewModel.flashState.observe(viewLifecycleOwner) {
@@ -123,6 +129,11 @@ class ScanningFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun showScanFromImageDialog() {
+        ScanFromImageDialog.newInstance()
+            .show(childFragmentManager, ScanFromImageDialog::class.java.simpleName)
     }
 
     private fun showScanResultDialog(code: Code) {
@@ -154,7 +165,7 @@ class ScanningFragment : Fragment() {
         )
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
+   // @SuppressLint("UnsafeOptInUsageError")
     private fun bindCameraUseCases(cameraProvider: ProcessCameraProvider) {
         val display = viewFinder.display
         val screenAspectRatio = getScreenAspectRatio()

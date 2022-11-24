@@ -7,10 +7,6 @@ import com.t_ovchinnikova.android.scandroid_2.domain.CodeRepository
 
 class CodeRepositoryImpl(private val mapper: CodeMapper, private val codeDao: CodeDao): CodeRepository {
 
-    /*private val mapper = CodeMapper()
-
-    private val codeDao = database.CodeDao()*/
-
     override suspend fun addCode(code: Code): Long {
         return codeDao.addCode(mapper.mapEntityToDbModel(code))
     }
@@ -32,7 +28,6 @@ class CodeRepositoryImpl(private val mapper: CodeMapper, private val codeDao: Co
         Transformations.map(codeDao.getCodesWithFilter(filterText)) {
             mapper.mapListDbModelToListEntity(it)
         }
-
 
     companion object {
         private var INSTANCE: CodeRepositoryImpl? = null

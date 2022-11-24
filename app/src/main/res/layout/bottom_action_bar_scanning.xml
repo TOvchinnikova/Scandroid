@@ -19,11 +19,9 @@
         tools:visibility="visible"/>
 
     <ImageButton
-        android:id="@+id/imageAnalizeButton"
+        android:id="@+id/imageScanButton"
         style="@style/ButtonActionBarScanning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:srcCompat="@drawable/ic_image_analize"
-        tools:visibility="visible"/>
+        app:srcCompat="@drawable/ic_image_analize" />
 </LinearLayout>
