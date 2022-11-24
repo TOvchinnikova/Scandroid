@@ -27,6 +27,7 @@ import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.ScanResultDia
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.ScanningViewModel
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -47,6 +48,19 @@ class ScanningFragment : Fragment() {
     private val settings: Settings by inject()
 
     private val viewModel by viewModel<ScanningViewModel>()
+
+    private val analyzer: ImageAnalysis.Analyzer by inject {
+        parametersOf(
+            object : ScanResultListener {
+                override fun onScanned(resultCode: Code) {
+                    if (settings.vibrate) vibrate()
+                    binding.scanProgress.visibility = View.VISIBLE
+                    viewModel.addCode(resultCode, settings.saveScannedBarcodesToHistory)
+                    viewModel.setScannerWorkState(false)
+                }
+            }
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -174,8 +188,6 @@ class ScanningFragment : Fragment() {
         imageAnalysis = buildImageAnalysis(screenAspectRatio, rotation)
         val cameraSelector = buildCameraSelector()
         addOrientationEventListener(preview)
-        val scanListener = ScanListener()
-        val analyzer = ScanAnalyzer(scanListener)
         imageAnalysis?.setAnalyzer(cameraExecutor, analyzer)
         val useCaseGroup = buildUseCaseGroup(preview)
         cameraProvider.unbindAll()
@@ -291,16 +303,6 @@ class ScanningFragment : Fragment() {
             vibrator.vibrate(VibrationEffect.createOneShot(350, VibrationEffect.DEFAULT_AMPLITUDE))
         } else {
             vibrator.vibrate(350)
-        }
-    }
-
-    inner class ScanListener : ScanResultListener {
-
-        override fun onScanned(resultCode: Code) {
-            if (settings.vibrate) vibrate()
-            binding.scanProgress.visibility = View.VISIBLE
-            viewModel.addCode(resultCode, settings.saveScannedBarcodesToHistory)
-            viewModel.setScannerWorkState(false)
         }
     }
 

@@ -1,39 +1,33 @@
 package com.t_ovchinnikova.android.scandroid_2.presentation
 
-import android.annotation.SuppressLint
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.ImageFormat
+import android.graphics.Matrix
+import android.graphics.Rect
 import android.media.Image
 import androidx.annotation.ColorInt
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
-import com.google.android.gms.tasks.Task
 import com.google.mlkit.vision.barcode.common.Barcode
-import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
+import com.t_ovchinnikova.android.scandroid_2.domain.usecases.RecognizeCodeUseCase
 
 
-class ScanAnalyzer(private val listener: ScanResultListener) : ImageAnalysis.Analyzer {
+class ScanAnalyzer(
+    private val listener: ScanResultListener,
+    private val recognizeCodeUseCase: RecognizeCodeUseCase
+) : ImageAnalysis.Analyzer {
 
     private val channelRange = 0 until (1 shl 18)
-    private val scanner = BarcodeScanning.getClient()
 
-    @SuppressLint("UnsafeOptInUsageError")
+    //@SuppressLint("UnsafeOptInUsageError")
     override fun analyze(imageProxy: ImageProxy) {
         val mediaImage = imageProxy.image
         if (mediaImage != null) {
             checkHolderDrawState(imageProxy, mediaImage)
         }
     }
-
-    fun recognizeCode(image: InputImage): Task<List<Barcode>> =
-        scanner.process(image)
-            .addOnSuccessListener {
-                if (it.isNotEmpty()) {
-                    checkList(it)
-                    scanner.close()
-                }
-            }
 
     private fun checkList(list: List<Barcode>) {
         list.firstOrNull().let { barcode ->
@@ -65,9 +59,12 @@ class ScanAnalyzer(private val listener: ScanResultListener) : ImageAnalysis.Ana
         )
         if (cropRect.height() > 0 && cropRect.width() > 0) {
             val croppedBitmap = rotateAndCrop(convertImageToBitmap, rotationDegrees, cropRect)
-            recognizeCode(InputImage.fromBitmap(croppedBitmap, 0))
+            recognizeCodeUseCase(InputImage.fromBitmap(croppedBitmap, 0))
                 .addOnSuccessListener {
-                    image.close()
+                    if (it.isNotEmpty()) {
+                        checkList(it)
+                        image.close()
+                    }
                 }
         }
     }

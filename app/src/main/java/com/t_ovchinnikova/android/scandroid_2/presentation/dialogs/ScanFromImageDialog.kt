@@ -29,8 +29,8 @@ class ScanFromImageDialog : BaseBottomSheetDialog() {
             try {
                 image = InputImage.fromFilePath(requireContext(), uri)
                 val scanListener = ScanListener()
-                val analyzer = ScanAnalyzer(scanListener)
-                analyzer.recognizeCode(image)
+//                val analyzer = ScanAnalyzer(scanListener)
+//                analyzer.recognizeCode(image)
             } catch (e: IOException) {
                 e.printStackTrace()
             }

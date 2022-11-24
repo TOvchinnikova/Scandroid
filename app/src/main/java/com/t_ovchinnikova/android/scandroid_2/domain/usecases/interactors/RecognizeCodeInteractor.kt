@@ -11,6 +11,8 @@ class RecognizeCodeInteractor(
 ) : RecognizeCodeUseCase {
 
     override fun invoke(image: InputImage): Task<List<Barcode>> {
-        return scanner.process(image)
+        val scanResult = scanner.process(image)
+        scanner.close()
+        return scanResult
     }
 }
