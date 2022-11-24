@@ -27,9 +27,9 @@ val domainModule = module {
         GetCodesWithFilterUseCase(repository = get())
     }
 
-    factory<RecognizeCodeUseCase> {
-        RecognizeCodeInteractor(
-            scanner = BarcodeScanning.getClient()
-        )
-    }
+//    factory<RecognizeCodeUseCase> {
+//        RecognizeCodeInteractor(
+//            scanner = BarcodeScanning.getClient()
+//        )
+//    }
 }

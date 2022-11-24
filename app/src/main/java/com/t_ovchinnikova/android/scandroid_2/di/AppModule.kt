@@ -13,6 +13,7 @@ import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.ScanResultV
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.ScanningViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.scope.get
 import org.koin.dsl.module
 
 val appModule = module {
@@ -49,14 +50,15 @@ val appModule = module {
 
     factory<ImageAnalysis.Analyzer> { (scanResultListener: ScanResultListener) ->
         ScanAnalyzer(
-            listener = scanResultListener,
-            recognizeCodeUseCase = get() as RecognizeCodeUseCase
+            recognizeCodeUseCase = get() as RecognizeCodeUseCase,
+            listener = scanResultListener
         )
     }
 
-    factory<RecognizeCodeUseCase> {
+    factory<RecognizeCodeUseCase> { //(scanResultListener: ScanResultListener) ->
         RecognizeCodeInteractor(
-            scanner = BarcodeScanning.getClient()
+            scanner = BarcodeScanning.getClient()//,
+            //listener = scanResultListener
         )
     }
 }

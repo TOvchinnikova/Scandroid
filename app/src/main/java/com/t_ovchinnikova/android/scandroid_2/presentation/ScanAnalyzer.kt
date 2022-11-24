@@ -8,36 +8,21 @@ import android.media.Image
 import androidx.annotation.ColorInt
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
-import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
-import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.RecognizeCodeUseCase
 
 
 class ScanAnalyzer(
-    private val listener: ScanResultListener,
-    private val recognizeCodeUseCase: RecognizeCodeUseCase
+    private val recognizeCodeUseCase: RecognizeCodeUseCase,
+    private val listener: ScanResultListener
 ) : ImageAnalysis.Analyzer {
 
     private val channelRange = 0 until (1 shl 18)
 
-    //@SuppressLint("UnsafeOptInUsageError")
     override fun analyze(imageProxy: ImageProxy) {
         val mediaImage = imageProxy.image
         if (mediaImage != null) {
             checkHolderDrawState(imageProxy, mediaImage)
-        }
-    }
-
-    private fun checkList(list: List<Barcode>) {
-        list.firstOrNull().let { barcode ->
-            val rawValue = barcode?.rawValue
-            rawValue?.let {
-                val format = barcode.format
-                val type = barcode.valueType
-                val code = Code(text = rawValue, format = format, type = type)
-                listener.onScanned(code)
-            }
         }
     }
 
@@ -59,13 +44,8 @@ class ScanAnalyzer(
         )
         if (cropRect.height() > 0 && cropRect.width() > 0) {
             val croppedBitmap = rotateAndCrop(convertImageToBitmap, rotationDegrees, cropRect)
-            recognizeCodeUseCase(InputImage.fromBitmap(croppedBitmap, 0))
-                .addOnSuccessListener {
-                    if (it.isNotEmpty()) {
-                        checkList(it)
-                        image.close()
-                    }
-                }
+            recognizeCodeUseCase(InputImage.fromBitmap(croppedBitmap, 0), listener)
+            image.close()
         }
     }
 
