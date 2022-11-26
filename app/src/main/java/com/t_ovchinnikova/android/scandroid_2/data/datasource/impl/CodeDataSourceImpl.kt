@@ -2,7 +2,7 @@ package com.t_ovchinnikova.android.scandroid_2.data.datasource.impl
 
 import androidx.lifecycle.LiveData
 import com.t_ovchinnikova.android.scandroid_2.data.CodeDao
-import com.t_ovchinnikova.android.scandroid_2.data.CodeDbModel
+import com.t_ovchinnikova.android.scandroid_2.data.entity.CodeDbModel
 import com.t_ovchinnikova.android.scandroid_2.data.datasource.CodeDataSource
 
 class CodeDataSourceImpl(

@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.t_ovchinnikova.android.scandroid_2.data.entity.CodeDbModel
 
 @Dao
 interface CodeDao {

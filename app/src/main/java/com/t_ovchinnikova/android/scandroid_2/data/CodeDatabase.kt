@@ -7,6 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.t_ovchinnikova.android.scandroid_2.data.entity.CodeDbModel
 
 @Database(entities = [CodeDbModel::class], version = 3)
 @TypeConverters(CodeDatabaseTypeConverter::class)

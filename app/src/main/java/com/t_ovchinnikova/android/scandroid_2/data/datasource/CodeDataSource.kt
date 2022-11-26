@@ -1,7 +1,7 @@
 package com.t_ovchinnikova.android.scandroid_2.data.datasource
 
 import androidx.lifecycle.LiveData
-import com.t_ovchinnikova.android.scandroid_2.data.CodeDbModel
+import com.t_ovchinnikova.android.scandroid_2.data.entity.CodeDbModel
 
 interface CodeDataSource {
 

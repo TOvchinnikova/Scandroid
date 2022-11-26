@@ -1,5 +1,6 @@
 package com.t_ovchinnikova.android.scandroid_2.data
 
+import com.t_ovchinnikova.android.scandroid_2.data.entity.CodeDbModel
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 
 class CodeMapper {

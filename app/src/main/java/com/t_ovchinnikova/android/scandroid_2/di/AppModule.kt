@@ -1,9 +1,10 @@
 package com.t_ovchinnikova.android.scandroid_2.di
 
-import android.content.Context
 import androidx.camera.core.ImageAnalysis
 import com.google.mlkit.vision.barcode.BarcodeScanning
-import com.t_ovchinnikova.android.scandroid_2.Settings
+import com.t_ovchinnikova.android.scandroid_2.SettingsDataSourceImpl
+import com.t_ovchinnikova.android.scandroid_2.SettingsDataSourceImpl.Companion.getSettingsDataStore
+import com.t_ovchinnikova.android.scandroid_2.data.datasource.SettingsDataSource
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.*
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.interactors.RecognizeCodeInteractor
 import com.t_ovchinnikova.android.scandroid_2.presentation.ScanAnalyzer
@@ -11,9 +12,9 @@ import com.t_ovchinnikova.android.scandroid_2.presentation.ScanResultListener
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.HistoryViewModel
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.ScanResultViewModel
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.ScanningViewModel
+import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.SettingsViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.core.scope.get
 import org.koin.dsl.module
 
 val appModule = module {
@@ -28,7 +29,8 @@ val appModule = module {
 
     viewModel<ScanningViewModel> {
         ScanningViewModel(
-            addCodeUseCase = get() as AddCodeUseCase
+            addCodeUseCase = get() as AddCodeUseCase,
+            getSettingsUseCase = get() as GetSettingsUseCase
         )
     }
 
@@ -39,12 +41,10 @@ val appModule = module {
         )
     }
 
-    single<Settings> {
-        Settings(
-            sharedPreferences = androidContext().getSharedPreferences(
-                Settings.SHARED_PREFERENCES_SETTINGS,
-                Context.MODE_PRIVATE
-            )
+    viewModel<SettingsViewModel> {
+        SettingsViewModel(
+            saveSettingsUseCase = get() as SaveSettingsUseCase,
+            getSettingsUseCase = get() as GetSettingsUseCase
         )
     }
 
