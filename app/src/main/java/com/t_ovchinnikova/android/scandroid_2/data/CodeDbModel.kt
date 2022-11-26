@@ -11,6 +11,6 @@ class CodeDbModel (
     val format: Int,
     val type: Int,
     val date: Date = Date(),
-    var note: String = "",
-    var isFavorite: Boolean = false
+    val note: String = "",
+    val isFavorite: Boolean = false
 )
