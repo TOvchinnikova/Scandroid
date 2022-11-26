@@ -3,7 +3,6 @@ package com.t_ovchinnikova.android.scandroid_2.presentation
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Context.VIBRATOR_SERVICE
 import android.content.pm.PackageManager
 import android.os.*
 import android.util.DisplayMetrics
@@ -25,6 +24,7 @@ import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.ScanFromImageDialog
 import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.ScanResultDialog
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.ScanningViewModel
+import com.t_ovchinnikova.android.scandroid_2.vibrate
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -53,7 +53,7 @@ class ScanningFragment : Fragment() {
         parametersOf(
             object : ScanResultListener {
                 override fun onScanned(resultCode: Code) {
-                    if (settings.vibrate) vibrate()
+                    if (settings.vibrate) requireContext().vibrate()
                     binding.scanProgress.visibility = View.VISIBLE
                     viewModel.addCode(resultCode, settings.saveScannedBarcodesToHistory)
                     viewModel.setScannerWorkState(false)
@@ -128,7 +128,6 @@ class ScanningFragment : Fragment() {
                 }
             } else {
                 stopCamera()
-                //newCode = null
             }
         }
         viewModel.flashState.observe(viewLifecycleOwner) {
@@ -179,7 +178,6 @@ class ScanningFragment : Fragment() {
         )
     }
 
-   // @SuppressLint("UnsafeOptInUsageError")
     private fun bindCameraUseCases(cameraProvider: ProcessCameraProvider) {
         val display = viewFinder.display
         val screenAspectRatio = getScreenAspectRatio()
@@ -290,21 +288,6 @@ class ScanningFragment : Fragment() {
 
     private fun isFlashAvailable() = requireContext().packageManager
         .hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)
-
-    private fun vibrate() {
-        val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            val vibratorManager = requireContext()
-                .getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
-            vibratorManager.defaultVibrator
-        } else {
-            requireContext().getSystemService(VIBRATOR_SERVICE) as Vibrator
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            vibrator.vibrate(VibrationEffect.createOneShot(350, VibrationEffect.DEFAULT_AMPLITUDE))
-        } else {
-            vibrator.vibrate(350)
-        }
-    }
 
     companion object {
         fun newInstance() = ScanningFragment()
