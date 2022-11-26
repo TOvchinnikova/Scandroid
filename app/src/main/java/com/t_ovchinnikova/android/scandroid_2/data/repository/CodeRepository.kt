@@ -1,6 +1,7 @@
-package com.t_ovchinnikova.android.scandroid_2.domain
+package com.t_ovchinnikova.android.scandroid_2.data.repository
 
 import androidx.lifecycle.LiveData
+import com.t_ovchinnikova.android.scandroid_2.domain.Code
 
 interface CodeRepository {
 

@@ -1,6 +1,6 @@
 package com.t_ovchinnikova.android.scandroid_2.di
 
-import com.t_ovchinnikova.android.scandroid_2.domain.CodeRepository
+import com.t_ovchinnikova.android.scandroid_2.data.repository.CodeRepository
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.*
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.interactors.*
 import org.koin.dsl.module
