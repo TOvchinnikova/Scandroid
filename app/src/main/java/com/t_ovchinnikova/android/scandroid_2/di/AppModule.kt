@@ -2,9 +2,6 @@ package com.t_ovchinnikova.android.scandroid_2.di
 
 import androidx.camera.core.ImageAnalysis
 import com.google.mlkit.vision.barcode.BarcodeScanning
-import com.t_ovchinnikova.android.scandroid_2.SettingsDataSourceImpl
-import com.t_ovchinnikova.android.scandroid_2.SettingsDataSourceImpl.Companion.getSettingsDataStore
-import com.t_ovchinnikova.android.scandroid_2.data.datasource.SettingsDataSource
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.*
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.interactors.RecognizeCodeInteractor
 import com.t_ovchinnikova.android.scandroid_2.presentation.ScanAnalyzer
@@ -13,7 +10,6 @@ import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.HistoryView
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.ScanResultViewModel
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.ScanningViewModel
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.SettingsViewModel
-import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 

@@ -1,5 +1,6 @@
 package com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.t_ovchinnikova.android.scandroid_2.SettingsData
@@ -18,6 +19,7 @@ class SettingsViewModel(
         .flowOn(IO)
         .filterNotNull()
         .onEach {
+            Log.d("MyLog", "SettingsViewModel it: $it")
             loadingStateFlow.value = SettingsLoadingState.Hide
         }
         .stateIn(

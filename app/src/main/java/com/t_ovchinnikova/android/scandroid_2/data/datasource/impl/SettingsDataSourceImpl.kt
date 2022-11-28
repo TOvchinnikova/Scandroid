@@ -1,4 +1,4 @@
-package com.t_ovchinnikova.android.scandroid_2
+package com.t_ovchinnikova.android.scandroid_2.data.datasource.impl
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStoreFile
+import com.t_ovchinnikova.android.scandroid_2.SettingsData
 import com.t_ovchinnikova.android.scandroid_2.data.datasource.SettingsDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
