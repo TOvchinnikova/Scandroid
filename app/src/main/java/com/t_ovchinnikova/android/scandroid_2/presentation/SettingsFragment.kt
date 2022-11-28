@@ -35,17 +35,17 @@ class SettingsFragment : Fragment() {
 
     private fun setupView() {
         with(binding) {
-            swFlash.setOnCheckedChangeListener { _, isChecked ->
-                viewModel.saveSettings(getNewSettingsData().copy(isFlashlightWhenAppStarts = isChecked))
+            swFlash.setOnCheckedChangeListener { _, _ ->
+                viewModel.saveSettings(getNewSettingsData())
             }
-            swSave.setOnCheckedChangeListener { _, isChecked ->
-                viewModel.saveSettings(getNewSettingsData().copy(isSaveScannedBarcodesToHistory = isChecked))
+            swSave.setOnCheckedChangeListener { _, _ ->
+                viewModel.saveSettings(getNewSettingsData())
             }
-            swVibrate.setOnCheckedChangeListener { _, isChecked ->
-                viewModel.saveSettings(getNewSettingsData().copy(isVibrationOnScan = isChecked))
+            swVibrate.setOnCheckedChangeListener { _, _ ->
+                viewModel.saveSettings(getNewSettingsData())
             }
-            swSendNote.setOnCheckedChangeListener { _, isChecked ->
-                viewModel.saveSettings(getNewSettingsData().copy(isSendingNoteWithCode = isChecked))
+            swSendNote.setOnCheckedChangeListener { _, _ ->
+                viewModel.saveSettings(getNewSettingsData())
             }
         }
     }

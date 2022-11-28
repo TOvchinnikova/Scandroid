@@ -1,6 +1,5 @@
 package com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.t_ovchinnikova.android.scandroid_2.SettingsData
@@ -8,6 +7,7 @@ import com.t_ovchinnikova.android.scandroid_2.domain.usecases.GetSettingsUseCase
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.SaveSettingsUseCase
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.launch
 
 class SettingsViewModel(
@@ -19,12 +19,11 @@ class SettingsViewModel(
         .flowOn(IO)
         .filterNotNull()
         .onEach {
-            Log.d("MyLog", "SettingsViewModel it: $it")
             loadingStateFlow.value = SettingsLoadingState.Hide
         }
         .stateIn(
             scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(),
+            started = WhileSubscribed(),
             initialValue = null
         )
 
