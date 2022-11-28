@@ -40,7 +40,6 @@ class ScanningFragment : Fragment() {
     private var imageAnalysis: ImageAnalysis? = null
     private lateinit var flashButton: ImageButton
     private var camera: Camera? = null
-    private var flashState: Boolean = false
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
     private var newCode: Code? = null
 
@@ -81,14 +80,7 @@ class ScanningFragment : Fragment() {
         observeViewModel()
         if (savedInstanceState == null) {
             viewModel.setScannerWorkState(true)
-            viewModel.switchFlash(viewModel.getSettings()?.isVibrationOnScan == true)
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        camera?.let {
-            toggleFlash()
+            viewModel.switchFlash()
         }
     }
 
@@ -112,8 +104,7 @@ class ScanningFragment : Fragment() {
         if (isFlashAvailable()) {
             flashButton.visibility = View.VISIBLE
             flashButton.setOnClickListener {
-                viewModel.switchFlash(flashState.not())
-                toggleFlash()
+                viewModel.switchFlash()
             }
         }
     }
@@ -128,8 +119,10 @@ class ScanningFragment : Fragment() {
                 stopCamera()
             }
         }
-        viewModel.flashState.observe(viewLifecycleOwner) {
-            flashState = it
+        viewModel.flashState.observe(viewLifecycleOwner) { isFlashlightOn ->
+            camera?.let {
+                toggleFlash(isFlashlightOn)
+            }
         }
         viewModel.newCode.observe(viewLifecycleOwner) {
             if (newCode == null) {
@@ -152,9 +145,9 @@ class ScanningFragment : Fragment() {
             .show(childFragmentManager, ScanResultDialog::class.java.simpleName)
     }
 
-    private fun toggleFlash() {
-        flashButton.isActivated = flashState
-        camera?.cameraControl?.enableTorch(flashState)
+    private fun toggleFlash(isFlashlightOn: Boolean) {
+        flashButton.isActivated = isFlashlightOn
+        camera?.cameraControl?.enableTorch(isFlashlightOn)
             ?: throw RuntimeException("Camera value cannot be equal to cash")
     }
 
@@ -192,7 +185,7 @@ class ScanningFragment : Fragment() {
 
         if (isFlashAvailable()) {
             flashButton.visibility = View.VISIBLE
-            toggleFlash()
+            toggleFlash(viewModel.flashState.value == true)
         }
     }
 

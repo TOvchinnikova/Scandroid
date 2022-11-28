@@ -9,11 +9,8 @@ import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.AddCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.GetSettingsUseCase
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class ScanningViewModel(
@@ -34,6 +31,9 @@ class ScanningViewModel(
     private val settingsFlow = getSettingsUseCase()
         .flowOn(IO)
         .filterNotNull()
+        .onEach {
+            _flashState.value = it.isFlashlightWhenAppStarts
+        }
         .stateIn(
             scope = viewModelScope,
             started = WhileSubscribed(),
@@ -51,8 +51,8 @@ class ScanningViewModel(
         if (state) _newCode.value = null
     }
 
-    fun switchFlash(state: Boolean) {
-        _flashState.value = state
+    fun switchFlash() {
+        _flashState.value = _flashState.value?.not() ?: false
     }
 
     fun addCode(code: Code, isSave: Boolean) {
