@@ -15,7 +15,7 @@ class SettingsViewModel(
     getSettingsUseCase: GetSettingsUseCase
 ) : ViewModel() {
 
-    private val settingsFlow = getSettingsUseCase()
+    private val settingsFlow = getSettingsUseCase.invokeAsync()
         .flowOn(IO)
         .filterNotNull()
         .onEach {

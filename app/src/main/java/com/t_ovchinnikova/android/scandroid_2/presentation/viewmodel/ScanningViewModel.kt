@@ -15,20 +15,20 @@ import kotlinx.coroutines.launch
 
 class ScanningViewModel(
     private val addCodeUseCase: AddCodeUseCase,
-    getSettingsUseCase: GetSettingsUseCase
+    private val getSettingsUseCase: GetSettingsUseCase
 ) : ViewModel() {
-
-    private val _scannerWorkState = MutableLiveData<Boolean>()
-    val scannerWorkState: LiveData<Boolean> = _scannerWorkState
 
     private val _flashState = MutableLiveData<Boolean>()
     val flashState: LiveData<Boolean> = _flashState
 
-    private val _newCode = MutableLiveData<Code?>()
-    val newCode: LiveData<Code?>
-        get() = _newCode
+    private val _lastScannedCode = MutableLiveData<Code?>()
+    val lastScannedCode: LiveData<Code?>
+        get() = _lastScannedCode
 
-    private val settingsFlow = getSettingsUseCase()
+    private val scannerWorkStateFlow =
+        MutableStateFlow<ScannerWorkState>(ScannerWorkState.ScannerActive)
+
+    private val settingsFlow = getSettingsUseCase.invokeAsync()
         .flowOn(IO)
         .filterNotNull()
         .onEach {
@@ -46,28 +46,39 @@ class ScanningViewModel(
         }
     }
 
-    fun setScannerWorkState(state: Boolean) {
-        _scannerWorkState.value = state
-        if (state) _newCode.value = null
+    fun setScannerState(state: ScannerWorkState) {
+        scannerWorkStateFlow.value = state
     }
 
     fun switchFlash() {
         _flashState.value = _flashState.value?.not() ?: false
     }
 
-    fun addCode(code: Code, isSave: Boolean) {
-        if (isSave) {
-            viewModelScope.launch {
-                val id = addCodeUseCase(code)
-                code.id = id
-                _newCode.value = code
+    fun addCode(code: Code) {
+        scannerWorkStateFlow.value = ScannerWorkState.ScanInactive
+        _lastScannedCode.value = code
+        viewModelScope.launch {
+            if (getSettingsUseCase.invoke().isSaveScannedBarcodesToHistory) {
+                val idSavedCode = addCodeUseCase(code)
+                scannerWorkStateFlow.value =
+                    ScannerWorkState.ScanNeedShowResult(code.copy(id = idSavedCode))
+            } else {
+                scannerWorkStateFlow.value = ScannerWorkState.ScanNeedShowResult(code)
             }
-        } else {
-            _newCode.value = code
         }
     }
 
     fun getSettings(): SettingsData? {
         return settingsFlow.value
+    }
+
+    fun getScannerWorkStateObservable(): StateFlow<ScannerWorkState> {
+        return scannerWorkStateFlow
+    }
+
+    sealed class ScannerWorkState {
+        object ScannerActive : ScannerWorkState()
+        object ScanInactive : ScannerWorkState()
+        class ScanNeedShowResult(val scannedCode: Code) : ScannerWorkState()
     }
 }

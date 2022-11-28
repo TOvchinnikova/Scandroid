@@ -22,7 +22,7 @@ class ScanResultViewModel(
     private val _code = MutableLiveData<Code>()
     val code: LiveData<Code> = _code
 
-    private val settingsFlow = getSettingsUseCase()
+    private val settingsFlow = getSettingsUseCase.invokeAsync()
         .flowOn(Dispatchers.IO)
         .filterNotNull()
         .stateIn(

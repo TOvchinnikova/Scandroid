@@ -5,5 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface GetSettingsUseCase {
 
-    operator fun invoke(): Flow<SettingsData>
+    fun invokeAsync(): Flow<SettingsData>
+
+    suspend fun invoke(): SettingsData
 }

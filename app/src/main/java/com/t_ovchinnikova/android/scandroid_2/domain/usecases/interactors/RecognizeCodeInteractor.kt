@@ -14,9 +14,11 @@ class RecognizeCodeInteractor : RecognizeCodeUseCase {
         scanner.process(image).addOnSuccessListener {
             checkList(it)?.let {
                 listener.onScanned(it)
-                scanner.close()
             }
         }
+            .addOnCompleteListener {
+                scanner.close()
+            }
     }
 
     private fun checkList(list: List<Barcode>): Code? {
