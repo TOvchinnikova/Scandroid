@@ -53,8 +53,6 @@ val appModule = module {
     }
 
     factory<RecognizeCodeUseCase> {
-        RecognizeCodeInteractor(
-            scanner = BarcodeScanning.getClient()
-        )
+        RecognizeCodeInteractor()
     }
 }
