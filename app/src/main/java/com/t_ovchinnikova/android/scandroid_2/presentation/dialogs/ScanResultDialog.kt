@@ -3,21 +3,22 @@ package com.t_ovchinnikova.android.scandroid_2.presentation.dialogs
 import android.app.SearchManager
 import android.content.*
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.t_ovchinnikova.android.scandroid_2.R
-import com.t_ovchinnikova.android.scandroid_2.Settings
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanResultDialogBinding
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import com.t_ovchinnikova.android.scandroid_2.domain.formatToStringId
 import com.t_ovchinnikova.android.scandroid_2.domain.typeToString
-import com.t_ovchinnikova.android.scandroid_2.presentation.*
+import com.t_ovchinnikova.android.scandroid_2.presentation.HistoryFragment
+import com.t_ovchinnikova.android.scandroid_2.presentation.ScanningFragment
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.HistoryViewModel
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.ScanResultViewModel
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.ScanningViewModel
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -29,8 +30,6 @@ class ScanResultDialog : BaseBottomSheetDialog(), EditCodeNoteListener, DeleteCo
     private lateinit var editedCode: Code
 
     private val viewModel by viewModel<ScanResultViewModel>()
-
-    private val settings: Settings by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -140,7 +139,7 @@ class ScanResultDialog : BaseBottomSheetDialog(), EditCodeNoteListener, DeleteCo
 
     private fun sendText(text: String, note: String) {
         val message =
-            if (note.isNotBlank() && settings.sendingNote)
+            if (note.isNotBlank() && viewModel.getSettings()?.isSendingNoteWithCode == true)
                 text + '\n' + note
             else
                 text

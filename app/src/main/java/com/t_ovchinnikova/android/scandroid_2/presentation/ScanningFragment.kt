@@ -18,7 +18,6 @@ import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
-import com.t_ovchinnikova.android.scandroid_2.Settings
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanningBinding
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.ScanFromImageDialog
@@ -45,17 +44,16 @@ class ScanningFragment : Fragment() {
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
     private var newCode: Code? = null
 
-    private val settings: Settings by inject()
-
     private val viewModel by viewModel<ScanningViewModel>()
 
     private val analyzer: ImageAnalysis.Analyzer by inject {
         parametersOf(
             object : ScanResultListener {
                 override fun onScanned(resultCode: Code) {
-                    if (settings.vibrate) requireContext().vibrate()
+                    val settings = viewModel.getSettings()
+                    if (settings?.isVibrationOnScan == true) requireContext().vibrate()
                     binding.scanProgress.visibility = View.VISIBLE
-                    viewModel.addCode(resultCode, settings.saveScannedBarcodesToHistory)
+                    viewModel.addCode(resultCode, settings?.isSaveScannedBarcodesToHistory == true)
                     viewModel.setScannerWorkState(false)
                 }
             }
@@ -80,10 +78,10 @@ class ScanningFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-        setupViewModel()
+        observeViewModel()
         if (savedInstanceState == null) {
             viewModel.setScannerWorkState(true)
-            viewModel.switchFlash(settings.flash)
+            viewModel.switchFlash(viewModel.getSettings()?.isVibrationOnScan == true)
         }
     }
 
@@ -120,7 +118,7 @@ class ScanningFragment : Fragment() {
         }
     }
 
-    private fun setupViewModel() {
+    private fun observeViewModel() {
         viewModel.scannerWorkState.observe(viewLifecycleOwner) { scannerWorkState ->
             if (scannerWorkState) {
                 viewFinder.post {

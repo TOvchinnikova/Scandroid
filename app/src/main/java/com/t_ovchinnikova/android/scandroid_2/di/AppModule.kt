@@ -37,7 +37,8 @@ val appModule = module {
     viewModel<ScanResultViewModel> {
         ScanResultViewModel(
             deleteCodeUseCase = get() as DeleteCodeUseCase,
-            addCodeUseCase = get() as AddCodeUseCase
+            addCodeUseCase = get() as AddCodeUseCase,
+            getSettingsUseCase = get() as GetSettingsUseCase
         )
     }
 

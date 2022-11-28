@@ -1,5 +1,6 @@
 package com.t_ovchinnikova.android.scandroid_2.di
 
+import com.t_ovchinnikova.android.scandroid_2.data.datasource.SettingsDataSource
 import com.t_ovchinnikova.android.scandroid_2.data.repository.CodeRepository
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.*
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.interactors.*
@@ -34,6 +35,18 @@ val domainModule = module {
     factory<GetCodesWithFilterUseCase> {
         GetCodesWithFilterInteractor(
             repository = get() as CodeRepository
+        )
+    }
+
+    factory<SaveSettingsUseCase> {
+        SaveSettingsInteractor(
+            dataSource = get() as SettingsDataSource
+        )
+    }
+
+    factory<GetSettingsUseCase> {
+        GetSettingsInteractor(
+            dataSource = get() as SettingsDataSource
         )
     }
 }
