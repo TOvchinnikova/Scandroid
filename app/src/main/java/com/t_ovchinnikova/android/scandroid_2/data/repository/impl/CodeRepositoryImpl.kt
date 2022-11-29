@@ -6,6 +6,8 @@ import com.t_ovchinnikova.android.scandroid_2.data.CodeMapper
 import com.t_ovchinnikova.android.scandroid_2.data.datasource.CodeDataSource
 import com.t_ovchinnikova.android.scandroid_2.data.repository.CodeRepository
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class CodeRepositoryImpl(
     private val codeMapper: CodeMapper,
@@ -33,4 +35,10 @@ class CodeRepositoryImpl(
         Transformations.map(codeDataSource.getCodesWithFilter(filterText)) {
             codeMapper.mapListDbModelToListEntity(it)
         }
+
+    override fun getCodeById(id: Long): Flow<Code> {
+        return codeDataSource.getCodeById(id).map {
+            codeMapper.mapDbModelToEntity(it)
+        }
+    }
 }

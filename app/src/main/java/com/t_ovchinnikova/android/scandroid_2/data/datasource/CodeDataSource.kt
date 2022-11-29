@@ -2,6 +2,7 @@ package com.t_ovchinnikova.android.scandroid_2.data.datasource
 
 import androidx.lifecycle.LiveData
 import com.t_ovchinnikova.android.scandroid_2.data.entity.CodeDbModel
+import kotlinx.coroutines.flow.Flow
 
 interface CodeDataSource {
 
@@ -15,5 +16,5 @@ interface CodeDataSource {
 
     fun getCodesWithFilter(filterText: String): LiveData<List<CodeDbModel>>
 
-
+    fun getCodeById(id: Long): Flow<CodeDbModel>
 }

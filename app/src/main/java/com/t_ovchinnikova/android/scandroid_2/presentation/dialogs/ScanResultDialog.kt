@@ -9,16 +9,19 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.t_ovchinnikova.android.scandroid_2.R
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanResultDialogBinding
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import com.t_ovchinnikova.android.scandroid_2.domain.formatToStringId
 import com.t_ovchinnikova.android.scandroid_2.domain.typeToString
+import com.t_ovchinnikova.android.scandroid_2.launchWhenStarted
 import com.t_ovchinnikova.android.scandroid_2.presentation.HistoryFragment
 import com.t_ovchinnikova.android.scandroid_2.presentation.ScanningFragment
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.HistoryViewModel
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.ScanResultViewModel
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.ScanningViewModel
+import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -26,10 +29,8 @@ import java.util.*
 class ScanResultDialog : BaseBottomSheetDialog(), EditCodeNoteListener, DeleteCodeListener {
 
     private lateinit var binding: FragmentScanResultDialogBinding
-    private lateinit var resultCode: Code
-    private lateinit var editedCode: Code
 
-    private val viewModel by viewModel<ScanResultViewModel>()
+    private val viewModel: ScanResultViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,14 +52,14 @@ class ScanResultDialog : BaseBottomSheetDialog(), EditCodeNoteListener, DeleteCo
     ): View {
         binding = FragmentScanResultDialogBinding.inflate(inflater, container, false)
 
-        if (savedInstanceState == null) {
-            resultCode = arguments?.getParcelable(ARG_SCAN_RESULT)
-                ?: throw RuntimeException("Required arguments were not passed")
-            viewModel.editCode(resultCode)
-            editedCode = resultCode.copy()
-        } else {
-            editedCode = viewModel.code.value ?: throw RuntimeException("Unknown code")
-        }
+     //   if (savedInstanceState == null) {
+//            resultCode = arguments?.getParcelable(ARG_SCAN_RESULT)
+                //?: throw RuntimeException("Required arguments were not passed")
+            //viewModel.editCode(resultCode)
+            //editedCode = resultCode.copy()
+//        } else {
+//            editedCode = viewModel.code.value ?: throw RuntimeException("Unknown code")
+//        }
         return binding.root
     }
 
@@ -66,6 +67,13 @@ class ScanResultDialog : BaseBottomSheetDialog(), EditCodeNoteListener, DeleteCo
         super.onViewCreated(view, savedInstanceState)
         initView()
         setupClickListeners()
+    }
+
+    private fun observeViewModel() {
+        viewModel.code.onEach {
+            showContent(it)
+        }
+            .launchWhenStarted(lifecycleScope)
     }
 
     override fun onDismiss(dialog: DialogInterface) {
@@ -85,7 +93,7 @@ class ScanResultDialog : BaseBottomSheetDialog(), EditCodeNoteListener, DeleteCo
     private fun setupClickListeners() {
         with(binding) {
             buttonCopy.setOnClickListener {
-                copyToClipboard(editedCode.text)
+                copyToClipboard(ivEditNote.text)
             }
             buttonSearchOnInternet.setOnClickListener {
                 searchWeb(editedCode.text)
@@ -104,30 +112,32 @@ class ScanResultDialog : BaseBottomSheetDialog(), EditCodeNoteListener, DeleteCo
         Toast.makeText(requireContext(), R.string.barcode_copied, Toast.LENGTH_SHORT).show()
     }
 
-    private fun initView() {
-        val dateFormatter = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.ENGLISH)
-        with(binding) {
-            tvType.text = getString(editedCode.typeToString())
-            tvResult.text = editedCode.text
-            tvDate.text = dateFormatter.format(editedCode.date)
-            toolbar.apply {
-                setTitle(editedCode.formatToStringId())
-                setOnMenuItemClickListener {
-                    when (it.itemId) {
-                        R.id.delete -> showDeleteDialog()
-                        R.id.isFavorite -> toggleIsFavorite()
-                        R.id.close -> dismiss()
-                        else -> throw RuntimeException("Unknown clicked item")
+    private fun showContent(code: Code?) {
+        code?.let {
+            val dateFormatter = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.ENGLISH)
+            with(binding) {
+                tvType.text = getString(it.typeToString())
+                tvResult.text = it.text
+                tvDate.text = dateFormatter.format(it.date)
+                toolbar.apply {
+                    setTitle(it.formatToStringId())
+                    setOnMenuItemClickListener {
+                        when (it.itemId) {
+                            R.id.delete -> showDeleteDialog()
+                            R.id.isFavorite -> toggleIsFavorite()
+                            R.id.close -> dismiss()
+                            else -> throw RuntimeException("Unknown clicked item")
+                        }
+                        return@setOnMenuItemClickListener true
                     }
-                    return@setOnMenuItemClickListener true
+                }
+                ivEditNote.setOnClickListener {
+                    showEditDialog(code.note)
                 }
             }
-            ivEditNote.setOnClickListener {
-                showEditDialog()
-            }
+            showCodeIsFavorite(it.isFavorite)
+            showNote(it.note)
         }
-        showCodeIsFavorite(editedCode.isFavorite)
-        showNote()
     }
 
     private fun searchWeb(queryText: String) {
@@ -159,9 +169,9 @@ class ScanResultDialog : BaseBottomSheetDialog(), EditCodeNoteListener, DeleteCo
         }
     }
 
-    private fun showNote() {
-        binding.tvNote.text = editedCode.note
-        binding.tvNote.visibility = if (editedCode.note != "") View.VISIBLE else View.GONE
+    private fun showNote(note: String) {
+        binding.tvNote.text = note
+        binding.tvNote.visibility = if (note.isNotBlank()) View.VISIBLE else View.GONE
     }
 
     private fun showCodeIsFavorite(isFavorite: Boolean) {
@@ -178,21 +188,24 @@ class ScanResultDialog : BaseBottomSheetDialog(), EditCodeNoteListener, DeleteCo
         dialog.show(childFragmentManager, "")
     }
 
-    private fun showEditDialog() {
-        val dialog = EditCodeNoteDialogFragment.newInstance(editedCode.note)
+    private fun showEditDialog(note: String) {
+        val dialog = EditCodeNoteDialogFragment.newInstance(note)
         dialog.show(childFragmentManager, "")
     }
 
-    private fun deleteBarcode() {
-        viewModel.deleteBarcode(editedCode.id)
+    private fun deleteBarcode(id: Long) {
+        viewModel.deleteBarcode(id)
         dismiss()
     }
 
-    private fun toggleIsFavorite() {
-        val isFavorite = editedCode.isFavorite.not()
-        editedCode.isFavorite = isFavorite
-        viewModel.updateBarcode(editedCode)
-        showCodeIsFavorite(isFavorite)
+    private fun toggleIsFavorite(code: Code) {
+        //val isFavorite = code.isFavorite.not()
+        viewModel.updateBarcode(
+            code.copy(
+                isFavorite = code.isFavorite.not()
+            )
+        )
+        //showCodeIsFavorite(isFavorite)
     }
 
     override fun onNoteConfirmed(note: String) {

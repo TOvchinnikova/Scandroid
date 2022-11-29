@@ -8,22 +8,36 @@ import com.t_ovchinnikova.android.scandroid_2.SettingsData
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.AddCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.DeleteCodeUseCase
+import com.t_ovchinnikova.android.scandroid_2.domain.usecases.GetCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.GetSettingsUseCase
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class ScanResultViewModel(
+    codeId: Long,
     private val deleteCodeUseCase: DeleteCodeUseCase,
     private val addCodeUseCase: AddCodeUseCase,
+    private val getCodeUseCase: GetCodeUseCase,
     getSettingsUseCase: GetSettingsUseCase
 ) : ViewModel() {
 
-    private val _code = MutableLiveData<Code>()
-    val code: LiveData<Code> = _code
+    private val _code = getCodeUseCase(codeId)
+        .flowOn(IO)
+        .filterNotNull()
+        .onEach {
+
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(),
+            initialValue = null
+        )
+    val code: StateFlow<Code?> = _code
 
     private val settingsFlow = getSettingsUseCase.invokeAsync()
-        .flowOn(Dispatchers.IO)
+        .flowOn(IO)
         .filterNotNull()
         .stateIn(
             scope = viewModelScope,
@@ -32,13 +46,13 @@ class ScanResultViewModel(
         )
 
     init {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(IO) {
             settingsFlow.collect()
         }
     }
 
     fun updateBarcode(code: Code) {
-        _code.value = code
+//        _code.value = code
         viewModelScope.launch {
             addCodeUseCase(code)
         }
@@ -50,9 +64,9 @@ class ScanResultViewModel(
         }
     }
 
-    fun editCode(code: Code) {
-        _code.value = code
-    }
+//    fun editCode(code: Code) {
+//        _code.value = code
+//    }
 
     fun getSettings(): SettingsData? {
         return settingsFlow.value

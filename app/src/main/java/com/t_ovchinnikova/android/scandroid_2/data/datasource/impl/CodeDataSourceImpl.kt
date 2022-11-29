@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import com.t_ovchinnikova.android.scandroid_2.data.CodeDao
 import com.t_ovchinnikova.android.scandroid_2.data.entity.CodeDbModel
 import com.t_ovchinnikova.android.scandroid_2.data.datasource.CodeDataSource
+import kotlinx.coroutines.flow.Flow
 
 class CodeDataSourceImpl(
     private val codeDao: CodeDao
@@ -27,5 +28,9 @@ class CodeDataSourceImpl(
 
     override fun getCodesWithFilter(filterText: String): LiveData<List<CodeDbModel>> {
         return codeDao.getCodesWithFilter(filterText)
+    }
+
+    override fun getCodeById(id: Long): Flow<CodeDbModel> {
+        return codeDao.getCodeById(id)
     }
 }

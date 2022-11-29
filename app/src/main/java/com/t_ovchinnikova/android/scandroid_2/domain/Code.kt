@@ -11,8 +11,8 @@ data class Code(
     val format: Int,
     val type: Int,
     val date: Date = Date(),
-    var note: String = "",
-    var isFavorite: Boolean = false
+    val note: String = "",
+    val isFavorite: Boolean = false
 ) : Parcelable {
 
     companion object {

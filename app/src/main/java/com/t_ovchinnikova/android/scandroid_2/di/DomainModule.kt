@@ -49,4 +49,10 @@ val domainModule = module {
             dataSource = get() as SettingsDataSource
         )
     }
+
+    factory<GetCodeUseCase> {
+        GetCodeInteractor(
+            repository = get() as CodeRepository
+        )
+    }
 }

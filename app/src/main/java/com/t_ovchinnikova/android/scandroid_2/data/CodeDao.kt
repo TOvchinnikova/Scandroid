@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.t_ovchinnikova.android.scandroid_2.data.entity.CodeDbModel
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CodeDao {
@@ -14,7 +15,7 @@ interface CodeDao {
     fun getCodes(): LiveData<List<CodeDbModel>>
 
     @Query("SELECT * FROM codes WHERE id = :id")
-    suspend fun getCode(id: Long): CodeDbModel
+    fun getCodeById(id: Long): Flow<CodeDbModel>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addCode(code: CodeDbModel): Long
