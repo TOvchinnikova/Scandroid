@@ -11,7 +11,7 @@
     <color name="secondary_text_color">@color/gray</color>
 
     <color name="search_view_textColor">@color/white</color>
-    <color name="search_view_HintTextColor">@color/gray</color>
+    <color name="search_view_hint_text_color">@color/gray</color>
 
     <color name="toolbar_color">@color/teal_700</color>
     <color name="toolbar_title_color">@color/white</color>

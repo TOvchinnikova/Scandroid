@@ -16,11 +16,11 @@
 
     <style name="SearchViewStyle">
         <item name="android:textColor">@color/search_view_textColor</item>
-        <item name="android:textColorHint">@color/search_view_HintTextColor</item>
+        <item name="android:textColorHint">@color/search_view_hint_text_color</item>
         <item name="android:drawableStart">@drawable/ic_search_gray</item>
         <item name="android:padding">@dimen/search_view_padding</item>
         <item name="android:inputType">text</item>
-        <item name="hintTextColor">@color/search_view_HintTextColor</item>
+        <item name="hintTextColor">@color/search_view_hint_text_color</item>
     </style>
 
     <style name="AlertDialogTheme" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">

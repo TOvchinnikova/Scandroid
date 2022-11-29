@@ -33,7 +33,9 @@ class SettingsViewModel(
 
     internal fun saveSettings(settings: SettingsData) {
         viewModelScope.launch {
-            saveSettingsUseCase(settings)
+            if (settings != settingsFlow.value) {
+                saveSettingsUseCase(settings)
+            }
         }
     }
 

@@ -31,7 +31,7 @@ class HistoryFragment : Fragment(), DeleteCodeListener {
     private lateinit var binding: FragmentScanningHistoryBinding
     private lateinit var codeListAdapter: CodeHistoryListAdapter
 
-    private val viewModel by viewModel<HistoryViewModel>()
+    private val viewModel: HistoryViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,

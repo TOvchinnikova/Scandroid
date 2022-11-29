@@ -35,16 +35,16 @@ class SettingsFragment : Fragment() {
 
     private fun setupView() {
         with(binding) {
-            swFlash.setOnCheckedChangeListener { _, _ ->
+            swFlash.setOnClickListener {
                 viewModel.saveSettings(getNewSettingsData())
             }
-            swSave.setOnCheckedChangeListener { _, _ ->
+            swSave.setOnClickListener {
                 viewModel.saveSettings(getNewSettingsData())
             }
-            swVibrate.setOnCheckedChangeListener { _, _ ->
+            swVibrate.setOnClickListener {
                 viewModel.saveSettings(getNewSettingsData())
             }
-            swSendNote.setOnCheckedChangeListener { _, _ ->
+            swSendNote.setOnClickListener {
                 viewModel.saveSettings(getNewSettingsData())
             }
         }

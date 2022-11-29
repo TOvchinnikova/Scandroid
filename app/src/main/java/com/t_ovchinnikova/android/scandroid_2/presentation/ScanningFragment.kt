@@ -10,7 +10,6 @@ import android.util.Log
 import android.util.Rational
 import android.view.*
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -57,7 +56,7 @@ class ScanningFragment : Fragment() {
         }
     }
 
-    private val viewModel by viewModel<ScanningViewModel>()
+    private val viewModel: ScanningViewModel by viewModel()
 
     private val analyzer: ImageAnalysis.Analyzer by inject {
         parametersOf(
@@ -117,7 +116,6 @@ class ScanningFragment : Fragment() {
                 }
             }
         }
-
     }
 
     private fun observeViewModel() {
