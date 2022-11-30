@@ -2,6 +2,7 @@ package com.t_ovchinnikova.android.scandroid_2.di
 
 import androidx.camera.core.ImageAnalysis
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.*
+import com.t_ovchinnikova.android.scandroid_2.domain.usecases.interactors.CropImageInteractor
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.interactors.RecognizeCodeInteractor
 import com.t_ovchinnikova.android.scandroid_2.presentation.ScanAnalyzer
 import com.t_ovchinnikova.android.scandroid_2.presentation.ScanResultListener
@@ -49,11 +50,16 @@ val appModule = module {
     factory<ImageAnalysis.Analyzer> { (scanResultListener: ScanResultListener) ->
         ScanAnalyzer(
             recognizeCodeUseCase = get() as RecognizeCodeUseCase,
-            listener = scanResultListener
+            listener = scanResultListener,
+            cropImageUseCase = get() as CropImageUseCase
         )
     }
 
     factory<RecognizeCodeUseCase> {
         RecognizeCodeInteractor()
+    }
+
+    factory<CropImageUseCase> {
+        CropImageInteractor()
     }
 }
