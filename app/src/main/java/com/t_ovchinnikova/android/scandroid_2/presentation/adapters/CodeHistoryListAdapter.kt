@@ -10,11 +10,11 @@ import com.t_ovchinnikova.android.scandroid_2.domain.formatToStringId
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CodeHistoryListAdapter : ListAdapter<Code, CodeHistoryListViewHolder>(CodeItemDiffCallback()) {
+class CodeHistoryListAdapter(
+    private val onCodeItemClickListener: ((Code) -> Unit)
+) : ListAdapter<Code, CodeHistoryListViewHolder>(CodeItemDiffCallback()) {
 
     private val dateFormatter = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.ENGLISH)
-
-    var onCodeItemClickListener: ((Code) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CodeHistoryListViewHolder {
         val binding = ItemCodeBinding.inflate(
@@ -33,7 +33,7 @@ class CodeHistoryListAdapter : ListAdapter<Code, CodeHistoryListViewHolder>(Code
             tvFormat.setText(code.formatToStringId())
             ivCode.setImageResource(code.formatToImageId())
             itemView.setOnClickListener {
-                onCodeItemClickListener?.invoke(code)
+                onCodeItemClickListener.invoke(code)
             }
         }
     }

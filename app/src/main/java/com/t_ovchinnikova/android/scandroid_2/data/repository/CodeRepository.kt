@@ -12,7 +12,7 @@ interface CodeRepository {
 
     suspend fun deleteAllCodes()
 
-    fun getCodes(): LiveData<List<Code>>
+    fun getCodes(): Flow<List<Code>>
 
     fun getCodesWithFilter(filterText: String): LiveData<List<Code>>
 

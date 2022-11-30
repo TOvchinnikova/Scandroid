@@ -14,6 +14,7 @@
     <string name="done">Done</string>
     <string name="scan">Scan</string>
     <string name="scan_result_from_image">Found %s: %s</string>
+    <string name="nothing_found">Nothing found</string>
     
     <string name="detected">Detected:</string>
     <string name="scan_image_hint">Move the markers to refine the scanned area.</string>

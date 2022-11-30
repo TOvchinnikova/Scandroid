@@ -12,7 +12,7 @@ interface CodeDataSource {
 
     suspend fun deleteAllCodes()
 
-    fun getCodes(): LiveData<List<CodeDbModel>>
+    fun getCodes(): Flow<List<CodeDbModel>>
 
     fun getCodesWithFilter(filterText: String): LiveData<List<CodeDbModel>>
 

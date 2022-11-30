@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 interface CodeDao {
 
     @Query("SELECT * FROM codes ORDER BY date DESC")
-    fun getCodes(): LiveData<List<CodeDbModel>>
+    fun getCodes(): Flow<List<CodeDbModel>>
 
     @Query("SELECT * FROM codes WHERE id = :id")
     fun getCodeById(id: Long): Flow<CodeDbModel>

@@ -22,7 +22,7 @@ class CodeDataSourceImpl(
         codeDao.deleteAllCodes()
     }
 
-    override fun getCodes(): LiveData<List<CodeDbModel>> {
+    override fun getCodes(): Flow<List<CodeDbModel>> {
         return codeDao.getCodes()
     }
 

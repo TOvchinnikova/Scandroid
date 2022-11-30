@@ -26,8 +26,8 @@ class CodeRepositoryImpl(
         codeDataSource.deleteAllCodes()
     }
 
-    override fun getCodes(): LiveData<List<Code>> =
-        Transformations.map(codeDataSource.getCodes()) {
+    override fun getCodes(): Flow<List<Code>> =
+        codeDataSource.getCodes().map {
             codeMapper.mapListDbModelToListEntity(it)
         }
 

@@ -31,7 +31,6 @@ import org.koin.core.parameter.parametersOf
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-
 class ScanningFragment : Fragment() {
 
     private lateinit var binding: FragmentScanningBinding

@@ -13,23 +13,33 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.t_ovchinnikova.android.scandroid_2.R
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanningHistoryBinding
+import com.t_ovchinnikova.android.scandroid_2.launchWhenStarted
 import com.t_ovchinnikova.android.scandroid_2.presentation.adapters.CodeHistoryListAdapter
 import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.DeleteCodeDialogFragment
 import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.DeleteCodeListener
 import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.ScanResultDialog
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.HistoryViewModel
+import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
 
 class HistoryFragment : Fragment(), DeleteCodeListener {
 
-    private lateinit var rvHistoryList: RecyclerView
     private lateinit var binding: FragmentScanningHistoryBinding
-    private lateinit var codeListAdapter: CodeHistoryListAdapter
+
+    private val codeListAdapter by lazy (LazyThreadSafetyMode.NONE) {
+        CodeHistoryListAdapter { code ->
+            if (viewModel.codeDialogShowed.value != true) {
+                viewModel.showCodeDialog(true)
+                ScanResultDialog.newInstance(code.id)
+                    .show(childFragmentManager, ScanResultDialog::class.java.simpleName)
+            }
+        }
+    }
 
     private val viewModel: HistoryViewModel by viewModel()
 
@@ -46,8 +56,8 @@ class HistoryFragment : Fragment(), DeleteCodeListener {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         setupRecyclerView()
-        setupSwipeListener(rvHistoryList)
-        setupViewModel()
+        setupSwipeListener()
+        observeViewModel()
     }
 
     private fun setupView() {
@@ -87,37 +97,41 @@ class HistoryFragment : Fragment(), DeleteCodeListener {
     }
 
     private fun setupRecyclerView() {
-        rvHistoryList = binding.rvHistoryList
-        codeListAdapter = CodeHistoryListAdapter()
-        rvHistoryList.adapter = codeListAdapter
-        rvHistoryList.recycledViewPool.setMaxRecycledViews(
+        binding.rvHistoryList.adapter = codeListAdapter
+        binding.rvHistoryList.recycledViewPool.setMaxRecycledViews(
             CodeHistoryListAdapter.VIEW_TYPE_DEFAULT,
             CodeHistoryListAdapter.MAX_POOL_SIZE
         )
-        setupClickListener()
     }
 
-    private fun setupClickListener() {
-        codeListAdapter.onCodeItemClickListener = {
-            if (viewModel.codeDialogShowed.value != true) {
-                viewModel.showCodeDialog(true)
-                ScanResultDialog.newInstance(it.id)
-                    .show(childFragmentManager, ScanResultDialog::class.java.simpleName)
-            }
-        }
-    }
-
-    private fun setupViewModel() {
-        viewModel.codeListLiveData.observe(viewLifecycleOwner) {
-            val list =
-                it.filter { code ->
+    private fun observeViewModel() {
+        viewModel.getCodeListObservable()
+            .onEach {
+                val list = it.filter { code ->
                     code.text.contains(binding.searchContainer.etSearch.text.toString())
                 }
-            codeListAdapter.submitList(list)
-        }
+                codeListAdapter.submitList(list)
+            }
+            .launchWhenStarted(lifecycleScope)
+
+        viewModel.getCodesHistoryStateObservable()
+            .onEach { state ->
+                when (state) {
+                    is HistoryViewModel.CodesHistoryState.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                        binding.historyIsEmptyHint.visibility = View.GONE
+                        binding.rvHistoryList.visibility = View.GONE
+                    }
+                    is HistoryViewModel.CodesHistoryState.ReadyToShow -> {
+                        binding.progressBar.visibility = View.GONE
+                        setHistoryListVisibility(state.codes.isEmpty())
+                    }
+                }
+            }
+            .launchWhenStarted(lifecycleScope)
     }
 
-    private fun setupSwipeListener(rvHistory: RecyclerView?) {
+    private fun setupSwipeListener() {
         val callback = object :
             ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             override fun onMove(
@@ -191,11 +205,12 @@ class HistoryFragment : Fragment(), DeleteCodeListener {
                 }
             }
         }
-        ItemTouchHelper(callback).attachToRecyclerView(rvHistory)
+        ItemTouchHelper(callback).attachToRecyclerView(binding.rvHistoryList)
     }
 
     private fun filterList(filterText: String) {
-        val list = viewModel.codeListLiveData.value?.filter { it.text.contains(filterText) }
+        val list = viewModel.getCodeListObservable().value.filter { it.text.contains(filterText) }
+        setHistoryListVisibility(list.isEmpty())
         codeListAdapter.submitList(list)
     }
 
@@ -212,6 +227,13 @@ class HistoryFragment : Fragment(), DeleteCodeListener {
     private fun showDeleteDialog() {
         val dialog = DeleteCodeDialogFragment.newInstance(DeleteCodeDialogFragment.DELETE_ALL_CODES)
         dialog.show(childFragmentManager, "")
+    }
+
+    private fun setHistoryListVisibility(isEmpty: Boolean) {
+        binding.historyIsEmptyHint.visibility =
+            if (isEmpty) View.VISIBLE else View.GONE
+        binding.rvHistoryList.visibility =
+            if (isEmpty) View.GONE else View.VISIBLE
     }
 
     override fun onDeleteConfirmed() {
