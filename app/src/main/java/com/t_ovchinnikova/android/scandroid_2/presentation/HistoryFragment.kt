@@ -101,7 +101,7 @@ class HistoryFragment : Fragment(), DeleteCodeListener {
         codeListAdapter.onCodeItemClickListener = {
             if (viewModel.codeDialogShowed.value != true) {
                 viewModel.showCodeDialog(true)
-                ScanResultDialog.newInstance(it)
+                ScanResultDialog.newInstance(it.id)
                     .show(childFragmentManager, ScanResultDialog::class.java.simpleName)
             }
         }

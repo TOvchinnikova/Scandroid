@@ -1,7 +1,6 @@
 package com.t_ovchinnikova.android.scandroid_2.di
 
 import androidx.camera.core.ImageAnalysis
-import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.*
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.interactors.RecognizeCodeInteractor
 import com.t_ovchinnikova.android.scandroid_2.presentation.ScanAnalyzer
@@ -30,10 +29,12 @@ val appModule = module {
         )
     }
 
-    viewModel<ScanResultViewModel> {
+    viewModel<ScanResultViewModel> { (codeId: Long) ->
         ScanResultViewModel(
+            codeId = codeId,
             deleteCodeUseCase = get() as DeleteCodeUseCase,
             addCodeUseCase = get() as AddCodeUseCase,
+            getCodeUseCase = get() as GetCodeUseCase,
             getSettingsUseCase = get() as GetSettingsUseCase
         )
     }

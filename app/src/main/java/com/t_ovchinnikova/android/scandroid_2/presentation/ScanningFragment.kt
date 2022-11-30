@@ -151,7 +151,7 @@ class ScanningFragment : Fragment() {
     }
 
     private fun showScanResultDialog(code: Code) {
-        ScanResultDialog.newInstance(code)
+        ScanResultDialog.newInstance(code.id)
             .show(childFragmentManager, ScanResultDialog::class.java.simpleName)
     }
 

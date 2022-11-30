@@ -23,6 +23,7 @@ import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.ScanResultV
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.ScanningViewModel
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -30,7 +31,16 @@ class ScanResultDialog : BaseBottomSheetDialog(), EditCodeNoteListener, DeleteCo
 
     private lateinit var binding: FragmentScanResultDialogBinding
 
-    private val viewModel: ScanResultViewModel by viewModel()
+
+    private val codeId by lazy (LazyThreadSafetyMode.NONE) {
+        arguments?.getLong(SCAN_CODE_ID) as Long
+    }
+
+    private val viewModel: ScanResultViewModel by viewModel {
+        parametersOf(
+            codeId
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,21 +61,12 @@ class ScanResultDialog : BaseBottomSheetDialog(), EditCodeNoteListener, DeleteCo
         savedInstanceState: Bundle?,
     ): View {
         binding = FragmentScanResultDialogBinding.inflate(inflater, container, false)
-
-     //   if (savedInstanceState == null) {
-//            resultCode = arguments?.getParcelable(ARG_SCAN_RESULT)
-                //?: throw RuntimeException("Required arguments were not passed")
-            //viewModel.editCode(resultCode)
-            //editedCode = resultCode.copy()
-//        } else {
-//            editedCode = viewModel.code.value ?: throw RuntimeException("Unknown code")
-//        }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initView()
+        observeViewModel()
         setupClickListeners()
     }
 
@@ -93,13 +94,13 @@ class ScanResultDialog : BaseBottomSheetDialog(), EditCodeNoteListener, DeleteCo
     private fun setupClickListeners() {
         with(binding) {
             buttonCopy.setOnClickListener {
-                copyToClipboard(ivEditNote.text)
+                copyToClipboard(tvResult.text.toString())
             }
             buttonSearchOnInternet.setOnClickListener {
-                searchWeb(editedCode.text)
+                searchWeb(tvResult.text.toString())
             }
             buttonSend.setOnClickListener {
-                sendText(editedCode.text, editedCode.note)
+                sendText(tvResult.text.toString(), tvNote.text.toString())
             }
         }
     }
@@ -121,8 +122,8 @@ class ScanResultDialog : BaseBottomSheetDialog(), EditCodeNoteListener, DeleteCo
                 tvDate.text = dateFormatter.format(it.date)
                 toolbar.apply {
                     setTitle(it.formatToStringId())
-                    setOnMenuItemClickListener {
-                        when (it.itemId) {
+                    setOnMenuItemClickListener { menuItem ->
+                        when (menuItem.itemId) {
                             R.id.delete -> showDeleteDialog()
                             R.id.isFavorite -> toggleIsFavorite()
                             R.id.close -> dismiss()
@@ -131,12 +132,13 @@ class ScanResultDialog : BaseBottomSheetDialog(), EditCodeNoteListener, DeleteCo
                         return@setOnMenuItemClickListener true
                     }
                 }
+                binding.tvNote.text = it.note
+                binding.tvNote.visibility = if (it.note.isNotBlank()) View.VISIBLE else View.GONE
                 ivEditNote.setOnClickListener {
                     showEditDialog(code.note)
                 }
             }
             showCodeIsFavorite(it.isFavorite)
-            showNote(it.note)
         }
     }
 
@@ -169,11 +171,6 @@ class ScanResultDialog : BaseBottomSheetDialog(), EditCodeNoteListener, DeleteCo
         }
     }
 
-    private fun showNote(note: String) {
-        binding.tvNote.text = note
-        binding.tvNote.visibility = if (note.isNotBlank()) View.VISIBLE else View.GONE
-    }
-
     private fun showCodeIsFavorite(isFavorite: Boolean) {
         val iconId = if (isFavorite)
             R.drawable.ic_favorite_on
@@ -193,38 +190,38 @@ class ScanResultDialog : BaseBottomSheetDialog(), EditCodeNoteListener, DeleteCo
         dialog.show(childFragmentManager, "")
     }
 
-    private fun deleteBarcode(id: Long) {
-        viewModel.deleteBarcode(id)
-        dismiss()
-    }
-
-    private fun toggleIsFavorite(code: Code) {
-        //val isFavorite = code.isFavorite.not()
-        viewModel.updateBarcode(
-            code.copy(
-                isFavorite = code.isFavorite.not()
+    private fun toggleIsFavorite() {
+        viewModel.code.value?.let {
+            viewModel.updateBarcode(
+                it.copy(
+                    isFavorite = it.isFavorite.not()
+                )
             )
-        )
-        //showCodeIsFavorite(isFavorite)
+        }
     }
 
     override fun onNoteConfirmed(note: String) {
-        editedCode.note = note
-        viewModel.updateBarcode(editedCode)
-        showNote()
+        viewModel.code.value?.let {
+            viewModel.updateBarcode(
+                it.copy(
+                    note = note
+                )
+            )
+        }
     }
 
     override fun onDeleteConfirmed() {
-        deleteBarcode()
+        viewModel.deleteBarcode(codeId)
+        dismiss()
     }
 
     companion object {
-        private const val ARG_SCAN_RESULT = "scan result"
+        private const val SCAN_CODE_ID = "SCAN CODE ID"
 
-        fun newInstance(scanResult: Code): ScanResultDialog {
+        fun newInstance(codeId: Long): ScanResultDialog {
             return ScanResultDialog().apply {
                 arguments = Bundle().apply {
-                    putParcelable(ARG_SCAN_RESULT, scanResult)
+                    putLong(SCAN_CODE_ID, codeId)
                 }
             }
         }
