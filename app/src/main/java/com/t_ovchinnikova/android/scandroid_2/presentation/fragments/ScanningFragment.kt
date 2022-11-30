@@ -1,4 +1,4 @@
-package com.t_ovchinnikova.android.scandroid_2.presentation
+package com.t_ovchinnikova.android.scandroid_2.presentation.fragments
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.*
 import android.util.DisplayMetrics
-import android.util.Log
 import android.util.Rational
 import android.view.*
 import android.widget.Toast
@@ -20,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanningBinding
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import com.t_ovchinnikova.android.scandroid_2.launchWhenStarted
+import com.t_ovchinnikova.android.scandroid_2.presentation.ScanResultListener
 import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.ScanFromImageDialog
 import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.ScanResultDialog
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.ScanningViewModel

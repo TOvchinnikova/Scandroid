@@ -6,6 +6,9 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.t_ovchinnikova.android.scandroid_2.R
 import com.t_ovchinnikova.android.scandroid_2.databinding.ActivityMainBinding
+import com.t_ovchinnikova.android.scandroid_2.presentation.fragments.HistoryFragment
+import com.t_ovchinnikova.android.scandroid_2.presentation.fragments.ScanningFragment
+import com.t_ovchinnikova.android.scandroid_2.presentation.fragments.SettingsFragment
 
 class MainActivity : AppCompatActivity() {
 

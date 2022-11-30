@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.mlkit.vision.common.InputImage
-import com.t_ovchinnikova.android.scandroid_2.PickImage
+import com.t_ovchinnikova.android.scandroid_2.presentation.PickImage
 import com.t_ovchinnikova.android.scandroid_2.R
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanFromImageDialogBinding
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
