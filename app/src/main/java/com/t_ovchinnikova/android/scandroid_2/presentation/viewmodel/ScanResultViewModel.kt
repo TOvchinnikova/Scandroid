@@ -23,9 +23,6 @@ class ScanResultViewModel(
     private val _code = getCodeUseCase(codeId)
         .flowOn(IO)
         .filterNotNull()
-        .onEach {
-
-        }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(),
@@ -49,7 +46,6 @@ class ScanResultViewModel(
     }
 
     fun updateBarcode(code: Code) {
-//        _code.value = code
         viewModelScope.launch {
             addCodeUseCase(code)
         }
@@ -60,10 +56,6 @@ class ScanResultViewModel(
             deleteCodeUseCase(id)
         }
     }
-
-//    fun editCode(code: Code) {
-//        _code.value = code
-//    }
 
     fun getSettings(): SettingsData? {
         return settingsFlow.value

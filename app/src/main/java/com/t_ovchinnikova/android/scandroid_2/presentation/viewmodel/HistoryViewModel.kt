@@ -32,19 +32,22 @@ class HistoryViewModel(
             initialValue = emptyList()
         )
 
-    private val codesHistoryStateFlow = MutableStateFlow<CodesHistoryState>(CodesHistoryState.Loading)
+    private val codesHistoryStateFlow =
+        MutableStateFlow<CodesHistoryState>(CodesHistoryState.Loading)
 
     private val _codeDialogShowed = MutableLiveData<Boolean>()
     val codeDialogShowed: LiveData<Boolean> = _codeDialogShowed
 
     fun deleteCode(codeId: Long) {
         viewModelScope.launch {
+            codesHistoryStateFlow.value = CodesHistoryState.Loading
             deleteCodeUseCase(codeId)
         }
     }
 
     fun deleteAllCodes() {
         viewModelScope.launch {
+            codesHistoryStateFlow.value = CodesHistoryState.Loading
             deleteAllCodesUseCase()
         }
     }
