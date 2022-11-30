@@ -2,7 +2,7 @@ package com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.t_ovchinnikova.android.scandroid_2.SettingsData
+import com.t_ovchinnikova.android.scandroid_2.data.entity.SettingsData
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.GetSettingsUseCase
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.SaveSettingsUseCase
 import kotlinx.coroutines.Dispatchers.IO

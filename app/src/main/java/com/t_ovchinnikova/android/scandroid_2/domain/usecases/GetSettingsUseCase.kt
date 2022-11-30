@@ -1,6 +1,6 @@
 package com.t_ovchinnikova.android.scandroid_2.domain.usecases
 
-import com.t_ovchinnikova.android.scandroid_2.SettingsData
+import com.t_ovchinnikova.android.scandroid_2.data.entity.SettingsData
 import kotlinx.coroutines.flow.Flow
 
 interface GetSettingsUseCase {

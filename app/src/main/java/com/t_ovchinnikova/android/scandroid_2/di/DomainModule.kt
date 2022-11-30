@@ -1,7 +1,7 @@
 package com.t_ovchinnikova.android.scandroid_2.di
 
-import com.t_ovchinnikova.android.scandroid_2.data.datasource.SettingsDataSource
 import com.t_ovchinnikova.android.scandroid_2.data.repository.CodeRepository
+import com.t_ovchinnikova.android.scandroid_2.data.repository.SettingsRepository
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.*
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.interactors.*
 import org.koin.dsl.module
@@ -40,13 +40,13 @@ val domainModule = module {
 
     factory<SaveSettingsUseCase> {
         SaveSettingsInteractor(
-            dataSource = get() as SettingsDataSource
+            settingsRepository = get() as SettingsRepository
         )
     }
 
     factory<GetSettingsUseCase> {
         GetSettingsInteractor(
-            dataSource = get() as SettingsDataSource
+            settingsRepository = get() as SettingsRepository
         )
     }
 
