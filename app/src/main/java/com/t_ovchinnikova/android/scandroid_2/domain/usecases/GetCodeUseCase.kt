@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface GetCodeUseCase {
 
-    operator fun invoke(id: Long): Flow<Code>
+    operator fun invoke(id: Long): Flow<Code?>
 }

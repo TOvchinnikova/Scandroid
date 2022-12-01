@@ -16,5 +16,5 @@ interface CodeRepository {
 
     fun getCodesWithFilter(filterText: String): LiveData<List<Code>>
 
-    fun getCodeById(id: Long): Flow<Code>
+    fun getCodeById(id: Long): Flow<Code?>
 }

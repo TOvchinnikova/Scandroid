@@ -9,7 +9,7 @@ class GetCodeInteractor(
     private val repository: CodeRepository
 ) : GetCodeUseCase {
 
-    override fun invoke(id: Long): Flow<Code> {
+    override fun invoke(id: Long): Flow<Code?> {
         return repository.getCodeById(id)
     }
 }

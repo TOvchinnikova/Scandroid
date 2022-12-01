@@ -16,7 +16,7 @@ class ScanResultViewModel(
     codeId: Long,
     private val deleteCodeUseCase: DeleteCodeUseCase,
     private val addCodeUseCase: AddCodeUseCase,
-    private val getCodeUseCase: GetCodeUseCase,
+    getCodeUseCase: GetCodeUseCase,
     getSettingsUseCase: GetSettingsUseCase
 ) : ViewModel() {
 

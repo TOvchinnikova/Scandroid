@@ -15,7 +15,7 @@ interface CodeDao {
     fun getCodes(): Flow<List<CodeDbModel>>
 
     @Query("SELECT * FROM codes WHERE id = :id")
-    fun getCodeById(id: Long): Flow<CodeDbModel>
+    fun getCodeById(id: Long): Flow<CodeDbModel?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addCode(code: CodeDbModel): Long

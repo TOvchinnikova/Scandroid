@@ -23,7 +23,6 @@ class HistoryViewModel(
         .flowOn(IO)
         .filterNotNull()
         .onEach {
-            delay(2000)
             codesHistoryStateFlow.value = CodesHistoryState.ReadyToShow(it)
         }
         .stateIn(

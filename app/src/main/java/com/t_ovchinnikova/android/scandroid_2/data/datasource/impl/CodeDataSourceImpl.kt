@@ -30,7 +30,7 @@ class CodeDataSourceImpl(
         return codeDao.getCodesWithFilter(filterText)
     }
 
-    override fun getCodeById(id: Long): Flow<CodeDbModel> {
+    override fun getCodeById(id: Long): Flow<CodeDbModel?> {
         return codeDao.getCodeById(id)
     }
 }

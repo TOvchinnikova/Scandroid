@@ -16,5 +16,5 @@ interface CodeDataSource {
 
     fun getCodesWithFilter(filterText: String): LiveData<List<CodeDbModel>>
 
-    fun getCodeById(id: Long): Flow<CodeDbModel>
+    fun getCodeById(id: Long): Flow<CodeDbModel?>
 }
