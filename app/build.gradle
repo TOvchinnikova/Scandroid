@@ -1,22 +1,28 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    //id 'kotlin-kapt'
+    id 'kotlin-kapt'
     id 'kotlin-parcelize'
 }
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 33
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.t_ovchinnikova.android.scandroid_2"
         minSdkVersion 21
-        targetSdkVersion 32
+        targetSdkVersion 33
         versionCode 2
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas")
+            }
+        }
     }
 
     buildTypes {
@@ -84,9 +90,9 @@ dependencies {
     implementation "androidx.camera:camera-view:1.0.0-alpha32"
 
     //Room
-    implementation 'androidx.room:room-runtime:2.4.2'
-    implementation "androidx.room:room-ktx:2.4.2"
-//    kapt 'androidx.room:room-compiler:2.4.2'
+    implementation 'androidx.room:room-runtime:2.4.3'
+    implementation "androidx.room:room-ktx:2.4.3"
+    kapt 'androidx.room:room-compiler:2.4.3'
 
     //Coroutine
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3"

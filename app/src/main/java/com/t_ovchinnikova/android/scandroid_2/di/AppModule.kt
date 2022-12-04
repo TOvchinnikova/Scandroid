@@ -19,7 +19,8 @@ val appModule = module {
         HistoryViewModel(
             deleteAllCodesUseCase = get() as DeleteAllCodesUseCase,
             deleteCodeUseCase = get() as DeleteCodeUseCase,
-            getCodesUseCase = get() as GetCodesUseCase
+            getCodesUseCase = get() as GetCodesUseCase,
+            addCodeUseCase = get() as AddCodeUseCase
         )
     }
 

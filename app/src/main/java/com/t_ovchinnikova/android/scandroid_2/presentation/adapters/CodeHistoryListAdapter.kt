@@ -11,7 +11,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class CodeHistoryListAdapter(
-    private val onCodeItemClickListener: ((Code) -> Unit)
+    private val onCodeItemClickListener: ((Code) -> Unit),
+    private val onIsFavouriteClickListener: ((Code) -> Unit)
 ) : ListAdapter<Code, CodeHistoryListViewHolder>(CodeItemDiffCallback()) {
 
     private val dateFormatter = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.ENGLISH)
@@ -33,7 +34,10 @@ class CodeHistoryListAdapter(
             tvFormat.setText(code.formatToStringId())
             ivCode.setImageResource(code.formatToImageId())
             itemView.setOnClickListener {
-                onCodeItemClickListener.invoke(code)
+                onCodeItemClickListener(code)
+            }
+            ivIsFavorite.setOnClickListener {
+                onIsFavouriteClickListener(code)
             }
         }
     }

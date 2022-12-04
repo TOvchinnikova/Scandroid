@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
+import com.t_ovchinnikova.android.scandroid_2.domain.usecases.AddCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.DeleteAllCodesUseCase
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.DeleteCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.GetCodesUseCase
@@ -16,6 +17,7 @@ import kotlinx.coroutines.launch
 class HistoryViewModel(
     private val deleteCodeUseCase: DeleteCodeUseCase,
     private val deleteAllCodesUseCase: DeleteAllCodesUseCase,
+    private val addCodeUseCase: AddCodeUseCase,
     val getCodesUseCase: GetCodesUseCase,
 ) : ViewModel() {
 
@@ -61,6 +63,12 @@ class HistoryViewModel(
 
     fun getCodesHistoryStateObservable(): StateFlow<CodesHistoryState> {
         return codesHistoryStateFlow
+    }
+
+    fun updateCode(code: Code) {
+        viewModelScope.launch {
+            addCodeUseCase(code)
+        }
     }
 
     sealed class CodesHistoryState {

@@ -31,14 +31,23 @@ class HistoryFragment : Fragment(), DeleteCodeListener {
 
     private lateinit var binding: FragmentScanningHistoryBinding
 
-    private val codeListAdapter by lazy (LazyThreadSafetyMode.NONE) {
-        CodeHistoryListAdapter { code ->
-            if (viewModel.codeDialogShowed.value != true) {
-                viewModel.showCodeDialog(true)
-                ScanResultDialog.newInstance(code.id)
-                    .show(childFragmentManager, ScanResultDialog::class.java.simpleName)
+    private val codeListAdapter by lazy(LazyThreadSafetyMode.NONE) {
+        CodeHistoryListAdapter(
+            { code ->
+                if (viewModel.codeDialogShowed.value != true) {
+                    viewModel.showCodeDialog(true)
+                    ScanResultDialog.newInstance(code.id)
+                        .show(childFragmentManager, ScanResultDialog::class.java.simpleName)
+                }
+            },
+            { code ->
+                viewModel.updateCode(
+                    code.copy(
+                        isFavorite = !code.isFavorite
+                    )
+                )
             }
-        }
+        )
     }
 
     private val viewModel: HistoryViewModel by viewModel()
