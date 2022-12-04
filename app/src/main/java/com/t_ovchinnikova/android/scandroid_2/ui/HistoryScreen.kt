@@ -70,7 +70,7 @@ fun HistoryScreen() {
             key = { it.id }
         ) { code ->
             HistoryItem(code = code)
-            Divider(color = Color.Black)
+            Divider(color = colorResource(id = R.color.gray))
         }
     }
 }
