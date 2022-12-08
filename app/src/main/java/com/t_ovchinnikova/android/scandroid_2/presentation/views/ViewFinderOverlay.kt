@@ -17,6 +17,9 @@ class ViewFinderOverlay(
     private var strokeBoxWidth by Delegates.notNull<Float>()
     private var boxCornerRadius by Delegates.notNull<Float>()
 
+    private var desiredWidthCropPercent by Delegates.notNull<Int>()
+    private var desiredHeightCropPercent by Delegates.notNull<Int>()
+
     private val boxPaint by lazy {
         Paint().apply {
             style = Paint.Style.STROKE
@@ -74,6 +77,14 @@ class ViewFinderOverlay(
             R.styleable.ViewFinderOverlay_boxCornerRadius,
             context.resources.getDimensionPixelOffset(BOX_CORNER_RADIUS_DEFAULT).toFloat()
         )
+        desiredHeightCropPercent = typedArray.getInt(
+            R.styleable.ViewFinderOverlay_desiredHeightCropPercent,
+            DESIRED_HEIGHT_CROP_PERCENT_DEFAULT
+        )
+        desiredWidthCropPercent = typedArray.getInt(
+            R.styleable.ViewFinderOverlay_desiredWidthCropPercent,
+            DESIRED_WIDTH_CROP_PERCENT_DEFAULT
+        )
 
         typedArray.recycle()
     }
@@ -83,16 +94,18 @@ class ViewFinderOverlay(
         backgroundRecticle = BACKGROUND_RECTICLE_DEFAULT_COLOR
         strokeBoxWidth = context.resources.getDimensionPixelOffset(STROKE_BOX_WIDTH_DEFAULT).toFloat()
         boxCornerRadius = context.resources.getDimensionPixelOffset(BOX_CORNER_RADIUS_DEFAULT).toFloat()
+        desiredHeightCropPercent = DESIRED_HEIGHT_CROP_PERCENT_DEFAULT
+        desiredWidthCropPercent = DESIRED_WIDTH_CROP_PERCENT_DEFAULT
     }
 
     private fun setViewFinder() {
         val overlayWidth = width.toFloat()
         val overlayHeight = height.toFloat()
 
-        val rectTop = overlayHeight * DESIRED_HEIGHT_CROP_PERCENT / 2 / 100f
-        val rectLeft = overlayWidth * DESIRED_WIDTH_CROP_PERCENT / 2 / 100f
-        val rectRight = overlayWidth * (1 - DESIRED_WIDTH_CROP_PERCENT / 2 / 100f)
-        val rectBottom = overlayHeight * (1 - DESIRED_HEIGHT_CROP_PERCENT / 2 / 100f)
+        val rectTop = overlayHeight * desiredHeightCropPercent / 2 / 100f
+        val rectLeft = overlayWidth * desiredWidthCropPercent / 2 / 100f
+        val rectRight = overlayWidth * (1 - desiredWidthCropPercent / 2 / 100f)
+        val rectBottom = overlayHeight * (1 - desiredHeightCropPercent / 2 / 100f)
         boxRect = RectF(rectLeft, rectTop, rectRight, rectBottom)
 
         invalidate()
@@ -113,8 +126,8 @@ class ViewFinderOverlay(
     }
 
     companion object {
-        const val DESIRED_WIDTH_CROP_PERCENT = 20
-        const val DESIRED_HEIGHT_CROP_PERCENT = 74
+        const val DESIRED_WIDTH_CROP_PERCENT_DEFAULT = 20
+        const val DESIRED_HEIGHT_CROP_PERCENT_DEFAULT = 74
 
         const val BACKGROUND_RECTICLE_DEFAULT_COLOR = R.color.barcode_recticle_background
         const val STROKE_DEFAULT_COLOR = Color.WHITE
