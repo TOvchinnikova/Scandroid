@@ -15,4 +15,13 @@
         <attr name="iconBackground" />
         <attr name="text" />
     </declare-styleable>
+
+    <declare-styleable name="ViewFinderOverlay">
+        <attr name="strokeBoxWidth" format="float" />
+        <attr name="strokeColor" format="color" />
+        <attr name="backgroundRecticle" format="color" />
+        <attr name="boxCornerRadius" format="float" />
+        <attr name="desiredWidthCropPercent" format="integer" />
+        <attr name="desiredHeightCropPercent" format="integer" />
+    </declare-styleable>
 </resources>

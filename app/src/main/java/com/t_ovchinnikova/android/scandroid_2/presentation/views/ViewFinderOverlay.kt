@@ -4,33 +4,88 @@ import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
-import androidx.core.content.ContextCompat
 import com.t_ovchinnikova.android.scandroid_2.R
+import kotlin.properties.Delegates
 
-class ViewFinderOverlay(context: Context, attrs: AttributeSet) : View(context, attrs) {
+class ViewFinderOverlay(
+    context: Context,
+    attrs: AttributeSet?
+) : View(context, attrs) {
 
-    private val boxPaint: Paint = Paint().apply {
-        color = ContextCompat.getColor(context, R.color.barcode_recticle_stroke)
-        style = Paint.Style.STROKE
-        strokeWidth =
-            context.resources.getDimensionPixelOffset(R.dimen.barcode_stroke_width).toFloat()
+    private var strokeColor by Delegates.notNull<Int>()
+    private var backgroundRecticle by Delegates.notNull<Int>()
+    private var strokeBoxWidth by Delegates.notNull<Float>()
+    private var boxCornerRadius by Delegates.notNull<Float>()
+
+    private val boxPaint by lazy {
+        Paint().apply {
+            style = Paint.Style.STROKE
+            strokeWidth = strokeBoxWidth
+            color = strokeColor
+        }
     }
 
-    private val scrimPaint: Paint = Paint().apply {
-        color = ContextCompat.getColor(context, R.color.barcode_recticle_background)
+    private val scrimPaint by lazy {
+        Paint().apply {
+            color = backgroundRecticle
+        }
     }
 
-    private val eraserPaint: Paint = Paint().apply {
-        strokeWidth = boxPaint.strokeWidth
-        xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
+    private val eraserPaint by lazy {
+        Paint().apply {
+            strokeWidth = boxPaint.strokeWidth
+            xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
+        }
     }
-
-    private val boxCornerRadius: Float =
-        context.resources.getDimensionPixelOffset(R.dimen.barcode_recticle_corner_radius).toFloat()
 
     private var boxRect: RectF? = null
 
-    fun setViewFinder() {
+    init {
+        if (attrs != null) {
+            initAttributes(attrs)
+        } else {
+            initDefaultAttrsValues()
+        }
+    }
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+
+        setViewFinder()
+    }
+
+    private fun initAttributes(attributesSet: AttributeSet?) {
+        val typedArray = context.obtainStyledAttributes(
+            attributesSet,
+            R.styleable.ViewFinderOverlay
+        )
+
+        strokeColor =
+            typedArray.getColor(R.styleable.ViewFinderOverlay_strokeColor, STROKE_DEFAULT_COLOR)
+        backgroundRecticle = typedArray.getColor(
+            R.styleable.ViewFinderOverlay_backgroundRecticle,
+            BACKGROUND_RECTICLE_DEFAULT_COLOR
+        )
+        strokeBoxWidth = typedArray.getFloat(
+            R.styleable.ViewFinderOverlay_strokeBoxWidth,
+            context.resources.getDimensionPixelOffset(STROKE_BOX_WIDTH_DEFAULT).toFloat()
+        )
+        boxCornerRadius = typedArray.getFloat(
+            R.styleable.ViewFinderOverlay_boxCornerRadius,
+            context.resources.getDimensionPixelOffset(BOX_CORNER_RADIUS_DEFAULT).toFloat()
+        )
+
+        typedArray.recycle()
+    }
+
+    private fun initDefaultAttrsValues() {
+        strokeColor = STROKE_DEFAULT_COLOR
+        backgroundRecticle = BACKGROUND_RECTICLE_DEFAULT_COLOR
+        strokeBoxWidth = context.resources.getDimensionPixelOffset(STROKE_BOX_WIDTH_DEFAULT).toFloat()
+        boxCornerRadius = context.resources.getDimensionPixelOffset(BOX_CORNER_RADIUS_DEFAULT).toFloat()
+    }
+
+    private fun setViewFinder() {
         val overlayWidth = width.toFloat()
         val overlayHeight = height.toFloat()
 
@@ -60,5 +115,11 @@ class ViewFinderOverlay(context: Context, attrs: AttributeSet) : View(context, a
     companion object {
         const val DESIRED_WIDTH_CROP_PERCENT = 20
         const val DESIRED_HEIGHT_CROP_PERCENT = 74
+
+        const val BACKGROUND_RECTICLE_DEFAULT_COLOR = R.color.barcode_recticle_background
+        const val STROKE_DEFAULT_COLOR = Color.WHITE
+
+        const val STROKE_BOX_WIDTH_DEFAULT = R.dimen.barcode_stroke_width
+        const val BOX_CORNER_RADIUS_DEFAULT = R.dimen.barcode_recticle_corner_radius
     }
 }

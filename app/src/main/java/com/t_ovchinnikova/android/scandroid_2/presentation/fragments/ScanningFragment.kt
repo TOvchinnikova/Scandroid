@@ -101,9 +101,6 @@ class ScanningFragment : Fragment() {
 
     private fun initView() {
         with(binding) {
-            overlay.post {
-                overlay.setViewFinder()
-            }
             bottomActionBar.imageScanButton.setOnClickListener {
                 viewModel.setScannerState(ScanningViewModel.ScannerWorkState.ScanInactive)
                 showScanFromImageDialog()
