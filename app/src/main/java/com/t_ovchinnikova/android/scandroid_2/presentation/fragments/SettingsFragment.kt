@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.t_ovchinnikova.android.scandroid_2.data.entity.SettingsData
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentSettingsBinding
-import com.t_ovchinnikova.android.scandroid_2.launchWhenStarted
+import com.t_ovchinnikova.android.scandroid_2.utils.launchWhenStarted
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.SettingsViewModel
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel

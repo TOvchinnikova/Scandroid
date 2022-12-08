@@ -1,8 +1,9 @@
-package com.t_ovchinnikova.android.scandroid_2
+package com.t_ovchinnikova.android.scandroid_2.utils
 
 import android.content.res.Resources
 import android.view.View
 import androidx.appcompat.widget.AppCompatButton
+import com.t_ovchinnikova.android.scandroid_2.R
 
 fun View.enable() {
     isEnabled = true

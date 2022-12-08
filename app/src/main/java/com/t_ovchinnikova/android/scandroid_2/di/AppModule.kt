@@ -48,11 +48,13 @@ val appModule = module {
         )
     }
 
-    factory<ImageAnalysis.Analyzer> { (scanResultListener: ScanResultListener) ->
+    factory<ImageAnalysis.Analyzer> { (scanResultListener: ScanResultListener, heightCropPercent: Int, widthCropPercent: Int) ->
         ScanAnalyzer(
             recognizeCodeUseCase = get() as RecognizeCodeUseCase,
             listener = scanResultListener,
-            cropImageUseCase = get() as CropImageUseCase
+            cropImageUseCase = get() as CropImageUseCase,
+            heightCropPercent = heightCropPercent,
+            widthCropPercent = widthCropPercent
         )
     }
 

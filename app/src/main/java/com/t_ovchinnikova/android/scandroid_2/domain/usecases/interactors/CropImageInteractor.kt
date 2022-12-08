@@ -5,17 +5,20 @@ import android.graphics.Matrix
 import android.graphics.Rect
 import android.media.Image
 import androidx.camera.core.ImageProxy
-import com.t_ovchinnikova.android.scandroid_2.convertYuv420888ImageToBitmap
+import com.t_ovchinnikova.android.scandroid_2.utils.convertYuv420888ImageToBitmap
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.CropImageUseCase
 
 class CropImageInteractor : CropImageUseCase {
 
-    override fun invoke(image: ImageProxy, mediaImage: Image): Bitmap? {
+    override fun invoke(
+        image: ImageProxy,
+        mediaImage: Image,
+        heightCropPercent: Int,
+        widthCropPercent: Int
+    ): Bitmap? {
         val rotationDegrees = image.imageInfo.rotationDegrees
         val convertImageToBitmap = mediaImage.convertYuv420888ImageToBitmap()
         val cropRect = Rect(0, 0, mediaImage.width, mediaImage.height)
-        val heightCropPercent = 74
-        val widthCropPercent = 20
         val (widthCrop, heightCrop) = when (rotationDegrees) {
             90, 270 -> Pair(heightCropPercent / 100f, widthCropPercent / 100f)
             else -> Pair(widthCropPercent / 100f, heightCropPercent / 100f)

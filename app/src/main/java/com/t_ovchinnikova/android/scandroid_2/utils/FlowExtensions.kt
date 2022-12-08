@@ -1,4 +1,4 @@
-package com.t_ovchinnikova.android.scandroid_2
+package com.t_ovchinnikova.android.scandroid_2.utils
 
 import androidx.lifecycle.LifecycleCoroutineScope
 import kotlinx.coroutines.flow.Flow

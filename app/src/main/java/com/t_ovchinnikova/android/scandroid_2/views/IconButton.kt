@@ -1,4 +1,4 @@
-package com.t_ovchinnikova.android.scandroid_2.presentation.views
+package com.t_ovchinnikova.android.scandroid_2.views
 
 import android.content.Context
 import android.content.res.TypedArray

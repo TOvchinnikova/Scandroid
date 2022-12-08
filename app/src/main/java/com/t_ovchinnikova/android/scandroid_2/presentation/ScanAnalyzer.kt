@@ -9,13 +9,20 @@ import com.t_ovchinnikova.android.scandroid_2.domain.usecases.RecognizeCodeUseCa
 class ScanAnalyzer(
     private val recognizeCodeUseCase: RecognizeCodeUseCase,
     private val listener: ScanResultListener,
-    private val cropImageUseCase: CropImageUseCase
+    private val cropImageUseCase: CropImageUseCase,
+    private val heightCropPercent: Int,
+    private val widthCropPercent: Int
 ) : ImageAnalysis.Analyzer {
 
     override fun analyze(imageProxy: ImageProxy) {
         val mediaImage = imageProxy.image
         if (mediaImage != null) {
-            cropImageUseCase(imageProxy, mediaImage)?.let { croppedBitmap ->
+            cropImageUseCase(
+                imageProxy,
+                mediaImage,
+                heightCropPercent,
+                widthCropPercent
+            )?.let { croppedBitmap ->
                 recognizeCodeUseCase(InputImage.fromBitmap(croppedBitmap, 0), listener)
                 imageProxy.close()
             }

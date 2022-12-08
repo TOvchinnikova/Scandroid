@@ -6,5 +6,10 @@ import androidx.camera.core.ImageProxy
 
 interface CropImageUseCase {
 
-    operator fun invoke(image: ImageProxy, mediaImage: Image): Bitmap?
+    operator fun invoke(
+        image: ImageProxy,
+        mediaImage: Image,
+        heightCropPercent: Int,
+        widthCropPercent: Int
+    ): Bitmap?
 }

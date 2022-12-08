@@ -18,12 +18,12 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanningBinding
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
-import com.t_ovchinnikova.android.scandroid_2.launchWhenStarted
+import com.t_ovchinnikova.android.scandroid_2.utils.launchWhenStarted
 import com.t_ovchinnikova.android.scandroid_2.presentation.ScanResultListener
 import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.ScanFromImageDialog
 import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.ScanResultDialog
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.ScanningViewModel
-import com.t_ovchinnikova.android.scandroid_2.vibrate
+import com.t_ovchinnikova.android.scandroid_2.utils.vibrate
 import kotlinx.coroutines.flow.onEach
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -67,7 +67,9 @@ class ScanningFragment : Fragment() {
                         viewModel.addCode(resultCode)
                     }
                 }
-            }
+            },
+            binding.overlay.desiredHeightCropPercent,
+            binding.overlay.desiredWidthCropPercent
         )
     }
 

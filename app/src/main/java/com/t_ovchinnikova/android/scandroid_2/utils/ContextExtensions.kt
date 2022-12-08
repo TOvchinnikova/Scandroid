@@ -1,4 +1,4 @@
-package com.t_ovchinnikova.android.scandroid_2
+package com.t_ovchinnikova.android.scandroid_2.utils
 
 import android.content.Context
 import android.os.Build

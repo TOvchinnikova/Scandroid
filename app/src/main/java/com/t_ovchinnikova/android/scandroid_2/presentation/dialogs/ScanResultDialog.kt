@@ -15,7 +15,7 @@ import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanResultDial
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import com.t_ovchinnikova.android.scandroid_2.domain.formatToStringId
 import com.t_ovchinnikova.android.scandroid_2.domain.typeToString
-import com.t_ovchinnikova.android.scandroid_2.launchWhenStarted
+import com.t_ovchinnikova.android.scandroid_2.utils.launchWhenStarted
 import com.t_ovchinnikova.android.scandroid_2.presentation.fragments.HistoryFragment
 import com.t_ovchinnikova.android.scandroid_2.presentation.fragments.ScanningFragment
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.HistoryViewModel

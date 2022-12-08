@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.t_ovchinnikova.android.scandroid_2.R
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanningHistoryBinding
-import com.t_ovchinnikova.android.scandroid_2.launchWhenStarted
+import com.t_ovchinnikova.android.scandroid_2.utils.launchWhenStarted
 import com.t_ovchinnikova.android.scandroid_2.presentation.adapters.CodeHistoryListAdapter
 import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.DeleteCodeDialogFragment
 import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.DeleteCodeListener

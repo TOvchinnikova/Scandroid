@@ -1,4 +1,4 @@
-package com.t_ovchinnikova.android.scandroid_2.presentation.views
+package com.t_ovchinnikova.android.scandroid_2.views
 
 import android.content.Context
 import android.graphics.*
@@ -17,8 +17,8 @@ class ViewFinderOverlay(
     private var strokeBoxWidth by Delegates.notNull<Float>()
     private var boxCornerRadius by Delegates.notNull<Float>()
 
-    private var desiredWidthCropPercent by Delegates.notNull<Int>()
-    private var desiredHeightCropPercent by Delegates.notNull<Int>()
+    var desiredWidthCropPercent by Delegates.notNull<Int>()
+    var desiredHeightCropPercent by Delegates.notNull<Int>()
 
     private val boxPaint by lazy {
         Paint().apply {
