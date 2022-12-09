@@ -33,6 +33,7 @@ fun HistoryScreen() {
             text = "12klldgjldkgl;",
             format = 1,
             type = 1,
+
             date = Date(),
             note = "",
             isFavorite = false
@@ -101,35 +102,64 @@ fun HistoryItem(code: Code) {
                 contentDescription = null
             )
             Spacer(modifier = Modifier.width(10.dp))
-            Column {
-                Row(
-                    modifier = Modifier.padding(bottom = 4.dp)
-                ) {
-                    Text(
-                        modifier = Modifier.weight(1F),
-                        text = code.text
-                    )
-                    Image(
-                        painter = painterResource(id = drawableResource),
-                        contentDescription = null
-                    )
-                }
+            Column(
+                modifier = Modifier.weight(1F).fillMaxHeight()
+            ) {
+                Text(
+                    modifier = Modifier.padding(bottom = 4.dp),
+                    text = code.text
+                )
                 if (code.note.isNotBlank()) {
                     SecondaryText(
                         modifier = Modifier.padding(bottom = 4.dp),
                         text = code.note
                     )
                 }
-                Row {
-                    SecondaryText(
-                        modifier = Modifier.weight(1F),
-                        text = code.date.toString()
-                    )
+                SecondaryText(
+                    text = code.date.toString()
+                )
+            }
+            Column(
+                modifier = Modifier.fillMaxHeight().background(Color.Red),
+                horizontalAlignment = Alignment.End
+            ) {
+                Image(
+                    painter = painterResource(id = drawableResource),
+                    contentDescription = null
+                )
                     SecondaryText(
                         text = stringResource(id = code.formatToStringId())
                     )
-                }
             }
+//            Column {
+//                Row(
+//                    modifier = Modifier.padding(bottom = 4.dp)
+//                ) {
+//                    Text(
+//                        modifier = Modifier.weight(1F),
+//                        text = code.text
+//                    )
+//                    Image(
+//                        painter = painterResource(id = drawableResource),
+//                        contentDescription = null
+//                    )
+//                }
+//                if (code.note.isNotBlank()) {
+//                    SecondaryText(
+//                        modifier = Modifier.padding(bottom = 4.dp),
+//                        text = code.note
+//                    )
+//                }
+//                Row {
+//                    SecondaryText(
+//                        modifier = Modifier.weight(1F),
+//                        text = code.date.toString()
+//                    )
+//                    SecondaryText(
+//                        text = stringResource(id = code.formatToStringId())
+//                    )
+//                }
+//            }
         }
     }
 }
