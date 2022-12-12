@@ -6,14 +6,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Card
-import androidx.compose.material.Divider
-import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -22,12 +20,23 @@ import androidx.compose.ui.unit.sp
 import com.t_ovchinnikova.android.scandroid_2.R
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import com.t_ovchinnikova.android.scandroid_2.domain.formatToStringId
+import com.t_ovchinnikova.android.scandroid_2.ui.theme.ColorPrimary
+import com.t_ovchinnikova.android.scandroid_2.ui.theme.ColorSecondary
+import com.t_ovchinnikova.android.scandroid_2.ui.theme.ScandroidTheme
 import java.util.*
 
 @Preview
 @Composable
+private fun Preview() {
+    ScandroidTheme {
+        HistoryScreen()
+    }
+}
+
+@Preview
+@Composable
 fun HistoryScreen() {
-    val list = listOf<Code>(
+    val list = listOf(
         Code(
             id = 1,
             text = "12klldgjldkgl;",
@@ -58,21 +67,42 @@ fun HistoryScreen() {
         )
     )
 
-    LazyColumn(
-        contentPadding = PaddingValues(
-            top = 16.dp,
-            start = 8.dp,
-            end = 8.dp,
-            bottom = 72.dp
-        ),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    )
-    {
-        items(
-            items = list,
-            key = { it.id }
-        ) { code ->
-            HistoryItem(code = code)
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title =
+                {
+                    Text(text = stringResource(id = R.string.history))
+                },
+                actions = {
+                    IconButton(onClick = {  }) {
+                        Image(
+                            imageVector = Icons.Filled.Delete,
+                            contentDescription = null
+                        )
+                    }
+                }
+            )
+        }
+    ) { paddingValues ->
+        LazyColumn(
+            modifier = Modifier
+                .padding(paddingValues),
+            contentPadding = PaddingValues(
+                top = 16.dp,
+                start = 8.dp,
+                end = 8.dp,
+                bottom = 72.dp
+            ),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        )
+        {
+            items(
+                items = list,
+                key = { it.id }
+            ) { code ->
+                HistoryItem(code = code)
+            }
         }
     }
 }
@@ -87,13 +117,14 @@ fun HistoryItem(code: Code) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .height(IntrinsicSize.Max)
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
                 modifier = Modifier
                     .background(
-                        color = colorResource(id = R.color.colorPrimary),
+                        color = ColorPrimary,
                         shape = CircleShape
                     )
                     .padding(7.dp)
@@ -103,7 +134,10 @@ fun HistoryItem(code: Code) {
             )
             Spacer(modifier = Modifier.width(10.dp))
             Column(
-                modifier = Modifier.weight(1F).fillMaxHeight()
+                modifier = Modifier
+                    .weight(1F)
+                    .fillMaxHeight(),
+                verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     modifier = Modifier.padding(bottom = 4.dp),
@@ -120,46 +154,19 @@ fun HistoryItem(code: Code) {
                 )
             }
             Column(
-                modifier = Modifier.fillMaxHeight().background(Color.Red),
-                horizontalAlignment = Alignment.End
+                modifier = Modifier
+                    .fillMaxHeight(),
+                horizontalAlignment = Alignment.End,
+                verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Image(
                     painter = painterResource(id = drawableResource),
                     contentDescription = null
                 )
-                    SecondaryText(
-                        text = stringResource(id = code.formatToStringId())
-                    )
+                SecondaryText(
+                    text = stringResource(id = code.formatToStringId())
+                )
             }
-//            Column {
-//                Row(
-//                    modifier = Modifier.padding(bottom = 4.dp)
-//                ) {
-//                    Text(
-//                        modifier = Modifier.weight(1F),
-//                        text = code.text
-//                    )
-//                    Image(
-//                        painter = painterResource(id = drawableResource),
-//                        contentDescription = null
-//                    )
-//                }
-//                if (code.note.isNotBlank()) {
-//                    SecondaryText(
-//                        modifier = Modifier.padding(bottom = 4.dp),
-//                        text = code.note
-//                    )
-//                }
-//                Row {
-//                    SecondaryText(
-//                        modifier = Modifier.weight(1F),
-//                        text = code.date.toString()
-//                    )
-//                    SecondaryText(
-//                        text = stringResource(id = code.formatToStringId())
-//                    )
-//                }
-//            }
         }
     }
 }
@@ -171,7 +178,7 @@ fun SecondaryText(
 ) {
     Text(
         modifier = modifier,
-        color = colorResource(id = R.color.secondary_text_color),
+        color = ColorSecondary,
         text = text,
         fontSize = 12.sp
     )
