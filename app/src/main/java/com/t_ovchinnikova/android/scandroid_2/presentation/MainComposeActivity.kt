@@ -6,7 +6,8 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
-import com.t_ovchinnikova.android.scandroid_2.ui.CameraPreview
+import com.t_ovchinnikova.android.scandroid_2.ui.scanner.CameraPreview
+import com.t_ovchinnikova.android.scandroid_2.ui.settings.SettingsScreen
 import com.t_ovchinnikova.android.scandroid_2.ui.theme.ScandroidTheme
 
 class MainComposeActivity : ComponentActivity() {
@@ -28,11 +29,11 @@ class MainComposeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        requestPermissionLauncher.launch(Manifest.permission.CAMERA)
+        //requestPermissionLauncher.launch(Manifest.permission.CAMERA)
 
         setContent {
             ScandroidTheme {
-                CameraPreview()
+                SettingsScreen()
             }
         }
     }

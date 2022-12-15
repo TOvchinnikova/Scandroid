@@ -51,25 +51,25 @@ class SettingsFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        viewModel.getSettingsObservable()
-            .onEach {
-                it?.let {
-                    showSettings(it)
-                }
-            }.launchWhenStarted(lifecycleScope)
-        viewModel.getLoadingStateObservable()
-            .onEach {
-                when (it) {
-                    is SettingsViewModel.SettingsLoadingState.Show -> {
-                        binding.settingsGroup.visibility = View.GONE
-                        binding.progressBar.visibility = View.VISIBLE
-                    }
-                    is SettingsViewModel.SettingsLoadingState.Hide -> {
-                        binding.settingsGroup.visibility = View.VISIBLE
-                        binding.progressBar.visibility = View.GONE
-                    }
-                }
-            }.launchWhenStarted(lifecycleScope)
+//        viewModel.getSettingsObservable()
+//            .onEach {
+//                it?.let {
+//                    showSettings(it)
+//                }
+//            }.launchWhenStarted(lifecycleScope)
+//        viewModel.getLoadingStateObservable()
+//            .onEach {
+//                when (it) {
+//                    is SettingsViewModel.SettingsLoadingState.Show -> {
+//                        binding.settingsGroup.visibility = View.GONE
+//                        binding.progressBar.visibility = View.VISIBLE
+//                    }
+//                    is SettingsViewModel.SettingsLoadingState.Hide -> {
+//                        binding.settingsGroup.visibility = View.VISIBLE
+//                        binding.progressBar.visibility = View.GONE
+//                    }
+//                }
+//            }.launchWhenStarted(lifecycleScope)
     }
 
     private fun showSettings(settings: SettingsData) {

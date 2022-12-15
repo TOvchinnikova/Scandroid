@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.t_ovchinnikova.android.scandroid_2.data.entity.SettingsData
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.GetSettingsUseCase
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.SaveSettingsUseCase
+import com.t_ovchinnikova.android.scandroid_2.ui.settings.SettingsScreenState
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.launch
@@ -15,11 +17,14 @@ class SettingsViewModel(
     getSettingsUseCase: GetSettingsUseCase
 ) : ViewModel() {
 
+    private val _screenState = MutableStateFlow<SettingsScreenState>(SettingsScreenState.Initial)
+    val screenState: StateFlow<SettingsScreenState> = _screenState
+
     private val settingsFlow = getSettingsUseCase.invokeAsync()
         .flowOn(IO)
         .filterNotNull()
         .onEach {
-            loadingStateFlow.value = SettingsLoadingState.Hide
+            _screenState.value = SettingsScreenState.SettingsScreen(it)
         }
         .stateIn(
             scope = viewModelScope,
@@ -27,9 +32,13 @@ class SettingsViewModel(
             initialValue = null
         )
 
-    private val loadingStateFlow = MutableStateFlow<SettingsLoadingState>(
-        SettingsLoadingState.Show
-    )
+    init {
+        viewModelScope.launch {
+            _screenState.value = SettingsScreenState.LoadingSettings
+            delay(2000)
+            settingsFlow.collect()
+        }
+    }
 
     internal fun saveSettings(settings: SettingsData) {
         viewModelScope.launch {
@@ -37,18 +46,5 @@ class SettingsViewModel(
                 saveSettingsUseCase(settings)
             }
         }
-    }
-
-    fun getSettingsObservable(): StateFlow<SettingsData?> {
-        return settingsFlow
-    }
-
-    fun getLoadingStateObservable(): StateFlow<SettingsLoadingState> {
-        return loadingStateFlow
-    }
-
-    sealed class SettingsLoadingState {
-        object Show : SettingsLoadingState()
-        object Hide : SettingsLoadingState()
     }
 }

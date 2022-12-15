@@ -102,6 +102,7 @@ dependencies {
     //Koin
     implementation "io.insert-koin:koin-core:3.2.0"
     implementation "io.insert-koin:koin-android:3.2.0"
+    implementation "io.insert-koin:koin-androidx-compose:3.2.0"
 
     // Image
     implementation 'com.github.CanHub:Android-Image-Cropper:4.3.1'
