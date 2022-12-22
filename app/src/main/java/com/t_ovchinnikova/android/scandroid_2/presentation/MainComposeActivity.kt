@@ -7,7 +7,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import com.t_ovchinnikova.android.scandroid_2.ui.scanner.CameraPreview
-import com.t_ovchinnikova.android.scandroid_2.ui.settings.SettingsScreen
 import com.t_ovchinnikova.android.scandroid_2.ui.theme.ScandroidTheme
 
 class MainComposeActivity : ComponentActivity() {
