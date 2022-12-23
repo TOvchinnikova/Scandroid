@@ -1,10 +1,7 @@
 package com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.t_ovchinnikova.android.scandroid_2.data.entity.SettingsData
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.AddCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.GetSettingsUseCase
@@ -19,27 +16,28 @@ class ScanningViewModel(
     private val getSettingsUseCase: GetSettingsUseCase
 ) : ViewModel() {
 
-    private val _screenState = MutableLiveData<ScannerScreenState>()
-    val screenState: LiveData<ScannerScreenState> = _screenState
+    private val _screenStateFlow = MutableStateFlow<ScannerScreenState>(ScannerScreenState.Initial)
+    val screenStateFlow: StateFlow<ScannerScreenState> = _screenStateFlow
 
-    private val _flashState = MutableLiveData<Boolean>()
-    val flashState: LiveData<Boolean> = _flashState
+//    private val _flashState = MutableStateFlow(false)
+//    val flashState: StateFlow<Boolean> = _flashState
 
-    private val _lastScannedCode = MutableLiveData<Code?>()
-    val lastScannedCode: LiveData<Code?>
-        get() = _lastScannedCode
+    private val _lastScannedCode = MutableStateFlow<Code?>(null)
+    val lastScannedCode: StateFlow<Code?> = _lastScannedCode
 
     private val scannerWorkStateFlow =
         MutableStateFlow<ScannerWorkState>(ScannerWorkState.ScannerActive)
 
     private val settingsFlow = getSettingsUseCase.invokeAsync()
-        .flowOn(IO)
         .filterNotNull()
         .onEach {
-            _screenState.value =
-                ScannerScreenState.Working(it.isFlashlightWhenAppStarts, lastScannedCode.value)
-            _flashState.value = it.isFlashlightWhenAppStarts
+            _screenStateFlow.value =
+                ScannerScreenState.Scanning(
+                    settingsData = it,
+                    isFlashlightWorks = it.isFlashlightWhenAppStarts
+                )
         }
+        .flowOn(IO)
         .stateIn(
             scope = viewModelScope,
             started = WhileSubscribed(),
@@ -57,10 +55,16 @@ class ScanningViewModel(
     }
 
     fun switchFlash() {
-        _flashState.value = _flashState.value?.not() ?: false
+        if (screenStateFlow.value is ScannerScreenState.Scanning) {
+            //_flashState.value = _flashState.value.not()
+            val oldState = screenStateFlow.value as ScannerScreenState.Scanning
+            _screenStateFlow.value = oldState.copy(
+                isFlashlightWorks = !oldState.isFlashlightWorks
+            )
+        }
     }
 
-    fun addCode(code: Code) {
+    fun saveCode(code: Code) {
         scannerWorkStateFlow.value = ScannerWorkState.ScanInactive
         _lastScannedCode.value = code
         viewModelScope.launch {
@@ -72,10 +76,6 @@ class ScanningViewModel(
                 scannerWorkStateFlow.value = ScannerWorkState.ScanNeedShowResult(code)
             }
         }
-    }
-
-    fun getSettings(): SettingsData? {
-        return settingsFlow.value
     }
 
     fun getScannerWorkStateObservable(): StateFlow<ScannerWorkState> {

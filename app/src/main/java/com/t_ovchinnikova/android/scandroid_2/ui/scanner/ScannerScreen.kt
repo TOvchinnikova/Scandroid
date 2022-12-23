@@ -14,7 +14,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -45,8 +47,30 @@ fun CameraPreview(
     modifier: Modifier = Modifier
 ) {
     val viewModel = koinViewModel<ScanningViewModel>()
-    val context = LocalContext.current
+    val screenState = viewModel.screenStateFlow.collectAsState()
 
+    when (val currentState = screenState.value) {
+        is ScannerScreenState.Scanning -> {
+            Scanner(viewModel, currentState)
+        }
+        is ScannerScreenState.SavingCode -> {
+
+        }
+        is ScannerScreenState.Paused -> {
+
+        }
+        is ScannerScreenState.Initial -> {
+
+        }
+    }
+}
+
+@Composable
+fun Scanner(
+    viewModel: ScanningViewModel,
+    scannerState: ScannerScreenState.Scanning
+) {
+    val context = LocalContext.current
     val previewCameraView = remember {
         PreviewView(context).apply {
             this.scaleType = scaleType
@@ -63,14 +87,14 @@ fun CameraPreview(
     val cameraSelector = remember { buildCameraSelector() }
     val executor = context.executor
     val cameraExecutor =  remember { Executors.newSingleThreadExecutor() }
+    var camera: Camera? = null
     val analyzer = get<Analyzer> {
         parametersOf(
             object : ScanResultListener {
                 override fun onScanned(resultCode: Code) {
-                    if (viewModel.lastScannedCode.value?.text != resultCode.text) {
-                        val settings = viewModel.getSettings()
-                        if (settings?.isVibrationOnScan == true) context.vibrate()
-                        viewModel.addCode(resultCode)
+                    if (scannerState.lastScannedCode?.text != resultCode.text) {
+                        if (scannerState.settingsData.isVibrationOnScan) context.vibrate()
+                        viewModel.saveCode(resultCode)
                     }
                 }
             },
@@ -98,24 +122,26 @@ fun CameraPreview(
             .build()
             .also { it.setSurfaceProvider(previewCameraView.surfaceProvider) }
 
-        runCatching {
+        camera = runCatching {
             cameraProvider.unbindAll()
             cameraProvider.bindToLifecycle(
                 lifecycleOwner,
                 cameraSelector,
                 buildUseCaseGroup(previewUseCase, imageAnalysis)
             )
-        }
+        }.getOrNull()
     }
-
+camera?.cameraControl?.enableTorch(scannerState.isFlashlightWorks)
     AndroidView(factory = { previewCameraView })
     AndroidView(factory = { ViewFinderOverlay(context = it, attrs = null) })
-    CameraButtonPanel()
-
+    CameraButtonPanel (scannerState.settingsData.isFlashlightWhenAppStarts) { viewModel.switchFlash() }
 }
 
 @Composable
-fun CameraButtonPanel() {
+fun CameraButtonPanel(
+    isFlashing: Boolean,
+    flashClickListener: () -> Unit
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -130,10 +156,17 @@ fun CameraButtonPanel() {
         ) {
             IconButton(
                 modifier = Modifier.size(70.dp),
-                onClick = { /*TODO добавить слушатель*/ }
+                onClick = { flashClickListener() }
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.ic_flash_on),
+                    painter = painterResource(
+                        id = if (isFlashing) {
+                            R.drawable.ic_flash_on
+                        }
+                        else {
+                            R.drawable.ic_flash_off
+                        }
+                    ),
                     contentDescription = null
                 )
             }
