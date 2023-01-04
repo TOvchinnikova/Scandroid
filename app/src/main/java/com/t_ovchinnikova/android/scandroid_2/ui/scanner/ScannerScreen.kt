@@ -1,6 +1,7 @@
 package com.t_ovchinnikova.android.scandroid_2.ui.scanner
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.util.Rational
 import android.view.ViewGroup
 import androidx.camera.core.*
@@ -87,13 +88,12 @@ fun Scanner(
     val cameraSelector = remember { buildCameraSelector() }
     val executor = context.executor
     val cameraExecutor =  remember { Executors.newSingleThreadExecutor() }
-    var camera: Camera? = null
     val analyzer = get<Analyzer> {
         parametersOf(
             object : ScanResultListener {
                 override fun onScanned(resultCode: Code) {
                     if (scannerState.lastScannedCode?.text != resultCode.text) {
-                        if (scannerState.settingsData.isVibrationOnScan) context.vibrate()
+                        if (scannerState.settingsData?.isVibrationOnScan == true) context.vibrate()
                         viewModel.saveCode(resultCode)
                     }
                 }
@@ -122,19 +122,19 @@ fun Scanner(
             .build()
             .also { it.setSurfaceProvider(previewCameraView.surfaceProvider) }
 
-        camera = runCatching {
+        runCatching {
             cameraProvider.unbindAll()
-            cameraProvider.bindToLifecycle(
+            val ddddd = cameraProvider.bindToLifecycle(
                 lifecycleOwner,
                 cameraSelector,
                 buildUseCaseGroup(previewUseCase, imageAnalysis)
             )
-        }.getOrNull()
+            Log.d("MyLog", "ddddd : $ddddd")
+        }
     }
-camera?.cameraControl?.enableTorch(scannerState.isFlashlightWorks)
     AndroidView(factory = { previewCameraView })
     AndroidView(factory = { ViewFinderOverlay(context = it, attrs = null) })
-    CameraButtonPanel (scannerState.settingsData.isFlashlightWhenAppStarts) { viewModel.switchFlash() }
+    CameraButtonPanel (scannerState.isFlashlightWorks) { viewModel.switchFlash() }
 }
 
 @Composable
