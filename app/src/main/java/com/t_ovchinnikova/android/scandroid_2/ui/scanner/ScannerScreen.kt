@@ -1,7 +1,6 @@
 package com.t_ovchinnikova.android.scandroid_2.ui.scanner
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.util.Rational
 import android.view.ViewGroup
 import androidx.camera.core.*
@@ -12,12 +11,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.IconButton
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -50,28 +46,16 @@ fun CameraPreview(
     val viewModel = koinViewModel<ScanningViewModel>()
     val screenState = viewModel.screenStateFlow.collectAsState()
 
-    when (val currentState = screenState.value) {
-        is ScannerScreenState.Scanning -> {
-            Scanner(viewModel, currentState)
-        }
-        is ScannerScreenState.SavingCode -> {
-
-        }
-        is ScannerScreenState.Paused -> {
-
-        }
-        is ScannerScreenState.Initial -> {
-
-        }
-    }
+    Scanner(viewModel, screenState.value)
 }
 
 @Composable
 fun Scanner(
     viewModel: ScanningViewModel,
-    scannerState: ScannerScreenState.Scanning
+    scannerState: ScannerScreenState
 ) {
     val context = LocalContext.current
+    val executor = context.executor
     val previewCameraView = remember {
         PreviewView(context).apply {
             this.scaleType = scaleType
@@ -81,19 +65,28 @@ fun Scanner(
             )
         }
     }
+    val camera: MutableState<Camera?> = remember {
+        mutableStateOf(null)
+    }
+    val cameraProvider: MutableState<ProcessCameraProvider?> = remember {
+        mutableStateOf(null)
+    }
 
     val configuration = LocalConfiguration.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
     val cameraSelector = remember { buildCameraSelector() }
-    val executor = context.executor
     val cameraExecutor =  remember { Executors.newSingleThreadExecutor() }
+
+    AndroidView(factory = { previewCameraView })
+    AndroidView(factory = { ViewFinderOverlay(context = it, attrs = null) })
     val analyzer = get<Analyzer> {
         parametersOf(
             object : ScanResultListener {
                 override fun onScanned(resultCode: Code) {
-                    if (scannerState.lastScannedCode?.text != resultCode.text) {
-                        if (scannerState.settingsData?.isVibrationOnScan == true) context.vibrate()
+                    if (viewModel.lastScannedCode.value?.text != resultCode.text) {
+                        //if (scannerState.settingsData?.isVibrationOnScan == true)
+                            context.vibrate()
                         viewModel.saveCode(resultCode)
                     }
                 }
@@ -102,15 +95,12 @@ fun Scanner(
             20
         )
     }
-
-    val imageAnalysis: ImageAnalysis = remember {
+    val imageAnalysis =
         buildImageAnalysis(Rational(configuration.screenHeightDp, configuration.screenHeightDp).toInt()).apply {
             setAnalyzer(cameraExecutor, analyzer)
         }
-    }
-
     LaunchedEffect(cameraSelector) {
-        val cameraProvider = suspendCoroutine<ProcessCameraProvider> { continuation ->
+        cameraProvider.value = suspendCoroutine<ProcessCameraProvider> { continuation ->
             ProcessCameraProvider.getInstance(context).also { future ->
                 future.addListener({
                     continuation.resume(future.get())
@@ -123,18 +113,30 @@ fun Scanner(
             .also { it.setSurfaceProvider(previewCameraView.surfaceProvider) }
 
         runCatching {
-            cameraProvider.unbindAll()
-            val ddddd = cameraProvider.bindToLifecycle(
+            cameraProvider.value?.unbindAll()
+            camera.value = cameraProvider.value?.bindToLifecycle(
                 lifecycleOwner,
                 cameraSelector,
                 buildUseCaseGroup(previewUseCase, imageAnalysis)
             )
-            Log.d("MyLog", "ddddd : $ddddd")
         }
     }
-    AndroidView(factory = { previewCameraView })
-    AndroidView(factory = { ViewFinderOverlay(context = it, attrs = null) })
-    CameraButtonPanel (scannerState.isFlashlightWorks) { viewModel.switchFlash() }
+    when (scannerState) {
+        is ScannerScreenState.Scanning -> {
+            camera.value?.cameraControl?.enableTorch(scannerState.isFlashlightWorks)
+            CameraButtonPanel (scannerState.isFlashlightWorks) { viewModel.switchFlash() }
+        }
+        is ScannerScreenState.SavingCode -> {
+            CircularProgressIndicator()
+        }
+        is ScannerScreenState.Paused -> {
+            //imageAnalysis.value?.clearAnalyzer()
+            //cameraProvider.value?.unbindAll()
+        }
+        is ScannerScreenState.Initial -> {
+
+        }
+    }
 }
 
 @Composable
