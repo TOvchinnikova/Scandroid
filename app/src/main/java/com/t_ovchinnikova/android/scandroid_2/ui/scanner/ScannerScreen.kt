@@ -78,51 +78,52 @@ fun Scanner(
     val cameraSelector = remember { buildCameraSelector() }
     val cameraExecutor =  remember { Executors.newSingleThreadExecutor() }
 
-    AndroidView(factory = { previewCameraView })
-    AndroidView(factory = { ViewFinderOverlay(context = it, attrs = null) })
-    val analyzer = get<Analyzer> {
-        parametersOf(
-            object : ScanResultListener {
-                override fun onScanned(resultCode: Code) {
-                    if (viewModel.lastScannedCode.value?.text != resultCode.text) {
-                        //if (scannerState.settingsData?.isVibrationOnScan == true)
-                            context.vibrate()
-                        viewModel.saveCode(resultCode)
-                    }
-                }
-            },
-            74,
-            20
-        )
-    }
-    val imageAnalysis =
-        buildImageAnalysis(Rational(configuration.screenHeightDp, configuration.screenHeightDp).toInt()).apply {
-            setAnalyzer(cameraExecutor, analyzer)
-        }
-    LaunchedEffect(cameraSelector) {
-        cameraProvider.value = suspendCoroutine<ProcessCameraProvider> { continuation ->
-            ProcessCameraProvider.getInstance(context).also { future ->
-                future.addListener({
-                    continuation.resume(future.get())
-                }, executor)
-            }
-        }
-
-        val previewUseCase = Preview.Builder()
-            .build()
-            .also { it.setSurfaceProvider(previewCameraView.surfaceProvider) }
-
-        runCatching {
-            cameraProvider.value?.unbindAll()
-            camera.value = cameraProvider.value?.bindToLifecycle(
-                lifecycleOwner,
-                cameraSelector,
-                buildUseCaseGroup(previewUseCase, imageAnalysis)
-            )
-        }
-    }
     when (scannerState) {
         is ScannerScreenState.Scanning -> {
+            AndroidView(factory = { previewCameraView })
+            AndroidView(factory = { ViewFinderOverlay(context = it, attrs = null) })
+            val analyzer = get<Analyzer> {
+                parametersOf(
+                    object : ScanResultListener {
+                        override fun onScanned(resultCode: Code) {
+                            if (viewModel.lastScannedCode.value?.text != resultCode.text) {
+                                if (scannerState.settingsData?.isVibrationOnScan == true) {
+                                    context.vibrate()
+                                }
+                                viewModel.saveCode(resultCode)
+                            }
+                        }
+                    },
+                    74,
+                    20
+                )
+            }
+            val imageAnalysis =
+                buildImageAnalysis(Rational(configuration.screenHeightDp, configuration.screenHeightDp).toInt()).apply {
+                    setAnalyzer(cameraExecutor, analyzer)
+                }
+            LaunchedEffect(cameraSelector) {
+                cameraProvider.value = suspendCoroutine<ProcessCameraProvider> { continuation ->
+                    ProcessCameraProvider.getInstance(context).also { future ->
+                        future.addListener({
+                            continuation.resume(future.get())
+                        }, executor)
+                    }
+                }
+
+                val previewUseCase = Preview.Builder()
+                    .build()
+                    .also { it.setSurfaceProvider(previewCameraView.surfaceProvider) }
+
+                runCatching {
+                    cameraProvider.value?.unbindAll()
+                    camera.value = cameraProvider.value?.bindToLifecycle(
+                        lifecycleOwner,
+                        cameraSelector,
+                        buildUseCaseGroup(previewUseCase, imageAnalysis)
+                    )
+                }
+            }
             camera.value?.cameraControl?.enableTorch(scannerState.isFlashlightWorks)
             CameraButtonPanel (scannerState.isFlashlightWorks) { viewModel.switchFlash() }
         }
@@ -134,7 +135,7 @@ fun Scanner(
             //cameraProvider.value?.unbindAll()
         }
         is ScannerScreenState.Initial -> {
-
+            CircularProgressIndicator()
         }
     }
 }
