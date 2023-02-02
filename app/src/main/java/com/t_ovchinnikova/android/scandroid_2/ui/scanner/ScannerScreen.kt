@@ -56,6 +56,7 @@ fun CameraPreview(
     } }
     val cameraProviderFuture =
         remember(context) { ProcessCameraProvider.getInstance(context) }
+    val cameraProvider = remember(cameraProviderFuture) { cameraProviderFuture.get() }
 
     val lifecycleOwner = LocalLifecycleOwner.current
 
