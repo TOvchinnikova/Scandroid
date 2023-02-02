@@ -68,36 +68,24 @@ fun CameraPreview(
             ViewFinderOverlay(context = it, attrs = null)
         }
     )
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(bottom = 30.dp),
-        contentAlignment = Alignment.BottomCenter
+
+    Row(
+        modifier = Modifier.background(
+            color = ColorScannerButtonPanel.copy(alpha = 0.5f),
+            shape = RoundedCornerShape(10.dp)
+        )
     ) {
-        Row(
-            modifier = Modifier.background(
-                color = ColorScannerButtonPanel.copy(alpha = 0.7f),
-                shape = RoundedCornerShape(10.dp)
-            ),
-        ) {
-            IconButton(
-                modifier = Modifier.size(70.dp),
-                onClick = { /*TODO добавить слушатель*/ }
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_flash_on),
-                    contentDescription = null
-                )
-            }
-            IconButton(
-                modifier = Modifier.size(70.dp),
-                onClick = { /*TODO добавить слушатель*/ }
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_image_analize),
-                    contentDescription = null
-                )
-            }
+        IconButton(onClick = { /*TODO добавить слушатель*/ }) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_flash_on),
+                contentDescription = null
+            )
+        }
+        IconButton(onClick = { /*TODO добавить слушатель*/ }) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_image_analize),
+                contentDescription = null
+            )
         }
     }
 }
