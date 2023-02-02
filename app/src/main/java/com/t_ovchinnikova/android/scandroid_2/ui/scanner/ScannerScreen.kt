@@ -13,17 +13,14 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.IconButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.core.content.ContextCompat
 import com.canhub.cropper.CropImage.CancelledResult.rotation
 import com.t_ovchinnikova.android.scandroid_2.R
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
@@ -36,16 +33,15 @@ import com.t_ovchinnikova.android.scandroid_2.views.ViewFinderOverlay
 import org.koin.androidx.compose.get
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 @SuppressLint("UnsafeOptInUsageError")
 @Composable
 fun CameraPreview(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    scaleType: PreviewView.ScaleType = PreviewView.ScaleType.FILL_CENTER,
+    context: Context
 ) {
     val viewModel = koinViewModel<ScanningViewModel>()
-    val context = LocalContext.current
 
     val previewCameraView = remember { PreviewView(context).apply {
         this.scaleType = scaleType
@@ -87,38 +83,33 @@ fun CameraPreview(
             setAnalyzer(cameraExecutor, analyzer)
         }
     }
+    AndroidView(
+        factory = {
+            cameraProviderFuture.addListener(
+                {
+                    val previewUseCase = Preview.Builder()
+                        .build()
+                        .also {
+                            it.setSurfaceProvider(previewCameraView.surfaceProvider)
+                        }
 
-    LaunchedEffect(cameraSelector) {
-        val cameraProvider = suspendCoroutine<ProcessCameraProvider> { continuation ->
-            ProcessCameraProvider.getInstance(context).also { future ->
-                future.addListener({
-                    continuation.resume(future.get())
-                }, cameraExecutor)
-            }
-        }
-
-        val previewUseCase = Preview.Builder()
-            .build()
-            .also { it.setSurfaceProvider(previewCameraView.surfaceProvider) }
-
-        runCatching {
-            cameraProvider.unbindAll()
-            cameraProvider.bindToLifecycle(
-                lifecycleOwner,
-                cameraSelector,
-                buildUseCaseGroup(previewUseCase, imageAnalysis)
+                    cameraProvider.unbindAll()
+                    cameraProvider.bindToLifecycle(
+                        lifecycleOwner,
+                        cameraSelector,
+                        buildUseCaseGroup(previewUseCase, imageAnalysis)
+                    )
+                }, cameraExecutor
             )
+
+            previewCameraView
         }
-    }
-
-    AndroidView(factory = { previewCameraView })
-    AndroidView(factory = { ViewFinderOverlay(context = it, attrs = null) })
-    CameraButtonPanel()
-
-}
-
-@Composable
-fun CameraButtonPanel() {
+    )
+    AndroidView(
+        factory = {
+            ViewFinderOverlay(context = it, attrs = null)
+        }
+    )
     Box(
         modifier = Modifier
             .fillMaxSize()

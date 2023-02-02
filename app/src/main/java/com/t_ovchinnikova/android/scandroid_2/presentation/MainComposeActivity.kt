@@ -33,7 +33,7 @@ class MainComposeActivity : ComponentActivity() {
 
         setContent {
             ScandroidTheme {
-                CameraPreview()
+                CameraPreview(context = this)
             }
         }
     }
