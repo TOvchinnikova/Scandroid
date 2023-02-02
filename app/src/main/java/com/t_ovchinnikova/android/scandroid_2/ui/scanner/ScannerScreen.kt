@@ -47,21 +47,20 @@ fun CameraPreview(
     val viewModel = koinViewModel<ScanningViewModel>()
     val context = LocalContext.current
 
-    val previewCameraView = remember {
-        PreviewView(context).apply {
-            this.scaleType = scaleType
-            layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
-            )
-        }
-    }
+    val previewCameraView = remember { PreviewView(context).apply {
+        this.scaleType = scaleType
+        layoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        )
+    } }
+    val cameraProviderFuture =
+        remember(context) { ProcessCameraProvider.getInstance(context) }
 
-    val configuration = LocalConfiguration.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
     val cameraSelector = remember { buildCameraSelector() }
-    val cameraExecutor = remember { context.executor}
+    val cameraExecutor = context.executor
     val analyzer = get<ImageAnalysis.Analyzer> {
         parametersOf(
             object : ScanResultListener {
@@ -78,8 +77,12 @@ fun CameraPreview(
         )
     }
 
+        val configuration = LocalConfiguration.current
+        val screenHeight = configuration.screenHeightDp
+        val screenWidth = configuration.screenWidthDp
+
     val imageAnalysis: ImageAnalysis = remember {
-        buildImageAnalysis(Rational(configuration.screenHeightDp, configuration.screenHeightDp).toInt()).apply {
+        buildImageAnalysis(Rational(screenWidth, screenHeight).toInt()).apply {
             setAnalyzer(cameraExecutor, analyzer)
         }
     }
@@ -92,11 +95,6 @@ fun CameraPreview(
                 }, cameraExecutor)
             }
         }
-
-//        val imageAnalysis: ImageAnalysis =
-//            buildImageAnalysis(Rational(configuration.screenHeightDp, configuration.screenWidthDp).toInt()).apply {
-//                setAnalyzer(cameraExecutor, analyzer)
-//            }
 
         val previewUseCase = Preview.Builder()
             .build()
