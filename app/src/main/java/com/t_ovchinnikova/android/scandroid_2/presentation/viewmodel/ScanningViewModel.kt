@@ -19,7 +19,8 @@ class ScanningViewModel(
     private val _screenStateFlow = MutableStateFlow<ScannerScreenState>(ScannerScreenState.Initial)
     val screenStateFlow: StateFlow<ScannerScreenState> = _screenStateFlow
 
-    private val _flashState = MutableStateFlow(false)
+//    private val _flashState = MutableStateFlow(false)
+//    val flashState: StateFlow<Boolean> = _flashState
 
     private val _lastScannedCode = MutableStateFlow<Code?>(null)
     val lastScannedCode: StateFlow<Code?> = _lastScannedCode
@@ -28,8 +29,8 @@ class ScanningViewModel(
         MutableStateFlow<ScannerWorkState>(ScannerWorkState.ScannerActive)
 
     private val settingsFlow = getSettingsUseCase.invokeAsync()
+        .filterNotNull()
         .onEach {
-            _flashState.value = it.isFlashlightWhenAppStarts
             _screenStateFlow.value =
                 ScannerScreenState.Scanning(
                     settingsData = it,
@@ -54,8 +55,8 @@ class ScanningViewModel(
     }
 
     fun switchFlash() {
-        _flashState.value = !_flashState.value
         if (screenStateFlow.value is ScannerScreenState.Scanning) {
+            //_flashState.value = _flashState.value.not()
             val oldState = screenStateFlow.value as ScannerScreenState.Scanning
             _screenStateFlow.value = oldState.copy(
                 isFlashlightWorks = !oldState.isFlashlightWorks
@@ -64,20 +65,21 @@ class ScanningViewModel(
     }
 
     fun saveCode(code: Code) {
+        scannerWorkStateFlow.value = ScannerWorkState.ScanInactive
         _lastScannedCode.value = code
-        _screenStateFlow.value = ScannerScreenState.SavingCode
         viewModelScope.launch {
-            _screenStateFlow.value = ScannerScreenState.Scanning(
-                isFlashlightWorks = _flashState.value,
-                lastScannedCode = code,
-                settingsData = settingsFlow.value
-            )
-            val idSavedCode = if (getSettingsUseCase.invoke().isSaveScannedBarcodesToHistory) {
-                code.copy(id = addCodeUseCase(code))
+            if (getSettingsUseCase.invoke().isSaveScannedBarcodesToHistory) {
+                val idSavedCode = addCodeUseCase(code)
+                scannerWorkStateFlow.value =
+                    ScannerWorkState.ScanNeedShowResult(code.copy(id = idSavedCode))
             } else {
-                code
+                scannerWorkStateFlow.value = ScannerWorkState.ScanNeedShowResult(code)
             }
         }
+    }
+
+    fun getScannerWorkStateObservable(): StateFlow<ScannerWorkState> {
+        return scannerWorkStateFlow
     }
 
     sealed class ScannerWorkState {

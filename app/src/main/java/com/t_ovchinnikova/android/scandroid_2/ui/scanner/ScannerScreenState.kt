@@ -7,7 +7,7 @@ sealed class ScannerScreenState {
     data class Scanning(
         val isFlashlightWorks: Boolean,
         val lastScannedCode: Code? = null,
-        val settingsData: SettingsData? = null
+        val settingsData: SettingsData
     ) : ScannerScreenState()
     object Paused : ScannerScreenState()
     object SavingCode : ScannerScreenState()
