@@ -12,8 +12,6 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,7 +33,6 @@ private fun Preview() {
     }
 }
 
-// todo здесь необходимо реализовать поиск по списку
 @Preview
 @Composable
 fun HistoryScreen() {
@@ -78,11 +75,10 @@ fun HistoryScreen() {
                     Text(text = stringResource(id = R.string.history))
                 },
                 actions = {
-                    IconButton(onClick = { /* todo добавить слушатель */ }) {
+                    IconButton(onClick = {  }) {
                         Image(
                             imageVector = Icons.Filled.Delete,
-                            contentDescription = null,
-                            colorFilter = ColorFilter.tint(Color.White)
+                            contentDescription = null
                         )
                     }
                 }
