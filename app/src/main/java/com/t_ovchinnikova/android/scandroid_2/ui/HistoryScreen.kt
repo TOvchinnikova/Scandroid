@@ -36,7 +36,7 @@ private fun Preview() {
 }
 
 // todo здесь необходимо реализовать поиск по списку
-// todo здесь необходимо реализовать удаление по свайпу влево
+@Preview
 @Composable
 fun HistoryScreen() {
     val list = listOf(

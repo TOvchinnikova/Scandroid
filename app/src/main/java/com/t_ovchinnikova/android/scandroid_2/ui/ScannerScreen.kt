@@ -5,21 +5,11 @@ import android.view.ViewGroup
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.Preview
 import androidx.camera.view.PreviewView
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import com.t_ovchinnikova.android.scandroid_2.R
-import com.t_ovchinnikova.android.scandroid_2.ui.theme.ColorScannerButtonPanel
 import com.t_ovchinnikova.android.scandroid_2.utils.getCameraProvider
 import com.t_ovchinnikova.android.scandroid_2.views.ViewFinderOverlay
 import kotlinx.coroutines.launch
@@ -34,6 +24,7 @@ fun CameraPreview(
     val coroutineScope = rememberCoroutineScope()
     val lifecycleOwner = LocalLifecycleOwner.current
     AndroidView(
+        modifier = modifier,
         factory = { context ->
             val previewView = PreviewView(context).apply {
                 this.scaleType = scaleType
@@ -42,6 +33,8 @@ fun CameraPreview(
                     ViewGroup.LayoutParams.MATCH_PARENT
                 )
             }
+
+            // CameraX Preview UseCase
             val previewUseCase = Preview.Builder()
                 .build()
                 .also {
@@ -51,6 +44,7 @@ fun CameraPreview(
             coroutineScope.launch {
                 val cameraProvider = context.getCameraProvider()
                 try {
+                    // Must unbind the use-cases before rebinding them.
                     cameraProvider.unbindAll()
                     cameraProvider.bindToLifecycle(
                         lifecycleOwner, cameraSelector, previewUseCase
@@ -68,24 +62,4 @@ fun CameraPreview(
             ViewFinderOverlay(context = it, attrs = null)
         }
     )
-
-    Row(
-        modifier = Modifier.background(
-            color = ColorScannerButtonPanel.copy(alpha = 0.5f),
-            shape = RoundedCornerShape(10.dp)
-        )
-    ) {
-        IconButton(onClick = { /*TODO добавить слушатель*/ }) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_flash_on),
-                contentDescription = null
-            )
-        }
-        IconButton(onClick = { /*TODO добавить слушатель*/ }) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_image_analize),
-                contentDescription = null
-            )
-        }
-    }
 }
