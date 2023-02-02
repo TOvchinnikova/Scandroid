@@ -18,10 +18,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.t_ovchinnikova.android.scandroid_2.R
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import com.t_ovchinnikova.android.scandroid_2.domain.formatToStringId
 import com.t_ovchinnikova.android.scandroid_2.ui.theme.ColorPrimary
+import com.t_ovchinnikova.android.scandroid_2.ui.theme.ColorSecondary
 import com.t_ovchinnikova.android.scandroid_2.ui.theme.ScandroidTheme
 import java.util.*
 
@@ -171,4 +173,17 @@ fun HistoryItem(code: Code) {
             }
         }
     }
+}
+
+@Composable
+fun SecondaryText(
+    modifier: Modifier = Modifier,
+    text: String
+) {
+    Text(
+        modifier = modifier,
+        color = ColorSecondary,
+        text = text,
+        fontSize = 12.sp
+    )
 }
