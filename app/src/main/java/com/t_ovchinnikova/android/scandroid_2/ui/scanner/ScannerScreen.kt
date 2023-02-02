@@ -1,10 +1,10 @@
 package com.t_ovchinnikova.android.scandroid_2.ui.scanner
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.util.Rational
 import android.view.ViewGroup
 import androidx.camera.core.*
-import androidx.camera.core.ImageAnalysis.Analyzer
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.Image
@@ -23,6 +23,7 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.ContextCompat
 import com.canhub.cropper.CropImage.CancelledResult.rotation
 import com.t_ovchinnikova.android.scandroid_2.R
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
@@ -35,7 +36,6 @@ import com.t_ovchinnikova.android.scandroid_2.views.ViewFinderOverlay
 import org.koin.androidx.compose.get
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
-import java.util.concurrent.Executors
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -61,9 +61,8 @@ fun CameraPreview(
     val lifecycleOwner = LocalLifecycleOwner.current
 
     val cameraSelector = remember { buildCameraSelector() }
-    val executor = context.executor
-    val cameraExecutor =  remember { Executors.newSingleThreadExecutor() }
-    val analyzer = get<Analyzer> {
+    val cameraExecutor = remember { context.executor}
+    val analyzer = get<ImageAnalysis.Analyzer> {
         parametersOf(
             object : ScanResultListener {
                 override fun onScanned(resultCode: Code) {
@@ -74,8 +73,8 @@ fun CameraPreview(
                     }
                 }
             },
-            74,
-            20
+            20,
+            74
         )
     }
 
@@ -90,9 +89,14 @@ fun CameraPreview(
             ProcessCameraProvider.getInstance(context).also { future ->
                 future.addListener({
                     continuation.resume(future.get())
-                }, executor)
+                }, cameraExecutor)
             }
         }
+
+//        val imageAnalysis: ImageAnalysis =
+//            buildImageAnalysis(Rational(configuration.screenHeightDp, configuration.screenWidthDp).toInt()).apply {
+//                setAnalyzer(cameraExecutor, analyzer)
+//            }
 
         val previewUseCase = Preview.Builder()
             .build()
