@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -64,14 +63,14 @@ fun HistoryScreen() {
             end = 8.dp,
             bottom = 72.dp
         ),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    )
+        verticalArrangement = Arrangement.spacedBy(8.dp))
     {
         items(
             items = list,
             key = { it.id }
         ) { code ->
             HistoryItem(code = code)
+            Divider(color = colorResource(id = R.color.gray))
         }
     }
 }
@@ -79,70 +78,57 @@ fun HistoryScreen() {
 @Composable
 fun HistoryItem(code: Code) {
 
-    val drawableResource =
-        if (code.isFavorite) R.drawable.ic_favorite_on else R.drawable.ic_favorite_off
+    val drawableResource = if (code.isFavorite) R.drawable.ic_favorite_on else R.drawable.ic_favorite_off
 
-    Card {
-        Row(
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 4.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Image(
-                modifier = Modifier
-                    .background(
-                        color = colorResource(id = R.color.colorPrimary),
-                        shape = CircleShape
-                    )
-                    .padding(7.dp)
-                    .size(24.dp),
-                painter = painterResource(id = R.drawable.ic_barcode),
-                contentDescription = null
-            )
-            Spacer(modifier = Modifier.width(10.dp))
-            Column {
-                Row(
-                    modifier = Modifier.padding(bottom = 4.dp)
-                ) {
-                    Text(
-                        modifier = Modifier.weight(1F),
-                        text = code.text
-                    )
-                    Image(
-                        painter = painterResource(id = drawableResource),
-                        contentDescription = null
-                    )
-                }
-                if (code.note.isNotBlank()) {
-                    SecondaryText(
-                        modifier = Modifier.padding(bottom = 4.dp),
-                        text = code.note
-                    )
-                }
-                Row {
-                    SecondaryText(
-                        modifier = Modifier.weight(1F),
-                        text = code.date.toString()
-                    )
-                    SecondaryText(
-                        text = stringResource(id = code.formatToStringId())
-                    )
-                }
+                .background(
+                    color = colorResource(id = R.color.colorPrimary),
+                    shape = CircleShape
+                )
+                .padding(7.dp)
+                .size(24.dp),
+            painter = painterResource(id = R.drawable.ic_barcode),
+            contentDescription = null
+        )
+        Spacer(modifier = Modifier.width(10.dp))
+        Column {
+            Row {
+                Text(
+                    modifier = Modifier.weight(1F),
+                    text = code.text
+                )
+                Image(
+                    painter = painterResource(id = drawableResource),
+                    contentDescription = null
+                )
+            }
+            if (code.note.isNotBlank()) {
+                Text(
+                    color = colorResource(id = R.color.secondary_text_color),
+                    text = code.note,
+                    fontSize = 12.sp
+                )
+            }
+            Row {
+                Text(
+                    modifier = Modifier.weight(1F),
+                    color = colorResource(id = R.color.secondary_text_color),
+                    text = code.date.toString(),
+                    fontSize = 12.sp
+                )
+                Text(
+                    text = stringResource(id = code.formatToStringId()),
+                    color = colorResource(id = R.color.secondary_text_color),
+                    fontSize = 12.sp
+                )
             }
         }
     }
-}
-
-@Composable
-fun SecondaryText(
-    modifier: Modifier = Modifier,
-    text: String
-) {
-    Text(
-        modifier = modifier,
-        color = colorResource(id = R.color.secondary_text_color),
-        text = text,
-        fontSize = 12.sp
-    )
 }
