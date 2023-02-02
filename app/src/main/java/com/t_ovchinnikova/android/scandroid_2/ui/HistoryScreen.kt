@@ -1,4 +1,4 @@
-package com.t_ovchinnikova.android.scandroid_2.ui.history
+package com.t_ovchinnikova.android.scandroid_2.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import com.t_ovchinnikova.android.scandroid_2.R
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import com.t_ovchinnikova.android.scandroid_2.domain.formatToStringId
-import com.t_ovchinnikova.android.scandroid_2.ui.SecondaryText
 import com.t_ovchinnikova.android.scandroid_2.ui.theme.ColorPrimary
 import com.t_ovchinnikova.android.scandroid_2.ui.theme.ScandroidTheme
 import java.util.*
