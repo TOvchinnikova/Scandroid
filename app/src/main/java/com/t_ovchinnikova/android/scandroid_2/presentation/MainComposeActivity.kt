@@ -29,11 +29,11 @@ class MainComposeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        requestPermissionLauncher.launch(Manifest.permission.CAMERA)
+        //requestPermissionLauncher.launch(Manifest.permission.CAMERA)
 
         setContent {
             ScandroidTheme {
-                CameraPreview(context = this)
+                SettingsScreen()
             }
         }
     }

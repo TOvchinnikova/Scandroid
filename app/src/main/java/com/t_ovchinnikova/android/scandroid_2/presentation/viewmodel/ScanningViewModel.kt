@@ -8,7 +8,6 @@ import com.t_ovchinnikova.android.scandroid_2.data.entity.SettingsData
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.AddCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.GetSettingsUseCase
-import com.t_ovchinnikova.android.scandroid_2.ui.scanner.ScannerScreenState
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
@@ -18,9 +17,6 @@ class ScanningViewModel(
     private val addCodeUseCase: AddCodeUseCase,
     private val getSettingsUseCase: GetSettingsUseCase
 ) : ViewModel() {
-
-    private val _screenState = MutableLiveData<ScannerScreenState>()
-    val screenState: LiveData<ScannerScreenState> = _screenState
 
     private val _flashState = MutableLiveData<Boolean>()
     val flashState: LiveData<Boolean> = _flashState
@@ -36,8 +32,6 @@ class ScanningViewModel(
         .flowOn(IO)
         .filterNotNull()
         .onEach {
-            _screenState.value =
-                ScannerScreenState.Working(it.isFlashlightWhenAppStarts, lastScannedCode.value)
             _flashState.value = it.isFlashlightWhenAppStarts
         }
         .stateIn(
