@@ -1,4 +1,4 @@
-package com.t_ovchinnikova.android.scandroid_2.ui.theme
+package com.t_ovchinnikova.android.scandroid_2.ui.code_info
 
 import android.util.Log
 import androidx.compose.foundation.Image
@@ -22,10 +22,14 @@ import androidx.compose.ui.unit.dp
 import com.t_ovchinnikova.android.scandroid_2.R
 import com.t_ovchinnikova.android.scandroid_2.ui.DividerPrimaryColor
 import com.t_ovchinnikova.android.scandroid_2.ui.SecondaryText
+import com.t_ovchinnikova.android.scandroid_2.ui.theme.ColorPrimary
+import com.t_ovchinnikova.android.scandroid_2.ui.theme.ScandroidTheme
 
 @Preview
 @Composable
-fun CodeInfoScreen() {
+fun CodeInfoScreen(
+    onBackPressed: () -> Unit,
+) {
     ScandroidTheme {
         Scaffold(
             topBar = {
@@ -34,11 +38,11 @@ fun CodeInfoScreen() {
                         Text(text = "EAN-13")
                     },
                     navigationIcon = {
-                        Image(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = null,
-                            colorFilter = ColorFilter.tint(Color.White)
-                        )
+                        IconButton(onClick = { onBackPressed() }) {
+                            Icon(
+                                imageVector = Icons.Filled.ArrowBack,
+                                contentDescription = null)
+                        }
                     },
                     actions = {
                         IconButton(onClick = { /*TODO*/ }) {
