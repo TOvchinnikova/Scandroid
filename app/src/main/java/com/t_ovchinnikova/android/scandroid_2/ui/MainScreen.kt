@@ -1,29 +1,80 @@
 package com.t_ovchinnikova.android.scandroid_2.ui
 
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.Scaffold
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.compose.currentBackStackEntryAsState
+import com.t_ovchinnikova.android.scandroid_2.navigation.AppNavGraph
+import com.t_ovchinnikova.android.scandroid_2.navigation.Screen
+import com.t_ovchinnikova.android.scandroid_2.navigation.rememberNavigationState
+import com.t_ovchinnikova.android.scandroid_2.ui.history.HistoryScreen
+import com.t_ovchinnikova.android.scandroid_2.ui.scanner.CameraPreview
+import com.t_ovchinnikova.android.scandroid_2.ui.settings.SettingsScreen
+import com.t_ovchinnikova.android.scandroid_2.ui.theme.CodeInfoScreen
 
-//@Composable
-//fun MainScreen() {
-//    Scaffold(
-//        bottomBar = {
-//            BottomNavigation {
-//                val items = listOf(
-//                    Screen.Scanner,
-//                    Screen.History,
-//                    Screen.Settings
-//                )
-//                items.forEach {
-//                    BottomNavigationItem(
-//                        selected = it == Screen.Scanner,
-//                        onClick = { /*TODO*/ }
-//                    )
-//                }
-//            }
-//        }
-//    ) {
-//
-//    }
-//}
+@Composable
+fun MainScreen() {
+
+    val navigationState = rememberNavigationState()
+
+    Scaffold(
+        bottomBar = {
+            BottomNavigation {
+                val navBackStackEntry by navigationState.navHostController.currentBackStackEntryAsState()
+
+                val items = listOf(
+                    NavigationItem.Main,
+                    NavigationItem.History,
+                    NavigationItem.Settings
+                )
+                items.forEach { item ->
+                    val selected = navBackStackEntry?.destination?.hierarchy?.any {
+                        it.route == item.screen.route
+                    } ?: false
+                    BottomNavigationItem(
+                        selected = selected,
+                        onClick = { if (!selected) {
+                            navigationState.navigateTo(item.screen.route)
+                        }
+                        },
+                        icon = {
+                            Icon(painter = painterResource(id = item.iconResId), contentDescription = null)
+                        },
+                        label = {
+                            Text(text = stringResource(id = item.titleResId))
+                        },
+                        selectedContentColor = MaterialTheme.colors.onPrimary,
+                        unselectedContentColor = MaterialTheme.colors.onSecondary
+                    )
+                }
+            }
+        }
+    ) { paddingValues ->  
+        AppNavGraph(
+            navHostController = navigationState.navHostController,
+            scannerScreenContent = {
+                CameraPreview(
+                    paddingValues = paddingValues,
+                    onScanListener = { navigationState.navigateTo(Screen.CodeInfo.route) }
+                )
+            },
+            codeInfoScreenContent = {
+                CodeInfoScreen()
+            },
+            historyScreenContent = {
+                HistoryScreen()
+            },
+            settingsScreenContent = {
+                SettingsScreen()
+            }
+        )
+    }
+}

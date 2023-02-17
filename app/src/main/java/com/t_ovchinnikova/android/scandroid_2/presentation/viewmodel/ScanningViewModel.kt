@@ -73,11 +73,12 @@ class ScanningViewModel(
             } else {
                 code
             }
-            _screenStateFlow.value = ScannerScreenState.Scanning(
-                isFlashlightWorks = _flashState.value,
-                lastScannedCode = code,
-                settingsData = settingsFlow.value
-            )
+//            _screenStateFlow.value = ScannerScreenState.Scanning(
+//                isFlashlightWorks = _flashState.value,
+//                lastScannedCode = code,
+//                settingsData = settingsFlow.value
+//            )
+            _screenStateFlow.value = ScannerScreenState.Paused
         }
     }
 
