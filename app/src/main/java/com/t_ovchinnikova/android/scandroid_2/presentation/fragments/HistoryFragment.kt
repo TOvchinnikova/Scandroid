@@ -34,18 +34,18 @@ class HistoryFragment : Fragment(), DeleteCodeListener {
     private val codeListAdapter by lazy(LazyThreadSafetyMode.NONE) {
         CodeHistoryListAdapter(
             { code ->
-                if (viewModel.codeDialogShowed.value != true) {
-                    viewModel.showCodeDialog(true)
-                    ScanResultDialog.newInstance(code.id)
-                        .show(childFragmentManager, ScanResultDialog::class.java.simpleName)
-                }
+//                if (viewModel.codeDialogShowed.value != true) {
+//                    viewModel.showCodeDialog(true)
+//                    ScanResultDialog.newInstance(code.id)
+//                        .show(childFragmentManager, ScanResultDialog::class.java.simpleName)
+//                }
             },
             { code ->
-                viewModel.updateCode(
-                    code.copy(
-                        isFavorite = !code.isFavorite
-                    )
-                )
+//                viewModel.updateCode(
+//                    code.copy(
+//                        isFavorite = !code.isFavorite
+//                    )
+//                )
             }
         )
     }
@@ -114,30 +114,30 @@ class HistoryFragment : Fragment(), DeleteCodeListener {
     }
 
     private fun observeViewModel() {
-        viewModel.getCodeListObservable()
-            .onEach {
-                val list = it.filter { code ->
-                    code.text.contains(binding.searchContainer.etSearch.text.toString())
-                }
-                codeListAdapter.submitList(list)
-            }
-            .launchWhenStarted(lifecycleScope)
+//        viewModel.getCodeListObservable()
+//            .onEach {
+//                val list = it.filter { code ->
+//                    code.text.contains(binding.searchContainer.etSearch.text.toString())
+//                }
+//                codeListAdapter.submitList(list)
+//            }
+//            .launchWhenStarted(lifecycleScope)
 
-        viewModel.getCodesHistoryStateObservable()
-            .onEach { state ->
-                when (state) {
-                    is HistoryViewModel.CodesHistoryState.Loading -> {
-                        binding.progressBar.visibility = View.VISIBLE
-                        binding.historyIsEmptyHint.visibility = View.GONE
-                        binding.rvHistoryList.visibility = View.GONE
-                    }
-                    is HistoryViewModel.CodesHistoryState.ReadyToShow -> {
-                        binding.progressBar.visibility = View.GONE
-                        setHistoryListVisibility(state.codes.isEmpty())
-                    }
-                }
-            }
-            .launchWhenStarted(lifecycleScope)
+//        viewModel.getCodesHistoryStateObservable()
+//            .onEach { state ->
+//                when (state) {
+//                    is HistoryViewModel.CodesHistoryState.Loading -> {
+//                        binding.progressBar.visibility = View.VISIBLE
+//                        binding.historyIsEmptyHint.visibility = View.GONE
+//                        binding.rvHistoryList.visibility = View.GONE
+//                    }
+//                    is HistoryViewModel.CodesHistoryState.ReadyToShow -> {
+//                        binding.progressBar.visibility = View.GONE
+//                        setHistoryListVisibility(state.codes.isEmpty())
+//                    }
+//                }
+//            }
+//            .launchWhenStarted(lifecycleScope)
     }
 
     private fun setupSwipeListener() {
@@ -218,9 +218,9 @@ class HistoryFragment : Fragment(), DeleteCodeListener {
     }
 
     private fun filterList(filterText: String) {
-        val list = viewModel.getCodeListObservable().value.filter { it.text.contains(filterText) }
-        setHistoryListVisibility(list.isEmpty())
-        codeListAdapter.submitList(list)
+//        val list = viewModel.getCodeListObservable().value.filter { it.text.contains(filterText) }
+//        setHistoryListVisibility(list.isEmpty())
+//        codeListAdapter.submitList(list)
     }
 
     private fun hideKeyboard(activity: Activity) {

@@ -1,5 +1,6 @@
 package com.t_ovchinnikova.android.scandroid_2.ui.history
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -10,6 +11,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,10 +23,12 @@ import androidx.compose.ui.unit.dp
 import com.t_ovchinnikova.android.scandroid_2.R
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import com.t_ovchinnikova.android.scandroid_2.domain.formatToStringId
+import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.HistoryViewModel
+import com.t_ovchinnikova.android.scandroid_2.ui.CenterProgress
 import com.t_ovchinnikova.android.scandroid_2.ui.SecondaryText
 import com.t_ovchinnikova.android.scandroid_2.ui.theme.ColorPrimary
 import com.t_ovchinnikova.android.scandroid_2.ui.theme.ScandroidTheme
-import java.util.*
+import org.koin.androidx.compose.koinViewModel
 
 @Preview
 @Composable
@@ -38,36 +42,10 @@ private fun Preview() {
 // todo здесь необходимо реализовать удаление по свайпу влево
 @Composable
 fun HistoryScreen() {
-    val list = listOf(
-        Code(
-            id = 1,
-            text = "12klldgjldkgl;",
-            format = 1,
-            type = 1,
 
-            date = Date(),
-            note = "",
-            isFavorite = false
-        ),
-        Code(
-            id = 2,
-            text = "rjtkhrtjoi546;",
-            format = 32,
-            type = 5,
-            date = Date(),
-            note = "Заметка",
-            isFavorite = true
-        ),
-        Code(
-            id = 3,
-            text = "94856tlthgblkfjthjlktrj;",
-            format = 32,
-            type = 1,
-            date = Date(),
-            note = "Лучшая",
-            isFavorite = false
-        )
-    )
+    val viewModel = koinViewModel<HistoryViewModel>()
+
+    val screenState = viewModel.codesHistoryStateFlow.collectAsState()
 
     Scaffold(
         topBar = {
@@ -88,31 +66,72 @@ fun HistoryScreen() {
             )
         }
     ) { paddingValues ->
-        LazyColumn(
-            modifier = Modifier
-                .padding(paddingValues),
-            contentPadding = PaddingValues(
-                top = 16.dp,
-                start = 8.dp,
-                end = 8.dp,
-                bottom = 72.dp
-            ),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        )
-        {
-            items(
-                items = list,
-                key = { it.id }
-            ) { code ->
-                HistoryItem(code = code)
+        when(val state = screenState.value) {
+            is HistoryScreenState.Loading -> {
+                CenterProgress()
+            }
+            is HistoryScreenState.History -> {
+                HistoryList(
+                    paddingValues = paddingValues,
+                    codes = state.codes,
+                    onFavouriteClickListener = { viewModel.toggleFavourite(it) },
+                    onRemoveListener = { viewModel.deleteCode(it) })
+            }
+            is HistoryScreenState.Initial -> {
+
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
+@Composable
+fun HistoryList(
+    paddingValues: PaddingValues,
+    codes: List<Code>,
+    onFavouriteClickListener: (code: Code) -> Unit,
+    onRemoveListener: (codeId: Long) -> Unit
+) {
+    LazyColumn(
+        modifier = Modifier
+            .padding(paddingValues),
+        contentPadding = PaddingValues(
+            top = 16.dp,
+            start = 8.dp,
+            end = 8.dp,
+            bottom = 72.dp
+        ),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    )
+    {
+        items(
+            items = codes,
+            key = { it.id }
+        ) { code ->
+            val dismissState = rememberDismissState()
+            if (dismissState.isDismissed(DismissDirection.EndToStart)) {
+                onRemoveListener(code.id)
+            }
+            SwipeToDismiss(
+                modifier = Modifier.animateItemPlacement(),
+                state = dismissState,
+                background = {},
+                directions = setOf(DismissDirection.EndToStart)
+            ) {
+                HistoryItem(
+                    code = code,
+                    onFavouriteClickListener = onFavouriteClickListener
+                )
             }
         }
     }
 }
 
 @Composable
-fun HistoryItem(code: Code) {
-
+fun HistoryItem(
+    code: Code,
+    onFavouriteClickListener: (code: Code) -> Unit
+) {
     val drawableResource =
         if (code.isFavorite) R.drawable.ic_favorite_on else R.drawable.ic_favorite_off
 
@@ -162,10 +181,14 @@ fun HistoryItem(code: Code) {
                 horizontalAlignment = Alignment.End,
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
-                Image(
-                    painter = painterResource(id = drawableResource),
-                    contentDescription = null
-                )
+                IconButton(
+                    onClick = { onFavouriteClickListener(code) }
+                ) {
+                    Image(
+                        painter = painterResource(id = drawableResource),
+                        contentDescription = null
+                    )
+                }
                 SecondaryText(
                     text = stringResource(id = code.formatToStringId())
                 )

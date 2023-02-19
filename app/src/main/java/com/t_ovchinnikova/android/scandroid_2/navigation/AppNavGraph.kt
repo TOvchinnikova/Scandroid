@@ -22,10 +22,10 @@ fun AppNavGraph(
             codeInfoScreenContent
         )
         composable(Screen.History.route) {
-            historyScreenContent
+            historyScreenContent()
         }
         composable(Screen.Settings.route) {
-            settingsScreenContent
+            settingsScreenContent()
         }
     }
 }

@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.t_ovchinnikova.android.scandroid_2.R
 import com.t_ovchinnikova.android.scandroid_2.data.entity.SettingsData
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.SettingsViewModel
+import com.t_ovchinnikova.android.scandroid_2.ui.CenterProgress
 import com.t_ovchinnikova.android.scandroid_2.ui.DividerPrimaryColor
 import com.t_ovchinnikova.android.scandroid_2.ui.SecondaryText
 import com.t_ovchinnikova.android.scandroid_2.ui.theme.ScandroidTheme
@@ -43,7 +44,7 @@ fun SettingsScreen() {
                     }
                 }
                 is SettingsScreenState.LoadingSettings -> {
-                    CircularProgressIndicator()
+                    CenterProgress()
                 }
                 is SettingsScreenState.Initial -> {
                     // nothing

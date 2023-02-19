@@ -7,7 +7,6 @@ import com.t_ovchinnikova.android.scandroid_2.domain.usecases.AddCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.GetSettingsUseCase
 import com.t_ovchinnikova.android.scandroid_2.ui.scanner.ScannerScreenState
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.launch
@@ -73,12 +72,11 @@ class ScanningViewModel(
             } else {
                 code
             }
-//            _screenStateFlow.value = ScannerScreenState.Scanning(
-//                isFlashlightWorks = _flashState.value,
-//                lastScannedCode = code,
-//                settingsData = settingsFlow.value
-//            )
-            _screenStateFlow.value = ScannerScreenState.Paused
+            _screenStateFlow.value = ScannerScreenState.Scanning(
+                isFlashlightWorks = _flashState.value,
+                lastScannedCode = code,
+                settingsData = settingsFlow.value
+            )
         }
     }
 

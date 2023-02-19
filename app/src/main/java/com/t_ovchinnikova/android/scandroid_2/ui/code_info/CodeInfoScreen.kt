@@ -25,7 +25,6 @@ import com.t_ovchinnikova.android.scandroid_2.ui.SecondaryText
 import com.t_ovchinnikova.android.scandroid_2.ui.theme.ColorPrimary
 import com.t_ovchinnikova.android.scandroid_2.ui.theme.ScandroidTheme
 
-@Preview
 @Composable
 fun CodeInfoScreen(
     onBackPressed: () -> Unit,

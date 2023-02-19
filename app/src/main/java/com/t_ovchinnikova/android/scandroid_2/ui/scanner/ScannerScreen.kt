@@ -95,6 +95,7 @@ fun Scanner(
                                     if (scannerState.settingsData?.isVibrationOnScan == true) {
                                         context.vibrate()
                                     }
+                                    onScanListener()
                                     viewModel.saveCode(resultCode)
                                 }
                             }
@@ -134,10 +135,10 @@ fun Scanner(
             }
         }
         is ScannerScreenState.SavingCode -> {
-            CircularProgressIndicator()
+            //CircularProgressIndicator()
         }
         is ScannerScreenState.Paused -> {
-            onScanListener()
+            //onScanListener()
         }
         is ScannerScreenState.Initial -> {
             CircularProgressIndicator()
