@@ -11,6 +11,7 @@ import com.t_ovchinnikova.android.scandroid_2.ui.history.HistoryScreenState
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.util.*
 
 class HistoryViewModel(
     private val deleteCodeUseCase: DeleteCodeUseCase,
@@ -42,7 +43,7 @@ class HistoryViewModel(
         }
     }
 
-    fun deleteCode(codeId: Long) {
+    fun deleteCode(codeId: UUID) {
         viewModelScope.launch {
             deleteCodeUseCase(codeId)
         }

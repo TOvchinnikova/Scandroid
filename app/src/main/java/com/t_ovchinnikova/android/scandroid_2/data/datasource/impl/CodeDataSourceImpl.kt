@@ -5,6 +5,7 @@ import com.t_ovchinnikova.android.scandroid_2.data.CodeDao
 import com.t_ovchinnikova.android.scandroid_2.data.entity.CodeDbModel
 import com.t_ovchinnikova.android.scandroid_2.data.datasource.CodeDataSource
 import kotlinx.coroutines.flow.Flow
+import java.util.*
 
 class CodeDataSourceImpl(
     private val codeDao: CodeDao
@@ -14,7 +15,7 @@ class CodeDataSourceImpl(
         return codeDao.addCode(code)
     }
 
-    override suspend fun deleteCode(codeId: Long) {
+    override suspend fun deleteCode(codeId: UUID) {
         codeDao.deleteCode(codeId)
     }
 

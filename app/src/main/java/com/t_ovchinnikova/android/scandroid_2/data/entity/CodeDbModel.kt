@@ -6,8 +6,8 @@ import java.util.*
 
 @Entity(tableName = "codes")
 class CodeDbModel (
-    @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
+    @PrimaryKey()
+    val id: UUID,
     val text: String,
     val format: Int,
     val type: Int,

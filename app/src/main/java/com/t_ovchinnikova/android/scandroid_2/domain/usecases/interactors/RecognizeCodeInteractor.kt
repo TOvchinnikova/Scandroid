@@ -6,6 +6,7 @@ import com.google.mlkit.vision.common.InputImage
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.RecognizeCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.presentation.ScanResultListener
+import java.util.UUID
 
 class RecognizeCodeInteractor : RecognizeCodeUseCase {
 
@@ -27,7 +28,7 @@ class RecognizeCodeInteractor : RecognizeCodeUseCase {
             rawValue?.let {
                 val format = barcode.format
                 val type = barcode.valueType
-                Code(text = rawValue, format = format, type = type)
+                Code(id = UUID.randomUUID(), text = rawValue, format = format, type = type)
             }
         }
     }

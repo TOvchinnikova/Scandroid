@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.t_ovchinnikova.android.scandroid_2.data.entity.CodeDbModel
 import kotlinx.coroutines.flow.Flow
+import java.util.*
 
 @Dao
 interface CodeDao {
@@ -21,7 +22,7 @@ interface CodeDao {
     suspend fun addCode(code: CodeDbModel): Long
 
     @Query("DELETE FROM codes WHERE id = :id")
-    suspend fun deleteCode(id: Long)
+    suspend fun deleteCode(id: UUID)
 
     @Query("DELETE FROM codes")
     suspend fun deleteAllCodes()

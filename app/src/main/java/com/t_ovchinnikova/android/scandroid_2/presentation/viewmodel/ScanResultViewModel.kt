@@ -11,6 +11,7 @@ import com.t_ovchinnikova.android.scandroid_2.domain.usecases.GetSettingsUseCase
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.util.UUID
 
 class ScanResultViewModel(
     codeId: Long,
@@ -51,7 +52,7 @@ class ScanResultViewModel(
         }
     }
 
-    fun deleteBarcode(id: Long) {
+    fun deleteBarcode(id: UUID) {
         viewModelScope.launch {
             deleteCodeUseCase(id)
         }

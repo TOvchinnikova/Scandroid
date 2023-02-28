@@ -32,7 +32,7 @@ abstract class CodeDatabase : RoomDatabase() {
                     application,
                     CodeDatabase::class.java,
                     DB_NAME
-                ).addMigrations(migration_1_2, migration_2_3)
+                ).addMigrations(migration_1_2, migration_2_3, migration_3_4)
                     .build()
                 INSTANCE = db
                 return db
@@ -55,5 +55,19 @@ val migration_2_3 = object : Migration(2, 3) {
         database.execSQL(
             "ALTER TABLE codes ADD COLUMN isFavorite INTEGER NOT NULL DEFAULT 0 "
         )
+    }
+}
+
+val migration_3_4 = object : Migration(3, 4) {
+
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL(
+            "ALTER TABLE codes ADD COLUMN isFavorite INTEGER NOT NULL DEFAULT 0 "
+        )
+        database.execSQL("DROP TABLE IF EXISTS codes_old;")
+        database.execSQL("ALTER TABLE codes RENAME TO codes_old ")
+        database.execSQL("CREATE TABLE IF NOT EXISTS `codes` (`id` TEXT PRIMARY KEY, `text` TEXT NOT NULL, `format` INTEGER NOT NULL, `type` INTEGER, `date` INTEGER NOT NULL, `note` TEXT NOT NULL, isFavorite INTEGER)")
+        database.execSQL("INSERT INTO codes SELECT * FROM codes_old")
+        database.execSQL("DROP TABLE IF EXISTS codes_old")
     }
 }

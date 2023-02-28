@@ -33,7 +33,7 @@ class ScanResultDialog : BaseBottomSheetDialog(), EditCodeNoteListener, DeleteCo
 
 
     private val codeId by lazy (LazyThreadSafetyMode.NONE) {
-        arguments?.getLong(SCAN_CODE_ID) as Long
+        arguments?.getSerializable(SCAN_CODE_ID) as UUID
     }
 
     private val viewModel: ScanResultViewModel by viewModel {
@@ -86,7 +86,7 @@ class ScanResultDialog : BaseBottomSheetDialog(), EditCodeNoteListener, DeleteCo
         }
         if (parentFragment is HistoryFragment) {
             parentFragment?.let {
-                ViewModelProvider(it).get(HistoryViewModel::class.java).showCodeDialog(false)
+                //ViewModelProvider(it).get(HistoryViewModel::class.java).showCodeDialog(false)
             }
         }
     }
@@ -218,10 +218,10 @@ class ScanResultDialog : BaseBottomSheetDialog(), EditCodeNoteListener, DeleteCo
     companion object {
         private const val SCAN_CODE_ID = "SCAN CODE ID"
 
-        fun newInstance(codeId: Long): ScanResultDialog {
+        fun newInstance(codeId: UUID): ScanResultDialog {
             return ScanResultDialog().apply {
                 arguments = Bundle().apply {
-                    putLong(SCAN_CODE_ID, codeId)
+                    putSerializable(SCAN_CODE_ID, codeId)
                 }
             }
         }
