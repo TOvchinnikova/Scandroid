@@ -1,4 +1,4 @@
-package com.t_ovchinnikova.android.scandroid_2.data
+package com.t_ovchinnikova.android.scandroid_2.data.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao

@@ -1,4 +1,4 @@
-package com.t_ovchinnikova.android.scandroid_2.data
+package com.t_ovchinnikova.android.scandroid_2.data.db
 
 import androidx.room.TypeConverter
 import java.util.*
@@ -23,6 +23,21 @@ class CodeDatabaseTypeConverter {
     @TypeConverter
     fun toBoolean(int: Int): Boolean {
         return int.toBoolean()
+    }
+
+    @TypeConverter
+    fun toUuid(uuid: String?): UUID? {
+        return uuid?.let { UUID.fromString(it) }
+    }
+
+//    @TypeConverter
+//    fun toUuid(uuid: Long?): UUID? {
+//        return uuid?.let { UUID.fromString(it.toString()) }
+//    }
+
+    @TypeConverter
+    fun toString(uuid: UUID?): String? {
+        return uuid?.toString()
     }
 }
 

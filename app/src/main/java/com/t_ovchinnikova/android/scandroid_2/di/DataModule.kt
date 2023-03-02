@@ -2,8 +2,8 @@ package com.t_ovchinnikova.android.scandroid_2.di
 
 import com.t_ovchinnikova.android.scandroid_2.data.datasource.impl.SettingsDataSourceImpl
 import com.t_ovchinnikova.android.scandroid_2.data.datasource.impl.SettingsDataSourceImpl.Companion.getSettingsDataStore
-import com.t_ovchinnikova.android.scandroid_2.data.CodeDao
-import com.t_ovchinnikova.android.scandroid_2.data.CodeDatabase
+import com.t_ovchinnikova.android.scandroid_2.data.db.CodeDao
+import com.t_ovchinnikova.android.scandroid_2.data.db.CodeDatabase
 import com.t_ovchinnikova.android.scandroid_2.data.CodeMapper
 import com.t_ovchinnikova.android.scandroid_2.data.repository.impl.CodeRepositoryImpl
 import com.t_ovchinnikova.android.scandroid_2.data.datasource.CodeDataSource
