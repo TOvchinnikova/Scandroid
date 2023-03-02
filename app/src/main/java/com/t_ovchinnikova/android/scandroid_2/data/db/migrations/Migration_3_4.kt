@@ -15,8 +15,8 @@ class Migration_3_4 : Migration(3, 4) {
                     "type INTEGER NOT NULL, date INTEGER NOT NULL, note TEXT NOT NULL, " +
                     "isFavorite INTEGER NOT NULL)"
         )
-        database.execSQL("INSERT INTO $MIGRATION_TABLE_CODES " +
-                "SELECT ${UUID.randomUUID()}, text, format, type, date, note, isFavorite " +
+        database.execSQL("INSERT INTO $MIGRATION_TABLE_CODES (id, text, format, type, date, note, isFavorite) " +
+                "SELECT '${UUID.randomUUID()}', text, format, type, date, note, isFavorite " +
                 "FROM $MIGRATION_TABLE_CODES_OLD")
         database.execSQL("DROP TABLE IF EXISTS $MIGRATION_TABLE_CODES_OLD")
     }

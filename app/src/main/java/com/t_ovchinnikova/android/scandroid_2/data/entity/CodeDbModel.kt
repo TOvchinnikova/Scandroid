@@ -6,7 +6,7 @@ import java.util.*
 
 @Entity(tableName = "codes")
 class CodeDbModel (
-    @PrimaryKey()
+    @PrimaryKey
     val id: UUID,
     val text: String,
     val format: Int,
