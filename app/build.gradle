@@ -2,7 +2,6 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
-    id 'kotlin-parcelize'
 }
 
 android {
@@ -51,6 +50,8 @@ android {
 
 dependencies {
 
+    implementation project(':core-db-impl')
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.4.2'
@@ -89,11 +90,6 @@ dependencies {
     implementation "androidx.camera:camera-camera2:1.2.0"
     implementation "androidx.camera:camera-lifecycle:1.2.0"
     implementation "androidx.camera:camera-view:1.0.0-alpha32"
-
-    //Room
-    implementation 'androidx.room:room-runtime:2.4.3'
-    implementation "androidx.room:room-ktx:2.4.3"
-    kapt 'androidx.room:room-compiler:2.4.3'
 
     //Coroutine
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3"

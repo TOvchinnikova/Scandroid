@@ -1,4 +1,4 @@
-package com.t_ovchinnikova.android.scandroid_2.data.db
+package com.t_ovchinnikova.android.scandroid_2.core_db_impl
 
 import androidx.room.TypeConverter
 import java.util.*

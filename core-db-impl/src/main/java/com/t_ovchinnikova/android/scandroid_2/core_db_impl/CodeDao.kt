@@ -1,11 +1,11 @@
-package com.t_ovchinnikova.android.scandroid_2.data.db
+package com.t_ovchinnikova.android.scandroid_2.core_db_impl
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.t_ovchinnikova.android.scandroid_2.data.entity.CodeDbModel
+import com.t_ovchinnikova.android.scandroid_2.core_db_impl.entity.CodeDbModel
 import kotlinx.coroutines.flow.Flow
 import java.util.*
 
@@ -13,13 +13,13 @@ import java.util.*
 interface CodeDao {
 
     @Query("SELECT * FROM codes ORDER BY date DESC")
-    fun getCodes(): Flow<List<CodeDbModel>>
+    fun getCodes(): Flow<List<com.t_ovchinnikova.android.scandroid_2.core_db_impl.entity.CodeDbModel>>
 
     @Query("SELECT * FROM codes WHERE id = :id")
-    fun getCodeById(id: Long): Flow<CodeDbModel?>
+    fun getCodeById(id: Long): Flow<com.t_ovchinnikova.android.scandroid_2.core_db_impl.entity.CodeDbModel?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addCode(code: CodeDbModel): Long
+    suspend fun addCode(code: com.t_ovchinnikova.android.scandroid_2.core_db_impl.entity.CodeDbModel): Long
 
     @Query("DELETE FROM codes WHERE id = :id")
     suspend fun deleteCode(id: UUID)
@@ -28,6 +28,6 @@ interface CodeDao {
     suspend fun deleteAllCodes()
 
     @Query("SELECT * FROM codes WHERE text LIKE '%' || :filterText || '%' ORDER BY date DESC")
-    fun getCodesWithFilter(filterText: String): LiveData<List<CodeDbModel>>
+    fun getCodesWithFilter(filterText: String): LiveData<List<com.t_ovchinnikova.android.scandroid_2.core_db_impl.entity.CodeDbModel>>
 
 }

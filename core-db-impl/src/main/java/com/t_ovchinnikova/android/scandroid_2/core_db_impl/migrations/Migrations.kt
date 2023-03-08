@@ -1,4 +1,4 @@
-package com.t_ovchinnikova.android.scandroid_2.data.db.migrations
+package com.t_ovchinnikova.android.scandroid_2.core_db_impl.migrations
 
 import androidx.room.migration.Migration
 

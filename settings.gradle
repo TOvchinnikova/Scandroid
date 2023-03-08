@@ -1,2 +1,3 @@
 rootProject.name = "Scandroid_2"
 include ':app'
+include ':core-db-impl'

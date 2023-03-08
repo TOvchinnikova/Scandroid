@@ -1,4 +1,4 @@
-package com.t_ovchinnikova.android.scandroid_2.data.entity
+package com.t_ovchinnikova.android.scandroid_2.core_db_impl.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
