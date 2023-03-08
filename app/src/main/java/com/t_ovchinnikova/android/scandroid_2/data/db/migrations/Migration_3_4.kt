@@ -2,7 +2,6 @@ package com.t_ovchinnikova.android.scandroid_2.data.db.migrations
 
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import java.util.*
 
 class Migration_3_4 : Migration(3, 4) {
 
@@ -16,7 +15,8 @@ class Migration_3_4 : Migration(3, 4) {
                     "isFavorite INTEGER NOT NULL)"
         )
         val sql = "INSERT INTO $MIGRATION_TABLE_CODES (id, text, format, type, date, note, isFavorite) " +
-                "SELECT '${UUID.randomUUID()}', text, format, type, date, note, isFavorite " +
+                "SELECT hex(randomblob(4))||'-'||hex(randomblob(2))||'-'||hex(randomblob(2))||'-'||hex(randomblob(2))||'-'||hex(randomblob(6)), " +
+                        "text, format, type, date, note, isFavorite " +
                 "FROM $MIGRATION_TABLE_CODES_OLD"
         database.execSQL(sql)
         database.execSQL("DROP TABLE IF EXISTS $MIGRATION_TABLE_CODES_OLD")
