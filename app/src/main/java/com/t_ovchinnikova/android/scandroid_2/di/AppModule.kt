@@ -12,6 +12,7 @@ import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.ScanningVie
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.SettingsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
+import java.util.UUID
 
 val appModule = module {
 
@@ -31,7 +32,7 @@ val appModule = module {
         )
     }
 
-    viewModel<ScanResultViewModel> { (codeId: Long) ->
+    viewModel<ScanResultViewModel> { (codeId: UUID) ->
         ScanResultViewModel(
             codeId = codeId,
             deleteCodeUseCase = get() as DeleteCodeUseCase,

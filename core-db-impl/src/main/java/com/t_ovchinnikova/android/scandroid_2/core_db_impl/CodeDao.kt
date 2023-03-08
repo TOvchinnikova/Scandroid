@@ -16,7 +16,7 @@ interface CodeDao {
     fun getCodes(): Flow<List<com.t_ovchinnikova.android.scandroid_2.core_db_impl.entity.CodeDbModel>>
 
     @Query("SELECT * FROM codes WHERE id = :id")
-    fun getCodeById(id: Long): Flow<com.t_ovchinnikova.android.scandroid_2.core_db_impl.entity.CodeDbModel?>
+    fun getCodeById(id: UUID): Flow<CodeDbModel?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addCode(code: com.t_ovchinnikova.android.scandroid_2.core_db_impl.entity.CodeDbModel): Long

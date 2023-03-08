@@ -58,7 +58,9 @@ fun MainScreen() {
             scannerScreenContent = {
                 CameraPreview(
                     paddingValues = paddingValues,
-                    onScanListener = { navigationState.navigateTo(Screen.CodeInfo.route) }
+                    onScanListener = {
+                        navigationState.navigateToCodeInfo(it)
+                    }
                 )
             },
             codeInfoScreenContent = {

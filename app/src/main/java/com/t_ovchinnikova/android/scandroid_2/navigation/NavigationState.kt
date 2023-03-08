@@ -5,6 +5,7 @@ import androidx.compose.runtime.remember
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import java.util.UUID
 
 class NavigationState(
     val navHostController: NavHostController
@@ -17,6 +18,10 @@ class NavigationState(
             launchSingleTop = true
             restoreState = true
         }
+    }
+
+    fun navigateToCodeInfo(codeId: UUID) {
+        navHostController.navigate(Screen.CodeInfo.getRouteWithArgs(codeId))
     }
 }
 

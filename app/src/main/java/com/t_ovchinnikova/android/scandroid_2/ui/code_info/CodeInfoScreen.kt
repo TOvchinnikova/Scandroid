@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,15 +21,22 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.t_ovchinnikova.android.scandroid_2.R
+import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.HistoryViewModel
+import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.ScanResultViewModel
 import com.t_ovchinnikova.android.scandroid_2.ui.DividerPrimaryColor
 import com.t_ovchinnikova.android.scandroid_2.ui.SecondaryText
 import com.t_ovchinnikova.android.scandroid_2.ui.theme.ColorPrimary
 import com.t_ovchinnikova.android.scandroid_2.ui.theme.ScandroidTheme
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun CodeInfoScreen(
     onBackPressed: () -> Unit,
 ) {
+    val viewModel = koinViewModel<ScanResultViewModel>()
+
+    val screenState = viewModel.screenStateFlow.collectAsState()
+
     ScandroidTheme {
         Scaffold(
             topBar = {

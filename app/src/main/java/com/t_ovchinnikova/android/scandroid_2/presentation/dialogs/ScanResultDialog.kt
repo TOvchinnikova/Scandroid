@@ -71,10 +71,10 @@ class ScanResultDialog : BaseBottomSheetDialog(), EditCodeNoteListener, DeleteCo
     }
 
     private fun observeViewModel() {
-        viewModel.code.onEach {
-            showContent(it)
-        }
-            .launchWhenStarted(lifecycleScope)
+//        viewModel.code.onEach {
+//            showContent(it)
+//        }
+//            .launchWhenStarted(lifecycleScope)
     }
 
     override fun onDismiss(dialog: DialogInterface) {
@@ -150,16 +150,16 @@ class ScanResultDialog : BaseBottomSheetDialog(), EditCodeNoteListener, DeleteCo
     }
 
     private fun sendText(text: String, note: String) {
-        val message =
-            if (note.isNotBlank() && viewModel.getSettings()?.isSendingNoteWithCode == true)
-                text + '\n' + note
-            else
-                text
-        val intent = Intent(Intent.ACTION_SEND).apply {
-            type = "text/plain"
-            putExtra(Intent.EXTRA_TEXT, message)
-        }
-        startAction(intent)
+//        val message =
+//            if (note.isNotBlank() && viewModel.getSettings()?.isSendingNoteWithCode == true)
+//                text + '\n' + note
+//            else
+//                text
+//        val intent = Intent(Intent.ACTION_SEND).apply {
+//            type = "text/plain"
+//            putExtra(Intent.EXTRA_TEXT, message)
+//        }
+//        startAction(intent)
     }
 
     private fun startAction(intent: Intent) {
@@ -191,23 +191,23 @@ class ScanResultDialog : BaseBottomSheetDialog(), EditCodeNoteListener, DeleteCo
     }
 
     private fun toggleIsFavorite() {
-        viewModel.code.value?.let {
-            viewModel.updateBarcode(
-                it.copy(
-                    isFavorite = it.isFavorite.not()
-                )
-            )
-        }
+//        viewModel.code.value?.let {
+//            viewModel.updateBarcode(
+//                it.copy(
+//                    isFavorite = it.isFavorite.not()
+//                )
+//            )
+//        }
     }
 
     override fun onNoteConfirmed(note: String) {
-        viewModel.code.value?.let {
-            viewModel.updateBarcode(
-                it.copy(
-                    note = note
-                )
-            )
-        }
+//        viewModel.code.value?.let {
+//            viewModel.updateBarcode(
+//                it.copy(
+//                    note = note
+//                )
+//            )
+//        }
     }
 
     override fun onDeleteConfirmed() {

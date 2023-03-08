@@ -37,7 +37,7 @@ class CodeRepositoryImpl(
             codeMapper.mapListDbModelToListEntity(it)
         }
 
-    override fun getCodeById(id: Long): Flow<Code?> {
+    override fun getCodeById(id: UUID): Flow<Code?> {
         return codeDataSource.getCodeById(id).map {
             it?.let {
                 codeMapper.mapDbModelToEntity(it)

@@ -34,6 +34,7 @@ import com.t_ovchinnikova.android.scandroid_2.views.ViewFinderOverlay
 import org.koin.androidx.compose.get
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
+import java.util.UUID
 import java.util.concurrent.Executors
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -43,7 +44,7 @@ import kotlin.coroutines.suspendCoroutine
 fun CameraPreview(
     paddingValues: PaddingValues,
     modifier: Modifier = Modifier,
-    onScanListener: () -> Unit,
+    onScanListener: (codeId: UUID) -> Unit,
 ) {
     val viewModel = koinViewModel<ScanningViewModel>()
     val screenState = viewModel.screenStateFlow.collectAsState()
@@ -55,7 +56,7 @@ fun CameraPreview(
 fun Scanner(
     paddingValues: PaddingValues,
     viewModel: ScanningViewModel,
-    onScanListener: () -> Unit,
+    onScanListener: (codeId: UUID) -> Unit,
     scannerState: ScannerScreenState
 ) {
     val context = LocalContext.current
@@ -95,7 +96,7 @@ fun Scanner(
                                     if (scannerState.settingsData?.isVibrationOnScan == true) {
                                         context.vibrate()
                                     }
-                                    onScanListener()
+                                    onScanListener(resultCode.id)
                                     viewModel.saveCode(resultCode)
                                 }
                             }
