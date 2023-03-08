@@ -67,10 +67,8 @@ class ScanningViewModel(
         _lastScannedCode.value = code
         _screenStateFlow.value = ScannerScreenState.SavingCode
         viewModelScope.launch {
-            val idSavedCode = if (getSettingsUseCase.invoke().isSaveScannedBarcodesToHistory) {
-                code.copy(id = addCodeUseCase(code))
-            } else {
-                code
+            if (getSettingsUseCase.invoke().isSaveScannedBarcodesToHistory) {
+                addCodeUseCase(code)
             }
             _screenStateFlow.value = ScannerScreenState.Scanning(
                 isFlashlightWorks = _flashState.value,

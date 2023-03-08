@@ -29,6 +29,7 @@ import com.t_ovchinnikova.android.scandroid_2.ui.SecondaryText
 import com.t_ovchinnikova.android.scandroid_2.ui.theme.ColorPrimary
 import com.t_ovchinnikova.android.scandroid_2.ui.theme.ScandroidTheme
 import org.koin.androidx.compose.koinViewModel
+import java.util.UUID
 
 @Preview
 @Composable
@@ -90,7 +91,7 @@ fun HistoryList(
     paddingValues: PaddingValues,
     codes: List<Code>,
     onFavouriteClickListener: (code: Code) -> Unit,
-    onRemoveListener: (codeId: Long) -> Unit
+    onRemoveListener: (codeId: UUID) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier

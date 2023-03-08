@@ -8,6 +8,7 @@ import com.t_ovchinnikova.android.scandroid_2.data.repository.CodeRepository
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.util.*
 
 class CodeRepositoryImpl(
     private val codeMapper: CodeMapper,
@@ -18,7 +19,7 @@ class CodeRepositoryImpl(
         return codeDataSource.addCode(codeMapper.mapEntityToDbModel(code))
     }
 
-    override suspend fun deleteCode(codeId: Long) {
+    override suspend fun deleteCode(codeId: UUID) {
         codeDataSource.deleteCode(codeId)
     }
 

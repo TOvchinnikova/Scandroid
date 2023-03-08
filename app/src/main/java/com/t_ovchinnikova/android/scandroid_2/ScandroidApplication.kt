@@ -1,9 +1,7 @@
 package com.t_ovchinnikova.android.scandroid_2
 
 import android.app.Application
-import com.t_ovchinnikova.android.scandroid_2.di.appModule
-import com.t_ovchinnikova.android.scandroid_2.di.dataModule
-import com.t_ovchinnikova.android.scandroid_2.di.domainModule
+import com.t_ovchinnikova.android.scandroid_2.di.appModules
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -16,7 +14,7 @@ class ScandroidApplication : Application() {
         startKoin {
             androidLogger(if (BuildConfig.DEBUG) Level.ERROR else Level.NONE)
             androidContext(this@ScandroidApplication)
-            modules(appModule, domainModule, dataModule)
+            modules(appModules)
         }
     }
 }
