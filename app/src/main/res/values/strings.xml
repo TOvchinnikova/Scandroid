@@ -72,4 +72,6 @@
     <string name="barcode_type_calendar_event">Event</string>
     <string name="barcode_driver_license">Driver license</string>
 
+    <string name="details">Details</string>
+
 </resources>

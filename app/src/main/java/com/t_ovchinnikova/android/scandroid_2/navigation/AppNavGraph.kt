@@ -4,12 +4,13 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import java.util.UUID
 
 @Composable
 fun AppNavGraph(
     navHostController: NavHostController,
     scannerScreenContent: @Composable () -> Unit,
-    codeInfoScreenContent: @Composable () -> Unit,
+    codeInfoScreenContent: @Composable (codeId: UUID) -> Unit,
     historyScreenContent: @Composable () -> Unit,
     settingsScreenContent: @Composable () -> Unit
 ) {

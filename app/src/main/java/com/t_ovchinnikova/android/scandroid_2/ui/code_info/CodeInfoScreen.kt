@@ -18,64 +18,132 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.t_ovchinnikova.android.scandroid_2.R
-import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.HistoryViewModel
+import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.ScanResultViewModel
-import com.t_ovchinnikova.android.scandroid_2.ui.DividerPrimaryColor
+import com.t_ovchinnikova.android.scandroid_2.ui.CenterProgress
+import com.t_ovchinnikova.android.scandroid_2.ui.Divider
 import com.t_ovchinnikova.android.scandroid_2.ui.SecondaryText
 import com.t_ovchinnikova.android.scandroid_2.ui.theme.ColorPrimary
 import com.t_ovchinnikova.android.scandroid_2.ui.theme.ScandroidTheme
 import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
+import java.util.UUID
 
 @Composable
 fun CodeInfoScreen(
-    onBackPressed: () -> Unit,
+    codeId: UUID,
+    onBackPressed: () -> Unit
 ) {
-    val viewModel = koinViewModel<ScanResultViewModel>()
+    val viewModel = koinViewModel<ScanResultViewModel>() {
+        parametersOf(codeId)
+    }
 
     val screenState = viewModel.screenStateFlow.collectAsState()
 
-    ScandroidTheme {
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = {
-                        Text(text = "EAN-13")
-                    },
-                    navigationIcon = {
-                        IconButton(onClick = { onBackPressed() }) {
-                            Icon(
-                                imageVector = Icons.Filled.ArrowBack,
-                                contentDescription = null)
-                        }
-                    },
-                    actions = {
-                        IconButton(onClick = { /*TODO*/ }) {
-                            Image(
-                                painter = painterResource(id = R.drawable.ic_favorite_on),
-                                contentDescription = null
-                            )
-                        }
-                        IconButton(onClick = { /*TODO*/ }) {
-                            Image(
-                                imageVector = Icons.Filled.Delete,
-                                contentDescription = null,
-                                colorFilter = ColorFilter.tint(Color.White)
-                            )
-                        }
-                    }
-                )
-            },
-        ) {
-            Content()
+    when (val state = screenState.value) {
+        is CodeInfoScreenState.Loading -> {
+            CodeInfoTopAppBar(
+                title = stringResource(id = R.string.details),
+                onBackPressed = onBackPressed
+            )
+            CenterProgress()
+        }
+        is CodeInfoScreenState.CodeInfo -> {
+            CodeInfoTopAppBar(
+                title = stringResource(id = R.string.details),
+                onBackPressed = onBackPressed,
+                onFavouriteClickListener = { viewModel.updateBarcode(state.code.copy(isFavorite = !state.code.isFavorite)) },
+                onDeleteClickListener = { viewModel.deleteBarcode(state.code.id) }
+            )
+            Content(code = state.code)
+        }
+        is CodeInfoScreenState.CodeNotFound -> {
+
+        }
+        is CodeInfoScreenState.Initial -> {
+
         }
     }
+
+    //ScandroidTheme {
+//        Scaffold(
+//            topBar = {
+//                TopAppBar(
+//                    title = {
+//                        Text(text = "EAN-13")
+//                    },
+//                    navigationIcon = {
+//                        IconButton(onClick = { onBackPressed() }) {
+//                            Icon(
+//                                imageVector = Icons.Filled.ArrowBack,
+//                                contentDescription = null)
+//                        }
+//                    },
+//                    actions = {
+//                        IconButton(onClick = { /*TODO*/ }) {
+//                            Image(
+//                                painter = painterResource(id = R.drawable.ic_favorite_on),
+//                                contentDescription = null
+//                            )
+//                        }
+//                        IconButton(onClick = { /*TODO*/ }) {
+//                            Image(
+//                                imageVector = Icons.Filled.Delete,
+//                                contentDescription = null,
+//                                colorFilter = ColorFilter.tint(Color.White)
+//                            )
+//                        }
+//                    }
+//                )
+//            },
+//        ) {
+//            Content(it)
+//        }
+    //}
 }
 
 @Composable
-fun Content() {
+fun CodeInfoTopAppBar(
+    title: String,
+    onBackPressed: () -> Unit,
+    onFavouriteClickListener: () -> Unit = { },
+    onDeleteClickListener: () -> Unit = { }
+) {
+    TopAppBar(
+        title = {
+            Text(text = title)
+        },
+        navigationIcon = {
+            IconButton(onClick = { onBackPressed() }) {
+                Icon(
+                    imageVector = Icons.Filled.ArrowBack,
+                    contentDescription = null)
+            }
+        },
+        actions = {
+            IconButton(onClick = { onFavouriteClickListener() }) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_favorite_on),
+                    contentDescription = null
+                )
+            }
+            IconButton(onClick = { onDeleteClickListener() }) {
+                Image(
+                    imageVector = Icons.Filled.Delete,
+                    contentDescription = null,
+                    colorFilter = ColorFilter.tint(Color.White)
+                )
+            }
+        }
+    )
+}
+
+@Composable
+fun Content(
+    code: Code
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -98,7 +166,7 @@ fun Content() {
         Text(text = "889958375835934")
         Spacer(modifier = Modifier.height(10.dp))
         Text(text = "Текст")
-        DividerPrimaryColor()
+        Divider()
         ActionButton(titleResId = R.string.copy_to_clipboard, iconResId = R.drawable.ic_copy) {
             Log.d("MyLog", "ActionButton clicked")
         }
@@ -129,7 +197,9 @@ fun ActionButton(
                 .background(shape = CircleShape, color = ColorPrimary)
         ) {
             Icon(
-                modifier = Modifier.padding(10.dp).size(16.dp),
+                modifier = Modifier
+                    .padding(10.dp)
+                    .size(16.dp),
                 painter = painterResource(id = iconResId),
                 contentDescription = null,
                 tint = Color.White

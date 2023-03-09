@@ -65,6 +65,7 @@ fun MainScreen() {
             },
             codeInfoScreenContent = {
                 CodeInfoScreen(
+                    codeId = it,
                     onBackPressed = {
                         navigationState.navHostController.popBackStack()
                     }

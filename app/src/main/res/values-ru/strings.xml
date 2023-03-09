@@ -56,4 +56,6 @@
     <string name="barcode_type_calendar_event">Событие</string>
     <string name="barcode_driver_license">Водительские права</string>
 
+    <string name="details">Детали</string>
+
 </resources>

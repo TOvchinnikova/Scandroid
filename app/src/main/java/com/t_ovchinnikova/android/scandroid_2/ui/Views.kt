@@ -7,6 +7,7 @@ import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t_ovchinnikova.android.scandroid_2.ui.theme.ColorPrimary
@@ -27,11 +28,13 @@ fun SecondaryText(
 }
 
 @Composable
-fun DividerPrimaryColor() {
+fun Divider(
+    color: Color = ColorPrimary
+) {
     Divider(
         modifier = Modifier
             .padding(vertical = 10.dp)
-            .background(ColorPrimary)
+            .background(color)
             .height(1.dp)
     )
 }

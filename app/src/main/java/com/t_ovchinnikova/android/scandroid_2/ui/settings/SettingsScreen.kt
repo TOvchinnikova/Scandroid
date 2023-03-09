@@ -13,7 +13,7 @@ import com.t_ovchinnikova.android.scandroid_2.R
 import com.t_ovchinnikova.android.scandroid_2.data.entity.SettingsData
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.SettingsViewModel
 import com.t_ovchinnikova.android.scandroid_2.ui.CenterProgress
-import com.t_ovchinnikova.android.scandroid_2.ui.DividerPrimaryColor
+import com.t_ovchinnikova.android.scandroid_2.ui.Divider
 import com.t_ovchinnikova.android.scandroid_2.ui.SecondaryText
 import com.t_ovchinnikova.android.scandroid_2.ui.theme.ScandroidTheme
 import org.koin.androidx.compose.koinViewModel
@@ -79,7 +79,7 @@ private fun ShowSettings(
                 )
             }
         )
-        DividerPrimaryColor()
+        Divider()
         SettingsItem(
             titleResId = R.string.fragment_settings_flash,
             hintResId = R.string.fragment_settings_flash_hint,
@@ -92,7 +92,7 @@ private fun ShowSettings(
                 )
             }
         )
-        DividerPrimaryColor()
+        Divider()
         SettingsItem(
             titleResId = R.string.fragment_settings_save_scanned_barcodes_to_history,
             hintResId = R.string.fragment_settings_save_scanned_barcodes_to_history_hint,
@@ -105,7 +105,7 @@ private fun ShowSettings(
                 )
             }
         )
-        DividerPrimaryColor()
+        Divider()
         SettingsItem(
             titleResId = R.string.fragment_settings_sending_note,
             hintResId = R.string.fragment_settings_sending_note_hint,
@@ -118,7 +118,7 @@ private fun ShowSettings(
                 )
             }
         )
-        DividerPrimaryColor()
+        Divider()
     }
 }
 
