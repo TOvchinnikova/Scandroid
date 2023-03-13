@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,15 +22,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t_ovchinnikova.android.scandroid_2.R
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
+import com.t_ovchinnikova.android.scandroid_2.domain.formatToStringId
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.ScanResultViewModel
+import com.t_ovchinnikova.android.scandroid_2.ui.ActionButton
 import com.t_ovchinnikova.android.scandroid_2.ui.CenterProgress
 import com.t_ovchinnikova.android.scandroid_2.ui.Divider
 import com.t_ovchinnikova.android.scandroid_2.ui.SecondaryText
 import com.t_ovchinnikova.android.scandroid_2.ui.theme.ColorPrimary
 import com.t_ovchinnikova.android.scandroid_2.ui.theme.ScandroidTheme
+import com.t_ovchinnikova.android.scandroid_2.utils.toStringByPattern
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
-import java.util.UUID
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Composable
 fun CodeInfoScreen(
@@ -154,18 +159,18 @@ fun Content(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            SecondaryText(text = "13.12.2022 22:52")
+            SecondaryText(text = code.date.toStringByPattern(SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.ENGLISH)))
             Image(
                 painter = painterResource(id = R.drawable.ic_edit),
                 contentDescription = null
             )
         }
         Spacer(modifier = Modifier.height(10.dp))
-        Text(text = "Заметка")
+        Text(text = code.note)
         Spacer(modifier = Modifier.height(10.dp))
-        Text(text = "889958375835934")
+        Text(text = code.text)
         Spacer(modifier = Modifier.height(10.dp))
-        Text(text = "Текст")
+        Text(text = stringResource(id = code.formatToStringId()))
         Divider()
         ActionButton(titleResId = R.string.copy_to_clipboard, iconResId = R.drawable.ic_copy) {
             Log.d("MyLog", "ActionButton clicked")
@@ -176,36 +181,5 @@ fun Content(
         ActionButton(titleResId = R.string.barcode_share_text, iconResId = R.drawable.ic_send) {
             Log.d("MyLog", "ActionButton clicked")
         }
-    }
-}
-
-@Composable
-fun ActionButton(
-    titleResId: Int,
-    iconResId: Int,
-    onButtonClick: () -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .padding(vertical = 10.dp)
-            .fillMaxWidth()
-            .clickable(enabled = true, onClick = onButtonClick),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Box(
-            modifier = Modifier
-                .background(shape = CircleShape, color = ColorPrimary)
-        ) {
-            Icon(
-                modifier = Modifier
-                    .padding(10.dp)
-                    .size(16.dp),
-                painter = painterResource(id = iconResId),
-                contentDescription = null,
-                tint = Color.White
-            )
-        }
-        Spacer(modifier = Modifier.width(10.dp))
-        Text(text = stringResource(id = titleResId))
     }
 }
