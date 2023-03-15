@@ -8,7 +8,11 @@ sealed class CodeInfoScreenState {
 
     object Loading : CodeInfoScreenState()
 
-    data class CodeInfo(val code: Code, val isFromDatabase: Boolean) : CodeInfoScreenState()
+    data class CodeInfo(
+        val code: Code,
+        val isFromDatabase: Boolean,
+        val isSendingNoteWithCode: Boolean
+    ) : CodeInfoScreenState()
 
     object CodeNotFound : CodeInfoScreenState()
 }

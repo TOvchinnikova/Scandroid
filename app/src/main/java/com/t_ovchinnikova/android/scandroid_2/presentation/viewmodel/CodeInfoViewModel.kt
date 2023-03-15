@@ -9,11 +9,12 @@ import com.t_ovchinnikova.android.scandroid_2.domain.usecases.GetCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.GetSettingsUseCase
 import com.t_ovchinnikova.android.scandroid_2.ui.code_info.CodeInfoScreenState
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.util.*
 
-class ScanResultViewModel(
+class CodeInfoViewModel(
     codeId: UUID,
     private val deleteCodeUseCase: DeleteCodeUseCase,
     private val addCodeUseCase: AddCodeUseCase,
@@ -26,11 +27,16 @@ class ScanResultViewModel(
         getSettingsUseCase.invokeAsync()
     ) { code, settings ->
         code?.let {
-            CodeInfoScreenState.CodeInfo(it, settings.isSaveScannedBarcodesToHistory)
+            CodeInfoScreenState.CodeInfo(
+                it,
+                settings.isSaveScannedBarcodesToHistory,
+                settings.isSendingNoteWithCode
+            )
         } ?: CodeInfoScreenState.CodeNotFound
     }
         .onStart {
-            CodeInfoScreenState.Loading
+            emit(CodeInfoScreenState.Loading)
+            delay(1000)
         }
         .flowOn(Dispatchers.IO)
         .stateIn(

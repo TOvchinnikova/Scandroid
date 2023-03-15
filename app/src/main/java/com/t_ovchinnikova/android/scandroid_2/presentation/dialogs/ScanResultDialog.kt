@@ -9,19 +9,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.t_ovchinnikova.android.scandroid_2.R
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanResultDialogBinding
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import com.t_ovchinnikova.android.scandroid_2.domain.formatToStringId
 import com.t_ovchinnikova.android.scandroid_2.domain.typeToString
-import com.t_ovchinnikova.android.scandroid_2.utils.launchWhenStarted
 import com.t_ovchinnikova.android.scandroid_2.presentation.fragments.HistoryFragment
 import com.t_ovchinnikova.android.scandroid_2.presentation.fragments.ScanningFragment
-import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.HistoryViewModel
-import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.ScanResultViewModel
+import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.CodeInfoViewModel
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.ScanningViewModel
-import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.text.SimpleDateFormat
@@ -36,7 +32,7 @@ class ScanResultDialog : BaseBottomSheetDialog(), EditCodeNoteListener, DeleteCo
         arguments?.getSerializable(SCAN_CODE_ID) as UUID
     }
 
-    private val viewModel: ScanResultViewModel by viewModel {
+    private val viewModel: CodeInfoViewModel by viewModel {
         parametersOf(
             codeId
         )

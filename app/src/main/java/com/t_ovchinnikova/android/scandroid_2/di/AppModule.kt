@@ -7,7 +7,7 @@ import com.t_ovchinnikova.android.scandroid_2.domain.usecases.interactors.Recogn
 import com.t_ovchinnikova.android.scandroid_2.presentation.ScanAnalyzer
 import com.t_ovchinnikova.android.scandroid_2.presentation.ScanResultListener
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.HistoryViewModel
-import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.ScanResultViewModel
+import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.CodeInfoViewModel
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.ScanningViewModel
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.SettingsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -32,8 +32,8 @@ val appModule = module {
         )
     }
 
-    viewModel<ScanResultViewModel> { (codeId: UUID) ->
-        ScanResultViewModel(
+    viewModel<CodeInfoViewModel> { (codeId: UUID) ->
+        CodeInfoViewModel(
             codeId = codeId,
             deleteCodeUseCase = get() as DeleteCodeUseCase,
             addCodeUseCase = get() as AddCodeUseCase,
