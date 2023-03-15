@@ -44,7 +44,11 @@ fun MainScreen() {
                 )
             },
             historyScreenContent = {
-                HistoryScreen()
+                HistoryScreen(
+                    codeItemClickListener = {
+                        navigationState.navigateToCodeInfo(it)
+                    }
+                )
             },
             settingsScreenContent = {
                 SettingsScreen()

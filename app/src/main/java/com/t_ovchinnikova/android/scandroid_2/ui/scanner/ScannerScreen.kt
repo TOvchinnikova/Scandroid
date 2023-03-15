@@ -44,7 +44,7 @@ import kotlin.coroutines.suspendCoroutine
 fun CameraPreview(
     paddingValues: PaddingValues,
     modifier: Modifier = Modifier,
-    onScanListener: (codeId: UUID) -> Unit,
+    onScanListener: (codeId: UUID) -> Unit
 ) {
     val viewModel = koinViewModel<ScanningViewModel>()
     val screenState = viewModel.screenStateFlow.collectAsState()

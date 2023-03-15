@@ -15,6 +15,8 @@ sealed class Screen(
             return "$ROUTE_FOR_ARGS/$codeId"
         }
     }
+    object HistoryMain : Screen(ROUTE_HISTORY_MAIN)
+
     object History : Screen(ROUTE_HISTORY)
     object Settings : Screen(ROUTE_SETTINGS)
 
@@ -25,6 +27,7 @@ sealed class Screen(
         const val ROUTE_SCANNER = "scanner"
         const val ROUTE_CODE_INFO = "code_info/{$KEY_CODE_ID}"
         const val ROUTE_HISTORY = "history"
+        const val ROUTE_HISTORY_MAIN = "history_main"
         const val ROUTE_SETTINGS = "settings"
     }
 }

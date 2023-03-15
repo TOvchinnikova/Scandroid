@@ -121,17 +121,23 @@ fun Content(
             Spacer(modifier = Modifier.height(10.dp))
             Text(text = code.note)
         }
+
         Spacer(modifier = Modifier.height(10.dp))
         Text(text = code.text)
+
         Spacer(modifier = Modifier.height(10.dp))
         Text(text = stringResource(id = code.formatToStringId()))
+
         Divider()
+
         ActionButton(titleResId = R.string.copy_to_clipboard, iconResId = R.drawable.ic_copy) {
             copyClickListener()
         }
+
         ActionButton(titleResId = R.string.barcode_search, iconResId = R.drawable.ic_search) {
             searchWebClickListener()
         }
+
         ActionButton(titleResId = R.string.barcode_share_text, iconResId = R.drawable.ic_send) {
             shareTextClickListener()
         }

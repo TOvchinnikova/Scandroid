@@ -36,7 +36,6 @@ class CodeInfoViewModel(
     }
         .onStart {
             emit(CodeInfoScreenState.Loading)
-            delay(1000)
         }
         .flowOn(Dispatchers.IO)
         .stateIn(

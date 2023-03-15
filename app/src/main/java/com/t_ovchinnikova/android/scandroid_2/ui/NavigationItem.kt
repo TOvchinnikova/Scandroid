@@ -14,14 +14,9 @@ sealed class NavigationItem(
         titleResId = R.string.scanner,
         iconResId = R.drawable.ic_qr_code
     )
-//    object Scanner : NavigationItem(
-//        screen = Screen.Scanner,
-//        titleResId = R.string.scanner,
-//        iconResId = R.drawable.ic_qr_code
-//    )
 
     object History : NavigationItem(
-        screen = Screen.History,
+        screen = Screen.HistoryMain,
         titleResId = R.string.history,
         iconResId = R.drawable.ic_history
     )

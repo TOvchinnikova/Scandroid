@@ -3,6 +3,7 @@ package com.t_ovchinnikova.android.scandroid_2.ui.history
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -18,7 +19,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.t_ovchinnikova.android.scandroid_2.R
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
@@ -27,22 +27,15 @@ import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.HistoryView
 import com.t_ovchinnikova.android.scandroid_2.ui.CenterProgress
 import com.t_ovchinnikova.android.scandroid_2.ui.SecondaryText
 import com.t_ovchinnikova.android.scandroid_2.ui.theme.ColorPrimary
-import com.t_ovchinnikova.android.scandroid_2.ui.theme.ScandroidTheme
 import org.koin.androidx.compose.koinViewModel
-import java.util.UUID
-
-@Preview
-@Composable
-private fun Preview() {
-    ScandroidTheme {
-        HistoryScreen()
-    }
-}
+import java.util.*
 
 // todo здесь необходимо реализовать поиск по списку
 // todo здесь необходимо реализовать удаление по свайпу влево
 @Composable
-fun HistoryScreen() {
+fun HistoryScreen(
+    codeItemClickListener: (codeId: UUID) -> Unit
+) {
 
     val viewModel = koinViewModel<HistoryViewModel>()
 
@@ -76,7 +69,8 @@ fun HistoryScreen() {
                     paddingValues = paddingValues,
                     codes = state.codes,
                     onFavouriteClickListener = { viewModel.toggleFavourite(it) },
-                    onRemoveListener = { viewModel.deleteCode(it) })
+                    onRemoveListener = { viewModel.deleteCode(it) },
+                    codeItemClickListener = codeItemClickListener)
             }
             is HistoryScreenState.Initial -> {
 
@@ -91,7 +85,8 @@ fun HistoryList(
     paddingValues: PaddingValues,
     codes: List<Code>,
     onFavouriteClickListener: (code: Code) -> Unit,
-    onRemoveListener: (codeId: UUID) -> Unit
+    onRemoveListener: (codeId: UUID) -> Unit,
+    codeItemClickListener: (codeId: UUID) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -121,7 +116,8 @@ fun HistoryList(
             ) {
                 HistoryItem(
                     code = code,
-                    onFavouriteClickListener = onFavouriteClickListener
+                    onFavouriteClickListener = onFavouriteClickListener,
+                    codeItemClickListener = codeItemClickListener
                 )
             }
         }
@@ -131,12 +127,16 @@ fun HistoryList(
 @Composable
 fun HistoryItem(
     code: Code,
-    onFavouriteClickListener: (code: Code) -> Unit
+    onFavouriteClickListener: (code: Code) -> Unit,
+    codeItemClickListener: (codeId: UUID) -> Unit
 ) {
     val drawableResource =
         if (code.isFavorite) R.drawable.ic_favorite_on else R.drawable.ic_favorite_off
 
-    Card {
+    Card(
+        modifier = Modifier
+            .clickable { codeItemClickListener(code.id) }
+    ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()

@@ -5,30 +5,29 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
-import com.t_ovchinnikova.android.scandroid_2.domain.Code.Companion.NavigationType
-import com.t_ovchinnikova.android.scandroid_2.navigation.Screen.Companion.KEY_CODE_ID
-import java.util.UUID
+import com.t_ovchinnikova.android.scandroid_2.domain.Code
+import java.util.*
 
-fun NavGraphBuilder.scannerScreenNavGraph(
-    scannerScreenContent: @Composable () -> Unit,
+fun NavGraphBuilder.historyScreenNavGraph(
+    historyScreenContent: @Composable () -> Unit,
     codeInfoScreenContent: @Composable (codeId: UUID) -> Unit
 ) {
     navigation(
-        startDestination = Screen.Scanner.route,
-        route = Screen.Main.route
+        startDestination = Screen.History.route,
+        route = Screen.HistoryMain.route
     ) {
-        composable(Screen.Scanner.route) {
-            scannerScreenContent()
+        composable(Screen.History.route) {
+            historyScreenContent()
         }
         composable(
             route = Screen.CodeInfo.route,
             arguments = listOf(
-                navArgument(KEY_CODE_ID) {
-                    type = NavigationType
+                navArgument(Screen.KEY_CODE_ID) {
+                    type = Code.NavigationType
                 }
             )
         ) {
-            val codeId = it.arguments?.getSerializable(KEY_CODE_ID) as UUID?
+            val codeId = it.arguments?.getSerializable(Screen.KEY_CODE_ID) as UUID?
                 ?: throw RuntimeException("Args is null")
             codeInfoScreenContent(codeId)
         }
