@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,76 +47,60 @@ fun CodeInfoScreen(
     }
 
     val screenState = viewModel.screenStateFlow.collectAsState()
+//    val appBarState = rememberSaveable {
+//        mutableStateOf(CodeInfoAppBarState(onBackPressed = onBackPressed))
+//    }
 
-    when (val state = screenState.value) {
-        is CodeInfoScreenState.Loading -> {
-            CodeInfoTopAppBar(
-                title = stringResource(id = R.string.details),
-                onBackPressed = onBackPressed
-            )
-            CenterProgress()
-        }
-        is CodeInfoScreenState.CodeInfo -> {
-            CodeInfoTopAppBar(
-                title = stringResource(id = R.string.details),
-                onBackPressed = onBackPressed,
-                onFavouriteClickListener = { viewModel.updateBarcode(state.code.copy(isFavorite = !state.code.isFavorite)) },
-                onDeleteClickListener = { viewModel.deleteBarcode(state.code.id) }
-            )
-            Content(code = state.code)
-        }
-        is CodeInfoScreenState.CodeNotFound -> {
-
-        }
-        is CodeInfoScreenState.Initial -> {
-
-        }
-    }
-
-    //ScandroidTheme {
+//    ScandroidTheme {
 //        Scaffold(
 //            topBar = {
-//                TopAppBar(
-//                    title = {
-//                        Text(text = "EAN-13")
-//                    },
-//                    navigationIcon = {
-//                        IconButton(onClick = { onBackPressed() }) {
-//                            Icon(
-//                                imageVector = Icons.Filled.ArrowBack,
-//                                contentDescription = null)
-//                        }
-//                    },
-//                    actions = {
-//                        IconButton(onClick = { /*TODO*/ }) {
-//                            Image(
-//                                painter = painterResource(id = R.drawable.ic_favorite_on),
-//                                contentDescription = null
-//                            )
-//                        }
-//                        IconButton(onClick = { /*TODO*/ }) {
-//                            Image(
-//                                imageVector = Icons.Filled.Delete,
-//                                contentDescription = null,
-//                                colorFilter = ColorFilter.tint(Color.White)
-//                            )
-//                        }
-//                    }
-//                )
+//                CodeInfoTopAppBar(appBarState.value)
 //            },
-//        ) {
-//            Content(it)
-//        }
-    //}
-}
+//        ) { paddingValues ->
+    Column() {
+        when (val state = screenState.value) {
+            is CodeInfoScreenState.Loading -> {
+                CodeInfoTopAppBar(onBackPressed = onBackPressed)
+                CenterProgress()
+            }
+            is CodeInfoScreenState.CodeInfo -> {
+                CodeInfoTopAppBar(onBackPressed = onBackPressed,
+                    title = stringResource(id = state.code.formatToStringId()),
+                    onFavouriteClickListener = {
+                        viewModel.updateBarcode(
+                            code = state.code.copy(
+                                isFavorite = !state.code.isFavorite
+                            )
+                        )
+                    },
+                    onDeleteClickListener = {
+                        viewModel.deleteBarcode(state.code.id)
+                    },
+                    isFavourite = state.code.isFavorite
+                )
+                Content(code = state.code)
+            }
+            is CodeInfoScreenState.CodeNotFound -> {
+
+            }
+            is CodeInfoScreenState.Initial -> {
+
+            }
+        }
+    }
+    }
+//    }
+//}
 
 @Composable
 fun CodeInfoTopAppBar(
-    title: String,
+    title: String = "",
     onBackPressed: () -> Unit,
-    onFavouriteClickListener: () -> Unit = { },
-    onDeleteClickListener: () -> Unit = { }
+    isFavourite: Boolean = false,
+    onFavouriteClickListener: (() -> Unit)? = null,
+    onDeleteClickListener: (() -> Unit)? = null
 ) {
+
     TopAppBar(
         title = {
             Text(text = title)
@@ -124,22 +109,27 @@ fun CodeInfoTopAppBar(
             IconButton(onClick = { onBackPressed() }) {
                 Icon(
                     imageVector = Icons.Filled.ArrowBack,
-                    contentDescription = null)
-            }
-        },
-        actions = {
-            IconButton(onClick = { onFavouriteClickListener() }) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_favorite_on),
                     contentDescription = null
                 )
             }
-            IconButton(onClick = { onDeleteClickListener() }) {
-                Image(
-                    imageVector = Icons.Filled.Delete,
-                    contentDescription = null,
-                    colorFilter = ColorFilter.tint(Color.White)
-                )
+        },
+        actions = {
+            onFavouriteClickListener?.let { clickListener ->
+                IconButton(onClick = { clickListener() }) {
+                    Image(
+                        painter = painterResource(id = if (isFavourite) R.drawable.ic_favorite_on else R.drawable.ic_favorite_off),
+                        contentDescription = null
+                    )
+                }
+            }
+            onDeleteClickListener?.let { clickListener ->
+                IconButton(onClick = { clickListener() }) {
+                    Image(
+                        imageVector = Icons.Filled.Delete,
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(Color.White)
+                    )
+                }
             }
         }
     )
