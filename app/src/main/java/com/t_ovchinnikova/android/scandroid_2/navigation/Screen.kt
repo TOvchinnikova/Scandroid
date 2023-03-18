@@ -5,7 +5,7 @@ import java.util.UUID
 sealed class Screen(
     val route: String
 ) {
-    object ScannerMain : Screen(ROUTE_MAIN)
+    object ScannerMain : Screen(ROUTE_SCANNER_MAIN)
     object Scanner : Screen(ROUTE_SCANNER)
     object CodeInfo : Screen(ROUTE_CODE_INFO) {
 
@@ -22,7 +22,7 @@ sealed class Screen(
     companion object {
         const val KEY_CODE_ID = "code_id"
 
-        const val ROUTE_MAIN = "main"
+        const val ROUTE_SCANNER_MAIN = "main"
         const val ROUTE_SCANNER = "scanner"
         const val ROUTE_CODE_INFO = "code_info/{$KEY_CODE_ID}"
         const val ROUTE_HISTORY = "history"
