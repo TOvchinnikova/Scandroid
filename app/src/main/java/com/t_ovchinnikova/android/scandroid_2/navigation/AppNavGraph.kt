@@ -16,7 +16,7 @@ fun AppNavGraph(
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = Screen.Main.route
+        startDestination = Screen.ScannerMain.route
     ) {
         scannerScreenNavGraph(
             scannerScreenContent,

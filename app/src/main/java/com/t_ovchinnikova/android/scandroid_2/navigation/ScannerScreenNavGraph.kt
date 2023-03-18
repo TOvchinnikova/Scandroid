@@ -15,7 +15,7 @@ fun NavGraphBuilder.scannerScreenNavGraph(
 ) {
     navigation(
         startDestination = Screen.Scanner.route,
-        route = Screen.Main.route
+        route = Screen.ScannerMain.route
     ) {
         composable(Screen.Scanner.route) {
             scannerScreenContent()

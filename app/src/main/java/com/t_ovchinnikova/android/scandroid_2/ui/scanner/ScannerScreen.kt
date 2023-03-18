@@ -96,8 +96,8 @@ fun Scanner(
                                     if (scannerState.settingsData?.isVibrationOnScan == true) {
                                         context.vibrate()
                                     }
-                                    onScanListener(resultCode.id)
                                     viewModel.saveCode(resultCode)
+                                    onScanListener(resultCode.id)
                                 }
                             }
                         },

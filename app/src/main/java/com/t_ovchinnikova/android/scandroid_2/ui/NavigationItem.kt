@@ -9,8 +9,8 @@ sealed class NavigationItem(
     val iconResId: Int
 ) {
 
-    object Main : NavigationItem(
-        screen = Screen.Main,
+    object Scanner : NavigationItem(
+        screen = Screen.ScannerMain,
         titleResId = R.string.scanner,
         iconResId = R.drawable.ic_qr_code
     )

@@ -65,7 +65,7 @@ fun BottomBar(
         val navBackStackEntry by navigationState.navHostController.currentBackStackEntryAsState()
 
         val items = listOf(
-            NavigationItem.Main,
+            NavigationItem.Scanner,
             NavigationItem.History,
             NavigationItem.Settings
         )

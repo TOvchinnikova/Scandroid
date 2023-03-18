@@ -14,10 +14,7 @@ import com.t_ovchinnikova.android.scandroid_2.R
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import com.t_ovchinnikova.android.scandroid_2.domain.formatToStringId
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.CodeInfoViewModel
-import com.t_ovchinnikova.android.scandroid_2.ui.ActionButton
-import com.t_ovchinnikova.android.scandroid_2.ui.CenterProgress
-import com.t_ovchinnikova.android.scandroid_2.ui.Divider
-import com.t_ovchinnikova.android.scandroid_2.ui.SecondaryText
+import com.t_ovchinnikova.android.scandroid_2.ui.*
 import com.t_ovchinnikova.android.scandroid_2.utils.*
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf

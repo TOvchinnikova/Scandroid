@@ -5,7 +5,7 @@ import java.util.UUID
 sealed class Screen(
     val route: String
 ) {
-    object Main : Screen(ROUTE_MAIN)
+    object ScannerMain : Screen(ROUTE_MAIN)
     object Scanner : Screen(ROUTE_SCANNER)
     object CodeInfo : Screen(ROUTE_CODE_INFO) {
 
@@ -16,7 +16,6 @@ sealed class Screen(
         }
     }
     object HistoryMain : Screen(ROUTE_HISTORY_MAIN)
-
     object History : Screen(ROUTE_HISTORY)
     object Settings : Screen(ROUTE_SETTINGS)
 
