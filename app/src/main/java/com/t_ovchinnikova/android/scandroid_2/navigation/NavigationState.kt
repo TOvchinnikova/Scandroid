@@ -23,6 +23,10 @@ class NavigationState(
     fun navigateToCodeInfo(codeId: UUID) {
         navHostController.navigate(Screen.CodeInfo.getRouteWithArgs(codeId))
     }
+
+    fun navigateToCodeInfoFromHistory(codeId: UUID) {
+        navHostController.navigate(Screen.CodeInfoFromHistory.getRouteWithArgs(codeId))
+    }
 }
 
 @Composable

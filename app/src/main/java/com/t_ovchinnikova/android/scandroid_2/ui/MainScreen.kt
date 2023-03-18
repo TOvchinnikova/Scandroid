@@ -46,7 +46,7 @@ fun MainScreen() {
             historyScreenContent = {
                 HistoryScreen(
                     codeItemClickListener = {
-                        navigationState.navigateToCodeInfo(it)
+                        navigationState.navigateToCodeInfoFromHistory(it)
                     }
                 )
             },

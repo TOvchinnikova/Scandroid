@@ -20,7 +20,7 @@ fun NavGraphBuilder.historyScreenNavGraph(
             historyScreenContent()
         }
         composable(
-            route = Screen.CodeInfo.route,
+            route = Screen.CodeInfoFromHistory.route,
             arguments = listOf(
                 navArgument(Screen.KEY_CODE_ID) {
                     type = Code.NavigationType
