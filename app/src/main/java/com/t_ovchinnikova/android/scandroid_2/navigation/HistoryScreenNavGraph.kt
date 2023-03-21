@@ -10,7 +10,7 @@ import java.util.*
 
 fun NavGraphBuilder.historyScreenNavGraph(
     historyScreenContent: @Composable () -> Unit,
-    codeInfoScreenContent: @Composable (codeId: UUID) -> Unit
+    codeDetailsScreenContent: @Composable (codeId: UUID) -> Unit
 ) {
     navigation(
         startDestination = Screen.History.route,
@@ -20,7 +20,7 @@ fun NavGraphBuilder.historyScreenNavGraph(
             historyScreenContent()
         }
         composable(
-            route = Screen.CodeInfoFromHistory.route,
+            route = Screen.HistoryCodeDetails.route,
             arguments = listOf(
                 navArgument(Screen.KEY_CODE_ID) {
                     type = Code.NavigationType
@@ -29,7 +29,7 @@ fun NavGraphBuilder.historyScreenNavGraph(
         ) {
             val codeId = it.arguments?.getSerializable(Screen.KEY_CODE_ID) as UUID?
                 ?: throw RuntimeException("Args is null")
-            codeInfoScreenContent(codeId)
+            codeDetailsScreenContent(codeId)
         }
     }
 }

@@ -16,7 +16,7 @@ import com.t_ovchinnikova.android.scandroid_2.R
 import com.t_ovchinnikova.android.scandroid_2.utils.EMPTY_STRING
 
 @Composable
-fun CodeInfoTopAppBar(
+fun CodeDetailsTopAppBar(
     title: String = EMPTY_STRING,
     onBackPressed: () -> Unit,
     isFavourite: Boolean = false,

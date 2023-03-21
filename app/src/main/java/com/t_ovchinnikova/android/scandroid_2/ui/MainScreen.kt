@@ -10,7 +10,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.t_ovchinnikova.android.scandroid_2.navigation.AppNavGraph
 import com.t_ovchinnikova.android.scandroid_2.navigation.NavigationState
 import com.t_ovchinnikova.android.scandroid_2.navigation.rememberNavigationState
-import com.t_ovchinnikova.android.scandroid_2.ui.code_info.CodeInfoScreen
+import com.t_ovchinnikova.android.scandroid_2.ui.code_info.CodeDetailsScreen
 import com.t_ovchinnikova.android.scandroid_2.ui.history.HistoryScreen
 import com.t_ovchinnikova.android.scandroid_2.ui.scanner.CameraPreview
 import com.t_ovchinnikova.android.scandroid_2.ui.settings.SettingsScreen
@@ -31,12 +31,12 @@ fun MainScreen() {
                 CameraPreview(
                     paddingValues = paddingValues,
                     onScanListener = {
-                        navigationState.navigateToCodeInfo(it)
+                        navigationState.navigateToCodeDetails(it)
                     }
                 )
             },
-            codeInfoScreenContent = {
-                CodeInfoScreen(
+            codeDetailsScreenContent = {
+                CodeDetailsScreen(
                     codeId = it,
                     onBackPressed = {
                         navigationState.navHostController.popBackStack()
@@ -46,7 +46,7 @@ fun MainScreen() {
             historyScreenContent = {
                 HistoryScreen(
                     codeItemClickListener = {
-                        navigationState.navigateToCodeInfoFromHistory(it)
+                        navigationState.navigateToHistoryCodeDetails(it)
                     }
                 )
             },

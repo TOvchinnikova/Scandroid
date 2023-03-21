@@ -20,12 +20,12 @@ class NavigationState(
         }
     }
 
-    fun navigateToCodeInfo(codeId: UUID) {
-        navHostController.navigate(Screen.CodeInfo.getRouteWithArgs(codeId))
+    fun navigateToCodeDetails(codeId: UUID) {
+        navHostController.navigate(Screen.CodeDetails.getRouteWithArgs(codeId))
     }
 
-    fun navigateToCodeInfoFromHistory(codeId: UUID) {
-        navHostController.navigate(Screen.CodeInfoFromHistory.getRouteWithArgs(codeId))
+    fun navigateToHistoryCodeDetails(codeId: UUID) {
+        navHostController.navigate(Screen.HistoryCodeDetails.getRouteWithArgs(codeId))
     }
 }
 

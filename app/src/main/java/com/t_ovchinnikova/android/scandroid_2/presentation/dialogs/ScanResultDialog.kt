@@ -16,7 +16,7 @@ import com.t_ovchinnikova.android.scandroid_2.domain.formatToStringId
 import com.t_ovchinnikova.android.scandroid_2.domain.typeToString
 import com.t_ovchinnikova.android.scandroid_2.presentation.fragments.HistoryFragment
 import com.t_ovchinnikova.android.scandroid_2.presentation.fragments.ScanningFragment
-import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.CodeInfoViewModel
+import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.CodeDetailsViewModel
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.ScanningViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -32,7 +32,7 @@ class ScanResultDialog : BaseBottomSheetDialog(), EditCodeNoteListener, DeleteCo
         arguments?.getSerializable(SCAN_CODE_ID) as UUID
     }
 
-    private val viewModel: CodeInfoViewModel by viewModel {
+    private val viewModel: CodeDetailsViewModel by viewModel {
         parametersOf(
             codeId
         )

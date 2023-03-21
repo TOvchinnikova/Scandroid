@@ -11,7 +11,7 @@ import java.util.UUID
 
 fun NavGraphBuilder.scannerScreenNavGraph(
     scannerScreenContent: @Composable () -> Unit,
-    codeInfoScreenContent: @Composable (codeId: UUID) -> Unit
+    codeDetailsScreenContent: @Composable (codeId: UUID) -> Unit
 ) {
     navigation(
         startDestination = Screen.Scanner.route,
@@ -21,7 +21,7 @@ fun NavGraphBuilder.scannerScreenNavGraph(
             scannerScreenContent()
         }
         composable(
-            route = Screen.CodeInfo.route,
+            route = Screen.CodeDetails.route,
             arguments = listOf(
                 navArgument(KEY_CODE_ID) {
                     type = NavigationType
@@ -30,7 +30,7 @@ fun NavGraphBuilder.scannerScreenNavGraph(
         ) {
             val codeId = it.arguments?.getSerializable(KEY_CODE_ID) as UUID?
                 ?: throw RuntimeException("Args is null")
-            codeInfoScreenContent(codeId)
+            codeDetailsScreenContent(codeId)
         }
     }
 }

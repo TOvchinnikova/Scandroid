@@ -7,14 +7,13 @@ import com.t_ovchinnikova.android.scandroid_2.domain.usecases.AddCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.DeleteCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.GetCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.GetSettingsUseCase
-import com.t_ovchinnikova.android.scandroid_2.ui.code_info.CodeInfoScreenState
+import com.t_ovchinnikova.android.scandroid_2.ui.code_info.CodeDetailsScreenState
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.util.*
 
-class CodeInfoViewModel(
+class CodeDetailsViewModel(
     codeId: UUID,
     private val deleteCodeUseCase: DeleteCodeUseCase,
     private val addCodeUseCase: AddCodeUseCase,
@@ -27,24 +26,24 @@ class CodeInfoViewModel(
         getSettingsUseCase.invokeAsync()
     ) { code, settings ->
         code?.let {
-            CodeInfoScreenState.CodeInfo(
+            CodeDetailsScreenState.CodeDetails(
                 it,
                 settings.isSaveScannedBarcodesToHistory,
                 settings.isSendingNoteWithCode
             )
-        } ?: CodeInfoScreenState.CodeNotFound
+        } ?: CodeDetailsScreenState.CodeNotFound
     }
         .onStart {
-            emit(CodeInfoScreenState.Loading)
+            emit(CodeDetailsScreenState.Loading)
         }
         .flowOn(Dispatchers.IO)
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(),
-            initialValue = CodeInfoScreenState.Initial
+            initialValue = CodeDetailsScreenState.Initial
         )
 
-    val screenStateFlow: StateFlow<CodeInfoScreenState> = _screenStateFlow
+    val screenStateFlow: StateFlow<CodeDetailsScreenState> = _screenStateFlow
 
     fun updateBarcode(code: Code) {
         viewModelScope.launch {

@@ -10,7 +10,7 @@ import java.util.UUID
 fun AppNavGraph(
     navHostController: NavHostController,
     scannerScreenContent: @Composable () -> Unit,
-    codeInfoScreenContent: @Composable (codeId: UUID) -> Unit,
+    codeDetailsScreenContent: @Composable (codeId: UUID) -> Unit,
     historyScreenContent: @Composable () -> Unit,
     settingsScreenContent: @Composable () -> Unit
 ) {
@@ -20,11 +20,11 @@ fun AppNavGraph(
     ) {
         scannerScreenNavGraph(
             scannerScreenContent,
-            codeInfoScreenContent
+            codeDetailsScreenContent
         )
         historyScreenNavGraph(
             historyScreenContent,
-            codeInfoScreenContent
+            codeDetailsScreenContent
         )
         composable(Screen.Settings.route) {
             settingsScreenContent()

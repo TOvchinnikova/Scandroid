@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.t_ovchinnikova.android.scandroid_2.R
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import com.t_ovchinnikova.android.scandroid_2.domain.formatToStringId
-import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.CodeInfoViewModel
+import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.CodeDetailsViewModel
 import com.t_ovchinnikova.android.scandroid_2.ui.*
 import com.t_ovchinnikova.android.scandroid_2.utils.*
 import org.koin.androidx.compose.koinViewModel
@@ -22,11 +22,11 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @Composable
-fun CodeInfoScreen(
+fun CodeDetailsScreen(
     codeId: UUID,
     onBackPressed: () -> Unit
 ) {
-    val viewModel = koinViewModel<CodeInfoViewModel>() {
+    val viewModel = koinViewModel<CodeDetailsViewModel>() {
         parametersOf(codeId)
     }
 
@@ -36,14 +36,14 @@ fun CodeInfoScreen(
 
     Column {
         when (val state = screenState.value) {
-            is CodeInfoScreenState.Loading -> {
-                CodeInfoTopAppBar(onBackPressed = onBackPressed)
+            is CodeDetailsScreenState.Loading -> {
+                CodeDetailsTopAppBar(onBackPressed = onBackPressed)
                 CenterProgress()
             }
-            is CodeInfoScreenState.CodeInfo -> {
+            is CodeDetailsScreenState.CodeDetails -> {
                 val code = state.code
                 if (state.isFromDatabase) {
-                    CodeInfoTopAppBar(
+                    CodeDetailsTopAppBar(
                         onBackPressed = onBackPressed,
                         title = stringResource(id = code.formatToStringId()),
                         onFavouriteClickListener = {
@@ -59,7 +59,7 @@ fun CodeInfoScreen(
                         isFavourite = code.isFavorite
                     )
                 } else {
-                    CodeInfoTopAppBar(
+                    CodeDetailsTopAppBar(
                         onBackPressed = onBackPressed,
                         title = stringResource(id = code.formatToStringId())
                     )
@@ -77,10 +77,10 @@ fun CodeInfoScreen(
                     }
                 )
             }
-            is CodeInfoScreenState.CodeNotFound -> {
-                CodeInfoTopAppBar(onBackPressed = onBackPressed)
+            is CodeDetailsScreenState.CodeNotFound -> {
+                CodeDetailsTopAppBar(onBackPressed = onBackPressed)
             }
-            is CodeInfoScreenState.Initial -> {
+            is CodeDetailsScreenState.Initial -> {
 
             }
         }
