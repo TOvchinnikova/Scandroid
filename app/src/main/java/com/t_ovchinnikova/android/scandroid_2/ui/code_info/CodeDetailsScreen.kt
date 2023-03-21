@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -32,6 +34,10 @@ fun CodeDetailsScreen(
 
     val screenState = viewModel.screenStateFlow.collectAsState()
 
+    val deleteDialogState = rememberSaveable {
+        mutableStateOf(false)
+    }
+
     val context = LocalContext.current
 
     Column {
@@ -54,7 +60,7 @@ fun CodeDetailsScreen(
                             )
                         },
                         onDeleteClickListener = {
-                            viewModel.deleteBarcode(code.id)
+                            deleteDialogState.value = true
                         },
                         isFavourite = code.isFavorite
                     )
@@ -84,6 +90,22 @@ fun CodeDetailsScreen(
 
             }
         }
+    }
+
+    if (deleteDialogState.value) {
+        SimpleAlertDialog(
+            title = stringResource(id = R.string.delete_question_dialog_title),
+            subtitle = stringResource(id = R.string.delete_question_dialog),
+            dismissClickListener = { deleteDialogState.value = false },
+            dismissButtonText = stringResource(id = R.string.delete_dialog_cancel_button),
+            confirmClickListener = {
+                viewModel.deleteBarcode(codeId)
+                deleteDialogState.value = false
+                onBackPressed()
+                deleteDialogState.value = false
+            },
+            confirmButtonText = stringResource(id = R.string.delete_dialog_delete_button)
+        )
     }
 }
 

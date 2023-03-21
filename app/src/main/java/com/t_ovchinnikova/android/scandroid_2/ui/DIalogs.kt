@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.t_ovchinnikova.android.scandroid_2.utils.EMPTY_STRING
 
 @Composable
-fun CustomAlertDialog(
+fun SimpleAlertDialog(
     title: String,
     subtitle: String,
     dismissClickListener: () -> Unit,

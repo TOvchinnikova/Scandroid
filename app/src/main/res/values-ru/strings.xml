@@ -7,7 +7,10 @@
     <string name="settings">Настройки</string>
     <string name="delete">Удалить</string>
     <string name="favorite">Избранное</string>
-    <string name="delete_question_dialog">Удалить?</string>
+    <string name="delete_question_dialog">Вы хотите удалить этот код из истории сканирования?</string>
+    <string name="delete_question_dialog_title">Удаление</string>
+    <string name="delete_dialog_delete_button">Удалить</string>
+    <string name="delete_dialog_cancel_button">Отмена</string>
     <string name="delete_all_question_dialog">Очистить историю?</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
