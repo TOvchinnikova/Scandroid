@@ -49,7 +49,106 @@ fun CameraPreview(
     val viewModel = koinViewModel<ScanningViewModel>()
     val screenState = viewModel.screenStateFlow.collectAsState()
 
-    Scanner(paddingValues, viewModel, onScanListener, screenState.value)
+    Scanner1(paddingValues, viewModel, onScanListener, screenState.value)
+}
+
+@Composable
+fun Scanner1(
+    paddingValues: PaddingValues,
+    viewModel: ScanningViewModel,
+    onScanListener: (codeId: UUID) -> Unit,
+    scannerState: ScannerScreenState
+) {
+    val context = LocalContext.current
+    val executor = context.executor
+    val previewCameraView = remember {
+        PreviewView(context).apply {
+            this.scaleType = scaleType
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+        }
+    }
+    val camera: MutableState<Camera?> = remember {
+        mutableStateOf(null)
+    }
+    val cameraProvider: MutableState<ProcessCameraProvider?> = remember {
+        mutableStateOf(null)
+    }
+
+    val configuration = LocalConfiguration.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    val cameraSelector = remember { buildCameraSelector() }
+    val cameraExecutor =  remember { Executors.newSingleThreadExecutor() }
+
+    val imageAnalysis =  remember {
+        buildImageAnalysis(Rational(configuration.screenHeightDp, configuration.screenHeightDp).toInt()) }
+
+    val analyzer = get<Analyzer> {
+        parametersOf(
+            object : ScanResultListener {
+                override fun onScanned(resultCode: Code) {
+                    if (viewModel.lastScannedCode.value?.text != resultCode.text) {
+//                            if (scannerState.settingsData?.isVibrationOnScan == true) {
+//                                context.vibrate()
+//                            }
+                        viewModel.saveCode(resultCode)
+                        onScanListener(resultCode.id)
+                    }
+                }
+            },
+            74,
+            20
+        )
+    }
+
+    Box(modifier = Modifier.padding(paddingValues)) {
+        AndroidView(factory = { previewCameraView })
+        AndroidView(factory = { ViewFinderOverlay(context = it, attrs = null) })
+        //camera.value?.cameraControl?.enableTorch(scannerState.isFlashlightWorks)
+    }
+
+    when (scannerState) {
+        is ScannerScreenState.Scanning -> {
+            LaunchedEffect(cameraSelector) {
+                cameraProvider.value = suspendCoroutine<ProcessCameraProvider> { continuation ->
+                    ProcessCameraProvider.getInstance(context).also { future ->
+                        future.addListener({
+                            continuation.resume(future.get())
+                        }, executor)
+                    }
+                }
+
+                val previewUseCase = Preview.Builder()
+                    .build()
+                    .also { it.setSurfaceProvider(previewCameraView.surfaceProvider) }
+
+                runCatching {
+                    cameraProvider.value?.unbindAll()
+                    camera.value = cameraProvider.value?.bindToLifecycle(
+                        lifecycleOwner,
+                        cameraSelector,
+                        buildUseCaseGroup(previewUseCase, imageAnalysis)
+                    )
+                }
+            }
+            imageAnalysis.setAnalyzer(cameraExecutor, analyzer)
+            CameraButtonPanel (scannerState.isFlashlightWorks) { viewModel.switchFlash() }
+        }
+        is ScannerScreenState.SavingCode -> {
+            imageAnalysis.clearAnalyzer()
+            cameraProvider.value?.unbindAll()
+            CircularProgressIndicator()
+        }
+        is ScannerScreenState.Paused -> {
+            CircularProgressIndicator()
+        }
+        is ScannerScreenState.Initial -> {
+            CircularProgressIndicator()
+        }
+    }
 }
 
 @Composable
