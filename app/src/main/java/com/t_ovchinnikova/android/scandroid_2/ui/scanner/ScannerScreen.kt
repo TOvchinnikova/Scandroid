@@ -86,6 +86,21 @@ fun ScannerScreen(
 
         when (screenState) {
             is ScannerScreenState.Scanning -> {
+                val analyzer = get<Analyzer> {
+                    parametersOf(
+                        object : ScanResultListener {
+                            override fun onScanned(resultCode: Code) {
+                                if (viewModel.lastScannedCode.value?.text != resultCode.text) {
+                                    if (screenState.settingsData?.isVibrationOnScan == true) {
+                                        context.vibrate()
+                                    }
+                                    viewModel.handleCode(resultCode, onScanListener)
+                                }
+                            }
+                        }, 74, 20
+                    )
+                }
+                imageAnalysis.setAnalyzer(cameraExecutor, analyzer)
                 LaunchedEffect(cameraSelector) {
                     cameraProvider.value = suspendCoroutine<ProcessCameraProvider> { continuation ->
                         ProcessCameraProvider.getInstance(context).also { future ->
@@ -107,21 +122,6 @@ fun ScannerScreen(
                         )
                     }
                 }
-                val analyzer = get<Analyzer> {
-                    parametersOf(
-                        object : ScanResultListener {
-                            override fun onScanned(resultCode: Code) {
-                                if (viewModel.lastScannedCode.value?.text != resultCode.text) {
-                            if (screenState.settingsData?.isVibrationOnScan == true) {
-                                context.vibrate()
-                            }
-                                    viewModel.handleCode(resultCode, onScanListener)
-                                }
-                            }
-                        }, 74, 20
-                    )
-                }
-                imageAnalysis.setAnalyzer(cameraExecutor, analyzer)
                 CameraButtonPanel(screenState.isFlashlightWorks) { viewModel.switchFlash() }
                 camera.value?.cameraControl?.enableTorch(screenState.isFlashlightWorks)
             }
