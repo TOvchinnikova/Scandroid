@@ -12,7 +12,7 @@ import com.t_ovchinnikova.android.scandroid_2.navigation.NavigationState
 import com.t_ovchinnikova.android.scandroid_2.navigation.rememberNavigationState
 import com.t_ovchinnikova.android.scandroid_2.ui.code_info.CodeDetailsScreen
 import com.t_ovchinnikova.android.scandroid_2.ui.history.HistoryScreen
-import com.t_ovchinnikova.android.scandroid_2.ui.scanner.CameraPreview
+import com.t_ovchinnikova.android.scandroid_2.ui.scanner.ScannerScreen
 import com.t_ovchinnikova.android.scandroid_2.ui.settings.SettingsScreen
 
 @Composable
@@ -28,7 +28,7 @@ fun MainScreen() {
         AppNavGraph(
             navHostController = navigationState.navHostController,
             scannerScreenContent = {
-                CameraPreview(
+                ScannerScreen(
                     paddingValues = paddingValues,
                     onScanListener = {
                         navigationState.navigateToCodeDetails(it)

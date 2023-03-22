@@ -42,7 +42,7 @@ fun CodeDetailsScreen(
 
     Column {
         when (val state = screenState.value) {
-            is CodeDetailsScreenState.Loading -> {
+            is CodeDetailsScreenState.Loading, is CodeDetailsScreenState.Initial -> {
                 CodeDetailsTopAppBar(onBackPressed = onBackPressed)
                 CenterProgress()
             }
@@ -85,9 +85,6 @@ fun CodeDetailsScreen(
             }
             is CodeDetailsScreenState.CodeNotFound -> {
                 CodeDetailsTopAppBar(onBackPressed = onBackPressed)
-            }
-            is CodeDetailsScreenState.Initial -> {
-
             }
         }
     }

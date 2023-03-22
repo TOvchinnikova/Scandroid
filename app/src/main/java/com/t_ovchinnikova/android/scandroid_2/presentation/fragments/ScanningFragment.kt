@@ -60,7 +60,7 @@ class ScanningFragment : Fragment() {
                     if (viewModel.lastScannedCode.value?.text != resultCode.text) {
                         //val settings = viewModel.getSettings()
                         //if (settings?.isVibrationOnScan == true) requireContext().vibrate()
-                        viewModel.saveCode(resultCode)
+                        //viewModel.saveCode(resultCode)
                     }
                 }
             },

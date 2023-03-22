@@ -35,7 +35,6 @@ class SettingsViewModel(
     init {
         viewModelScope.launch {
             _screenState.value = SettingsScreenState.LoadingSettings
-            delay(2000)
             settingsFlow.collect()
         }
     }

@@ -10,6 +10,7 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.launch
+import java.util.*
 
 class ScanningViewModel(
     private val addCodeUseCase: AddCodeUseCase,
@@ -21,8 +22,8 @@ class ScanningViewModel(
 
     private val _flashState = MutableStateFlow(false)
 
-    private val _lastScannedCode = MutableStateFlow<Code?>(null)
-    val lastScannedCode: StateFlow<Code?> = _lastScannedCode
+    private val _lastScannedCode = MutableStateFlow<Code?>(null) //todo от этого надо избавляться
+    val lastScannedCode: StateFlow<Code?> = _lastScannedCode.asStateFlow()
 
     private val scannerWorkStateFlow =
         MutableStateFlow<ScannerWorkState>(ScannerWorkState.ScannerActive)
@@ -63,13 +64,14 @@ class ScanningViewModel(
         }
     }
 
-    fun saveCode(code: Code) {
+    fun handleCode(code: Code, onScanListener: (codeId: UUID) -> Unit) {
         _lastScannedCode.value = code
         _screenStateFlow.value = ScannerScreenState.SavingCode
         viewModelScope.launch {
             if (getSettingsUseCase.invoke().isSaveScannedBarcodesToHistory) {
                 addCodeUseCase(code)
             }
+            onScanListener(code.id)
             _screenStateFlow.value = ScannerScreenState.Scanning(
                 isFlashlightWorks = _flashState.value,
                 lastScannedCode = code,

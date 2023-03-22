@@ -9,7 +9,6 @@ sealed class ScannerScreenState {
         val lastScannedCode: Code? = null,
         val settingsData: SettingsData? = null
     ) : ScannerScreenState()
-    object Paused : ScannerScreenState()
     object SavingCode : ScannerScreenState()
     object Initial : ScannerScreenState()
 }
