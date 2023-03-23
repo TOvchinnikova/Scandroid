@@ -1,7 +1,8 @@
 package com.t_ovchinnikova.android.scandroid_2.ui.code_info
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -80,6 +81,9 @@ fun CodeDetailsScreen(
                     },
                     searchWebClickListener = {
                         context.searchWeb(code.text)
+                    },
+                    saveNoteClickListener = {
+                        viewModel.updateBarcode(code.copy(note = it))
                     }
                 )
             }
@@ -111,8 +115,14 @@ fun Content(
     code: Code,
     shareTextClickListener: () -> Unit,
     searchWebClickListener: () -> Unit,
-    copyClickListener: () -> Unit
+    copyClickListener: () -> Unit,
+    saveNoteClickListener: (note: String) -> Unit
 ) {
+
+    val changeNoteDialogState = rememberSaveable {
+        mutableStateOf(false)
+    }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -128,10 +138,12 @@ fun Content(
                     SimpleDateFormat(DATE_PATTERN_STRING, Locale.ENGLISH)
                 )
             )
-            Image(
-                painter = painterResource(id = R.drawable.ic_edit),
-                contentDescription = null
-            )
+            IconButton(onClick = { changeNoteDialogState.value = true }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_edit),
+                    contentDescription = null
+                )
+            }
         }
         if (code.note.isNotBlank()) {
             Spacer(modifier = Modifier.height(10.dp))
@@ -157,6 +169,17 @@ fun Content(
         ActionButton(titleResId = R.string.barcode_share_text, iconResId = R.drawable.ic_send) {
             shareTextClickListener()
         }
+    }
+
+    if (changeNoteDialogState.value) {
+        AlertDialogWithTextField(
+            title = stringResource(id = R.string.note),
+            text = code.note,
+            dismissClickListener = { changeNoteDialogState.value = false },
+            dismissButtonText = stringResource(id = R.string.delete_dialog_cancel_button),
+            confirmClickListener = saveNoteClickListener,
+            confirmButtonText = stringResource(id = R.string.save)
+        )
     }
 }
 
