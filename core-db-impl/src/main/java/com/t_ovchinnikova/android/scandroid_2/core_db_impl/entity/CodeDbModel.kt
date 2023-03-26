@@ -1,4 +1,4 @@
-package com.t_ovchinnikova.android.scandroid_2.data.entity
+package com.t_ovchinnikova.android.scandroid_2.core_db_impl.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -6,8 +6,8 @@ import java.util.*
 
 @Entity(tableName = "codes")
 class CodeDbModel (
-    @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
+    @PrimaryKey
+    val id: UUID,
     val text: String,
     val format: Int,
     val type: Int,

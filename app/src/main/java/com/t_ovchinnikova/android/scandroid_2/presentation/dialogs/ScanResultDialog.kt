@@ -9,19 +9,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.t_ovchinnikova.android.scandroid_2.R
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanResultDialogBinding
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import com.t_ovchinnikova.android.scandroid_2.domain.formatToStringId
 import com.t_ovchinnikova.android.scandroid_2.domain.typeToString
-import com.t_ovchinnikova.android.scandroid_2.utils.launchWhenStarted
 import com.t_ovchinnikova.android.scandroid_2.presentation.fragments.HistoryFragment
 import com.t_ovchinnikova.android.scandroid_2.presentation.fragments.ScanningFragment
-import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.HistoryViewModel
-import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.ScanResultViewModel
+import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.CodeDetailsViewModel
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.ScanningViewModel
-import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.text.SimpleDateFormat
@@ -33,10 +29,10 @@ class ScanResultDialog : BaseBottomSheetDialog(), EditCodeNoteListener, DeleteCo
 
 
     private val codeId by lazy (LazyThreadSafetyMode.NONE) {
-        arguments?.getLong(SCAN_CODE_ID) as Long
+        arguments?.getSerializable(SCAN_CODE_ID) as UUID
     }
 
-    private val viewModel: ScanResultViewModel by viewModel {
+    private val viewModel: CodeDetailsViewModel by viewModel {
         parametersOf(
             codeId
         )
@@ -48,8 +44,8 @@ class ScanResultDialog : BaseBottomSheetDialog(), EditCodeNoteListener, DeleteCo
         if (savedInstanceState != null) {
             if (parentFragment is ScanningFragment) {
                 parentFragment?.let {
-                    ViewModelProvider(it).get(ScanningViewModel::class.java)
-                        .setScannerState(ScanningViewModel.ScannerWorkState.ScanInactive)
+//                    ViewModelProvider(it).get(ScanningViewModel::class.java)
+//                        .setScannerState(ScanningViewModel.ScannerWorkState.ScanInactive)
                 }
             }
         }
@@ -71,22 +67,22 @@ class ScanResultDialog : BaseBottomSheetDialog(), EditCodeNoteListener, DeleteCo
     }
 
     private fun observeViewModel() {
-        viewModel.code.onEach {
-            showContent(it)
-        }
-            .launchWhenStarted(lifecycleScope)
+//        viewModel.code.onEach {
+//            showContent(it)
+//        }
+//            .launchWhenStarted(lifecycleScope)
     }
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         if (parentFragment is ScanningFragment) {
             parentFragment?.let {
-                ViewModelProvider(it).get(ScanningViewModel::class.java).setScannerState(ScanningViewModel.ScannerWorkState.ScannerActive)
+                //ViewModelProvider(it).get(ScanningViewModel::class.java).setScannerState(ScanningViewModel.ScannerWorkState.ScannerActive)
             }
         }
         if (parentFragment is HistoryFragment) {
             parentFragment?.let {
-                ViewModelProvider(it).get(HistoryViewModel::class.java).showCodeDialog(false)
+                //ViewModelProvider(it).get(HistoryViewModel::class.java).showCodeDialog(false)
             }
         }
     }
@@ -150,16 +146,16 @@ class ScanResultDialog : BaseBottomSheetDialog(), EditCodeNoteListener, DeleteCo
     }
 
     private fun sendText(text: String, note: String) {
-        val message =
-            if (note.isNotBlank() && viewModel.getSettings()?.isSendingNoteWithCode == true)
-                text + '\n' + note
-            else
-                text
-        val intent = Intent(Intent.ACTION_SEND).apply {
-            type = "text/plain"
-            putExtra(Intent.EXTRA_TEXT, message)
-        }
-        startAction(intent)
+//        val message =
+//            if (note.isNotBlank() && viewModel.getSettings()?.isSendingNoteWithCode == true)
+//                text + '\n' + note
+//            else
+//                text
+//        val intent = Intent(Intent.ACTION_SEND).apply {
+//            type = "text/plain"
+//            putExtra(Intent.EXTRA_TEXT, message)
+//        }
+//        startAction(intent)
     }
 
     private fun startAction(intent: Intent) {
@@ -191,23 +187,23 @@ class ScanResultDialog : BaseBottomSheetDialog(), EditCodeNoteListener, DeleteCo
     }
 
     private fun toggleIsFavorite() {
-        viewModel.code.value?.let {
-            viewModel.updateBarcode(
-                it.copy(
-                    isFavorite = it.isFavorite.not()
-                )
-            )
-        }
+//        viewModel.code.value?.let {
+//            viewModel.updateBarcode(
+//                it.copy(
+//                    isFavorite = it.isFavorite.not()
+//                )
+//            )
+//        }
     }
 
     override fun onNoteConfirmed(note: String) {
-        viewModel.code.value?.let {
-            viewModel.updateBarcode(
-                it.copy(
-                    note = note
-                )
-            )
-        }
+//        viewModel.code.value?.let {
+//            viewModel.updateBarcode(
+//                it.copy(
+//                    note = note
+//                )
+//            )
+//        }
     }
 
     override fun onDeleteConfirmed() {
@@ -218,10 +214,10 @@ class ScanResultDialog : BaseBottomSheetDialog(), EditCodeNoteListener, DeleteCo
     companion object {
         private const val SCAN_CODE_ID = "SCAN CODE ID"
 
-        fun newInstance(codeId: Long): ScanResultDialog {
+        fun newInstance(codeId: UUID): ScanResultDialog {
             return ScanResultDialog().apply {
                 arguments = Bundle().apply {
-                    putLong(SCAN_CODE_ID, codeId)
+                    putSerializable(SCAN_CODE_ID, codeId)
                 }
             }
         }

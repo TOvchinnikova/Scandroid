@@ -1,10 +1,11 @@
 package com.t_ovchinnikova.android.scandroid_2.data.datasource.impl
 
 import androidx.lifecycle.LiveData
-import com.t_ovchinnikova.android.scandroid_2.data.CodeDao
-import com.t_ovchinnikova.android.scandroid_2.data.entity.CodeDbModel
+import com.t_ovchinnikova.android.scandroid_2.core_db_impl.CodeDao
+import com.t_ovchinnikova.android.scandroid_2.core_db_impl.entity.CodeDbModel
 import com.t_ovchinnikova.android.scandroid_2.data.datasource.CodeDataSource
 import kotlinx.coroutines.flow.Flow
+import java.util.*
 
 class CodeDataSourceImpl(
     private val codeDao: CodeDao
@@ -14,7 +15,7 @@ class CodeDataSourceImpl(
         return codeDao.addCode(code)
     }
 
-    override suspend fun deleteCode(codeId: Long) {
+    override suspend fun deleteCode(codeId: UUID) {
         codeDao.deleteCode(codeId)
     }
 
@@ -30,7 +31,7 @@ class CodeDataSourceImpl(
         return codeDao.getCodesWithFilter(filterText)
     }
 
-    override fun getCodeById(id: Long): Flow<CodeDbModel?> {
+    override fun getCodeById(id: UUID): Flow<CodeDbModel?> {
         return codeDao.getCodeById(id)
     }
 }

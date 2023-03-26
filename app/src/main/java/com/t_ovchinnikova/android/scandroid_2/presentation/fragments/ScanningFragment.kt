@@ -15,16 +15,12 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.lifecycleScope
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanningBinding
 import com.t_ovchinnikova.android.scandroid_2.domain.Code
-import com.t_ovchinnikova.android.scandroid_2.utils.launchWhenStarted
 import com.t_ovchinnikova.android.scandroid_2.presentation.ScanResultListener
 import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.ScanFromImageDialog
 import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.ScanResultDialog
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.ScanningViewModel
-import com.t_ovchinnikova.android.scandroid_2.utils.vibrate
-import kotlinx.coroutines.flow.onEach
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -62,9 +58,9 @@ class ScanningFragment : Fragment() {
             object : ScanResultListener {
                 override fun onScanned(resultCode: Code) {
                     if (viewModel.lastScannedCode.value?.text != resultCode.text) {
-                        val settings = viewModel.getSettings()
-                        if (settings?.isVibrationOnScan == true) requireContext().vibrate()
-                        viewModel.addCode(resultCode)
+                        //val settings = viewModel.getSettings()
+                        //if (settings?.isVibrationOnScan == true) requireContext().vibrate()
+                        //viewModel.saveCode(resultCode)
                     }
                 }
             },
@@ -104,7 +100,7 @@ class ScanningFragment : Fragment() {
     private fun initView() {
         with(binding) {
             bottomActionBar.imageScanButton.setOnClickListener {
-                viewModel.setScannerState(ScanningViewModel.ScannerWorkState.ScanInactive)
+                //viewModel.setScannerState(ScanningViewModel.ScannerWorkState.ScanInactive)
                 showScanFromImageDialog()
             }
             if (isFlashAvailable()) {
@@ -117,30 +113,30 @@ class ScanningFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        viewModel.getScannerWorkStateObservable()
-            .onEach { state ->
-                when (state) {
-                    is ScanningViewModel.ScannerWorkState.ScannerActive -> {
-                        binding.viewFinder.post {
-                            startCamera()
-                        }
-                    }
-                    is ScanningViewModel.ScannerWorkState.ScanNeedShowResult -> {
-                        binding.scanProgress.visibility = View.GONE
-                        showScanResultDialog(state.scannedCode)
-                    }
-                    is ScanningViewModel.ScannerWorkState.ScanInactive -> {
-                        stopCamera()
-                        binding.scanProgress.visibility = View.VISIBLE
-                    }
-                }
-            }
-            .launchWhenStarted(lifecycleScope)
-        viewModel.flashState.observe(viewLifecycleOwner) { isFlashlightOn ->
-            camera?.let {
-                toggleFlash(isFlashlightOn)
-            }
-        }
+//        viewModel.getScannerWorkStateObservable()
+//            .onEach { state ->
+//                when (state) {
+//                    is ScanningViewModel.ScannerWorkState.ScannerActive -> {
+//                        binding.viewFinder.post {
+//                            startCamera()
+//                        }
+//                    }
+//                    is ScanningViewModel.ScannerWorkState.ScanNeedShowResult -> {
+//                        binding.scanProgress.visibility = View.GONE
+//                        showScanResultDialog(state.scannedCode)
+//                    }
+//                    is ScanningViewModel.ScannerWorkState.ScanInactive -> {
+//                        stopCamera()
+//                        binding.scanProgress.visibility = View.VISIBLE
+//                    }
+//                }
+//            }
+//            .launchWhenStarted(lifecycleScope)
+//        viewModel.flashState.observe(viewLifecycleOwner) { isFlashlightOn ->
+//            camera?.let {
+//                toggleFlash(isFlashlightOn)
+//            }
+//        }
     }
 
     private fun showScanFromImageDialog() {
@@ -193,7 +189,7 @@ class ScanningFragment : Fragment() {
 
         if (isFlashAvailable()) {
             binding.bottomActionBar.flashButton.visibility = View.VISIBLE
-            toggleFlash(viewModel.flashState.value == true)
+            //toggleFlash(viewModel.flashState.value == true)
         }
     }
 

@@ -6,7 +6,8 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
 
     <queries>
@@ -32,13 +33,24 @@
         <activity
             android:name=".presentation.MainActivity"
             android:exported="true">
-        <!--android:configChanges="orientation|screenSize"> -->
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            <!--android:configChanges="orientation|screenSize"> -->
+            <!--        <intent-filter>-->
+            <!--            <action android:name="android.intent.action.MAIN" />-->
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-    </activity>
-</application>
+            <!--            <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--        </intent-filter>-->
+        </activity>
+
+        <activity
+            android:name=".presentation.MainComposeActivity"
+            android:exported="true">
+            <!--android:configChanges="orientation|screenSize"> -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
 
 </manifest>

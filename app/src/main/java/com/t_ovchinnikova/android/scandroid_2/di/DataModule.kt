@@ -2,8 +2,8 @@ package com.t_ovchinnikova.android.scandroid_2.di
 
 import com.t_ovchinnikova.android.scandroid_2.data.datasource.impl.SettingsDataSourceImpl
 import com.t_ovchinnikova.android.scandroid_2.data.datasource.impl.SettingsDataSourceImpl.Companion.getSettingsDataStore
-import com.t_ovchinnikova.android.scandroid_2.data.CodeDao
-import com.t_ovchinnikova.android.scandroid_2.data.CodeDatabase
+import com.t_ovchinnikova.android.scandroid_2.core_db_impl.CodeDao
+import com.t_ovchinnikova.android.scandroid_2.core_db_impl.CodeDatabase
 import com.t_ovchinnikova.android.scandroid_2.data.CodeMapper
 import com.t_ovchinnikova.android.scandroid_2.data.repository.impl.CodeRepositoryImpl
 import com.t_ovchinnikova.android.scandroid_2.data.datasource.CodeDataSource
@@ -18,9 +18,9 @@ import org.koin.dsl.module
 
 val dataModule = module {
 
-    single<CodeDatabase> {
-        CodeDatabase.newInstance(application = androidApplication())
-    }
+//    single<CodeDatabase> {
+//        CodeDatabase.newInstance(application = androidApplication())
+//    }
 
     single<CodeRepository> {
         CodeRepositoryImpl(
@@ -47,12 +47,11 @@ val dataModule = module {
         )
     }
 
-    single<CodeDao> {
-        get<CodeDatabase>().codeDao()
-    }
+//    single<com.t_ovchinnikova.android.scandroid_2.core_db_impl.CodeDao> {
+//        get<com.t_ovchinnikova.android.scandroid_2.core_db_impl.CodeDatabase>().codeDao()
+//    }
 
     single<CodeMapper> {
         CodeMapper()
     }
-
 }
