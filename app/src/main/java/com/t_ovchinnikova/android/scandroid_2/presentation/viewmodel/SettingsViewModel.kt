@@ -7,7 +7,6 @@ import com.t_ovchinnikova.android.scandroid_2.domain.usecases.GetSettingsUseCase
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.SaveSettingsUseCase
 import com.t_ovchinnikova.android.scandroid_2.ui.settings.SettingsScreenState
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.launch
