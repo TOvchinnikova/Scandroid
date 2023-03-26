@@ -10,7 +10,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.t_ovchinnikova.android.scandroid_2.R
-import com.t_ovchinnikova.android.scandroid_2.data.entity.SettingsData
+import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.SettingsData
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.SettingsViewModel
 import com.t_ovchinnikova.android.scandroid_2.ui.CenterProgress
 import com.t_ovchinnikova.android.scandroid_2.ui.Divider
@@ -59,8 +59,8 @@ fun SettingsScreen() {
 
 @Composable
 private fun ShowSettings(
-    settingsData: SettingsData,
-    onClickListener: (SettingsData) -> Unit
+    settingsData: com.t_ovchinnikova.android.scandroid_2.core_domain.entity.SettingsData,
+    onClickListener: (com.t_ovchinnikova.android.scandroid_2.core_domain.entity.SettingsData) -> Unit
 ) {
     Column(
         modifier = Modifier

@@ -2,11 +2,11 @@ package com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.t_ovchinnikova.android.scandroid_2.domain.Code
-import com.t_ovchinnikova.android.scandroid_2.domain.usecases.AddCodeUseCase
-import com.t_ovchinnikova.android.scandroid_2.domain.usecases.DeleteCodeUseCase
-import com.t_ovchinnikova.android.scandroid_2.domain.usecases.GetCodeUseCase
-import com.t_ovchinnikova.android.scandroid_2.domain.usecases.GetSettingsUseCase
+import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
+import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.AddCodeUseCase
+import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.DeleteCodeUseCase
+import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.GetCodeUseCase
+import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.GetSettingsUseCase
 import com.t_ovchinnikova.android.scandroid_2.ui.code_info.CodeDetailsScreenState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*

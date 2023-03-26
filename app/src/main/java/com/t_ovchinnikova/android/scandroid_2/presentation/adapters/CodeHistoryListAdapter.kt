@@ -3,10 +3,10 @@ package com.t_ovchinnikova.android.scandroid_2.presentation.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
+import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
 import com.t_ovchinnikova.android.scandroid_2.databinding.ItemCodeBinding
-import com.t_ovchinnikova.android.scandroid_2.domain.Code
-import com.t_ovchinnikova.android.scandroid_2.domain.formatToImageId
-import com.t_ovchinnikova.android.scandroid_2.domain.formatToStringId
+import com.t_ovchinnikova.android.scandroid_2.data.formatToImageId
+import com.t_ovchinnikova.android.scandroid_2.data.formatToStringId
 import java.text.SimpleDateFormat
 import java.util.*
 

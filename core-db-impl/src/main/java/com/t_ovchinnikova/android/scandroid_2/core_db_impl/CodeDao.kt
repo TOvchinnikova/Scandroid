@@ -13,13 +13,13 @@ import java.util.*
 interface CodeDao {
 
     @Query("SELECT * FROM codes ORDER BY date DESC")
-    fun getCodes(): Flow<List<com.t_ovchinnikova.android.scandroid_2.core_db_impl.entity.CodeDbModel>>
+    fun getCodes(): Flow<List<CodeDbModel>>
 
     @Query("SELECT * FROM codes WHERE id = :id")
-    fun getCodeById(id: UUID): Flow<CodeDbModel?>
+    fun getCodeById(id: UUID): Flow<CodeDbModel>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addCode(code: com.t_ovchinnikova.android.scandroid_2.core_db_impl.entity.CodeDbModel): Long
+    suspend fun addCode(code: CodeDbModel): Long
 
     @Query("DELETE FROM codes WHERE id = :id")
     suspend fun deleteCode(id: UUID)
@@ -28,6 +28,6 @@ interface CodeDao {
     suspend fun deleteAllCodes()
 
     @Query("SELECT * FROM codes WHERE text LIKE '%' || :filterText || '%' ORDER BY date DESC")
-    fun getCodesWithFilter(filterText: String): LiveData<List<com.t_ovchinnikova.android.scandroid_2.core_db_impl.entity.CodeDbModel>>
+    fun getCodesWithFilter(filterText: String): Flow<List<CodeDbModel>>
 
 }

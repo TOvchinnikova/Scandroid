@@ -5,12 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
-import com.t_ovchinnikova.android.scandroid_2.data.entity.SettingsData
+import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.SettingsData
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentSettingsBinding
-import com.t_ovchinnikova.android.scandroid_2.utils.launchWhenStarted
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.SettingsViewModel
-import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsFragment : Fragment() {
@@ -72,7 +69,7 @@ class SettingsFragment : Fragment() {
 //            }.launchWhenStarted(lifecycleScope)
     }
 
-    private fun showSettings(settings: SettingsData) {
+    private fun showSettings(settings: com.t_ovchinnikova.android.scandroid_2.core_domain.entity.SettingsData) {
         with(binding) {
             swFlash.isChecked = settings.isFlashlightWhenAppStarts
             swVibrate.isChecked = settings.isVibrationOnScan
@@ -81,8 +78,8 @@ class SettingsFragment : Fragment() {
         }
     }
 
-    private fun getNewSettingsData(): SettingsData {
-        return SettingsData(
+    private fun getNewSettingsData(): com.t_ovchinnikova.android.scandroid_2.core_domain.entity.SettingsData {
+        return com.t_ovchinnikova.android.scandroid_2.core_domain.entity.SettingsData(
             isVibrationOnScan = binding.swVibrate.isChecked,
             isSendingNoteWithCode = binding.swSendNote.isChecked,
             isFlashlightWhenAppStarts = binding.swFlash.isChecked,

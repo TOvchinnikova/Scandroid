@@ -1,7 +1,7 @@
 package com.t_ovchinnikova.android.scandroid_2.presentation.adapters
 
 import androidx.recyclerview.widget.DiffUtil
-import com.t_ovchinnikova.android.scandroid_2.domain.Code
+import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
 
 class CodeItemDiffCallback: DiffUtil.ItemCallback<Code>() {
 

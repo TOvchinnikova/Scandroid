@@ -1,4 +1,4 @@
-package com.t_ovchinnikova.android.scandroid_2.domain
+package com.t_ovchinnikova.android.scandroid_2.core_domain.entity
 
 enum class CodeFormat(private val tag: Int) {
     AZTEC(4096),

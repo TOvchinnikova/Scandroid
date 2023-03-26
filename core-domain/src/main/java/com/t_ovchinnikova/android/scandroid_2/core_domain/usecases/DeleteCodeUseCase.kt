@@ -1,4 +1,4 @@
-package com.t_ovchinnikova.android.scandroid_2.domain.usecases
+package com.t_ovchinnikova.android.scandroid_2.core_domain.usecases
 
 import java.util.UUID
 

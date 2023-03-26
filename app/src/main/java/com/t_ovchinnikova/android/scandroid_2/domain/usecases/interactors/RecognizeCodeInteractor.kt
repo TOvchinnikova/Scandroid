@@ -3,10 +3,10 @@ package com.t_ovchinnikova.android.scandroid_2.domain.usecases.interactors
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
-import com.t_ovchinnikova.android.scandroid_2.domain.Code
+import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.RecognizeCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.presentation.ScanResultListener
-import java.util.UUID
+import java.util.*
 
 class RecognizeCodeInteractor : RecognizeCodeUseCase {
 
@@ -28,7 +28,12 @@ class RecognizeCodeInteractor : RecognizeCodeUseCase {
             rawValue?.let {
                 val format = barcode.format
                 val type = barcode.valueType
-                Code(id = UUID.randomUUID(), text = rawValue, format = format, type = type)
+                Code(
+                    id = UUID.randomUUID(),
+                    text = rawValue,
+                    format = format,
+                    type = type
+                )
             }
         }
     }

@@ -1,7 +1,8 @@
-package com.t_ovchinnikova.android.scandroid_2.domain
+package com.t_ovchinnikova.android.scandroid_2.data
 
 import com.google.mlkit.vision.barcode.common.Barcode.*
 import com.t_ovchinnikova.android.scandroid_2.R
+import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
 
 fun Code.formatToStringId(): Int {
     return when(this.format) {

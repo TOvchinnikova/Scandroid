@@ -27,11 +27,11 @@ class CodeDataSourceImpl(
         return codeDao.getCodes()
     }
 
-    override fun getCodesWithFilter(filterText: String): LiveData<List<CodeDbModel>> {
+    override fun getCodesWithFilter(filterText: String): Flow<List<CodeDbModel>> {
         return codeDao.getCodesWithFilter(filterText)
     }
 
-    override fun getCodeById(id: UUID): Flow<CodeDbModel?> {
+    override fun getCodeById(id: UUID): Flow<CodeDbModel> {
         return codeDao.getCodeById(id)
     }
 }

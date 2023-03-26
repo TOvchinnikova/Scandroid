@@ -18,34 +18,34 @@ val appModule = module {
 
     viewModel<HistoryViewModel> {
         HistoryViewModel(
-            deleteAllCodesUseCase = get() as DeleteAllCodesUseCase,
-            deleteCodeUseCase = get() as DeleteCodeUseCase,
-            getCodesUseCase = get() as GetCodesUseCase,
-            addCodeUseCase = get() as AddCodeUseCase
+            deleteAllCodesUseCase = get() as com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.DeleteAllCodesUseCase,
+            deleteCodeUseCase = get() as com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.DeleteCodeUseCase,
+            getCodesUseCase = get() as com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.GetCodesUseCase,
+            addCodeUseCase = get() as com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.AddCodeUseCase
         )
     }
 
     viewModel<ScanningViewModel> {
         ScanningViewModel(
-            addCodeUseCase = get() as AddCodeUseCase,
-            getSettingsUseCase = get() as GetSettingsUseCase
+            addCodeUseCase = get() as com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.AddCodeUseCase,
+            getSettingsUseCase = get() as com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.GetSettingsUseCase
         )
     }
 
     viewModel<CodeDetailsViewModel> { (codeId: UUID) ->
         CodeDetailsViewModel(
             codeId = codeId,
-            deleteCodeUseCase = get() as DeleteCodeUseCase,
-            addCodeUseCase = get() as AddCodeUseCase,
-            getCodeUseCase = get() as GetCodeUseCase,
-            getSettingsUseCase = get() as GetSettingsUseCase
+            deleteCodeUseCase = get() as com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.DeleteCodeUseCase,
+            addCodeUseCase = get() as com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.AddCodeUseCase,
+            getCodeUseCase = get() as com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.GetCodeUseCase,
+            getSettingsUseCase = get() as com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.GetSettingsUseCase
         )
     }
 
     viewModel<SettingsViewModel> {
         SettingsViewModel(
-            saveSettingsUseCase = get() as SaveSettingsUseCase,
-            getSettingsUseCase = get() as GetSettingsUseCase
+            saveSettingsUseCase = get() as com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.SaveSettingsUseCase,
+            getSettingsUseCase = get() as com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.GetSettingsUseCase
         )
     }
 
