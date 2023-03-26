@@ -44,8 +44,8 @@ class ScanResultDialog : BaseBottomSheetDialog(), EditCodeNoteListener, DeleteCo
         if (savedInstanceState != null) {
             if (parentFragment is ScanningFragment) {
                 parentFragment?.let {
-                    ViewModelProvider(it).get(ScanningViewModel::class.java)
-                        .setScannerState(ScanningViewModel.ScannerWorkState.ScanInactive)
+//                    ViewModelProvider(it).get(ScanningViewModel::class.java)
+//                        .setScannerState(ScanningViewModel.ScannerWorkState.ScanInactive)
                 }
             }
         }
@@ -77,7 +77,7 @@ class ScanResultDialog : BaseBottomSheetDialog(), EditCodeNoteListener, DeleteCo
         super.onDismiss(dialog)
         if (parentFragment is ScanningFragment) {
             parentFragment?.let {
-                ViewModelProvider(it).get(ScanningViewModel::class.java).setScannerState(ScanningViewModel.ScannerWorkState.ScannerActive)
+                //ViewModelProvider(it).get(ScanningViewModel::class.java).setScannerState(ScanningViewModel.ScannerWorkState.ScannerActive)
             }
         }
         if (parentFragment is HistoryFragment) {

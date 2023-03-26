@@ -100,7 +100,7 @@ class ScanningFragment : Fragment() {
     private fun initView() {
         with(binding) {
             bottomActionBar.imageScanButton.setOnClickListener {
-                viewModel.setScannerState(ScanningViewModel.ScannerWorkState.ScanInactive)
+                //viewModel.setScannerState(ScanningViewModel.ScannerWorkState.ScanInactive)
                 showScanFromImageDialog()
             }
             if (isFlashAvailable()) {

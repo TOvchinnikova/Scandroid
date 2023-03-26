@@ -25,9 +25,6 @@ class ScanningViewModel(
     private val _lastScannedCode = MutableStateFlow<Code?>(null) //todo от этого надо избавляться
     val lastScannedCode: StateFlow<Code?> = _lastScannedCode.asStateFlow()
 
-    private val scannerWorkStateFlow =
-        MutableStateFlow<ScannerWorkState>(ScannerWorkState.ScannerActive)
-
     private val settingsFlow = getSettingsUseCase.invokeAsync()
         .onEach {
             _flashState.value = it.isFlashlightWhenAppStarts
@@ -48,10 +45,6 @@ class ScanningViewModel(
         viewModelScope.launch(IO) {
             settingsFlow.collect()
         }
-    }
-
-    fun setScannerState(state: ScannerWorkState) {
-        scannerWorkStateFlow.value = state
     }
 
     fun switchFlash() {
@@ -78,11 +71,5 @@ class ScanningViewModel(
                 settingsData = settingsFlow.value
             )
         }
-    }
-
-    sealed class ScannerWorkState {
-        object ScannerActive : ScannerWorkState()
-        object ScanInactive : ScannerWorkState()
-        class ScanNeedShowResult(val scannedCode: Code) : ScannerWorkState()
     }
 }
