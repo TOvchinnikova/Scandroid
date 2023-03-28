@@ -5,7 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
-import com.t_ovchinnikova.android.scandroid_2.domain.Code
+import com.t_ovchinnikova.android.scandroid_2.CodeNavigationType
 import java.util.*
 
 fun NavGraphBuilder.historyScreenNavGraph(
@@ -23,7 +23,7 @@ fun NavGraphBuilder.historyScreenNavGraph(
             route = Screen.HistoryCodeDetails.route,
             arguments = listOf(
                 navArgument(Screen.KEY_CODE_ID) {
-                    type = Code.NavigationType
+                    type = CodeNavigationType
                 }
             )
         ) {

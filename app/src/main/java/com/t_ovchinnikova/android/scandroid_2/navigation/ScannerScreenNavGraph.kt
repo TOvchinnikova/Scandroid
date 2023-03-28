@@ -5,7 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
-import com.t_ovchinnikova.android.scandroid_2.domain.Code.Companion.NavigationType
+import com.t_ovchinnikova.android.scandroid_2.CodeNavigationType
 import com.t_ovchinnikova.android.scandroid_2.navigation.Screen.Companion.KEY_CODE_ID
 import java.util.UUID
 
@@ -24,7 +24,7 @@ fun NavGraphBuilder.scannerScreenNavGraph(
             route = Screen.CodeDetails.route,
             arguments = listOf(
                 navArgument(KEY_CODE_ID) {
-                    type = NavigationType
+                    type = CodeNavigationType
                 }
             )
         ) {

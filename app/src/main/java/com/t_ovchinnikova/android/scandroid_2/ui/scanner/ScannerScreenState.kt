@@ -1,7 +1,7 @@
 package com.t_ovchinnikova.android.scandroid_2.ui.scanner
 
-import com.t_ovchinnikova.android.scandroid_2.data.entity.SettingsData
-import com.t_ovchinnikova.android.scandroid_2.domain.Code
+import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
+import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.SettingsData
 
 sealed class ScannerScreenState {
     data class Scanning(

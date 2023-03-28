@@ -15,8 +15,8 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
+import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanningBinding
-import com.t_ovchinnikova.android.scandroid_2.domain.Code
 import com.t_ovchinnikova.android.scandroid_2.presentation.ScanResultListener
 import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.ScanFromImageDialog
 import com.t_ovchinnikova.android.scandroid_2.presentation.dialogs.ScanResultDialog

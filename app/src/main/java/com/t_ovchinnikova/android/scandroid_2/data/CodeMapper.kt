@@ -1,7 +1,7 @@
 package com.t_ovchinnikova.android.scandroid_2.data
 
 import com.t_ovchinnikova.android.scandroid_2.core_db_impl.entity.CodeDbModel
-import com.t_ovchinnikova.android.scandroid_2.domain.Code
+import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
 
 class CodeMapper {
 
@@ -16,14 +16,14 @@ class CodeMapper {
         )
 
     fun mapDbModelToEntity(codeDbModel: CodeDbModel) = Code(
-        id = codeDbModel.id,
-        text = codeDbModel.text,
-        format = codeDbModel.format,
-        type = codeDbModel.type,
-        date = codeDbModel.date,
-        note = codeDbModel.note,
-        isFavorite = codeDbModel.isFavorite
-    )
+            id = codeDbModel.id,
+            text = codeDbModel.text,
+            format = codeDbModel.format,
+            type = codeDbModel.type,
+            date = codeDbModel.date,
+            note = codeDbModel.note,
+            isFavorite = codeDbModel.isFavorite
+        )
 
     fun mapListDbModelToListEntity(list: List<CodeDbModel>) = list.map {
         mapDbModelToEntity(it)

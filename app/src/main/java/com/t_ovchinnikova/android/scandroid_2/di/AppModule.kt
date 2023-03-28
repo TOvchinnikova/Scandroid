@@ -1,6 +1,9 @@
 package com.t_ovchinnikova.android.scandroid_2.di
 
 import androidx.camera.core.ImageAnalysis
+import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.*
+import com.t_ovchinnikova.android.scandroid_2.data.MlKitFormatToCodeFormatMapper
+import com.t_ovchinnikova.android.scandroid_2.data.MlKitTypeToCodeTypeMapper
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.*
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.interactors.CropImageInteractor
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.interactors.RecognizeCodeInteractor
@@ -60,7 +63,10 @@ val appModule = module {
     }
 
     factory<RecognizeCodeUseCase> {
-        RecognizeCodeInteractor()
+        RecognizeCodeInteractor(
+            toCodeTypeMapper = MlKitTypeToCodeTypeMapper,
+            toCodeFormatMapper = MlKitFormatToCodeFormatMapper
+        )
     }
 
     factory<CropImageUseCase> {

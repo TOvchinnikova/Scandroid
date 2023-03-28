@@ -2,9 +2,9 @@ package com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.t_ovchinnikova.android.scandroid_2.domain.Code
-import com.t_ovchinnikova.android.scandroid_2.domain.usecases.AddCodeUseCase
-import com.t_ovchinnikova.android.scandroid_2.domain.usecases.GetSettingsUseCase
+import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
+import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.AddCodeUseCase
+import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.GetSettingsUseCase
 import com.t_ovchinnikova.android.scandroid_2.ui.scanner.ScannerScreenState
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.*

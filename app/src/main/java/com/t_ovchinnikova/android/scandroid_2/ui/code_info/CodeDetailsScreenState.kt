@@ -1,6 +1,6 @@
 package com.t_ovchinnikova.android.scandroid_2.ui.code_info
 
-import com.t_ovchinnikova.android.scandroid_2.domain.Code
+import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
 
 sealed class CodeDetailsScreenState {
 

@@ -8,16 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
 import com.t_ovchinnikova.android.scandroid_2.R
+import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
+import com.t_ovchinnikova.android.scandroid_2.data.toStringRes
 import com.t_ovchinnikova.android.scandroid_2.databinding.FragmentScanResultDialogBinding
-import com.t_ovchinnikova.android.scandroid_2.domain.Code
-import com.t_ovchinnikova.android.scandroid_2.domain.formatToStringId
-import com.t_ovchinnikova.android.scandroid_2.domain.typeToString
 import com.t_ovchinnikova.android.scandroid_2.presentation.fragments.HistoryFragment
 import com.t_ovchinnikova.android.scandroid_2.presentation.fragments.ScanningFragment
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.CodeDetailsViewModel
-import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.ScanningViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.text.SimpleDateFormat
@@ -113,11 +110,11 @@ class ScanResultDialog : BaseBottomSheetDialog(), EditCodeNoteListener, DeleteCo
         code?.let {
             val dateFormatter = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.ENGLISH)
             with(binding) {
-                tvType.text = getString(it.typeToString())
+                tvType.text = getString(it.type.toStringRes())
                 tvResult.text = it.text
                 tvDate.text = dateFormatter.format(it.date)
                 toolbar.apply {
-                    setTitle(it.formatToStringId())
+                    setTitle(it.format.toStringRes())
                     setOnMenuItemClickListener { menuItem ->
                         when (menuItem.itemId) {
                             R.id.delete -> showDeleteDialog()

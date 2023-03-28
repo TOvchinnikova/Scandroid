@@ -14,8 +14,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t_ovchinnikova.android.scandroid_2.R
-import com.t_ovchinnikova.android.scandroid_2.domain.Code
-import com.t_ovchinnikova.android.scandroid_2.domain.formatToStringId
+import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
+import com.t_ovchinnikova.android.scandroid_2.data.toStringRes
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.CodeDetailsViewModel
 import com.t_ovchinnikova.android.scandroid_2.ui.*
 import com.t_ovchinnikova.android.scandroid_2.utils.*
@@ -52,7 +52,7 @@ fun CodeDetailsScreen(
                 if (state.isFromDatabase) {
                     CodeDetailsTopAppBar(
                         onBackPressed = onBackPressed,
-                        title = stringResource(id = code.formatToStringId()),
+                        title = stringResource(id = code.format.toStringRes()),
                         onFavouriteClickListener = {
                             viewModel.updateBarcode(
                                 code = code.copy(
@@ -68,7 +68,7 @@ fun CodeDetailsScreen(
                 } else {
                     CodeDetailsTopAppBar(
                         onBackPressed = onBackPressed,
-                        title = stringResource(id = code.formatToStringId())
+                        title = stringResource(id = code.format.toStringRes())
                     )
                 }
                 Content(
@@ -154,7 +154,7 @@ fun Content(
         Text(text = code.text)
 
         Spacer(modifier = Modifier.height(10.dp))
-        Text(text = stringResource(id = code.formatToStringId()))
+        Text(text = stringResource(id = code.format.toStringRes()))
 
         Divider()
 

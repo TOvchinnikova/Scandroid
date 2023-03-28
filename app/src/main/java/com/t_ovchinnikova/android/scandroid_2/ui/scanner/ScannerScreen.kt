@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.canhub.cropper.CropImage.CancelledResult.rotation
 import com.t_ovchinnikova.android.scandroid_2.R
-import com.t_ovchinnikova.android.scandroid_2.domain.Code
+import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
 import com.t_ovchinnikova.android.scandroid_2.presentation.ScanResultListener
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.ScanningViewModel
 import com.t_ovchinnikova.android.scandroid_2.ui.CenterProgress
@@ -34,7 +34,7 @@ import com.t_ovchinnikova.android.scandroid_2.views.ViewFinderOverlay
 import org.koin.androidx.compose.get
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
-import java.util.UUID
+import java.util.*
 import java.util.concurrent.Executors
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine

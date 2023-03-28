@@ -5,8 +5,8 @@ import android.graphics.Matrix
 import android.graphics.Rect
 import android.media.Image
 import androidx.camera.core.ImageProxy
-import com.t_ovchinnikova.android.scandroid_2.utils.convertYuv420888ImageToBitmap
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.CropImageUseCase
+import com.t_ovchinnikova.android.scandroid_2.utils.convertYuv420888ImageToBitmap
 
 class CropImageInteractor : CropImageUseCase {
 
