@@ -10,17 +10,15 @@ import com.t_ovchinnikova.android.scandroid_2.data.datasource.SettingsDataSource
 import com.t_ovchinnikova.android.scandroid_2.data.datasource.impl.CodeDataSourceImpl
 import com.t_ovchinnikova.android.scandroid_2.core_domain.repository.CodeRepository
 import com.t_ovchinnikova.android.scandroid_2.core_domain.repository.SettingsRepository
+import com.t_ovchinnikova.android.scandroid_2.data.MlKitFormatToCodeFormatMapper
+import com.t_ovchinnikova.android.scandroid_2.data.MlKitTypeToCodeTypeMapper
 import com.t_ovchinnikova.android.scandroid_2.data.repository.impl.SettingsRepositoryImpl
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 val dataModule = module {
 
-//    single<CodeDatabase> {
-//        CodeDatabase.newInstance(application = androidApplication())
-//    }
-
-    single<com.t_ovchinnikova.android.scandroid_2.core_domain.repository.CodeRepository> {
+    single<CodeRepository> {
         CodeRepositoryImpl(
             codeMapper = get() as CodeMapper,
             codeDataSource = get() as CodeDataSource
@@ -39,17 +37,21 @@ val dataModule = module {
         )
     }
 
-    single<com.t_ovchinnikova.android.scandroid_2.core_domain.repository.SettingsRepository> {
+    single<SettingsRepository> {
         SettingsRepositoryImpl(
             settingsDataSource = get() as SettingsDataSource
         )
     }
 
-//    single<com.t_ovchinnikova.android.scandroid_2.core_db_impl.CodeDao> {
-//        get<com.t_ovchinnikova.android.scandroid_2.core_db_impl.CodeDatabase>().codeDao()
-//    }
-
     single<CodeMapper> {
         CodeMapper()
+    }
+
+    single<MlKitTypeToCodeTypeMapper> {
+        MlKitTypeToCodeTypeMapper
+    }
+
+    single<MlKitFormatToCodeFormatMapper> {
+        MlKitFormatToCodeFormatMapper
     }
 }

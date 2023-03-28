@@ -1,6 +1,6 @@
 package com.t_ovchinnikova.android.scandroid_2.core_domain.entity
 
-enum class CodeFormat(private val tag: Int) {
+enum class CodeFormat(val tag: Int) {
     AZTEC(4096),
     CODE_128(1),
     CODABAR(8),

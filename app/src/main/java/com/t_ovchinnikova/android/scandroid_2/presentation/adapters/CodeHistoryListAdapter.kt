@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
+import com.t_ovchinnikova.android.scandroid_2.data.toImageId
+import com.t_ovchinnikova.android.scandroid_2.data.toStringRes
 import com.t_ovchinnikova.android.scandroid_2.databinding.ItemCodeBinding
-import com.t_ovchinnikova.android.scandroid_2.data.formatToImageId
-import com.t_ovchinnikova.android.scandroid_2.data.formatToStringId
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -31,8 +31,8 @@ class CodeHistoryListAdapter(
             tvDate.text = dateFormatter.format(code.date)
             tvNote.text = code.note
             ivIsFavorite.isActivated = code.isFavorite
-            tvFormat.setText(code.formatToStringId())
-            ivCode.setImageResource(code.formatToImageId())
+            tvFormat.setText(code.format.toStringRes())
+            ivCode.setImageResource(code.format.toImageId())
             itemView.setOnClickListener {
                 onCodeItemClickListener(code)
             }

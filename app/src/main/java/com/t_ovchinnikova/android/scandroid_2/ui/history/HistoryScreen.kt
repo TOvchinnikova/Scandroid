@@ -22,7 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t_ovchinnikova.android.scandroid_2.R
 import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
-import com.t_ovchinnikova.android.scandroid_2.data.formatToStringId
+import com.t_ovchinnikova.android.scandroid_2.data.toStringRes
 import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.HistoryViewModel
 import com.t_ovchinnikova.android.scandroid_2.ui.CenterProgress
 import com.t_ovchinnikova.android.scandroid_2.ui.SecondaryText
@@ -191,7 +191,7 @@ fun HistoryItem(
                     )
                 }
                 SecondaryText(
-                    text = stringResource(id = code.formatToStringId())
+                    text = stringResource(id = code.format.toStringRes())
                 )
             }
         }

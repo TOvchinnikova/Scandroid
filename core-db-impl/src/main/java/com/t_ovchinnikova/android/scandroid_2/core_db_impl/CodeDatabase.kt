@@ -5,11 +5,14 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.t_ovchinnikova.android.scandroid_2.core_db_impl.converters.CodeDatabaseTypeConverter
+import com.t_ovchinnikova.android.scandroid_2.core_db_impl.entity.CodeDbModel
+import com.t_ovchinnikova.android.scandroid_2.core_db_impl.migrations.Migrations
 
 const val VERSION = 4
 
 @Database(
-    entities = [com.t_ovchinnikova.android.scandroid_2.core_db_impl.entity.CodeDbModel::class],
+    entities = [CodeDbModel::class],
     version = VERSION
 )
 @TypeConverters(CodeDatabaseTypeConverter::class)
@@ -34,7 +37,7 @@ abstract class CodeDatabase : RoomDatabase() {
                     application,
                     CodeDatabase::class.java,
                     DB_NAME
-                ).addMigrations(*com.t_ovchinnikova.android.scandroid_2.core_db_impl.migrations.Migrations.list)
+                ).addMigrations(*Migrations.list)
                     .build()
                 INSTANCE = db
                 return db
