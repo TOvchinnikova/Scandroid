@@ -4,13 +4,14 @@ import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
 import com.t_ovchinnikova.android.scandroid_2.core_domain.repository.CodeRepository
 import com.t_ovchinnikova.android.scandroid_2.data.CodeMapper
 import com.t_ovchinnikova.android.scandroid_2.data.datasource.CodeDataSource
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import com.t_ovchinnikova.android.scandroid_2.data.datasource.InMemoryCodeDataStore
+import kotlinx.coroutines.flow.*
 import java.util.*
 
 class CodeRepositoryImpl(
     private val codeMapper: CodeMapper,
-    private val codeDataSource: CodeDataSource
+    private val codeDataSource: CodeDataSource,
+    private val inMemoryCodeDataStore: InMemoryCodeDataStore
 ) : CodeRepository {
 
     override suspend fun addCode(code: Code): Long {

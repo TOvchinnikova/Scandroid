@@ -16,5 +16,5 @@ interface CodeRepository {
 
     fun getCodesWithFilter(filterText: String): Flow<List<Code>>
 
-    fun getCodeById(id: UUID): Flow<Code>
+    suspend fun getCodeById(id: UUID): Flow<Code>
 }

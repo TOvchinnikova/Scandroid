@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 class SettingsRepositoryImpl(
     private val settingsDataSource: SettingsDataSource
-) : com.t_ovchinnikova.android.scandroid_2.core_domain.repository.SettingsRepository {
+) : SettingsRepository {
     override fun getSettings(): Flow<com.t_ovchinnikova.android.scandroid_2.core_domain.entity.SettingsData> {
         return settingsDataSource.getSettings()
     }
