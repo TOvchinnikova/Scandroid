@@ -4,7 +4,8 @@ import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
 import com.t_ovchinnikova.android.scandroid_2.data.datasource.InMemoryCodeDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.firstOrNull
+import java.util.*
 
 class InMemoryCodeDataStoreImpl : InMemoryCodeDataStore {
 
@@ -14,6 +15,12 @@ class InMemoryCodeDataStoreImpl : InMemoryCodeDataStore {
         codeFlow.value = code
     }
 
-    override fun getCode(): Flow<Code?> =
-        codeFlow.asStateFlow()
+    override fun getCodeAsync(): Flow<Code?> {
+        return codeFlow
+    }
+
+    override suspend fun getCodeById(codeUuid: UUID): Code? {
+        val code = codeFlow.firstOrNull()
+        return if (code?.id == codeUuid) code else null
+    }
 }

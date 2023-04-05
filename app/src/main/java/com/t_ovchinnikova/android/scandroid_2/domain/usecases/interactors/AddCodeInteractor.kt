@@ -8,7 +8,7 @@ class AddCodeInteractor(
     private val repository: CodeRepository
 ) : AddCodeUseCase {
 
-    override suspend fun invoke(code: Code): Long {
+    override suspend fun invoke(code: Code): Boolean {
         return repository.addCode(code)
     }
 }

@@ -10,7 +10,7 @@ class GetCodeInteractor(
     private val repository: CodeRepository
 ) : GetCodeUseCase {
 
-    override fun invoke(id: UUID): Flow<Code> {
-        return repository.getCodeById(id)
+    override fun invokeAsync(id: UUID): Flow<Code?> {
+        return repository.getCodeByIdAsync(id)
     }
 }

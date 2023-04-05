@@ -4,5 +4,5 @@ import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
 
 interface AddCodeUseCase {
 
-    suspend operator fun invoke(code: Code): Long
+    suspend operator fun invoke(code: Code): Boolean
 }

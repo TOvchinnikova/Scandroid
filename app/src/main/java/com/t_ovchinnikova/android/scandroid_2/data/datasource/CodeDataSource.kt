@@ -16,5 +16,7 @@ interface CodeDataSource {
 
     fun getCodesWithFilter(filterText: String): Flow<List<CodeDbModel>>
 
-    fun getCodeById(id: UUID): Flow<CodeDbModel>
+    fun getCodeByIdAsync(id: UUID): Flow<CodeDbModel>
+
+    fun getCodeById(id: UUID): CodeDbModel?
 }

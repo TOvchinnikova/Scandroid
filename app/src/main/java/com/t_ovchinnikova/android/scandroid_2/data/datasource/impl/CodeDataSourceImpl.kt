@@ -1,6 +1,5 @@
 package com.t_ovchinnikova.android.scandroid_2.data.datasource.impl
 
-import androidx.lifecycle.LiveData
 import com.t_ovchinnikova.android.scandroid_2.core_db_impl.CodeDao
 import com.t_ovchinnikova.android.scandroid_2.core_db_impl.entity.CodeDbModel
 import com.t_ovchinnikova.android.scandroid_2.data.datasource.CodeDataSource
@@ -31,7 +30,11 @@ class CodeDataSourceImpl(
         return codeDao.getCodesWithFilter(filterText)
     }
 
-    override fun getCodeById(id: UUID): Flow<CodeDbModel> {
+    override fun getCodeByIdAsync(id: UUID): Flow<CodeDbModel> {
+        return codeDao.getCodeByIdAsync(id)
+    }
+
+    override fun getCodeById(id: UUID): CodeDbModel? {
         return codeDao.getCodeById(id)
     }
 }
