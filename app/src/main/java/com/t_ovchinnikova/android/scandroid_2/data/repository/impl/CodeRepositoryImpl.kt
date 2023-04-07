@@ -53,12 +53,9 @@ class CodeRepositoryImpl(
                 emitAll(inMemoryCodeDataStore.getCodeAsync())
                 return@flow
             }
-            val isNeedSaveToDb = settingsRepository.getSettings()?.isSaveScannedBarcodesToHistory ?: false
-            if (isNeedSaveToDb) {
-                emitAll(codeDataSource.getCodeByIdAsync(codeUuid).map {
-                    codeMapper.mapDbModelToEntity(it)
-                })
-            }
+            emitAll(codeDataSource.getCodeByIdAsync(codeUuid).map {
+                codeMapper.mapDbModelToEntity(it)
+            })
         }
     }
 

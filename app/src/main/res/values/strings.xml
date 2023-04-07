@@ -18,6 +18,9 @@
     <string name="scan">Scan</string>
     <string name="scan_result_from_image">Found %s: %s</string>
     <string name="nothing_found">Nothing found</string>
+
+    <string name="save_settings_disabled_message">You have disabled saving the scan history to the database n/You can enable saving in the "Settings" menu</string>
+    <string name="the_list_is_empty_message">The list is empty</string>
     
     <string name="detected">Detected:</string>
     <string name="scan_image_hint">Move the markers to refine the scanned area.</string>
