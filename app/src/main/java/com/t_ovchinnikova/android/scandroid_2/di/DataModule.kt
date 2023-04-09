@@ -12,6 +12,8 @@ import com.t_ovchinnikova.android.scandroid_2.core_domain.repository.CodeReposit
 import com.t_ovchinnikova.android.scandroid_2.core_domain.repository.SettingsRepository
 import com.t_ovchinnikova.android.scandroid_2.data.MlKitFormatToCodeFormatMapper
 import com.t_ovchinnikova.android.scandroid_2.data.MlKitTypeToCodeTypeMapper
+import com.t_ovchinnikova.android.scandroid_2.data.datasource.InMemoryCodeDataStore
+import com.t_ovchinnikova.android.scandroid_2.data.datasource.impl.InMemoryCodeDataStoreImpl
 import com.t_ovchinnikova.android.scandroid_2.data.repository.impl.SettingsRepositoryImpl
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
@@ -21,7 +23,9 @@ val dataModule = module {
     single<CodeRepository> {
         CodeRepositoryImpl(
             codeMapper = get() as CodeMapper,
-            codeDataSource = get() as CodeDataSource
+            codeDataSource = get() as CodeDataSource,
+            inMemoryCodeDataStore = get() as InMemoryCodeDataStore,
+            settingsRepository = get() as SettingsRepository
         )
     }
 
@@ -29,6 +33,10 @@ val dataModule = module {
         CodeDataSourceImpl(
             codeDao = get() as CodeDao
         )
+    }
+
+    single<InMemoryCodeDataStore> {
+        InMemoryCodeDataStoreImpl()
     }
 
     single<SettingsDataSource> {

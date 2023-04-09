@@ -21,8 +21,16 @@ class CodeDetailsViewModel(
     getSettingsUseCase: GetSettingsUseCase
 ) : ViewModel() {
 
-    private val _screenStateFlow = combine(
-        getCodeUseCase(codeId),
+    private val codeFlow = getCodeUseCase.invokeAsync(codeId)
+        .flowOn(Dispatchers.IO)
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(),
+            initialValue = null
+        )
+
+    val screenStateFlow = combine(
+        codeFlow,
         getSettingsUseCase.invokeAsync()
     ) { code, settings ->
         code?.let {
@@ -42,8 +50,6 @@ class CodeDetailsViewModel(
             started = SharingStarted.WhileSubscribed(),
             initialValue = CodeDetailsScreenState.Initial
         )
-
-    val screenStateFlow: StateFlow<CodeDetailsScreenState> = _screenStateFlow
 
     fun updateBarcode(code: Code) {
         viewModelScope.launch {

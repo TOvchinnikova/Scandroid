@@ -23,7 +23,6 @@ fun CodeDetailsTopAppBar(
     onFavouriteClickListener: (() -> Unit)? = null,
     onDeleteClickListener: (() -> Unit)? = null
 ) {
-
     TopAppBar(
         title = {
             Text(text = title)

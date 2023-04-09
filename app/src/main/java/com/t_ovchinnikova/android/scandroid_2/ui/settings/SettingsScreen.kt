@@ -1,7 +1,10 @@
 package com.t_ovchinnikova.android.scandroid_2.ui.settings
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Switch
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -15,43 +18,43 @@ import com.t_ovchinnikova.android.scandroid_2.presentation.viewmodel.SettingsVie
 import com.t_ovchinnikova.android.scandroid_2.ui.CenterProgress
 import com.t_ovchinnikova.android.scandroid_2.ui.Divider
 import com.t_ovchinnikova.android.scandroid_2.ui.SecondaryText
-import com.t_ovchinnikova.android.scandroid_2.ui.theme.ScandroidTheme
 import org.koin.androidx.compose.koinViewModel
 
 @Preview
 @Composable
-fun SettingsScreen() {
-
-    val viewModel = koinViewModel<SettingsViewModel>()
+fun SettingsScreen(
+    viewModel: SettingsViewModel = koinViewModel<SettingsViewModel>()
+) {
     val screenState = viewModel.screenState.collectAsState(initial = SettingsScreenState.Initial)
 
-    ScandroidTheme {
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = {
-                        Text(text = stringResource(id = R.string.settings))
-                    }
-                )
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(text = stringResource(id = R.string.settings))
+                }
+            )
+        }
+    ) { paddingValues ->
+        when (val currentScreenState = screenState.value) {
+            is SettingsScreenState.SettingsScreen -> {
+                ShowSettings(
+                    modifier = Modifier.padding(paddingValues),
+                    settingsData = currentScreenState.settings
+                ) { settingsData ->
+                    viewModel.saveSettings(
+                        settingsData
+                    )
+                }
             }
-        ) {
-            when (val currentScreenState = screenState.value) {
-                is SettingsScreenState.SettingsScreen -> {
-                    ShowSettings(currentScreenState.settings) { settingsData ->
-                        viewModel.saveSettings(
-                            settingsData
-                        )
-                    }
-                }
-                is SettingsScreenState.LoadingSettings -> {
-                    CenterProgress()
-                }
-                is SettingsScreenState.Initial -> {
-                    // nothing
-                }
-                is SettingsScreenState.Failure -> {
-                    // todo добавить обработку ошибок
-                }
+            is SettingsScreenState.LoadingSettings -> {
+                CenterProgress()
+            }
+            is SettingsScreenState.Initial -> {
+                // nothing
+            }
+            is SettingsScreenState.Failure -> {
+                // todo добавить обработку ошибок
             }
         }
     }
@@ -59,13 +62,17 @@ fun SettingsScreen() {
 
 @Composable
 private fun ShowSettings(
-    settingsData: com.t_ovchinnikova.android.scandroid_2.core_domain.entity.SettingsData,
-    onClickListener: (com.t_ovchinnikova.android.scandroid_2.core_domain.entity.SettingsData) -> Unit
+    modifier: Modifier = Modifier,
+    settingsData: SettingsData,
+    onClickListener: (SettingsData) -> Unit
 ) {
     Column(
-        modifier = Modifier
-            .padding(horizontal = 16.dp)
-            .padding(top = 16.dp)
+        modifier = modifier
+            .padding(
+                top = 16.dp,
+                start = 16.dp,
+                end = 16.dp
+            )
     ) {
         SettingsItem(
             titleResId = R.string.fragment_settings_vibrate,
@@ -124,13 +131,14 @@ private fun ShowSettings(
 
 @Composable
 private fun SettingsItem(
+    modifier: Modifier = Modifier,
     titleResId: Int,
     hintResId: Int,
     isChecked: Boolean,
     clickListener: ((Boolean) -> Unit)
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {

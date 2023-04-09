@@ -6,7 +6,7 @@ import java.util.*
 
 interface CodeRepository {
 
-    suspend fun addCode(code: Code): Long
+    suspend fun addCode(code: Code): Boolean
 
     suspend fun deleteCode(codeId: UUID)
 
@@ -16,5 +16,7 @@ interface CodeRepository {
 
     fun getCodesWithFilter(filterText: String): Flow<List<Code>>
 
-    fun getCodeById(id: UUID): Flow<Code>
+    fun getCodeByIdAsync(codeUuid: UUID): Flow<Code?>
+
+    fun getCodeById(id: UUID): Code?
 }

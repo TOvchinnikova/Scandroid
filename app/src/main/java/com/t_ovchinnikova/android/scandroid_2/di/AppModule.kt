@@ -24,7 +24,8 @@ val appModule = module {
             deleteAllCodesUseCase = get() as DeleteAllCodesUseCase,
             deleteCodeUseCase = get() as DeleteCodeUseCase,
             getCodesUseCase = get() as GetCodesUseCase,
-            addCodeUseCase = get() as AddCodeUseCase
+            addCodeUseCase = get() as AddCodeUseCase,
+            settingsUseCase = get() as GetSettingsUseCase
         )
     }
 

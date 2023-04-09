@@ -6,5 +6,5 @@ import java.util.*
 
 interface GetCodeUseCase {
 
-    operator fun invoke(id: UUID): Flow<Code>
+    fun invokeAsync(id: UUID): Flow<Code?>
 }
