@@ -27,12 +27,9 @@ import java.util.*
 @Composable
 fun CodeDetailsScreen(
     codeId: UUID,
-    onBackPressed: () -> Unit
+    onBackPressed: () -> Unit,
+    viewModel: CodeDetailsViewModel =  koinViewModel { parametersOf(codeId) }
 ) {
-    val viewModel = koinViewModel<CodeDetailsViewModel>() {
-        parametersOf(codeId)
-    }
-
     val screenState = viewModel.screenStateFlow.collectAsState()
 
     val deleteDialogState = rememberSaveable {
@@ -49,7 +46,7 @@ fun CodeDetailsScreen(
             }
             is CodeDetailsScreenState.CodeDetails -> {
                 val code = state.code
-                if (state.isFromDatabase) {
+                if (state.isSaveScannedBarcodesToHistory) {
                     CodeDetailsTopAppBar(
                         onBackPressed = onBackPressed,
                         title = stringResource(id = code.format.toStringRes()),
@@ -73,6 +70,7 @@ fun CodeDetailsScreen(
                 }
                 Content(
                     code = code,
+                    isSaveScannedBarcodesToHistory = state.isSaveScannedBarcodesToHistory,
                     shareTextClickListener = {
                         context.shareText(code.text, code.note, state.isSendingNoteWithCode)
                     },
@@ -113,6 +111,7 @@ fun CodeDetailsScreen(
 @Composable
 fun Content(
     code: Code,
+    isSaveScannedBarcodesToHistory: Boolean,
     shareTextClickListener: () -> Unit,
     searchWebClickListener: () -> Unit,
     copyClickListener: () -> Unit,
@@ -138,11 +137,13 @@ fun Content(
                     SimpleDateFormat(DATE_PATTERN_STRING, Locale.ENGLISH)
                 )
             )
-            IconButton(onClick = { changeNoteDialogState.value = true }) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_edit),
-                    contentDescription = null
-                )
+            if (isSaveScannedBarcodesToHistory) {
+                IconButton(onClick = { changeNoteDialogState.value = true }) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_edit),
+                        contentDescription = null
+                    )
+                }
             }
         }
         if (code.note.isNotBlank()) {

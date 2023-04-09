@@ -10,7 +10,7 @@ sealed class CodeDetailsScreenState {
 
     data class CodeDetails(
         val code: Code,
-        val isFromDatabase: Boolean,
+        val isSaveScannedBarcodesToHistory: Boolean,
         val isSendingNoteWithCode: Boolean
     ) : CodeDetailsScreenState()
 

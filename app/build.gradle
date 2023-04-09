@@ -78,7 +78,7 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
 
     //ML kit
-    implementation 'com.google.mlkit:barcode-scanning:17.0.2'
+    implementation 'com.google.mlkit:barcode-scanning:17.1.0'
 
     // Object feature and model
     implementation 'com.google.mlkit:object-detection:17.0.0'
