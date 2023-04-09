@@ -7,7 +7,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import com.t_ovchinnikova.android.scandroid_2.ui.theme.ColorSecondary
 
 @Preview
 @Composable
@@ -22,12 +25,17 @@ fun CenterProgress() {
 
 @Composable
 fun CenterMessage(
-    message: String
+    message: String,
+    textColor: Color = ColorSecondary
 ) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Text(text =message)
+        Text(
+            text = message,
+            color = textColor,
+            textAlign = TextAlign.Center
+        )
     }
 }

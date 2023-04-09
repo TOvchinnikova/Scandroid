@@ -111,9 +111,9 @@ fun EmptyHistory(
 ) {
     CenterMessage(
         if (isSaveBarcodesToHistory) {
-            stringResource(id = R.string.save_settings_disabled_message)
-        } else {
             stringResource(id = R.string.the_list_is_empty_message)
+        } else {
+            stringResource(id = R.string.save_settings_disabled_message)
         }
     )
 }

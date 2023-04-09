@@ -19,7 +19,7 @@
     <string name="scan_result_from_image">Обнаружен %s: %s</string>
     <string name="nothing_found">Ничего не найдено</string>
 
-    <string name="save_settings_disabled_message">Вы отключили сохранение истории сканирования в базу данных n/Включить сохранение можно в меню "Настройки"</string>
+    <string name="save_settings_disabled_message">Вы отключили сохранение истории сканирования в базу данных \nВключить сохранение можно в меню "Настройки"</string>
     <string name="the_list_is_empty_message">Список пуст</string>
 
     <string name="detected">Обнаружен:</string>

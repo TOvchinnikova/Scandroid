@@ -6,7 +6,6 @@ import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.*
 import com.t_ovchinnikova.android.scandroid_2.ui.history.HistoryScreenState
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.util.*
@@ -16,7 +15,7 @@ class HistoryViewModel(
     private val deleteAllCodesUseCase: DeleteAllCodesUseCase,
     private val addCodeUseCase: AddCodeUseCase,
     getCodesUseCase: GetCodesUseCase,
-    private val settingsUseCase: GetSettingsUseCase
+    settingsUseCase: GetSettingsUseCase
 ) : ViewModel() {
 
     private val codeListFlow = getCodesUseCase()
@@ -25,15 +24,14 @@ class HistoryViewModel(
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(),
-            initialValue = emptyList()
+            initialValue = null
         )
 
     val codesHistoryStateFlow =
         combine(
-            codeListFlow,
+            codeListFlow.filterNotNull(),
             settingsUseCase.invokeAsync()
         ) { codeList, settings ->
-            delay(2000)
             if (codeList.isEmpty()) {
                 HistoryScreenState.EmptyHistory(settings.isSaveScannedBarcodesToHistory)
             } else {
@@ -51,12 +49,6 @@ class HistoryViewModel(
                 started = SharingStarted.WhileSubscribed(),
                 initialValue = HistoryScreenState.Initial
             )
-
-//    init {
-//        viewModelScope.launch {
-//            codeListFlow.collect()
-//        }
-//    }
 
     fun deleteCode(codeId: UUID) {
         viewModelScope.launch {
