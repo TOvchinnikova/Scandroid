@@ -14,6 +14,15 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/core-db-impl" />
             <option value="$PROJECT_DIR$/core-domain" />
+            <option value="$PROJECT_DIR$/feature" />
+            <option value="$PROJECT_DIR$/feature/code-details-api" />
+            <option value="$PROJECT_DIR$/feature/code-details-impl" />
+            <option value="$PROJECT_DIR$/feature/code-list-api" />
+            <option value="$PROJECT_DIR$/feature/code-list-impl" />
+            <option value="$PROJECT_DIR$/feature/scanner-api" />
+            <option value="$PROJECT_DIR$/feature/scanner-impl" />
+            <option value="$PROJECT_DIR$/feature/settings-api" />
+            <option value="$PROJECT_DIR$/feature/settings-impl" />
           </set>
         </option>
       </GradleProjectSettings>
