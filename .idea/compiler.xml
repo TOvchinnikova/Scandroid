@@ -2,12 +2,12 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="1.7">
-      <module name="Scandroid_2.app" target="11" />
-      <module name="Scandroid_2.core-db-impl" target="11" />
-      <module name="Scandroid_2.feature.code-details-impl" target="11" />
-      <module name="Scandroid_2.feature.code-list-impl" target="11" />
-      <module name="Scandroid_2.feature.scanner-impl" target="11" />
-      <module name="Scandroid_2.feature.settings-impl" target="11" />
+      <module name="Scandroid_2.app" target="17" />
+      <module name="Scandroid_2.core-db-impl" target="17" />
+      <module name="Scandroid_2.feature.code-details-impl" target="17" />
+      <module name="Scandroid_2.feature.code-list-impl" target="17" />
+      <module name="Scandroid_2.feature.scanner-impl" target="17" />
+      <module name="Scandroid_2.feature.settings-impl" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>
