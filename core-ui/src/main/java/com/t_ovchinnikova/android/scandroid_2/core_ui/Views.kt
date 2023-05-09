@@ -1,4 +1,4 @@
-package com.t_ovchinnikova.android.scandroid_2.ui
+package com.t_ovchinnikova.android.scandroid_2.core_ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.height

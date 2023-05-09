@@ -1,4 +1,4 @@
-package com.t_ovchinnikova.android.scandroid_2.views
+package com.t_ovchinnikova.android.scandroid_2.core_ui.view
 
 import android.content.Context
 import android.content.res.TypedArray
@@ -11,7 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
-import com.t_ovchinnikova.android.scandroid_2.R
+import com.t_ovchinnikova.android.scandroid_2.core_ui.R
 
 class IconButton : FrameLayout {
 

@@ -1,4 +1,4 @@
-package com.t_ovchinnikova.android.scandroid_2.utils
+package com.t_ovchinnikova.android.scandroid_2.core_ui
 
 const val EMPTY_STRING = ""
 
