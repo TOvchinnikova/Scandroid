@@ -1,4 +1,4 @@
-package com.t_ovchinnikova.android.scandroid_2.utils
+package com.t_ovchinnikova.android.scandroid_2.core_platform_utils
 
 import android.app.SearchManager
 import android.content.ClipData
