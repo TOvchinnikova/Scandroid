@@ -2,6 +2,7 @@ package com.t_ovchinnikova.android.scandroid_2.ui
 
 import com.t_ovchinnikova.android.scandroid_2.R
 import com.t_ovchinnikova.android.scandroid_2.navigation.Screen
+import com.t_ovchinnikova.android.scandroid_2.scanner_impl.navigation.GRAPH_SCANNER
 
 sealed class NavigationItem(
     val screen: Screen,

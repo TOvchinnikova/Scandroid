@@ -1,7 +1,5 @@
 package com.t_ovchinnikova.android.scandroid_2.code_details_impl.di
 
-import com.t_ovchinnikova.android.scandroid_2.code_details_api.CodeDetailsFeature
-import com.t_ovchinnikova.android.scandroid_2.code_details_impl.navigation.CodeDetailsFeatureImpl
 import com.t_ovchinnikova.android.scandroid_2.code_details_impl.viewmodel.CodeDetailsViewModel
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.AddCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.DeleteCodeUseCase
@@ -12,10 +10,6 @@ import org.koin.dsl.module
 import java.util.UUID
 
 val codeDetailsModule = module {
-
-    factory<CodeDetailsFeature> {
-        CodeDetailsFeatureImpl()
-    }
 
     viewModel<CodeDetailsViewModel> { (codeId: UUID) ->
         CodeDetailsViewModel(

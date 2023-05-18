@@ -10,10 +10,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.t_ovchinnikova.android.scandroid_2.navigation.AppNavGraph
 import com.t_ovchinnikova.android.scandroid_2.navigation.NavigationState
 import com.t_ovchinnikova.android.scandroid_2.navigation.rememberNavigationState
-import com.t_ovchinnikova.android.scandroid_2.code_details_impl.ui.CodeDetailsScreen
-import com.t_ovchinnikova.android.scandroid_2.code_list_impl.HistoryScreen
-import com.t_ovchinnikova.android.scandroid_2.scanner_impl.ui.ScannerScreen
-import com.t_ovchinnikova.android.scandroid_2.settings_impl.SettingsScreen
 
 @Composable
 fun MainScreen() {
@@ -25,8 +21,9 @@ fun MainScreen() {
             BottomBar(navigationState)
         }
     ) { paddingValues ->  
-//        AppNavGraph(
-//            navHostController = navigationState.navHostController,
+        AppNavGraph(
+            navHostController = navigationState.navHostController,
+            paddingValues = paddingValues
 //            scannerScreenContent = {
 //                ScannerScreen(
 //                    paddingValues = paddingValues,
@@ -53,7 +50,7 @@ fun MainScreen() {
 //            settingsScreenContent = {
 //                SettingsScreen()
 //            }
-//        )
+        )
     }
 }
 
@@ -76,7 +73,7 @@ fun BottomBar(
             BottomNavigationItem(
                 selected = selected,
                 onClick = { if (!selected) {
-                    navigationState.navigateTo(item.screen.route)
+                    navigationState.navigateTo(item)
                 }
                 },
                 icon = {

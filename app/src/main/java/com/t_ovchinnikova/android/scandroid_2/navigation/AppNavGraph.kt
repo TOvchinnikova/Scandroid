@@ -4,55 +4,49 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.t_ovchinnikova.android.scandroid_2.code_details_api.CodeDetailsFeature
-import com.t_ovchinnikova.android.scandroid_2.code_list_api.CodeListFeature
-import com.t_ovchinnikova.android.scandroid_2.scanner_api.ScannerFeature
-import com.t_ovchinnikova.android.scandroid_2.settings_api.SettingsFeature
+import com.t_ovchinnikova.android.scandroid_2.code_details_impl.navigation.codeDetailsScreen
+import com.t_ovchinnikova.android.scandroid_2.code_details_impl.navigation.navigateToCodeDetails
+import com.t_ovchinnikova.android.scandroid_2.code_list_impl.navigation.codeListGraph
+import com.t_ovchinnikova.android.scandroid_2.scanner_impl.navigation.GRAPH_SCANNER
+import com.t_ovchinnikova.android.scandroid_2.scanner_impl.navigation.ROUTE_SCANNER
+import com.t_ovchinnikova.android.scandroid_2.scanner_impl.navigation.scannerGraph
+import com.t_ovchinnikova.android.scandroid_2.settings_impl.navigateToSettings
+import com.t_ovchinnikova.android.scandroid_2.settings_impl.settingsScreen
 
 @Composable
 fun AppNavGraph(
     navHostController: NavHostController,
     paddingValues: PaddingValues,
-    settingsFeature: SettingsFeature,
-    scannerFeature: ScannerFeature,
-    codeListFeature: CodeListFeature,
-    codeDetailsFeature: CodeDetailsFeature
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = Screen.ScannerMain.route
+        startDestination = GRAPH_SCANNER
     ) {
-        scannerFeature.scannerGraph(
-            navGraphBuilder = this,
+        scannerGraph(
             paddingValues = paddingValues,
             onScanListener = { codeUuid ->
-                codeDetailsFeature.navigateToCodeDetails(
-                    navController = navHostController,
+                navHostController.navigateToCodeDetails(
                     codeUuid = codeUuid
                 )
             },
             nestedGraphs = {
-                codeDetailsFeature.codeDetailsScreen(
-                    navGraphBuilder = this,
+                codeDetailsScreen(
                     onBackPressed = navHostController::popBackStack
                 )
             }
         )
-        codeListFeature.codeListGraph(
-            navGraphBuilder = this,
+        codeListGraph(
             codeItemClickListener = { codeUuid ->
-                codeDetailsFeature.navigateToCodeDetails(
-                    navController = navHostController,
+                navHostController.navigateToCodeDetails(
                     codeUuid = codeUuid
                 )
             },
             nestedGraphs = {
-                codeDetailsFeature.codeDetailsScreen(
-                    navGraphBuilder = this,
+                codeDetailsScreen(
                     onBackPressed = navHostController::popBackStack
                 )
             }
         )
-        settingsFeature.navigateToSettings(navHostController)
+        settingsScreen()
     }
 }

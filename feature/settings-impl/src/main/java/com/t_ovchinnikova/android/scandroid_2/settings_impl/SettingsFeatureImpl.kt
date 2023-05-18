@@ -2,26 +2,19 @@ package com.t_ovchinnikova.android.scandroid_2.settings_impl
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import com.t_ovchinnikova.android.scandroid_2.settings_api.SettingsFeature
 
-class SettingsFeatureImpl : SettingsFeature {
-    override val route: String
-        get() = ROUTE_SETTINGS
+const val ROUTE_SETTINGS = "settings"
 
-    override fun navigateToSettings(navController: NavController) {
-        navController.navigate(route)
-    }
+fun NavController.navigateToSettings(navOptions: NavOptions? = null) {
+    this.navigate(ROUTE_SETTINGS, navOptions)
+}
 
-    override fun settingsScreen(navGraphBuilder: NavGraphBuilder) {
-        navGraphBuilder.composable(
-            route = route
-        ) {
-            SettingsScreen()
-        }
-    }
-
-    companion object {
-        const val ROUTE_SETTINGS = "settings"
+fun NavGraphBuilder.settingsScreen() {
+    composable(
+        route = ROUTE_SETTINGS
+    ) {
+        SettingsScreen()
     }
 }
