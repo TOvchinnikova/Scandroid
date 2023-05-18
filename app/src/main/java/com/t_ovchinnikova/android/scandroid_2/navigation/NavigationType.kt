@@ -1,4 +1,4 @@
-package com.t_ovchinnikova.android.scandroid_2
+package com.t_ovchinnikova.android.scandroid_2.navigation
 
 import android.os.Bundle
 import androidx.navigation.NavType

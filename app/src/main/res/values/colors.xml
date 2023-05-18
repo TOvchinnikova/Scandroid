@@ -8,14 +8,11 @@
     <color name="light_gray">#48CFC6C6</color>
     <color name="off_white">#BEFFFFFF</color>
     <color name="gray">#686565</color>
-    <color name="light_blue">#50DADF</color>
     <color name="yellow">#FFEA00</color>
 
     <color name="colorPrimary">@color/teal_700</color>
     <color name="colorPrimaryVariant">@color/teal_700</color>
 
-    <color name="barcode_recticle_background">#99000000</color>
-    <color name="barcode_recticle_stroke">#ffffff</color>
     <color name="disabled">#00000000</color>
 
     <color name="search_view_backgroundColor">@color/dark_teal</color>
@@ -36,7 +33,4 @@
     <color name="toolbar_title_color">@color/white</color>
 
     <color name="note_icon_color">@color/gray</color>
-
-    <color name="color_button_disable">#353434</color>
-    <color name="color_disable_text">#36FFFFFF</color>
 </resources>

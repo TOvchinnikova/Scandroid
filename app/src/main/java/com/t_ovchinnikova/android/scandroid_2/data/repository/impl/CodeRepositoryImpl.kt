@@ -2,7 +2,7 @@ package com.t_ovchinnikova.android.scandroid_2.data.repository.impl
 
 import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
 import com.t_ovchinnikova.android.scandroid_2.core_domain.repository.CodeRepository
-import com.t_ovchinnikova.android.scandroid_2.core_domain.repository.SettingsRepository
+import com.t_ovchinnikova.android.scandroid_2.settings_impl.repository.SettingsRepository
 import com.t_ovchinnikova.android.scandroid_2.data.CodeMapper
 import com.t_ovchinnikova.android.scandroid_2.data.datasource.CodeDataSource
 import com.t_ovchinnikova.android.scandroid_2.data.datasource.InMemoryCodeDataStore

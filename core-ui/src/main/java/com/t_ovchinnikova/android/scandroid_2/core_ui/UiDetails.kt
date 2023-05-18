@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import com.t_ovchinnikova.android.scandroid_2.ui.theme.ColorSecondary
+import com.t_ovchinnikova.android.scandroid_2.core_ui.theme.ColorSecondary
 
 @Preview
 @Composable

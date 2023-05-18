@@ -5,7 +5,6 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
-import com.t_ovchinnikova.android.scandroid_2.CodeNavigationType
 import java.util.*
 
 fun NavGraphBuilder.historyScreenNavGraph(

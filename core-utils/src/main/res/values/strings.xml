@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Barcode formats-->
+    <string name="barcode_format_aztec" translatable="false">Aztec</string>
+    <string name="barcode_format_codabar" translatable="false">Codabar</string>
+    <string name="barcode_format_code_39" translatable="false">Code 39</string>
+    <string name="barcode_format_code_93" translatable="false">Code 93</string>
+    <string name="barcode_format_code_128" translatable="false">Code 128</string>
+    <string name="barcode_format_data_matrix" translatable="false">Data Matrix</string>
+    <string name="barcode_format_ean_8" translatable="false">EAN-8</string>
+    <string name="barcode_format_ean_13" translatable="false">EAN-13</string>
+    <string name="barcode_format_itf" translatable="false">ITF</string>
+    <string name="barcode_format_pdf_417" translatable="false">PDF417</string>
+    <string name="barcode_format_qr_code">QR Code</string>
+    <string name="barcode_format_UPC_A" translatable="false">UPC-A</string>
+    <string name="barcode_format_UPC_E" translatable="false">UPC-E</string>
+    <string name="barcode_format_unknown">Unknown Format</string>
+
+    <!--Barcode types-->
+    <string name="barcode_type_contact_info">Contact</string>
+    <string name="barcode_type_unknown">Unknown Type</string>
+    <string name="barcode_type_email" translatable="false">Email</string>
+    <string name="barcode_type_isbn" translatable="false">Isbn</string>
+    <string name="barcode_type_phone">Phone</string>
+    <string name="barcode_type_product">Product</string>
+    <string name="barcode_type_sms">SMS</string>
+    <string name="barcode_type_text">Text</string>
+    <string name="barcode_type_url" translatable="false">URL</string>
+    <string name="barcode_type_wifi" translatable="false">Wi-Fi</string>
+    <string name="barcode_type_geo">Location</string>
+    <string name="barcode_type_calendar_event">Event</string>
+    <string name="barcode_driver_license">Driver license</string>
+</resources>

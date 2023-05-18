@@ -8,4 +8,6 @@
     <string name="barcode_share_text">Поделиться текстом</string>
     <string name="save">Сохранить</string>
     <string name="note">Комментарий</string>
+
+    <string name="history">История</string>
 </resources>

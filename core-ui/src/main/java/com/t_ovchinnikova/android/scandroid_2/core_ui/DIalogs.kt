@@ -10,7 +10,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.t_ovchinnikova.android.scandroid_2.utils.EMPTY_STRING
 
 @Composable
 fun SimpleAlertDialog(

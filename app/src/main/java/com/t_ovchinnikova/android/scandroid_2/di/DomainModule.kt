@@ -1,9 +1,11 @@
 package com.t_ovchinnikova.android.scandroid_2.di
 
 import com.t_ovchinnikova.android.scandroid_2.core_domain.repository.CodeRepository
-import com.t_ovchinnikova.android.scandroid_2.core_domain.repository.SettingsRepository
+import com.t_ovchinnikova.android.scandroid_2.settings_impl.repository.SettingsRepository
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.*
 import com.t_ovchinnikova.android.scandroid_2.domain.usecases.interactors.*
+import com.t_ovchinnikova.android.scandroid_2.settings_impl.interactors.GetSettingsInteractor
+import com.t_ovchinnikova.android.scandroid_2.settings_impl.interactors.SaveSettingsInteractor
 import org.koin.dsl.module
 
 val domainModule = module {

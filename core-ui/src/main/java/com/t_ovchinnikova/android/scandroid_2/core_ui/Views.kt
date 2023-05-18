@@ -10,8 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.t_ovchinnikova.android.scandroid_2.ui.theme.ColorPrimary
-import com.t_ovchinnikova.android.scandroid_2.ui.theme.ColorSecondary
+import com.t_ovchinnikova.android.scandroid_2.core_ui.theme.ColorPrimary
+import com.t_ovchinnikova.android.scandroid_2.core_ui.theme.ColorSecondary
 
 
 @Composable

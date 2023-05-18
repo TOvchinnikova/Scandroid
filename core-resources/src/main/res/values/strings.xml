@@ -8,4 +8,6 @@
     <string name="barcode_share_text">Share as text</string>
     <string name="save">Save</string>
     <string name="note">Note</string>
+
+    <string name="history">History</string>
 </resources>

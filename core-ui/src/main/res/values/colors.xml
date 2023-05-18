@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="light_blue">#50DADF</color>
+    <color name="color_button_disable">#353434</color>
+    <color name="color_disable_text">#36FFFFFF</color>
+</resources>
