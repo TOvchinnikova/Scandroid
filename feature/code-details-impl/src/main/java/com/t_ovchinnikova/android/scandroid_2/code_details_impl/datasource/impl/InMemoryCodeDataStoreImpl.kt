@@ -1,6 +1,6 @@
-package com.t_ovchinnikova.android.scandroid_2.code_details_impl.datasource
+package com.t_ovchinnikova.android.scandroid_2.code_details_impl.datasource.impl
 
-import com.t_ovchinnikova.android.scandroid_2.code_details_api.datasource.InMemoryCodeDataStore
+import com.t_ovchinnikova.android.scandroid_2.code_details_impl.datasource.InMemoryCodeDataStore
 import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow

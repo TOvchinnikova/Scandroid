@@ -5,7 +5,7 @@ import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
 
 class CodeMapper {
 
-    fun mapEntityToDbModel(code: Code) = CodeDbModel(
+    fun mapEntityToDbModel(code: Code): CodeDbModel = CodeDbModel(
             id = code.id,
             text = code.text,
             format = code.format,
@@ -15,7 +15,7 @@ class CodeMapper {
             isFavorite = code.isFavorite
         )
 
-    fun mapDbModelToEntity(codeDbModel: CodeDbModel) = Code(
+    fun mapDbModelToEntity(codeDbModel: CodeDbModel): Code = Code(
             id = codeDbModel.id,
             text = codeDbModel.text,
             format = codeDbModel.format,
@@ -25,7 +25,7 @@ class CodeMapper {
             isFavorite = codeDbModel.isFavorite
         )
 
-    fun mapListDbModelToListEntity(list: List<CodeDbModel>) = list.map {
+    fun mapListDbModelToListEntity(list: List<CodeDbModel>): List<Code> = list.map {
         mapDbModelToEntity(it)
     }
 }
