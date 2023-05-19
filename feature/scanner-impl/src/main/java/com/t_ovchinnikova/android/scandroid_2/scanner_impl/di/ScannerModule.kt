@@ -2,7 +2,7 @@ package com.t_ovchinnikova.android.scandroid_2.scanner_impl.di
 
 import androidx.camera.core.ImageAnalysis
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.AddCodeUseCase
-import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.GetSettingsUseCase
+import com.t_ovchinnikova.android.scandroid_2.settings_api.usecases.GetSettingsUseCase
 import com.t_ovchinnikova.android.scandroid_2.scanner_api.ScanResultListener
 import com.t_ovchinnikova.android.scandroid_2.scanner_api.usecases.CropImageUseCase
 import com.t_ovchinnikova.android.scandroid_2.scanner_api.usecases.RecognizeCodeUseCase

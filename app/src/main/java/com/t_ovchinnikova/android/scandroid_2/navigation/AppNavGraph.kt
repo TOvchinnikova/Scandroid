@@ -8,10 +8,8 @@ import com.t_ovchinnikova.android.scandroid_2.code_details_impl.navigation.codeD
 import com.t_ovchinnikova.android.scandroid_2.code_details_impl.navigation.navigateToCodeDetails
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.navigation.codeListGraph
 import com.t_ovchinnikova.android.scandroid_2.scanner_impl.navigation.GRAPH_SCANNER
-import com.t_ovchinnikova.android.scandroid_2.scanner_impl.navigation.ROUTE_SCANNER
 import com.t_ovchinnikova.android.scandroid_2.scanner_impl.navigation.scannerGraph
-import com.t_ovchinnikova.android.scandroid_2.settings_impl.navigateToSettings
-import com.t_ovchinnikova.android.scandroid_2.settings_impl.settingsScreen
+import com.t_ovchinnikova.android.scandroid_2.settings_impl.navigation.settingsScreen
 
 @Composable
 fun AppNavGraph(

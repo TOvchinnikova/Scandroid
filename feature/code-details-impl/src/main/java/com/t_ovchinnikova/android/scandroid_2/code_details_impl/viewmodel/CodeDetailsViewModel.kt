@@ -7,7 +7,7 @@ import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.AddCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.DeleteCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.GetCodeUseCase
-import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.GetSettingsUseCase
+import com.t_ovchinnikova.android.scandroid_2.settings_api.usecases.GetSettingsUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch

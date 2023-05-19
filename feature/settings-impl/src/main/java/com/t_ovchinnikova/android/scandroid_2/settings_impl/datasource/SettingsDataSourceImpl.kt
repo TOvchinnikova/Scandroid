@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStoreFile
+import com.t_ovchinnikova.android.scandroid_2.settings_api.entity.SettingsData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -15,9 +16,9 @@ class SettingsDataSourceImpl(
     private val dataStore: DataStore<Preferences>
 ) : SettingsDataSource {
 
-    override fun getSettings(): Flow<com.t_ovchinnikova.android.scandroid_2.core_domain.entity.SettingsData> {
+    override fun getSettings(): Flow<SettingsData> {
         return dataStore.data.map { preferences ->
-            com.t_ovchinnikova.android.scandroid_2.core_domain.entity.SettingsData(
+            SettingsData(
                 isVibrationOnScan = preferences[VIBRATION_ON_SCAN_SETTINGS] ?: true,
                 isSaveScannedBarcodesToHistory = preferences[SAVE_SCANNED_BARCODE_TO_HISTORY_SETTINGS]
                     ?: true,
@@ -28,7 +29,7 @@ class SettingsDataSourceImpl(
         }
     }
 
-    override suspend fun saveSettings(settings: com.t_ovchinnikova.android.scandroid_2.core_domain.entity.SettingsData) {
+    override suspend fun saveSettings(settings: SettingsData) {
         dataStore.edit { preferences ->
             preferences[VIBRATION_ON_SCAN_SETTINGS] = settings.isVibrationOnScan
             preferences[SAVE_SCANNED_BARCODE_TO_HISTORY_SETTINGS] =

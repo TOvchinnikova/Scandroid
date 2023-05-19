@@ -1,10 +1,11 @@
-package com.t_ovchinnikova.android.scandroid_2.settings_impl
+package com.t_ovchinnikova.android.scandroid_2.settings_impl.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.SettingsData
-import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.GetSettingsUseCase
-import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.SaveSettingsUseCase
+import com.t_ovchinnikova.android.scandroid_2.settings_api.entity.SettingsData
+import com.t_ovchinnikova.android.scandroid_2.settings_api.usecases.GetSettingsUseCase
+import com.t_ovchinnikova.android.scandroid_2.settings_api.usecases.SaveSettingsUseCase
+import com.t_ovchinnikova.android.scandroid_2.settings_impl.ui.SettingsScreenState
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed

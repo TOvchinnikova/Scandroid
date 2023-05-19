@@ -15,7 +15,7 @@ import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.DeleteCodeUse
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.usecases.GetCodesUseCase
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.usecases.GetCodesWithFilterUseCase
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.usecases.interactors.GetCodesWithFilterInteractor
-import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.GetSettingsUseCase
+import com.t_ovchinnikova.android.scandroid_2.settings_api.usecases.GetSettingsUseCase
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -58,7 +58,7 @@ val codeListModule = module {
             deleteCodeUseCase = get() as DeleteCodeUseCase,
             getCodesUseCase = get() as GetCodesUseCase,
             addCodeUseCase = get() as AddCodeUseCase,
-            settingsUseCase = get() as GetSettingsUseCase
+            settingsUseCase = get() as com.t_ovchinnikova.android.scandroid_2.settings_api.usecases.GetSettingsUseCase
         )
     }
 }

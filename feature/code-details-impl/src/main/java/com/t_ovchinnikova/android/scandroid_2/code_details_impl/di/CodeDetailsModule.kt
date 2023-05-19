@@ -15,8 +15,7 @@ import com.t_ovchinnikova.android.scandroid_2.code_details_api.repository.CodeRe
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.AddCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.DeleteCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.GetCodeUseCase
-import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.GetSettingsUseCase
-import com.t_ovchinnikova.android.scandroid_2.settings_api.repository.SettingsRepository
+import com.t_ovchinnikova.android.scandroid_2.settings_api.usecases.GetSettingsUseCase
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import java.util.UUID
@@ -38,7 +37,7 @@ val codeDetailsModule = module {
         CodeRepositoryImpl(
             codeDataSource = get() as CodeDataSource,
             inMemoryCodeDataStore = get() as InMemoryCodeDataStore,
-            settingsRepository = get() as SettingsRepository
+            getSettingsUseCase = get() as GetSettingsUseCase
         )
     }
 

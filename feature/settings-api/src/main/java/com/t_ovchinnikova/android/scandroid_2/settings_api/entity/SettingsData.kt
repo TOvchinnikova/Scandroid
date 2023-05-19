@@ -1,4 +1,4 @@
-package com.t_ovchinnikova.android.scandroid_2.core_domain.entity
+package com.t_ovchinnikova.android.scandroid_2.settings_api.entity
 
 data class SettingsData(
     val isVibrationOnScan: Boolean,

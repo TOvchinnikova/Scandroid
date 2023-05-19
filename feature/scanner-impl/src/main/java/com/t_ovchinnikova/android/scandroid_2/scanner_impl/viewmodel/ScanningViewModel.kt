@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.AddCodeUseCase
-import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.GetSettingsUseCase
+import com.t_ovchinnikova.android.scandroid_2.settings_api.usecases.GetSettingsUseCase
 import com.t_ovchinnikova.android.scandroid_2.scanner_impl.ui.ScannerScreenState
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +20,7 @@ import java.util.UUID
 
 class ScanningViewModel(
     private val addCodeUseCase: AddCodeUseCase,
-    private val getSettingsUseCase: GetSettingsUseCase
+    private val getSettingsUseCase: com.t_ovchinnikova.android.scandroid_2.settings_api.usecases.GetSettingsUseCase
 ) : ViewModel() {
 
     private val _screenStateFlow = MutableStateFlow<ScannerScreenState>(ScannerScreenState.Initial)

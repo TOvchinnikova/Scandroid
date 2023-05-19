@@ -1,6 +1,6 @@
-package com.t_ovchinnikova.android.scandroid_2.settings_api.repository
+package com.t_ovchinnikova.android.scandroid_2.settings_impl.repository
 
-import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.SettingsData
+import com.t_ovchinnikova.android.scandroid_2.settings_api.entity.SettingsData
 import kotlinx.coroutines.flow.Flow
 
 interface SettingsRepository {
