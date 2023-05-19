@@ -32,14 +32,6 @@ class NavigationState(
         }
         //}
     }
-
-    fun navigateToCodeDetails(codeId: UUID) {
-        navHostController.navigate(Screen.CodeDetails.getRouteWithArgs(codeId))
-    }
-
-    fun navigateToHistoryCodeDetails(codeId: UUID) {
-        navHostController.navigate(Screen.HistoryCodeDetails.getRouteWithArgs(codeId))
-    }
 }
 
 @Composable

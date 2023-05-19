@@ -7,8 +7,6 @@ import com.t_ovchinnikova.android.scandroid_2.scanner_impl.di.scannerModule
 import com.t_ovchinnikova.android.scandroid_2.settings_impl.di.settingsModule
 
 val appModules = mutableListOf(
-    domainModule,
-    dataModule,
     databaseModule,
     codeDetailsModule,
     scannerModule,

@@ -42,6 +42,7 @@ dependencies {
     implementation project(':core-resources')
     implementation project(':core-ui')
     implementation project(':core-utils')
+    implementation project(':core-db-impl')
 
     //Koin
     implementation "io.insert-koin:koin-core:3.2.0"

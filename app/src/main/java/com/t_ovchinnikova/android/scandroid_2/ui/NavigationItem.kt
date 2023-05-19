@@ -1,29 +1,30 @@
 package com.t_ovchinnikova.android.scandroid_2.ui
 
 import com.t_ovchinnikova.android.scandroid_2.R
-import com.t_ovchinnikova.android.scandroid_2.navigation.Screen
+import com.t_ovchinnikova.android.scandroid_2.code_list_impl.navigation.GRAPH_HISTORY
 import com.t_ovchinnikova.android.scandroid_2.scanner_impl.navigation.GRAPH_SCANNER
+import com.t_ovchinnikova.android.scandroid_2.settings_impl.ROUTE_SETTINGS
 
 sealed class NavigationItem(
-    val screen: Screen,
+    val route: String,
     val titleResId: Int,
     val iconResId: Int
 ) {
 
     object Scanner : NavigationItem(
-        screen = Screen.ScannerMain,
+        route = GRAPH_SCANNER,
         titleResId = R.string.scanner,
         iconResId = R.drawable.ic_qr_code
     )
 
     object History : NavigationItem(
-        screen = Screen.HistoryMain,
+        route = GRAPH_HISTORY,
         titleResId = R.string.history,
         iconResId = R.drawable.ic_history
     )
 
     object Settings : NavigationItem(
-        screen = Screen.Settings,
+        route = ROUTE_SETTINGS,
         titleResId = R.string.settings,
         iconResId = R.drawable.ic_settings
     )

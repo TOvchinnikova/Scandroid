@@ -68,7 +68,7 @@ fun BottomBar(
         )
         items.forEach { item ->
             val selected = navBackStackEntry?.destination?.hierarchy?.any {
-                it.route == item.screen.route
+                it.route == item.route
             } ?: false
             BottomNavigationItem(
                 selected = selected,

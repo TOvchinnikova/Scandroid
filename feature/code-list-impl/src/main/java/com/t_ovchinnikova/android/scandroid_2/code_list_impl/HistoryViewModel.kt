@@ -2,6 +2,8 @@ package com.t_ovchinnikova.android.scandroid_2.code_list_impl
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.t_ovchinnikova.android.scandroid_2.code_list_impl.usecases.DeleteAllCodesUseCase
+import com.t_ovchinnikova.android.scandroid_2.code_list_impl.usecases.GetCodesUseCase
 import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.*
 import kotlinx.coroutines.Dispatchers.IO
