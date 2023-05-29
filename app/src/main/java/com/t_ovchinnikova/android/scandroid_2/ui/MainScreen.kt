@@ -24,32 +24,6 @@ fun MainScreen() {
         AppNavGraph(
             navHostController = navigationState.navHostController,
             paddingValues = paddingValues
-//            scannerScreenContent = {
-//                ScannerScreen(
-//                    paddingValues = paddingValues,
-//                    onScanListener = {
-//                        navigationState.navigateToCodeDetails(it)
-//                    }
-//                )
-//            },
-//            codeDetailsScreenContent = {
-//                CodeDetailsScreen(
-//                    codeId = it,
-//                    onBackPressed = {
-//                        navigationState.navHostController.popBackStack()
-//                    }
-//                )
-//            },
-//            historyScreenContent = {
-//                HistoryScreen(
-//                    codeItemClickListener = {
-//                        navigationState.navigateToHistoryCodeDetails(it)
-//                    }
-//                )
-//            },
-//            settingsScreenContent = {
-//                SettingsScreen()
-//            }
         )
     }
 }

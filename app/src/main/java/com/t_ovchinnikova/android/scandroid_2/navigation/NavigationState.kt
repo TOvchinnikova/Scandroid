@@ -15,7 +15,6 @@ class NavigationState(
     val navHostController: NavHostController
 ) {
     fun navigateTo(navigationItem: NavigationItem) {
-        //navHostController.navigate(route) {
         val navOptions = navOptions {
             popUpTo(navHostController.graph.findStartDestination().id) {
                 saveState = true
@@ -28,7 +27,6 @@ class NavigationState(
             NavigationItem.History -> navHostController.navigateToCodeListGraph(navOptions)
             NavigationItem.Settings -> navHostController.navigateToSettings(navOptions)
         }
-        //}
     }
 }
 
