@@ -6,6 +6,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.t_ovchinnikova.android.scandroid_2.code_details_impl.ui.CodeDetailsScreen
+import com.t_ovchinnikova.android.scandroid_2.core_utils.getSerializableArgument
 import java.util.UUID
 
 const val KEY_CODE_ID = "code_id"
@@ -30,8 +31,9 @@ fun NavGraphBuilder.codeDetailsScreen(
             }
         )
     ) {
-        val codeId = it.arguments?.getSerializable(KEY_CODE_ID) as UUID?
+        val codeId = it.arguments?.getSerializableArgument(KEY_CODE_ID, UUID::class.java)
             ?: throw RuntimeException("Args is null")
+
         CodeDetailsScreen(
             codeId = codeId,
             onBackPressed = onBackPressed
