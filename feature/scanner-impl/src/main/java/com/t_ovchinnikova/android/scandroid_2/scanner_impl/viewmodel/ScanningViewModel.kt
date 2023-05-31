@@ -20,7 +20,7 @@ import java.util.UUID
 
 class ScanningViewModel(
     private val addCodeUseCase: AddCodeUseCase,
-    private val getSettingsUseCase: com.t_ovchinnikova.android.scandroid_2.settings_api.usecases.GetSettingsUseCase
+    getSettingsUseCase: GetSettingsUseCase
 ) : ViewModel() {
 
     private val _screenStateFlow = MutableStateFlow<ScannerScreenState>(ScannerScreenState.Initial)

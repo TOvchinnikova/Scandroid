@@ -10,12 +10,11 @@ import com.t_ovchinnikova.android.scandroid_2.code_list_impl.repository.impl.Cod
 import com.t_ovchinnikova.android.scandroid_2.core_db_impl.CodeDao
 import com.t_ovchinnikova.android.scandroid_2.core_db_impl.mappers.CodeMapper
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.AddCodeUseCase
-import com.t_ovchinnikova.android.scandroid_2.code_list_impl.usecases.DeleteAllCodesUseCase
+import com.t_ovchinnikova.android.scandroid_2.code_list_api.repository.usecases.DeleteAllCodesUseCase
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.DeleteCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.usecases.GetCodesUseCase
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.usecases.GetCodesWithFilterUseCase
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.usecases.interactors.GetCodesWithFilterInteractor
-import com.t_ovchinnikova.android.scandroid_2.settings_api.usecases.GetSettingsUseCase
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
