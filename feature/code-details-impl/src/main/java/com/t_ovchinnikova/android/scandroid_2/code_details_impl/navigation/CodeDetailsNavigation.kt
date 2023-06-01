@@ -6,25 +6,30 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.t_ovchinnikova.android.scandroid_2.code_details_impl.ui.CodeDetailsScreen
+import com.t_ovchinnikova.android.scandroid_2.core_ui.MenuItemScreen
 import com.t_ovchinnikova.android.scandroid_2.core_utils.getSerializableArgument
 import java.util.UUID
 
 const val KEY_CODE_ID = "code_id"
 const val ROUTE_CODE_DETAILS = "code_details/{$KEY_CODE_ID}"
 private const val ROUTE_FOR_ARGS = "code_details"
+const val ROUTE_CODE_DETAILS_HISTORY = "code_details_history/{$KEY_CODE_ID}"
+private const val ROUTE_FOR_ARGS_HISTORY = "code_details_history"
 
 fun NavController.navigateToCodeDetails(
     navOptions: NavOptions? = null,
-    codeUuid: UUID
+    codeUuid: UUID,
+    parentScreen: MenuItemScreen
 ) {
-    this.navigate(getRouteWithArgs(codeUuid), navOptions)
+    this.navigate(getRouteWithArgs(codeUuid, parentScreen), navOptions)
 }
 
 fun NavGraphBuilder.codeDetailsScreen(
-    onBackPressed: () -> Unit
+    onBackPressed: () -> Unit,
+    parentScreen: MenuItemScreen
 ) {
     this.composable(
-        route = ROUTE_CODE_DETAILS,
+        route = getRoute(parentScreen),
         arguments = listOf(
             navArgument(KEY_CODE_ID) {
                 type = CodeNavigationType
@@ -41,6 +46,23 @@ fun NavGraphBuilder.codeDetailsScreen(
     }
 }
 
-private fun getRouteWithArgs(codeId: UUID): String {
-    return "$ROUTE_FOR_ARGS/$codeId"
+private fun getRouteWithArgs(
+    codeId: UUID,
+    parentScreen: MenuItemScreen
+): String {
+    return if (parentScreen == MenuItemScreen.SCANNER) {
+        "$ROUTE_FOR_ARGS/$codeId"
+    } else {
+        "$ROUTE_FOR_ARGS_HISTORY/$codeId"
+    }
+}
+
+private fun getRoute(
+    parentScreen: MenuItemScreen
+): String {
+    return if (parentScreen == MenuItemScreen.SCANNER) {
+        ROUTE_CODE_DETAILS
+    } else {
+        ROUTE_CODE_DETAILS_HISTORY
+    }
 }
