@@ -1,5 +1,6 @@
 package com.t_ovchinnikova.android.scandroid_2.code_list_impl
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -13,6 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -38,7 +40,6 @@ fun HistoryScreen(
     codeItemClickListener: (codeId: UUID) -> Unit,
     viewModel: HistoryViewModel = koinViewModel<HistoryViewModel>()
 ) {
-
     val screenState = viewModel.codesHistoryStateFlow.collectAsState()
 
     val deleteDialogState = rememberSaveable {
@@ -147,7 +148,20 @@ fun HistoryList(
             SwipeToDismiss(
                 modifier = Modifier.animateItemPlacement(),
                 state = dismissState,
-                background = {},
+                background = {
+                    val color by animateColorAsState(
+                        Color.Red
+                    )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = 4.dp)
+                            .background(color),
+                        contentAlignment = Alignment.CenterEnd
+                    ) {
+                        Icon(Icons.Default.Delete, contentDescription = null)
+                    }
+                },
                 directions = setOf(DismissDirection.EndToStart)
             ) {
                 HistoryItem(

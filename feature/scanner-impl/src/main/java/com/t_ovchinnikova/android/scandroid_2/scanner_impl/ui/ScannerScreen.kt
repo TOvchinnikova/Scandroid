@@ -40,9 +40,9 @@ import kotlin.coroutines.suspendCoroutine
 @Composable
 fun ScannerScreen(
     paddingValues: PaddingValues,
-    onScanListener: (codeId: UUID) -> Unit
+    onScanListener: (codeId: UUID) -> Unit,
+    viewModel: ScanningViewModel = koinViewModel<ScanningViewModel>()
 ) {
-    val viewModel = koinViewModel<ScanningViewModel>()
     val screenState = viewModel.screenStateFlow.collectAsState().value
 
     val context = LocalContext.current
@@ -165,15 +165,6 @@ fun CameraButtonPanel(
                             R.drawable.ic_flash_off
                         }
                     ),
-                    contentDescription = null
-                )
-            }
-            IconButton(
-                modifier = Modifier.size(70.dp),
-                onClick = { /*TODO добавить слушатель*/ }
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_image_analize),
                     contentDescription = null
                 )
             }
