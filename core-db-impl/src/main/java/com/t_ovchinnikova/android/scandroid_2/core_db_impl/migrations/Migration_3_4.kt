@@ -15,7 +15,7 @@ class Migration_3_4 : Migration(3, 4) {
                     "isFavorite INTEGER NOT NULL)"
         )
         val sql = "INSERT INTO $MIGRATION_TABLE_CODES (id, text, format, type, date, note, isFavorite) " +
-                "SELECT hex(randomblob(4))||'-'||hex(randomblob(2))||'-'||hex(randomblob(2))||'-'||hex(randomblob(2))||'-'||hex(randomblob(6)), " +
+                "SELECT lower(hex(randomblob(4))||'-'||hex(randomblob(2))||'-'||hex(randomblob(2))||'-'||hex(randomblob(2))||'-'||hex(randomblob(6))), " +
                         "text, format, type, date, note, isFavorite " +
                 "FROM $MIGRATION_TABLE_CODES_OLD"
         database.execSQL(sql)
