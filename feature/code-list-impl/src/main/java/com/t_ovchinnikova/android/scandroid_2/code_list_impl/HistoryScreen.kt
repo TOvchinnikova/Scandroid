@@ -5,17 +5,43 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.DismissDirection
+import androidx.compose.material.DismissValue
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.FractionalThreshold
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.SwipeToDismiss
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.rememberDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,16 +51,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
-import com.t_ovchinnikova.android.scandroid_2.core_utils.toStringRes
-import com.t_ovchinnikova.android.scandroid_2.core_ui.theme.ColorPrimary
 import com.t_ovchinnikova.android.scandroid_2.core_ui.CenterMessage
 import com.t_ovchinnikova.android.scandroid_2.core_ui.CenterProgress
 import com.t_ovchinnikova.android.scandroid_2.core_ui.SecondaryText
+import com.t_ovchinnikova.android.scandroid_2.core_ui.theme.ColorPrimary
+import com.t_ovchinnikova.android.scandroid_2.core_utils.toStringRes
 import org.koin.androidx.compose.koinViewModel
-import java.util.*
+import java.util.UUID
 
 // todo здесь необходимо реализовать поиск по списку
-// todo здесь необходимо реализовать удаление по свайпу влево
 @Composable
 fun HistoryScreen(
     codeItemClickListener: (codeId: UUID) -> Unit,
@@ -141,28 +166,41 @@ fun HistoryList(
             items = codes,
             key = { it.id }
         ) { code ->
-            val dismissState = rememberDismissState()
-            if (dismissState.isDismissed(DismissDirection.EndToStart)) {
-                onRemoveListener(code.id)
-            }
+            val currentItem by rememberUpdatedState(code)
+            val dismissState = rememberDismissState(
+                confirmStateChange = {
+                    when (it) {
+                        DismissValue.DismissedToStart -> {
+                            onRemoveListener(currentItem.id)
+                            true
+                        }
+                        else -> { false }
+                    }
+                }
+            )
             SwipeToDismiss(
                 modifier = Modifier.animateItemPlacement(),
                 state = dismissState,
                 background = {
-                    val color by animateColorAsState(
-                        Color.Red
-                    )
+                    val color by animateColorAsState(Color.Red)
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(horizontal = 4.dp)
-                            .background(color),
+                            .background(color, shape = MaterialTheme.shapes.medium),
                         contentAlignment = Alignment.CenterEnd
                     ) {
-                        Icon(Icons.Default.Delete, contentDescription = null)
+                        Icon(
+                            modifier = Modifier.padding(end = 14.dp),
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = null,
+                            tint = Color.White
+                        )
                     }
                 },
-                directions = setOf(DismissDirection.EndToStart)
+                directions = setOf(DismissDirection.EndToStart),
+                dismissThresholds = {
+                    FractionalThreshold(0.66f)
+                }
             ) {
                 HistoryItem(
                     code = code,
