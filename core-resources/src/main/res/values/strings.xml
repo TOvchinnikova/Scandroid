@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="delete_question_dialog_title">Deletion</string>
+    <string name="delete_question_dialog">Do you want to remove this code from your scan history?</string>
+    <string name="delete_dialog_cancel_button">Cancel</string>
+    <string name="delete_dialog_delete_button">Delete</string>
+    <string name="barcode_search">Search on the internet</string>
+    <string name="barcode_share_text">Share as text</string>
+    <string name="save">Save</string>
+    <string name="note">Note</string>
+
+    <string name="history">History</string>
+</resources>

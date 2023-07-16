@@ -1,33 +1,55 @@
 package com.t_ovchinnikova.android.scandroid_2.navigation
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import java.util.UUID
+import com.t_ovchinnikova.android.scandroid_2.code_details_impl.navigation.codeDetailsScreen
+import com.t_ovchinnikova.android.scandroid_2.code_details_impl.navigation.navigateToCodeDetails
+import com.t_ovchinnikova.android.scandroid_2.code_list_impl.navigation.codeListGraph
+import com.t_ovchinnikova.android.scandroid_2.core_ui.MenuItemScreen
+import com.t_ovchinnikova.android.scandroid_2.scanner_impl.navigation.GRAPH_SCANNER
+import com.t_ovchinnikova.android.scandroid_2.scanner_impl.navigation.scannerGraph
+import com.t_ovchinnikova.android.scandroid_2.settings_impl.navigation.settingsScreen
 
 @Composable
 fun AppNavGraph(
     navHostController: NavHostController,
-    scannerScreenContent: @Composable () -> Unit,
-    codeDetailsScreenContent: @Composable (codeId: UUID) -> Unit,
-    historyScreenContent: @Composable () -> Unit,
-    settingsScreenContent: @Composable () -> Unit
+    paddingValues: PaddingValues,
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = Screen.ScannerMain.route
+        startDestination = GRAPH_SCANNER
     ) {
-        scannerScreenNavGraph(
-            scannerScreenContent,
-            codeDetailsScreenContent
+        scannerGraph(
+            paddingValues = paddingValues,
+            onScanListener = { codeUuid ->
+                navHostController.navigateToCodeDetails(
+                    codeUuid = codeUuid,
+                    parentScreen = MenuItemScreen.SCANNER
+                )
+            },
+            nestedGraphs = {
+                codeDetailsScreen(
+                    onBackPressed = navHostController::popBackStack,
+                    parentScreen = MenuItemScreen.SCANNER
+                )
+            }
         )
-        historyScreenNavGraph(
-            historyScreenContent,
-            codeDetailsScreenContent
+        codeListGraph(
+            codeItemClickListener = { codeUuid ->
+                navHostController.navigateToCodeDetails(
+                    codeUuid = codeUuid,
+                    parentScreen = MenuItemScreen.HISTORY
+                )
+            },
+            nestedGraphs = {
+                codeDetailsScreen(
+                    onBackPressed = navHostController::popBackStack,
+                    parentScreen = MenuItemScreen.HISTORY
+                )
+            }
         )
-        composable(Screen.Settings.route) {
-            settingsScreenContent()
-        }
+        settingsScreen()
     }
 }

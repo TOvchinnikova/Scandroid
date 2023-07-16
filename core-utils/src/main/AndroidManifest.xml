@@ -1,0 +1,5 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.t_ovchinnikova.android.scandroid_2.core_utils">
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+</manifest>

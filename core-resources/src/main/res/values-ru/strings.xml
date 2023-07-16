@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="delete_question_dialog_title">Удаление</string>
+    <string name="delete_question_dialog">Вы хотите удалить этот код из истории сканирования?</string>
+    <string name="delete_dialog_cancel_button">Отмена</string>
+    <string name="delete_dialog_delete_button">Удалить</string>
+    <string name="barcode_search">Поиск в интернете</string>
+    <string name="barcode_share_text">Поделиться текстом</string>
+    <string name="save">Сохранить</string>
+    <string name="note">Комментарий</string>
+
+    <string name="history">История</string>
+</resources>

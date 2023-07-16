@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Формат кода-->
+    <string name="barcode_format_qr_code">QR-код</string>
+    <string name="barcode_format_unknown">Неизвестный формат</string>
+
+    <!--Тип кода-->
+    <string name="barcode_type_contact_info">Контакт</string>
+    <string name="barcode_type_unknown">Неизвестный тип</string>
+    <string name="barcode_type_phone">Телефон</string>
+    <string name="barcode_type_product">Продукт</string>
+    <string name="barcode_type_sms">СМС</string>
+    <string name="barcode_type_text">Текст</string>
+    <string name="barcode_type_geo">Геолокация</string>
+    <string name="barcode_type_calendar_event">Событие</string>
+    <string name="barcode_driver_license">Водительские права</string>
+</resources>

@@ -10,10 +10,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.t_ovchinnikova.android.scandroid_2.navigation.AppNavGraph
 import com.t_ovchinnikova.android.scandroid_2.navigation.NavigationState
 import com.t_ovchinnikova.android.scandroid_2.navigation.rememberNavigationState
-import com.t_ovchinnikova.android.scandroid_2.ui.code_info.CodeDetailsScreen
-import com.t_ovchinnikova.android.scandroid_2.ui.history.HistoryScreen
-import com.t_ovchinnikova.android.scandroid_2.ui.scanner.ScannerScreen
-import com.t_ovchinnikova.android.scandroid_2.ui.settings.SettingsScreen
 
 @Composable
 fun MainScreen() {
@@ -27,32 +23,7 @@ fun MainScreen() {
     ) { paddingValues ->  
         AppNavGraph(
             navHostController = navigationState.navHostController,
-            scannerScreenContent = {
-                ScannerScreen(
-                    paddingValues = paddingValues,
-                    onScanListener = {
-                        navigationState.navigateToCodeDetails(it)
-                    }
-                )
-            },
-            codeDetailsScreenContent = {
-                CodeDetailsScreen(
-                    codeId = it,
-                    onBackPressed = {
-                        navigationState.navHostController.popBackStack()
-                    }
-                )
-            },
-            historyScreenContent = {
-                HistoryScreen(
-                    codeItemClickListener = {
-                        navigationState.navigateToHistoryCodeDetails(it)
-                    }
-                )
-            },
-            settingsScreenContent = {
-                SettingsScreen()
-            }
+            paddingValues = paddingValues
         )
     }
 }
@@ -71,12 +42,12 @@ fun BottomBar(
         )
         items.forEach { item ->
             val selected = navBackStackEntry?.destination?.hierarchy?.any {
-                it.route == item.screen.route
+                it.route == item.route
             } ?: false
             BottomNavigationItem(
                 selected = selected,
                 onClick = { if (!selected) {
-                    navigationState.navigateTo(item.screen.route)
+                    navigationState.navigateTo(item)
                 }
                 },
                 icon = {
