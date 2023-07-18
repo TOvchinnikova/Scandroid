@@ -125,7 +125,10 @@ fun HistoryAppBar(
                     contentPadding = PaddingValues(0.dp),
                     trailingIcon = {
                         if (searchState.value != EMPTY) IconButton(
-                            onClick = { onSearchEditingListener.invoke(EMPTY) },
+                            onClick = {
+                                searchState.value = EMPTY
+                                onSearchEditingListener.invoke(EMPTY)
+                            },
                             modifier = Modifier.size(20.dp)
                         ) {
                             Icon(
