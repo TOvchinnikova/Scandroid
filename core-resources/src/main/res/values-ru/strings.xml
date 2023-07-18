@@ -10,4 +10,5 @@
     <string name="note">Комментарий</string>
 
     <string name="history">История</string>
+    <string name="barcode_search_on_list">Поиск в списке</string>
 </resources>

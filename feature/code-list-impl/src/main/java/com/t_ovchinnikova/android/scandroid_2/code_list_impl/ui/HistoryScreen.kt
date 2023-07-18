@@ -48,6 +48,7 @@ fun HistoryScreen(
                 progress = progress,
                 motionHeight = motionHeight,
                 title = stringResource(id = R.string.history),
+                onSearchEditingListener = { viewModel.searchCodes(it) },
                 deleteClickListener = { deleteDialogState.value = true }
             )
         }

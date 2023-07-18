@@ -10,4 +10,5 @@
     <string name="note">Note</string>
 
     <string name="history">History</string>
+    <string name="barcode_search_on_list">Search on the list</string>
 </resources>

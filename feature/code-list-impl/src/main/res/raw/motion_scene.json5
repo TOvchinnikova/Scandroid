@@ -40,6 +40,7 @@
         top: ['parent', 'top', 16]},
       search_field: {
         width: 'spread',
+        height: 40,
         start: ['parent', 'start', 16],
         end: ['delete_button', 'start', 16],
         top: ['parent', 'top', 16],

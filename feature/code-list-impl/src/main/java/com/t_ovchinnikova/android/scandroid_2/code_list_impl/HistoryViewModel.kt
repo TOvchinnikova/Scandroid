@@ -73,4 +73,8 @@ class HistoryViewModel(
             )
         }
     }
+
+    fun searchCodes(condition: String) {
+
+    }
 }
