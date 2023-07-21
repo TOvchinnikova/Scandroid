@@ -7,8 +7,10 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -33,12 +35,18 @@ fun HistoryScreen(
 
     val lazyScrollState = rememberLazyListState()
 
+    val collapsedState by remember {
+        derivedStateOf {
+            lazyScrollState.firstVisibleItemIndex !in 0..1
+        }
+    }
+
     val progress by animateFloatAsState(
-        targetValue = if (lazyScrollState.firstVisibleItemIndex in 0..1) 0f else 1f,
+        targetValue = if (collapsedState) 1f else 0f,
         tween(500)
     )
     val motionHeight by animateDpAsState(
-        targetValue = if (lazyScrollState.firstVisibleItemIndex in 0..1) 112.dp else 56.dp,
+        targetValue = if (collapsedState) 56.dp else 112.dp,
         tween(500)
     )
 
