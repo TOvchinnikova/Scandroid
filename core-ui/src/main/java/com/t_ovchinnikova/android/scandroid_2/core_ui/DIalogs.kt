@@ -18,7 +18,7 @@ fun SimpleAlertDialog(
     dismissClickListener: () -> Unit,
     dismissButtonText: String,
     confirmClickListener: (() -> Unit)? = null,
-    confirmButtonText: String = EMPTY_STRING
+    confirmButtonText: String = EMPTY
 ) {
     AlertDialog(
         title = { Text(text = title, style = typography.h6) },
@@ -53,12 +53,12 @@ fun SimpleAlertDialog(
 fun AlertDialogWithTextField(
     title: String,
     subtitle: String? = null,
-    text: String = EMPTY_STRING,
-    textHint: String = EMPTY_STRING,
+    text: String = EMPTY,
+    textHint: String = EMPTY,
     dismissClickListener: () -> Unit,
     dismissButtonText: String,
     confirmClickListener: ((note: String) -> Unit),
-    confirmButtonText: String = EMPTY_STRING
+    confirmButtonText: String = EMPTY
 ) {
     val textState = rememberSaveable { mutableStateOf(text) }
 

@@ -5,7 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.t_ovchinnikova.android.scandroid_2.code_list_impl.HistoryScreen
+import com.t_ovchinnikova.android.scandroid_2.code_list_impl.ui.HistoryScreen
 import java.util.UUID
 
 const val ROUTE_HISTORY = "history"

@@ -13,11 +13,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import com.t_ovchinnikova.android.scandroid_2.code_details_impl.R
-import com.t_ovchinnikova.android.scandroid_2.core_ui.EMPTY_STRING
+import com.t_ovchinnikova.android.scandroid_2.core_ui.EMPTY
 
 @Composable
 fun CodeDetailsTopAppBar(
-    title: String = EMPTY_STRING,
+    title: String = EMPTY,
     onBackPressed: () -> Unit,
     isFavourite: Boolean = false,
     onFavouriteClickListener: (() -> Unit)? = null,
