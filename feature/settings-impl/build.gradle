@@ -5,11 +5,11 @@ plugins {
 
 android {
     namespace 'com.t_ovchinnikova.android.scandroid_2.settings_impl'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         minSdk 21
-        targetSdk 33
+        targetSdk 34
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -44,7 +44,7 @@ dependencies {
 
     implementation "androidx.datastore:datastore-preferences:1.0.0"
 
-    implementation "androidx.navigation:navigation-compose:2.5.3"
+    implementation "androidx.navigation:navigation-compose:2.7.0-beta02"
 
     //Koin
     implementation "io.insert-koin:koin-core:3.2.0"
