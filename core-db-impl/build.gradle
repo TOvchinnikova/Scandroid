@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
+    id 'com.google.devtools.ksp'
 }
 
 android {
@@ -38,9 +38,9 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.8.0'
 
     //Room
-    implementation 'androidx.room:room-runtime:2.4.3'
-    implementation "androidx.room:room-ktx:2.4.3"
-    kapt 'androidx.room:room-compiler:2.4.3'
+    implementation 'androidx.room:room-runtime:2.5.2'
+    implementation "androidx.room:room-ktx:2.5.2"
+    ksp 'androidx.room:room-compiler:2.5.2'
 
     //Koin
     implementation "io.insert-koin:koin-core:3.2.2"
