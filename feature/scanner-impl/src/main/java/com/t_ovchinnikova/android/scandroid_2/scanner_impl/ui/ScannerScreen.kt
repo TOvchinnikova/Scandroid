@@ -15,6 +15,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -46,7 +47,7 @@ fun ScannerScreen(
     val screenState = viewModel.screenStateFlow.collectAsState().value
 
     val context = LocalContext.current
-    val executor = context.executor
+
     val previewCameraView = remember {
         PreviewView(context).apply {
             this.scaleType = scaleType
@@ -104,7 +105,7 @@ fun ScannerScreen(
                         ProcessCameraProvider.getInstance(context).also { future ->
                             future.addListener({
                                 continuation.resume(future.get())
-                            }, executor)
+                            }, context.executor)
                         }
                     }
                     val previewUseCase = Preview.Builder()

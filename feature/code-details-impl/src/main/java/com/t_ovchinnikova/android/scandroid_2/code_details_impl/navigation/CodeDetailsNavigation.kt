@@ -1,5 +1,15 @@
 package com.t_ovchinnikova.android.scandroid_2.code_details_impl.navigation
 
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.VisibilityThreshold
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.expandIn
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.shrinkOut
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.unit.IntSize
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
