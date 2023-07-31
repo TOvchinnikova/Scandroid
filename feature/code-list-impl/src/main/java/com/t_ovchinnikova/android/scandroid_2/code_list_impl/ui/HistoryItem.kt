@@ -23,13 +23,34 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.R
 import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
+import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.CodeFormat
+import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.CodeType
 import com.t_ovchinnikova.android.scandroid_2.core_ui.SecondaryText
 import com.t_ovchinnikova.android.scandroid_2.core_ui.theme.ColorPrimary
 import com.t_ovchinnikova.android.scandroid_2.core_utils.toStringRes
 import java.util.UUID
+
+@Preview
+@Composable
+fun HistoryItemPreview() {
+    HistoryItem(
+        code = Code(
+            id = UUID.randomUUID(),
+            text = "1234567891011111",
+            format = CodeFormat.QR_CODE,
+            type = CodeType.TEXT,
+            note = "Note",
+            isFavorite = true
+        ),
+        onFavouriteClickListener = { },
+        codeItemClickListener = { },
+        isSaveBarcodesToHistory = false
+    )
+}
 
 @Composable
 fun HistoryItem(

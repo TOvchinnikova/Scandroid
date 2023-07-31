@@ -10,7 +10,6 @@
       <module name="Scandroid_2.core-utils" target="17" />
       <module name="Scandroid_2.feature.code-details-api" target="17" />
       <module name="Scandroid_2.feature.code-details-impl" target="17" />
-      <module name="Scandroid_2.feature.code-list-api" target="17" />
       <module name="Scandroid_2.feature.code-list-impl" target="17" />
       <module name="Scandroid_2.feature.scanner-api" target="17" />
       <module name="Scandroid_2.feature.scanner-impl" target="17" />
