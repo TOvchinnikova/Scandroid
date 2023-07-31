@@ -5,13 +5,15 @@ plugins {
 }
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 34
     buildToolsVersion "30.0.3"
+
+    namespace "com.t_ovchinnikova.android.scandroid_2"
 
     defaultConfig {
         applicationId "com.t_ovchinnikova.android.scandroid_2"
         minSdkVersion 23
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode 2
         versionName "1.0"
 
@@ -44,7 +46,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion compose_version
+        kotlinCompilerExtensionVersion compose_compiler_version
     }
 }
 
@@ -64,25 +66,21 @@ dependencies {
     implementation project(':feature:settings-impl')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.8.0'
-    implementation 'androidx.appcompat:appcompat:1.4.2'
-    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'androidx.core:core-ktx:1.10.1'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    testImplementation 'junit:junit:4.13.2'
-    implementation 'androidx.fragment:fragment-ktx:1.5.0'
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0"
-    implementation 'com.google.android.material:material:1.6.1'
-//    implementation "androidx.datastore:datastore-preferences:1.0.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1"
+    implementation 'com.google.android.material:material:1.9.0'
 
     //Compose
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
-    implementation 'androidx.activity:activity-compose:1.7.0'
-    implementation "androidx.navigation:navigation-compose:2.5.3"
-    implementation 'androidx.compose.runtime:runtime-livedata:1.4.0'
+    implementation 'androidx.activity:activity-compose:1.7.2'
+    implementation "androidx.navigation:navigation-compose:2.7.0-beta02"
     implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1'
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
@@ -94,15 +92,13 @@ dependencies {
     implementation 'com.google.mlkit:object-detection-custom:17.0.0'
 
     //Coroutine
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.3"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.2"
 
     //Koin
-    implementation "io.insert-koin:koin-core:3.2.0"
-    implementation "io.insert-koin:koin-android:3.2.0"
+    implementation "io.insert-koin:koin-core:3.4.2"
+    implementation "io.insert-koin:koin-android:3.4.2"
     implementation "io.insert-koin:koin-androidx-compose:3.3.0"
-    //implementation "io.insert-koin:koin-androidx-compose:3.2.0"
 
-    // Image
-    implementation 'com.github.CanHub:Android-Image-Cropper:4.3.1'
+    testImplementation 'junit:junit:4.13.2'
 }

@@ -1,5 +1,7 @@
 package com.t_ovchinnikova.android.scandroid_2.navigation
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
@@ -19,7 +21,11 @@ fun AppNavGraph(
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = GRAPH_SCANNER
+        startDestination = GRAPH_SCANNER,
+        enterTransition = { EnterTransition.None },
+        exitTransition = { ExitTransition.None },
+        popEnterTransition = { EnterTransition.None },
+        popExitTransition = { ExitTransition.None }
     ) {
         scannerGraph(
             paddingValues = paddingValues,

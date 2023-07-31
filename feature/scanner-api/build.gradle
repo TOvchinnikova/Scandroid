@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace 'com.t_ovchinnikova.android.scandroid_2.scanner_api'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         minSdk 23
@@ -33,11 +33,11 @@ android {
 dependencies {
     implementation project(":core-domain")
 
-    implementation "androidx.navigation:navigation-compose:2.5.3"
+    implementation "androidx.navigation:navigation-compose:2.7.0-beta02"
 
     // Object feature and model
     implementation 'com.google.mlkit:object-detection:17.0.0'
     
     // CameraX
-    implementation "androidx.camera:camera-camera2:1.0.2"
+    implementation "androidx.camera:camera-camera2:1.2.3"
 }
