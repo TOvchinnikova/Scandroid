@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="1.7">
-      <module name="Scandroid_2.app" target="17" />
-      <module name="Scandroid_2.core-db-impl" target="17" />
+    <bytecodeTargetLevel target="1.8">
+      <module name="Scandroid_2.app" target="15" />
+      <module name="Scandroid_2.core-db-impl" target="15" />
       <module name="Scandroid_2.core-platform-utils" target="17" />
-      <module name="Scandroid_2.core-resources" target="17" />
-      <module name="Scandroid_2.core-ui" target="17" />
-      <module name="Scandroid_2.core-utils" target="17" />
-      <module name="Scandroid_2.feature.code-details-api" target="17" />
-      <module name="Scandroid_2.feature.code-details-impl" target="17" />
-      <module name="Scandroid_2.feature.code-list-impl" target="17" />
-      <module name="Scandroid_2.feature.scanner-api" target="17" />
-      <module name="Scandroid_2.feature.scanner-impl" target="17" />
-      <module name="Scandroid_2.feature.settings-api" target="17" />
-      <module name="Scandroid_2.feature.settings-impl" target="17" />
+      <module name="Scandroid_2.core-resources" target="15" />
+      <module name="Scandroid_2.core-ui" target="15" />
+      <module name="Scandroid_2.core-utils" target="15" />
+      <module name="Scandroid_2.feature.code-details-api" target="15" />
+      <module name="Scandroid_2.feature.code-details-impl" target="15" />
+      <module name="Scandroid_2.feature.code-list-impl" target="15" />
+      <module name="Scandroid_2.feature.scanner-api" target="15" />
+      <module name="Scandroid_2.feature.scanner-impl" target="15" />
+      <module name="Scandroid_2.feature.settings-api" target="15" />
+      <module name="Scandroid_2.feature.settings-impl" target="15" />
     </bytecodeTargetLevel>
   </component>
 </project>
