@@ -22,6 +22,9 @@ import com.t_ovchinnikova.android.scandroid_2.core_ui.CenterProgress
 import org.koin.androidx.compose.koinViewModel
 import java.util.UUID
 
+private const val MOTION_HEIGHT_KEY = "Motion height"
+private const val PROGRESS_KEY = "Progress"
+
 @Composable
 fun HistoryScreen(
     codeItemClickListener: (codeId: UUID) -> Unit,
@@ -43,11 +46,11 @@ fun HistoryScreen(
 
     val progress by animateFloatAsState(
         targetValue = if (collapsedState) 1f else 0f,
-        tween(500)
+        tween(500), label = PROGRESS_KEY
     )
     val motionHeight by animateDpAsState(
         targetValue = if (collapsedState) 56.dp else 112.dp,
-        tween(500)
+        tween(500), label = MOTION_HEIGHT_KEY
     )
 
     Scaffold(

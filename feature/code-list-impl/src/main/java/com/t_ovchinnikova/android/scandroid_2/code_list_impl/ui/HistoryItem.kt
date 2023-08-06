@@ -28,9 +28,13 @@ import com.t_ovchinnikova.android.scandroid_2.code_list_impl.R
 import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
 import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.CodeFormat
 import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.CodeType
+import com.t_ovchinnikova.android.scandroid_2.core_ui.DATE_PATTERN_STRING
 import com.t_ovchinnikova.android.scandroid_2.core_ui.SecondaryText
 import com.t_ovchinnikova.android.scandroid_2.core_ui.theme.ColorPrimary
+import com.t_ovchinnikova.android.scandroid_2.core_utils.toStringByPattern
 import com.t_ovchinnikova.android.scandroid_2.core_utils.toStringRes
+import java.text.SimpleDateFormat
+import java.util.Locale
 import java.util.UUID
 
 @Composable
@@ -80,7 +84,9 @@ fun HistoryItem(
                     )
                 }
                 SecondaryText(
-                    text = code.date.toString()
+                    text = code.date.toStringByPattern(
+                        SimpleDateFormat(DATE_PATTERN_STRING, Locale.ENGLISH)
+                    )
                 )
             }
             Column(
