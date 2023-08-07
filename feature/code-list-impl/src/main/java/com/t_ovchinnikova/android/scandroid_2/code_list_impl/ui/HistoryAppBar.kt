@@ -78,7 +78,7 @@ fun HistoryAppBar(
             Box(
                 modifier = Modifier
                     .layoutId("app_bar")
-                    .background(ColorPrimary)
+                    .background(MaterialTheme.colors.background)
             )
 
             Text(

@@ -1,8 +1,10 @@
 package com.t_ovchinnikova.android.scandroid_2.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -56,7 +58,7 @@ fun BottomBar(
                 label = {
                     Text(text = stringResource(id = item.titleResId))
                 },
-                selectedContentColor = MaterialTheme.colors.onPrimary,
+                selectedContentColor = MaterialTheme.colors.primary,
                 unselectedContentColor = MaterialTheme.colors.onSecondary
             )
         }
