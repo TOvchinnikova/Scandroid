@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         minSdk 23
-        targetSdk 33
+        targetSdk 34
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -33,7 +33,7 @@ android {
 dependencies {
     implementation project(":core-domain")
 
-    implementation "androidx.navigation:navigation-compose:2.7.0-beta02"
+    implementation "androidx.navigation:navigation-compose:2.7.0-rc01"
 
     // Object feature and model
     implementation 'com.google.mlkit:object-detection:17.0.0'

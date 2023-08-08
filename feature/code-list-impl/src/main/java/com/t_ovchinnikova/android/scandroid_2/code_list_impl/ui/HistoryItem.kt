@@ -16,19 +16,25 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
-import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.R
 import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
+import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.CodeFormat
+import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.CodeType
+import com.t_ovchinnikova.android.scandroid_2.core_ui.DATE_PATTERN_STRING
 import com.t_ovchinnikova.android.scandroid_2.core_ui.SecondaryText
 import com.t_ovchinnikova.android.scandroid_2.core_ui.theme.ColorPrimary
+import com.t_ovchinnikova.android.scandroid_2.core_utils.toStringByPattern
 import com.t_ovchinnikova.android.scandroid_2.core_utils.toStringRes
+import java.text.SimpleDateFormat
+import java.util.Locale
 import java.util.UUID
 
 @Composable
@@ -38,9 +44,6 @@ fun HistoryItem(
     codeItemClickListener: (codeId: UUID) -> Unit,
     isSaveBarcodesToHistory: Boolean
 ) {
-    val drawableResource =
-        if (code.isFavorite) R.drawable.ic_favorite_on else R.drawable.ic_favorite_off
-
     Card(
         modifier = Modifier
             .clickable { codeItemClickListener(code.id) }
@@ -81,28 +84,56 @@ fun HistoryItem(
                     )
                 }
                 SecondaryText(
-                    text = code.date.toString()
+                    text = code.date.toStringByPattern(
+                        SimpleDateFormat(DATE_PATTERN_STRING, Locale.ENGLISH)
+                    )
                 )
             }
             Column(
                 modifier = Modifier
                     .fillMaxHeight(),
-                horizontalAlignment = Alignment.End,
+                horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
-                IconButton(
-                    enabled = isSaveBarcodesToHistory,
-                    onClick = { onFavouriteClickListener(code) }
-                ) {
-                    Image(
-                        painter = painterResource(id = drawableResource),
-                        contentDescription = null
-                    )
-                }
+                Image(
+                    modifier = Modifier
+                        .padding(bottom = 8.dp)
+                        .clickable {
+                            if (isSaveBarcodesToHistory) {
+                                onFavouriteClickListener(code)
+                            }
+                        },
+                    painter = painterResource(
+                        id = if (code.isFavorite) {
+                            R.drawable.ic_favorite_on
+                        } else {
+                            R.drawable.ic_favorite_off
+                        }
+                    ),
+                    contentDescription = null
+                )
                 SecondaryText(
                     text = stringResource(id = code.format.toStringRes())
                 )
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun HistoryItemPreview() {
+    HistoryItem(
+        code = Code(
+            id = UUID.randomUUID(),
+            text = "1234567891011111",
+            format = CodeFormat.QR_CODE,
+            type = CodeType.TEXT,
+            note = "Note",
+            isFavorite = true
+        ),
+        onFavouriteClickListener = { },
+        codeItemClickListener = { },
+        isSaveBarcodesToHistory = false
+    )
 }

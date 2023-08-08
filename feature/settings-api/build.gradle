@@ -31,5 +31,5 @@ android {
 }
 
 dependencies {
-    implementation "androidx.navigation:navigation-compose:2.7.0-beta02"
+    implementation "androidx.navigation:navigation-compose:2.7.0-rc01"
 }

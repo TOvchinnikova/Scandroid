@@ -34,9 +34,12 @@ class CodeRepositoryImpl(
         return flow {
             if (inMemoryCodeDataStore.getCodeById(codeUuid) != null) {
                 emitAll(inMemoryCodeDataStore.getCodeAsync())
-                return@flow
+            } else {
+                codeDataSource.getCodeById(codeUuid)?.let {
+                    inMemoryCodeDataStore.setCode(it)
+                    emit(it)
+                }
             }
-            emitAll(codeDataSource.getCodeByIdAsync(codeUuid))
         }
     }
 

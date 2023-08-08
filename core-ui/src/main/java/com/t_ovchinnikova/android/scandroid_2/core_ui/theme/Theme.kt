@@ -11,12 +11,12 @@ private val DarkColorPalette = darkColors(
     primary = ColorPrimary,
     primaryVariant = ColorPrimary,
     secondary = ColorSecondary,
-    background = Color.Black,
-    surface = Color.Black,
+    background = DarkColorBackground,
+    surface = DarkColorBackground,
     onPrimary = Color.Black,
     onSecondary = Color.White,
     onBackground = Color.White,
-    onSurface = Color.White,
+    onSurface = ColorSecondary
 )
 
 private val LightColorPalette = lightColors(
@@ -36,6 +36,7 @@ fun ScandroidTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
+
     val colors = if (darkTheme) {
         DarkColorPalette
     } else {

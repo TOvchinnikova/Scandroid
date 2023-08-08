@@ -108,9 +108,7 @@ fun CodeDetailsScreen(
             dismissButtonText = stringResource(id = R.string.delete_dialog_cancel_button),
             confirmClickListener = {
                 viewModel.deleteBarcode(codeId)
-                deleteDialogState.value = false
                 onBackPressed()
-                deleteDialogState.value = false
             },
             confirmButtonText = stringResource(id = R.string.delete_dialog_delete_button)
         )
