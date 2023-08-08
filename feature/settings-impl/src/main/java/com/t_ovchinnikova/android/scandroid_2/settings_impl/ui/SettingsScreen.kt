@@ -163,7 +163,7 @@ private fun SettingsItem(
             checked = isChecked,
             onCheckedChange = clickListener,
             colors = SwitchDefaults.colors(
-                checkedThumbColor = MaterialTheme.colors.primary,
+                checkedThumbColor = MaterialTheme.colors.primaryVariant,
                 uncheckedThumbColor = MaterialTheme.colors.secondary
             )
         )
