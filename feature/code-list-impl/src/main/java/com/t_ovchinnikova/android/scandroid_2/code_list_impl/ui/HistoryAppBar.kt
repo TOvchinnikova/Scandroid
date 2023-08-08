@@ -27,7 +27,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalContext
@@ -42,7 +41,7 @@ import androidx.constraintlayout.compose.MotionLayout
 import androidx.constraintlayout.compose.MotionScene
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.R
 import com.t_ovchinnikova.android.scandroid_2.core_ui.EMPTY
-import com.t_ovchinnikova.android.scandroid_2.core_ui.theme.ColorPrimary
+import com.t_ovchinnikova.android.scandroid_2.core_ui.theme.SearchFieldBackgroundColor
 
 @OptIn(ExperimentalMotionApi::class, ExperimentalMaterialApi::class)
 @Composable
@@ -78,12 +77,12 @@ fun HistoryAppBar(
             Box(
                 modifier = Modifier
                     .layoutId("app_bar")
-                    .background(ColorPrimary)
+                    .background(MaterialTheme.colors.background)
             )
 
             Text(
                 text = title,
-                color = Color.White,
+                color = MaterialTheme.colors.onBackground,
                 style = MaterialTheme.typography.h6,
                 modifier = Modifier.layoutId("title")
             )
@@ -93,7 +92,7 @@ fun HistoryAppBar(
                     .clickable { deleteClickListener.invoke() },
                 imageVector = Icons.Filled.Delete,
                 contentDescription = null,
-                colorFilter = ColorFilter.tint(Color.White)
+                colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground)
             )
             BasicTextField(
                 value = searchState.value,
@@ -107,7 +106,7 @@ fun HistoryAppBar(
                 modifier = Modifier
                     .layoutId("search_field")
                     .background(
-                        color = Color.White,
+                        color = SearchFieldBackgroundColor,
                         shape = RoundedCornerShape(8.dp)
                     )
                     .padding(start = 10.dp)

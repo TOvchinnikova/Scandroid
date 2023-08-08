@@ -1,12 +1,20 @@
 package com.t_ovchinnikova.android.scandroid_2.ui
 
-import androidx.compose.material.*
+import androidx.compose.foundation.background
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.t_ovchinnikova.android.scandroid_2.core_ui.theme.getNavigationBottomBackgroundColor
 import com.t_ovchinnikova.android.scandroid_2.navigation.AppNavGraph
 import com.t_ovchinnikova.android.scandroid_2.navigation.NavigationState
 import com.t_ovchinnikova.android.scandroid_2.navigation.rememberNavigationState
@@ -45,10 +53,13 @@ fun BottomBar(
                 it.route == item.route
             } ?: false
             BottomNavigationItem(
+                modifier = Modifier
+                    .background(getNavigationBottomBackgroundColor()),
                 selected = selected,
-                onClick = { if (!selected) {
-                    navigationState.navigateTo(item)
-                }
+                onClick = {
+                    if (!selected) {
+                        navigationState.navigateTo(item)
+                    }
                 },
                 icon = {
                     Icon(painter = painterResource(id = item.iconResId), contentDescription = null)
@@ -56,7 +67,7 @@ fun BottomBar(
                 label = {
                     Text(text = stringResource(id = item.titleResId))
                 },
-                selectedContentColor = MaterialTheme.colors.onPrimary,
+                selectedContentColor = MaterialTheme.colors.primaryVariant,
                 unselectedContentColor = MaterialTheme.colors.onSecondary
             )
         }
