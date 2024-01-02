@@ -8,12 +8,10 @@
       <module name="Scandroid_2.core-resources" target="15" />
       <module name="Scandroid_2.core-ui" target="15" />
       <module name="Scandroid_2.core-utils" target="15" />
-      <module name="Scandroid_2.feature.code-details-api" target="15" />
       <module name="Scandroid_2.feature.code-details-impl" target="15" />
       <module name="Scandroid_2.feature.code-list-impl" target="15" />
       <module name="Scandroid_2.feature.scanner-api" target="15" />
       <module name="Scandroid_2.feature.scanner-impl" target="15" />
-      <module name="Scandroid_2.feature.settings-api" target="15" />
       <module name="Scandroid_2.feature.settings-impl" target="15" />
     </bytecodeTargetLevel>
   </component>
