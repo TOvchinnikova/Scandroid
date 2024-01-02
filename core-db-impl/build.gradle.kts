@@ -43,6 +43,6 @@ dependencies {
     ksp ("androidx.room:room-compiler:2.5.2")
 
     //Koin
-    implementation ("io.insert-koin:koin-core:3.4.2")
-    implementation ("io.insert-koin:koin-android:3.4.2")
+    implementation (libs.koin.core)
+    implementation (libs.koin.android)
 }

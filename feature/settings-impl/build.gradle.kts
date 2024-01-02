@@ -50,9 +50,9 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.7.0-rc01")
 
     //Koin
-    implementation("io.insert-koin:koin-core:3.4.2")
-    implementation("io.insert-koin:koin-android:3.4.2")
-    implementation("io.insert-koin:koin-androidx-compose:3.3.0")
+    implementation(libs.koin.core)
+    implementation(libs.koin.android)
+    implementation(libs.koin.androidx.compose)
 
     implementation("androidx.compose.ui:ui:1.5.0")
     implementation("androidx.compose.material:material:1.5.0")
