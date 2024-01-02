@@ -1,0 +1,11 @@
+[versions]
+koinCore = "3.4.2"
+koinAndroid = "3.4.2"
+koinAndroidxCompose = "3.3.0"
+
+[libraries]
+koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koinCore" }
+koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koinAndroid" }
+koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koinAndroidxCompose" }
+
+[plugins]
