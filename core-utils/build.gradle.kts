@@ -37,8 +37,5 @@ dependencies {
     implementation(project(":core-domain"))
     implementation(project(":core-resources"))
 
-    implementation("androidx.core:core-ktx:1.10.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
-    implementation("androidx.lifecycle:lifecycle-common:2.6.1")
-    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation(libs.androidx.core.ktx)
 }

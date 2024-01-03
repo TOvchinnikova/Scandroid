@@ -35,14 +35,10 @@ dependencies {
 
     implementation (project(":core-domain"))
 
-    implementation ("androidx.core:core-ktx:1.10.1")
+    implementation (libs.room.runtime)
+    implementation (libs.room.ktx)
+    ksp (libs.room.compiler)
 
-    //Room
-    implementation ("androidx.room:room-runtime:2.5.2")
-    implementation ("androidx.room:room-ktx:2.5.2")
-    ksp ("androidx.room:room-compiler:2.5.2")
-
-    //Koin
     implementation (libs.koin.core)
     implementation (libs.koin.android)
 }

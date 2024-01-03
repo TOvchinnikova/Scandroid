@@ -36,9 +36,6 @@ android {
 dependencies {
     implementation(project(":core-domain"))
 
-    // Object feature and model
-    implementation("com.google.mlkit:object-detection:17.0.0")
-
-    // CameraX
-    implementation("androidx.camera:camera-camera2:1.2.3")
+    implementation(libs.google.mlkit.detection)
+    implementation(libs.androidx.camera)
 }
