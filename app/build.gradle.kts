@@ -12,8 +12,8 @@ android {
 
     defaultConfig {
         applicationId = "com.t_ovchinnikova.android.scandroid_2"
-        minSdkVersion(23)
-        targetSdkVersion(34)
+        minSdk = 23
+        targetSdk = 34
         versionCode = 3
         versionName = "1.1.0"
 
@@ -62,40 +62,16 @@ dependencies {
     implementation(project(":feature:settings-api"))
     implementation(project(":feature:settings-impl"))
 
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.0")
-    implementation("androidx.core:core-ktx:1.10.1")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.9.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
-    implementation("com.google.android.material:material:1.9.0")
+    implementation(libs.android.material)
 
-    //Compose
     implementation(libs.compose.ui)
     implementation(libs.compose.material)
     implementation(libs.compose.uiToolingPreview)
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
-    implementation("androidx.activity:activity-compose:1.7.2")
+    implementation(libs.compose.activity)
     implementation(libs.compose.navigation)
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
-    debugImplementation("androidx.compose.ui:ui-tooling:1.5.0")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:1.5.0")
 
-    // Object feature and model
-    implementation("com.google.mlkit:object-detection:17.0.0")
-
-    // Custom model
-    implementation("com.google.mlkit:object-detection-custom:17.0.0")
-
-    //Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.2")
-
-    //Koin
     implementation(libs.koin.core)
     implementation(libs.koin.android)
-    implementation(libs.koin.androidx.compose)
 
-    testImplementation("junit:junit:4.13.2")
+    testImplementation(libs.junit4)
 }

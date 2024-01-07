@@ -10,10 +10,12 @@ compose = "1.5.0"
 androidxComposeCompiler = "1.5.1"
 composeNavigation = "2.7.0-rc01"
 composeConstraint = "1.0.1"
+composeActivity = "1.7.2"
 
 androidxDataStore = "1.0.0"
 androidxCore = "1.10.1"
 androidxCamera = "1.3.1"
+androidMaterial = "1.9.0"
 
 # Room
 room = "2.5.2"
@@ -28,6 +30,7 @@ testEspresso = "3.5.1"
 [libraries]
 androidx-dataStore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDataStore" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
+android-material = { group = "com.google.android.material", name = "material", version.ref = "androidMaterial" }
 androidx-camera = { group = "androidx.camera", name = "camera-camera2", version.ref = "androidxCamera" }
 androidx-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "androidxCamera" }
 androidx-camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "androidxCamera" }
@@ -48,6 +51,7 @@ compose-uiToolingPreview = { group = "androidx.compose.ui", name = "ui-tooling-p
 compose-material = { group = "androidx.compose.material", name = "material", version.ref = "compose" }
 compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "composeNavigation" }
 compose-constraint = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "composeConstraint" }
+compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "composeActivity" }
 
 # Room
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
