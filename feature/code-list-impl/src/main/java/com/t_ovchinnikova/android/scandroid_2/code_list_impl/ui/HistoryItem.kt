@@ -31,6 +31,8 @@ import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.CodeType
 import com.t_ovchinnikova.android.scandroid_2.core_ui.DATE_PATTERN_STRING
 import com.t_ovchinnikova.android.scandroid_2.core_ui.SecondaryText
 import com.t_ovchinnikova.android.scandroid_2.core_ui.theme.ColorPrimary
+import com.t_ovchinnikova.android.scandroid_2.core_ui.theme.ScandroidTheme
+import com.t_ovchinnikova.android.scandroid_2.core_utils.toImageId
 import com.t_ovchinnikova.android.scandroid_2.core_utils.toStringByPattern
 import com.t_ovchinnikova.android.scandroid_2.core_utils.toStringRes
 import java.text.SimpleDateFormat
@@ -63,7 +65,7 @@ fun HistoryItem(
                     )
                     .padding(7.dp)
                     .size(24.dp),
-                painter = painterResource(id = R.drawable.ic_barcode),
+                painter = painterResource(id = code.format.toImageId()),
                 contentDescription = null
             )
             Spacer(modifier = Modifier.width(10.dp))
@@ -92,7 +94,7 @@ fun HistoryItem(
             Column(
                 modifier = Modifier
                     .fillMaxHeight(),
-                horizontalAlignment = Alignment.CenterHorizontally,
+                horizontalAlignment = Alignment.End,
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Image(
@@ -122,18 +124,40 @@ fun HistoryItem(
 
 @Preview
 @Composable
-fun HistoryItemPreview() {
-    HistoryItem(
-        code = Code(
-            id = UUID.randomUUID(),
-            text = "1234567891011111",
-            format = CodeFormat.QR_CODE,
-            type = CodeType.TEXT,
-            note = "Note",
-            isFavorite = true
-        ),
-        onFavouriteClickListener = { },
-        codeItemClickListener = { },
-        isSaveBarcodesToHistory = false
-    )
+private fun HistoryItemPreview() {
+    ScandroidTheme {
+        HistoryItem(
+            code = Code(
+                id = UUID.randomUUID(),
+                text = "12345678910111115454545454454545454545454545454454545454",
+                format = CodeFormat.QR_CODE,
+                type = CodeType.TEXT,
+                note = "Note",
+                isFavorite = true
+            ),
+            onFavouriteClickListener = { },
+            codeItemClickListener = { },
+            isSaveBarcodesToHistory = false
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun HistoryItemPreviewDark() {
+    ScandroidTheme(true) {
+        HistoryItem(
+            code = Code(
+                id = UUID.randomUUID(),
+                text = "1234567891011111",
+                format = CodeFormat.QR_CODE,
+                type = CodeType.TEXT,
+                note = "Note",
+                isFavorite = true
+            ),
+            onFavouriteClickListener = { },
+            codeItemClickListener = { },
+            isSaveBarcodesToHistory = false
+        )
+    }
 }

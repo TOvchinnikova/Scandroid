@@ -7,28 +7,19 @@ import androidx.camera.core.*
 import androidx.camera.core.ImageAnalysis.Analyzer
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.IconButton
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
 import com.t_ovchinnikova.android.scandroid_2.core_ui.CenterProgress
-import com.t_ovchinnikova.android.scandroid_2.core_ui.theme.ColorScannerButtonPanel
 import com.t_ovchinnikova.android.scandroid_2.core_utils.executor
 import com.t_ovchinnikova.android.scandroid_2.core_utils.vibrate
 import com.t_ovchinnikova.android.scandroid_2.scanner_api.ScanResultListener
-import com.t_ovchinnikova.android.scandroid_2.scanner_impl.R
 import com.t_ovchinnikova.android.scandroid_2.scanner_impl.viewmodel.ScanningViewModel
 import org.koin.androidx.compose.get
 import org.koin.androidx.compose.koinViewModel
@@ -121,7 +112,12 @@ fun ScannerScreen(
                         )
                     }
                 }
-                CameraButtonPanel(screenState.isFlashlightWorks) { viewModel.switchFlash() }
+                CameraButtonPanel(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(bottom = 30.dp),
+                    isFlashing = screenState.isFlashlightWorks
+                ) { viewModel.switchFlash() }
                 camera.value?.cameraControl?.enableTorch(screenState.isFlashlightWorks)
             }
             is ScannerScreenState.SavingCode -> {
@@ -131,43 +127,6 @@ fun ScannerScreen(
             }
             is ScannerScreenState.Initial -> {
                 CenterProgress()
-            }
-        }
-    }
-}
-
-@Composable
-fun CameraButtonPanel(
-    isFlashing: Boolean,
-    flashClickListener: () -> Unit
-) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(bottom = 30.dp),
-        contentAlignment = Alignment.BottomCenter
-    ) {
-        Row(
-            modifier = Modifier.background(
-                color = ColorScannerButtonPanel.copy(alpha = 0.7f),
-                shape = RoundedCornerShape(10.dp)
-            ),
-        ) {
-            IconButton(
-                modifier = Modifier.size(70.dp),
-                onClick = { flashClickListener() }
-            ) {
-                Image(
-                    painter = painterResource(
-                        id = if (isFlashing) {
-                            R.drawable.ic_flash_on
-                        }
-                        else {
-                            R.drawable.ic_flash_off
-                        }
-                    ),
-                    contentDescription = null
-                )
             }
         }
     }

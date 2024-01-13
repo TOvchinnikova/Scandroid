@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.t_ovchinnikova.android.scandroid_2.core_ui.CenterProgress
 import com.t_ovchinnikova.android.scandroid_2.core_ui.Divider
 import com.t_ovchinnikova.android.scandroid_2.core_ui.SecondaryText
+import com.t_ovchinnikova.android.scandroid_2.core_ui.theme.ScandroidTheme
 import com.t_ovchinnikova.android.scandroid_2.settings_api.entity.SettingsData
 import com.t_ovchinnikova.android.scandroid_2.settings_impl.R
 import com.t_ovchinnikova.android.scandroid_2.settings_impl.viewmodel.SettingsViewModel
@@ -35,6 +36,16 @@ fun SettingsScreen(
 ) {
     val screenState = viewModel.screenState.collectAsState(initial = SettingsScreenState.Initial)
 
+    Settings(screenState = screenState.value) {
+        viewModel.saveSettings(it)
+    }
+}
+
+@Composable
+private fun Settings(
+    screenState: SettingsScreenState,
+    onChangeSettings: (SettingsData) -> Unit
+) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -46,15 +57,13 @@ fun SettingsScreen(
             )
         }
     ) { paddingValues ->
-        when (val currentScreenState = screenState.value) {
+        when (screenState) {
             is SettingsScreenState.SettingsScreen -> {
                 ShowSettings(
                     modifier = Modifier.padding(paddingValues),
-                    settingsData = currentScreenState.settings
+                    settingsData = screenState.settings
                 ) { settingsData ->
-                    viewModel.saveSettings(
-                        settingsData
-                    )
+                    onChangeSettings.invoke(settingsData)
                 }
             }
             is SettingsScreenState.LoadingSettings -> {
@@ -167,5 +176,35 @@ private fun SettingsItem(
                 uncheckedThumbColor = MaterialTheme.colors.secondary
             )
         )
+    }
+}
+
+@Preview
+@Composable
+fun SettingsPreview() {
+    ScandroidTheme {
+        Settings(screenState = SettingsScreenState.SettingsScreen(
+            settings = SettingsData(
+                isVibrationOnScan = false,
+                isSaveScannedBarcodesToHistory = false,
+                isFlashlightWhenAppStarts = true,
+                isSendingNoteWithCode = true
+            )
+        ), onChangeSettings = { })
+    }
+}
+
+@Preview
+@Composable
+fun SettingsPreviewDark() {
+    ScandroidTheme(true) {
+        Settings(screenState = SettingsScreenState.SettingsScreen(
+            settings = SettingsData(
+                isVibrationOnScan = false,
+                isSaveScannedBarcodesToHistory = false,
+                isFlashlightWhenAppStarts = true,
+                isSendingNoteWithCode = true
+            )
+        ), onChangeSettings = { })
     }
 }

@@ -33,6 +33,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -140,4 +141,28 @@ fun HistoryAppBar(
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun HistoryAppBarCollapsedPreview() {
+    HistoryAppBar(
+        title = "History",
+        progress = 1f,
+        deleteClickListener = {},
+        motionHeight = 56.dp,
+        onSearchEditingListener = {}
+    )
+}
+
+@Preview
+@Composable
+fun HistoryAppBarPreview() {
+    HistoryAppBar(
+        title = "History",
+        progress = 0f,
+        deleteClickListener = {},
+        motionHeight = 112.dp,
+        onSearchEditingListener = {}
+    )
 }

@@ -19,6 +19,7 @@ import com.t_ovchinnikova.android.scandroid_2.code_list_impl.HistoryViewModel
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.R
 import com.t_ovchinnikova.android.scandroid_2.core_ui.CenterMessage
 import com.t_ovchinnikova.android.scandroid_2.core_ui.CenterProgress
+import com.t_ovchinnikova.android.scandroid_2.core_ui.SimpleAlertDialog
 import org.koin.androidx.compose.koinViewModel
 import java.util.UUID
 
@@ -88,7 +89,7 @@ fun HistoryScreen(
     }
 
     if (deleteDialogState.value) {
-        com.t_ovchinnikova.android.scandroid_2.core_ui.SimpleAlertDialog(
+        SimpleAlertDialog(
             title = stringResource(id = R.string.delete_question_dialog_title),
             subtitle = stringResource(id = R.string.delete_all_question_dialog),
             dismissClickListener = { deleteDialogState.value = false },
