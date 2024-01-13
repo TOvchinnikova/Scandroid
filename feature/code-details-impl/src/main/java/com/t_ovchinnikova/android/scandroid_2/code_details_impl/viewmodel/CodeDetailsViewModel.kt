@@ -8,21 +8,26 @@ import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.AddCodeUseCas
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.DeleteCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.GetCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.settings_api.usecases.GetSettingsUseCase
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.UUID
 
 class CodeDetailsViewModel(
     codeId: UUID,
     private val deleteCodeUseCase: DeleteCodeUseCase,
     private val addCodeUseCase: AddCodeUseCase,
+    dispatcher: CoroutineDispatcher,
     getCodeUseCase: GetCodeUseCase,
     getSettingsUseCase: GetSettingsUseCase
 ) : ViewModel() {
 
     private val codeFlow = getCodeUseCase.invokeAsync(codeId)
-        .flowOn(Dispatchers.IO)
+        .flowOn(dispatcher)
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(),
@@ -44,7 +49,7 @@ class CodeDetailsViewModel(
         .onStart {
             emit(CodeDetailsScreenState.Loading)
         }
-        .flowOn(Dispatchers.IO)
+        .flowOn(dispatcher)
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(),

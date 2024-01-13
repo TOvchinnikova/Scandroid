@@ -15,6 +15,7 @@ import com.t_ovchinnikova.android.scandroid_2.code_details_api.repository.CodeRe
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.AddCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.DeleteCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.GetCodeUseCase
+import com.t_ovchinnikova.android.scandroid_2.core_executor.CoroutineDispatcherProvider
 import com.t_ovchinnikova.android.scandroid_2.settings_api.usecases.GetSettingsUseCase
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -53,13 +54,15 @@ val codeDetailsModule = module {
 
     factory<AddCodeUseCase> {
         AddCodeInteractor(
-            repository = get() as CodeRepository
+            repository = get() as CodeRepository,
+            dispatcher = (get() as CoroutineDispatcherProvider).io
         )
     }
 
     factory<DeleteCodeUseCase> {
         DeleteCodeInteractor(
-            repository = get() as CodeRepository
+            repository = get() as CodeRepository,
+            dispatcher = (get() as CoroutineDispatcherProvider).io
         )
     }
 
@@ -68,6 +71,7 @@ val codeDetailsModule = module {
             codeId = codeId,
             deleteCodeUseCase = get() as DeleteCodeUseCase,
             addCodeUseCase = get() as AddCodeUseCase,
+            dispatcher = (get() as CoroutineDispatcherProvider).io,
             getCodeUseCase = get() as GetCodeUseCase,
             getSettingsUseCase = get() as GetSettingsUseCase
         )

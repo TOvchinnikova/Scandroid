@@ -1,6 +1,12 @@
 package com.t_ovchinnikova.android.scandroid_2.code_details_impl.ui
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -13,14 +19,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.t_ovchinnikova.android.scandroid_2.code_details_impl.viewmodel.CodeDetailsViewModel
 import com.t_ovchinnikova.android.scandroid_2.code_details_impl.R
+import com.t_ovchinnikova.android.scandroid_2.code_details_impl.viewmodel.CodeDetailsViewModel
 import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
-import com.t_ovchinnikova.android.scandroid_2.core_utils.toStringRes
-import com.t_ovchinnikova.android.scandroid_2.core_utils.copyToClipboard
-import com.t_ovchinnikova.android.scandroid_2.core_utils.searchWeb
-import com.t_ovchinnikova.android.scandroid_2.core_utils.shareText
-import com.t_ovchinnikova.android.scandroid_2.core_utils.toStringByPattern
 import com.t_ovchinnikova.android.scandroid_2.core_ui.ActionButton
 import com.t_ovchinnikova.android.scandroid_2.core_ui.AlertDialogWithTextField
 import com.t_ovchinnikova.android.scandroid_2.core_ui.CenterProgress
@@ -28,10 +29,16 @@ import com.t_ovchinnikova.android.scandroid_2.core_ui.DATE_PATTERN_STRING
 import com.t_ovchinnikova.android.scandroid_2.core_ui.Divider
 import com.t_ovchinnikova.android.scandroid_2.core_ui.SecondaryText
 import com.t_ovchinnikova.android.scandroid_2.core_ui.SimpleAlertDialog
+import com.t_ovchinnikova.android.scandroid_2.core_utils.copyToClipboard
+import com.t_ovchinnikova.android.scandroid_2.core_utils.searchWeb
+import com.t_ovchinnikova.android.scandroid_2.core_utils.shareText
+import com.t_ovchinnikova.android.scandroid_2.core_utils.toStringByPattern
+import com.t_ovchinnikova.android.scandroid_2.core_utils.toStringRes
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
+import java.util.UUID
 
 @Composable
 fun CodeDetailsScreen(
