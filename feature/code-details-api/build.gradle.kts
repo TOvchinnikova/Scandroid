@@ -10,6 +10,5 @@ java {
 
 dependencies {
     implementation(project(":core-domain"))
-
-    implementation(libs.kotlinx.coroutines.core)
+    implementation(project(":core-executor"))
 }

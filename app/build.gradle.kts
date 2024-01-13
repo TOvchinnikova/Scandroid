@@ -53,6 +53,7 @@ dependencies {
     implementation(project(":core-domain"))
     implementation(project(":core-ui"))
     implementation(project(":core-utils"))
+    implementation(project(":core-executor"))
     implementation(project(":feature:code-details-api"))
     implementation(project(":feature:code-details-impl"))
     implementation(project(":feature:scanner-api"))

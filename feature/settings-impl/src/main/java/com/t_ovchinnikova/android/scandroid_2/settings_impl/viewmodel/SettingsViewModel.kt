@@ -6,14 +6,15 @@ import com.t_ovchinnikova.android.scandroid_2.settings_api.entity.SettingsData
 import com.t_ovchinnikova.android.scandroid_2.settings_api.usecases.GetSettingsUseCase
 import com.t_ovchinnikova.android.scandroid_2.settings_api.usecases.SaveSettingsUseCase
 import com.t_ovchinnikova.android.scandroid_2.settings_impl.ui.SettingsScreenState
-import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.launch
 
 class SettingsViewModel(
     private val saveSettingsUseCase: SaveSettingsUseCase,
-    getSettingsUseCase: GetSettingsUseCase
+    getSettingsUseCase: GetSettingsUseCase,
+    dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val _screenState = MutableStateFlow<SettingsScreenState>(
@@ -21,7 +22,7 @@ class SettingsViewModel(
     val screenState: StateFlow<SettingsScreenState> = _screenState
 
     private val settingsFlow = getSettingsUseCase.invokeAsync()
-        .flowOn(IO)
+        .flowOn(dispatcher)
         .filterNotNull()
         .onEach {
             _screenState.value = SettingsScreenState.SettingsScreen(it)

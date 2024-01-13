@@ -1,9 +1,13 @@
 [versions]
 
+androidGradlePlugin = "7.4.2"
+
 koinCore = "3.4.2"
 koinAndroid = "3.4.2"
 koinAndroidxCompose = "3.3.0"
 
+kotlin = "1.9.0"
+kotlinGradlePlugin = "1.9.0"
 kotlinxCoroutines = "1.7.2"
 
 compose = "1.5.0"
@@ -38,10 +42,12 @@ androidx-camera-view = { group = "androidx.camera", name = "camera-view", versio
 google-mlkit-detection = { group = "com.google.mlkit", name = "object-detection", version.ref = "googleMlkitDetection" }
 google-mlkit-scanning = { group = "com.google.mlkit", name = "barcode-scanning", version.ref = "googleMlkitScanning" }
 
+android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
 koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koinCore" }
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koinAndroid" }
 koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koinAndroidxCompose" }
 
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlinGradlePlugin" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 
@@ -64,3 +70,4 @@ androidx-test-junit = { group = "androidx.test.ext", name = "junit", version.ref
 androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "testEspresso" }
 
 [plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

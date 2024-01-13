@@ -6,7 +6,7 @@ import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.AddCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.settings_api.usecases.GetSettingsUseCase
 import com.t_ovchinnikova.android.scandroid_2.scanner_impl.ui.ScannerScreenState
-import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.StateFlow
@@ -20,7 +20,8 @@ import java.util.UUID
 
 class ScanningViewModel(
     private val addCodeUseCase: AddCodeUseCase,
-    getSettingsUseCase: GetSettingsUseCase
+    getSettingsUseCase: GetSettingsUseCase,
+    dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val _screenStateFlow = MutableStateFlow<ScannerScreenState>(ScannerScreenState.Initial)
@@ -40,7 +41,7 @@ class ScanningViewModel(
                     isFlashlightWorks = it.isFlashlightWhenAppStarts
                 )
         }
-        .flowOn(IO)
+        .flowOn(dispatcher)
         .stateIn(
             scope = viewModelScope,
             started = WhileSubscribed(),
@@ -48,7 +49,7 @@ class ScanningViewModel(
         )
 
     init {
-        viewModelScope.launch(IO) {
+        viewModelScope.launch {
             settingsFlow.collect()
         }
     }

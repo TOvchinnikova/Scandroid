@@ -44,6 +44,7 @@ dependencies {
     implementation(project(":feature:settings-api"))
     implementation(project(":core-domain"))
     implementation(project(":core-ui"))
+    implementation(project(":core-executor"))
 
     implementation(libs.androidx.dataStore.preferences)
 

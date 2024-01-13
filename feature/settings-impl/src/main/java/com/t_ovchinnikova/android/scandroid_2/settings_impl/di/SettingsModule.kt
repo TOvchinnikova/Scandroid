@@ -1,5 +1,6 @@
 package com.t_ovchinnikova.android.scandroid_2.settings_impl.di
 
+import com.t_ovchinnikova.android.scandroid_2.core_executor.CoroutineDispatcherProvider
 import com.t_ovchinnikova.android.scandroid_2.settings_api.usecases.GetSettingsUseCase
 import com.t_ovchinnikova.android.scandroid_2.settings_api.usecases.SaveSettingsUseCase
 import com.t_ovchinnikova.android.scandroid_2.settings_impl.repository.SettingsRepository
@@ -43,7 +44,8 @@ val settingsModule = module {
     viewModel<SettingsViewModel> {
         SettingsViewModel(
             saveSettingsUseCase = get() as SaveSettingsUseCase,
-            getSettingsUseCase = get() as GetSettingsUseCase
+            getSettingsUseCase = get() as GetSettingsUseCase,
+            dispatcher = (get() as CoroutineDispatcherProvider).io
         )
     }
 }

@@ -9,7 +9,7 @@ import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.AddCodeUseCas
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.DeleteCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.core_ui.EMPTY
 import com.t_ovchinnikova.android.scandroid_2.settings_api.usecases.GetSettingsUseCase
-import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -25,11 +25,12 @@ class HistoryViewModel(
     private val deleteAllCodesUseCase: DeleteAllCodesUseCase,
     private val addCodeUseCase: AddCodeUseCase,
     getCodesUseCase: GetCodesUseCase,
-    settingsUseCase: GetSettingsUseCase
+    settingsUseCase: GetSettingsUseCase,
+    dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val codeListFlow = getCodesUseCase()
-        .flowOn(IO)
+        .flowOn(dispatcher)
         .filterNotNull()
         .stateIn(
             scope = viewModelScope,

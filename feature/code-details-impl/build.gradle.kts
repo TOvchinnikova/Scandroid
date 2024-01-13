@@ -45,6 +45,7 @@ dependencies {
     implementation(project(":core-ui"))
     implementation(project(":core-domain"))
     implementation(project(":core-utils"))
+    implementation(project(":core-executor"))
     implementation(project(":core-resources"))
     implementation(project(":core-db-impl"))
     implementation(project(":feature:settings-api"))
