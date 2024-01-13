@@ -31,13 +31,15 @@ val settingsModule = module {
 
     factory<SaveSettingsUseCase> {
         SaveSettingsInteractor(
-            settingsRepository = get() as SettingsRepository
+            settingsRepository = get() as SettingsRepository,
+            dispatcher = (get() as CoroutineDispatcherProvider).io
         )
     }
 
     factory<GetSettingsUseCase> {
         GetSettingsInteractor(
-            settingsRepository = get() as SettingsRepository
+            settingsRepository = get() as SettingsRepository,
+            dispatcher = (get() as CoroutineDispatcherProvider).io
         )
     }
 

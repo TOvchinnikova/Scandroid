@@ -54,13 +54,15 @@ val codeDetailsModule = module {
 
     factory<AddCodeUseCase> {
         AddCodeInteractor(
-            repository = get() as CodeRepository
+            repository = get() as CodeRepository,
+            dispatcher = (get() as CoroutineDispatcherProvider).io
         )
     }
 
     factory<DeleteCodeUseCase> {
         DeleteCodeInteractor(
-            repository = get() as CodeRepository
+            repository = get() as CodeRepository,
+            dispatcher = (get() as CoroutineDispatcherProvider).io
         )
     }
 
