@@ -14,8 +14,8 @@ android {
         applicationId = "com.t_ovchinnikova.android.scandroid_2"
         minSdk = 23
         targetSdk = 34
-        versionCode = 3
-        versionName = "1.1.0"
+        versionCode = 4
+        versionName = "1.1.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
