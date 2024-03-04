@@ -47,7 +47,7 @@ class CodeDetailsViewModel(
         } ?: CodeDetailsScreenState.CodeNotFound
     }
         .onStart {
-            emit(CodeDetailsScreenState.Loading)
+            emit(CodeDetailsScreenState.Loading) //test commit
         }
         .flowOn(dispatcher)
         .stateIn(
