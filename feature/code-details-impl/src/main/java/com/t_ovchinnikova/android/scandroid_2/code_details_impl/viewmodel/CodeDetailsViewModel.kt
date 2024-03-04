@@ -44,10 +44,10 @@ class CodeDetailsViewModel(
                 settings.isSaveScannedBarcodesToHistory,
                 settings.isSendingNoteWithCode
             )
-        } ?: CodeDetailsScreenState.CodeNotFound //test commit 2
+        } ?: CodeDetailsScreenState.CodeNotFound
     }
         .onStart {
-            emit(CodeDetailsScreenState.Loading) //test commit
+            emit(CodeDetailsScreenState.Loading)
         }
         .flowOn(dispatcher)
         .stateIn(
