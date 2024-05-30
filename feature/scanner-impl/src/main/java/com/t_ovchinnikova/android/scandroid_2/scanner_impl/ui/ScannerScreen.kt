@@ -21,6 +21,8 @@ import com.t_ovchinnikova.android.scandroid_2.core_utils.executor
 import com.t_ovchinnikova.android.scandroid_2.core_utils.vibrate
 import com.t_ovchinnikova.android.scandroid_2.scanner_api.ScanResultListener
 import com.t_ovchinnikova.android.scandroid_2.scanner_impl.viewmodel.ScanningViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.compose.get
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -35,9 +37,19 @@ fun ScannerScreen(
     onScanListener: (codeId: UUID) -> Unit,
     viewModel: ScanningViewModel = koinViewModel<ScanningViewModel>()
 ) {
-    val screenState = viewModel.screenStateFlow.collectAsState().value
+    val screenState = viewModel.uiState.collectAsState().value
 
     val context = LocalContext.current
+
+    LaunchedEffect(key1 = Unit) {
+        viewModel.uiSideEffect.onEach {
+            when (it) {
+                ScannerScreenUiSideEffect.Vibrate -> {
+                    context.vibrate()
+                }
+            }
+        }.launchIn(this)
+    }
 
     val previewCameraView = remember {
         PreviewView(context).apply {
@@ -74,61 +86,56 @@ fun ScannerScreen(
         AndroidView(factory = { previewCameraView })
         AndroidView(factory = { ViewFinderOverlay(context = it, attrs = null) })
 
-        when (screenState) {
-            is ScannerScreenState.Scanning -> {
-                val analyzer = get<Analyzer> {
-                    parametersOf(
-                        object : ScanResultListener {
-                            override fun onScanned(resultCode: Code) {
-                                if (viewModel.lastScannedCode.value?.text != resultCode.text) {
-                                    if (screenState.settingsData?.isVibrationOnScan == true) {
-                                        context.vibrate()
-                                    }
-                                    viewModel.handleCode(resultCode, onScanListener)
-                                }
+        if (screenState.isSavingCode) {
+            CenterProgress()
+            imageAnalysis.clearAnalyzer()
+            cameraProvider.value?.unbindAll()
+        } else {
+            val analyzer = get<Analyzer> {
+                parametersOf(
+                    object : ScanResultListener {
+                        override fun onScanned(resultCode: Code) {
+                            if (screenState.lastScannedCode?.text != resultCode.text) {
+                                viewModel.onAction(ScannerScreenUiAction.CodeScanned(resultCode))
+                                onScanListener.invoke(resultCode.id)
                             }
-                        }, 74, 20
-                    )
-                }
-                imageAnalysis.setAnalyzer(cameraExecutor, analyzer)
-                LaunchedEffect(cameraSelector) {
-                    cameraProvider.value = suspendCoroutine<ProcessCameraProvider> { continuation ->
-                        ProcessCameraProvider.getInstance(context).also { future ->
-                            future.addListener({
-                                continuation.resume(future.get())
-                            }, context.executor)
                         }
-                    }
-                    val previewUseCase = Preview.Builder()
-                        .build()
-                        .also { it.setSurfaceProvider(previewCameraView.surfaceProvider) }
-
-                    runCatching {
-                        cameraProvider.value?.unbindAll()
-                        camera.value = cameraProvider.value?.bindToLifecycle(
-                            lifecycleOwner,
-                            cameraSelector,
-                            buildUseCaseGroup(previewUseCase, imageAnalysis)
-                        )
-                    }
+                    }, 74, 20
+                )
+            }
+            imageAnalysis.setAnalyzer(cameraExecutor, analyzer)
+        }
+        LaunchedEffect(cameraSelector) {
+            cameraProvider.value = suspendCoroutine<ProcessCameraProvider> { continuation ->
+                ProcessCameraProvider.getInstance(context).also { future ->
+                    future.addListener({
+                        continuation.resume(future.get())
+                    }, context.executor)
                 }
-                CameraButtonPanel(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(bottom = 30.dp),
-                    isFlashing = screenState.isFlashlightWorks
-                ) { viewModel.switchFlash() }
-                camera.value?.cameraControl?.enableTorch(screenState.isFlashlightWorks)
             }
-            is ScannerScreenState.SavingCode -> {
-                CenterProgress()
-                imageAnalysis.clearAnalyzer()
+            val previewUseCase = Preview.Builder()
+                .build()
+                .also { it.setSurfaceProvider(previewCameraView.surfaceProvider) }
+
+            runCatching {
                 cameraProvider.value?.unbindAll()
-            }
-            is ScannerScreenState.Initial -> {
-                CenterProgress()
+                camera.value = cameraProvider.value?.bindToLifecycle(
+                    lifecycleOwner,
+                    cameraSelector,
+                    buildUseCaseGroup(previewUseCase, imageAnalysis)
+                )
             }
         }
+        CameraButtonPanel(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(bottom = 30.dp),
+            isFlashing = screenState.isFlashlightWorks
+        ) { viewModel.onAction(ScannerScreenUiAction.SwitchFlash) }
+        camera.value?.cameraControl?.enableTorch(screenState.isFlashlightWorks)
+    }
+    if (screenState.isLoading) {
+        CenterProgress()
     }
 }
 

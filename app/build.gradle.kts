@@ -54,6 +54,7 @@ dependencies {
     implementation(project(":core-ui"))
     implementation(project(":core-utils"))
     implementation(project(":core-executor"))
+    implementation(project(":core-mvi"))
     implementation(project(":feature:code-details-api"))
     implementation(project(":feature:code-details-impl"))
     implementation(project(":feature:scanner-api"))

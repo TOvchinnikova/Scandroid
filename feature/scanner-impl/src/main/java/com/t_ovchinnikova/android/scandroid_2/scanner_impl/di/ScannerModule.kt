@@ -1,9 +1,9 @@
 package com.t_ovchinnikova.android.scandroid_2.scanner_impl.di
 
 import androidx.camera.core.ImageAnalysis
+import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.AddCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.core_executor.CoroutineDispatcherProvider
-import com.t_ovchinnikova.android.scandroid_2.settings_api.usecases.GetSettingsUseCase
 import com.t_ovchinnikova.android.scandroid_2.scanner_api.ScanResultListener
 import com.t_ovchinnikova.android.scandroid_2.scanner_api.usecases.CropImageUseCase
 import com.t_ovchinnikova.android.scandroid_2.scanner_api.usecases.RecognizeCodeUseCase
@@ -13,6 +13,7 @@ import com.t_ovchinnikova.android.scandroid_2.scanner_impl.interactors.Recognize
 import com.t_ovchinnikova.android.scandroid_2.scanner_impl.mappers.MlKitFormatToCodeFormatMapper
 import com.t_ovchinnikova.android.scandroid_2.scanner_impl.mappers.MlKitTypeToCodeTypeMapper
 import com.t_ovchinnikova.android.scandroid_2.scanner_impl.viewmodel.ScanningViewModel
+import com.t_ovchinnikova.android.scandroid_2.settings_api.usecases.GetSettingsUseCase
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -31,7 +32,8 @@ val scannerModule = module {
     factory<RecognizeCodeUseCase> {
         RecognizeCodeInteractor(
             toCodeTypeMapper = MlKitTypeToCodeTypeMapper,
-            toCodeFormatMapper = MlKitFormatToCodeFormatMapper
+            toCodeFormatMapper = MlKitFormatToCodeFormatMapper,
+            scanner = BarcodeScanning.getClient()
         )
     }
 

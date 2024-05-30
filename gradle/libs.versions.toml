@@ -21,6 +21,8 @@ androidxCore = "1.10.1"
 androidxCamera = "1.3.1"
 androidMaterial = "1.9.0"
 
+lifecycle = "2.7.0"
+
 # Room
 room = "2.5.2"
 
@@ -39,6 +41,8 @@ android-material = { group = "com.google.android.material", name = "material", v
 androidx-camera = { group = "androidx.camera", name = "camera-camera2", version.ref = "androidxCamera" }
 androidx-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "androidxCamera" }
 androidx-camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "androidxCamera" }
+
+lifecycleViewModel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 
 google-mlkit-detection = { group = "com.google.mlkit", name = "object-detection", version.ref = "googleMlkitDetection" }
 google-mlkit-scanning = { group = "com.google.mlkit", name = "barcode-scanning", version.ref = "googleMlkitScanning" }

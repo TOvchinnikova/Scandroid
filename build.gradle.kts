@@ -14,6 +14,7 @@ buildscript {
 
 plugins {
     id("com.google.devtools.ksp") version "1.9.0-1.0.11"
+    alias(libs.plugins.kotlin.jvm) apply false
 }
 
 //allprojects {
