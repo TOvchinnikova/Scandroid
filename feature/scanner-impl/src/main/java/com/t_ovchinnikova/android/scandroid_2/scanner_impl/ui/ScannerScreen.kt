@@ -15,11 +15,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
 import com.t_ovchinnikova.android.scandroid_2.core_ui.CenterProgress
 import com.t_ovchinnikova.android.scandroid_2.core_utils.executor
 import com.t_ovchinnikova.android.scandroid_2.core_utils.vibrate
-import com.t_ovchinnikova.android.scandroid_2.scanner_api.ScanResultListener
 import com.t_ovchinnikova.android.scandroid_2.scanner_impl.viewmodel.ScanningViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -46,6 +44,10 @@ fun ScannerScreen(
             when (it) {
                 ScannerScreenUiSideEffect.Vibrate -> {
                     context.vibrate()
+                }
+
+                is ScannerScreenUiSideEffect.OpenCodeDetails -> {
+                    onScanListener(it.codeId)
                 }
             }
         }.launchIn(this)
@@ -92,16 +94,7 @@ fun ScannerScreen(
             cameraProvider.value?.unbindAll()
         } else {
             val analyzer = get<Analyzer> {
-                parametersOf(
-                    object : ScanResultListener {
-                        override fun onScanned(resultCode: Code) {
-                            if (screenState.lastScannedCode?.text != resultCode.text) {
-                                viewModel.onAction(ScannerScreenUiAction.CodeScanned(resultCode))
-                                onScanListener.invoke(resultCode.id)
-                            }
-                        }
-                    }, 74, 20
-                )
+                parametersOf(74, 20) //todo убрать эти параметры отсюда
             }
             imageAnalysis.setAnalyzer(cameraExecutor, analyzer)
         }
