@@ -39,3 +39,9 @@ fun CenterMessage(
         )
     }
 }
+
+@Preview
+@Composable
+fun CenterMessagePreview() {
+    CenterMessage("The list is empty")
+}
