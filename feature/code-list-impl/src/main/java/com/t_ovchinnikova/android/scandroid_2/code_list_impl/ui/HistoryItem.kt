@@ -43,8 +43,7 @@ import java.util.UUID
 fun HistoryItem(
     code: Code,
     onFavouriteClickListener: (code: Code) -> Unit,
-    codeItemClickListener: (codeId: UUID) -> Unit,
-    isSaveBarcodesToHistory: Boolean
+    codeItemClickListener: (codeId: UUID) -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -101,9 +100,7 @@ fun HistoryItem(
                     modifier = Modifier
                         .padding(bottom = 8.dp)
                         .clickable {
-                            if (isSaveBarcodesToHistory) {
-                                onFavouriteClickListener(code)
-                            }
+                            onFavouriteClickListener(code)
                         },
                     painter = painterResource(
                         id = if (code.isFavorite) {
@@ -136,8 +133,7 @@ private fun HistoryItemPreview() {
                 isFavorite = true
             ),
             onFavouriteClickListener = { },
-            codeItemClickListener = { },
-            isSaveBarcodesToHistory = false
+            codeItemClickListener = { }
         )
     }
 }
@@ -156,8 +152,7 @@ private fun HistoryItemPreviewDark() {
                 isFavorite = true
             ),
             onFavouriteClickListener = { },
-            codeItemClickListener = { },
-            isSaveBarcodesToHistory = false
+            codeItemClickListener = { }
         )
     }
 }

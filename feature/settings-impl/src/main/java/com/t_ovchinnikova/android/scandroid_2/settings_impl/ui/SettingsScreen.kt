@@ -120,19 +120,6 @@ private fun ShowSettings(
         )
         Divider()
         SettingsItem(
-            titleResId = R.string.fragment_settings_save_scanned_barcodes_to_history,
-            hintResId = R.string.fragment_settings_save_scanned_barcodes_to_history_hint,
-            isChecked = settingsData.isSaveScannedBarcodesToHistory,
-            clickListener = {
-                onClickListener(
-                    settingsData.copy(
-                        isSaveScannedBarcodesToHistory = it
-                    )
-                )
-            }
-        )
-        Divider()
-        SettingsItem(
             titleResId = R.string.fragment_settings_sending_note,
             hintResId = R.string.fragment_settings_sending_note_hint,
             isChecked = settingsData.isSendingNoteWithCode,
@@ -186,7 +173,6 @@ fun SettingsPreview() {
         Settings(screenState = SettingsScreenState.SettingsScreen(
             settings = SettingsData(
                 isVibrationOnScan = false,
-                isSaveScannedBarcodesToHistory = false,
                 isFlashlightWhenAppStarts = true,
                 isSendingNoteWithCode = true
             )
@@ -201,7 +187,6 @@ fun SettingsPreviewDark() {
         Settings(screenState = SettingsScreenState.SettingsScreen(
             settings = SettingsData(
                 isVibrationOnScan = false,
-                isSaveScannedBarcodesToHistory = false,
                 isFlashlightWhenAppStarts = true,
                 isSendingNoteWithCode = true
             )

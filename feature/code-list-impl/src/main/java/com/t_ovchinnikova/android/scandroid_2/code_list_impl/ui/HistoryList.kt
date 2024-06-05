@@ -46,8 +46,7 @@ fun HistoryList(
     codes: List<Code>,
     onFavouriteClickListener: (code: Code) -> Unit,
     onRemoveListener: (codeId: UUID) -> Unit,
-    codeItemClickListener: (codeId: UUID) -> Unit,
-    isSaveBarcodesToHistory: Boolean
+    codeItemClickListener: (codeId: UUID) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -93,8 +92,7 @@ fun HistoryList(
                 HistoryItem(
                     code = code,
                     onFavouriteClickListener = onFavouriteClickListener,
-                    codeItemClickListener = codeItemClickListener,
-                    isSaveBarcodesToHistory = isSaveBarcodesToHistory
+                    codeItemClickListener = codeItemClickListener
                 )
             }
         }
@@ -167,7 +165,6 @@ private fun HistoryListPreview(isDark: Boolean) {
             paddingValues = PaddingValues(0.dp),
             codes = codeList,
             codeItemClickListener = {},
-            isSaveBarcodesToHistory = false,
             onFavouriteClickListener = {},
             onRemoveListener = {}
         )

@@ -8,7 +8,7 @@ sealed class HistoryScreenState {
 
     object Loading : HistoryScreenState()
 
-    data class History(val codes: List<Code>, val isSaveBarcodesToHistory: Boolean) : HistoryScreenState()
+    data class History(val codes: List<Code>) : HistoryScreenState()
 
-    data class EmptyHistory(val isSaveBarcodesToHistory: Boolean) : HistoryScreenState()
+    object EmptyHistory : HistoryScreenState()
 }

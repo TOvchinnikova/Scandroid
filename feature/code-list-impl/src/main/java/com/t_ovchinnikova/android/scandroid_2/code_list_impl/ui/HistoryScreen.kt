@@ -76,11 +76,11 @@ fun HistoryScreen(
                     codes = state.codes,
                     onFavouriteClickListener = { viewModel.toggleFavourite(it) },
                     onRemoveListener = { viewModel.deleteCode(it) },
-                    codeItemClickListener = codeItemClickListener,
-                    isSaveBarcodesToHistory = state.isSaveBarcodesToHistory)
+                    codeItemClickListener = codeItemClickListener
+                )
             }
             is HistoryScreenState.EmptyHistory -> {
-                EmptyHistory(state.isSaveBarcodesToHistory)
+                EmptyHistory()
             }
             is HistoryScreenState.Initial -> {
 
@@ -104,14 +104,8 @@ fun HistoryScreen(
 }
 
 @Composable
-fun EmptyHistory(
-    isSaveBarcodesToHistory: Boolean
-) {
+fun EmptyHistory() {
     CenterMessage(
-        if (isSaveBarcodesToHistory) {
-            stringResource(id = R.string.the_list_is_empty_message)
-        } else {
-            stringResource(id = R.string.save_settings_disabled_message)
-        }
+        stringResource(id = R.string.the_list_is_empty_message)
     )
 }

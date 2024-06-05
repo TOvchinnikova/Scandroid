@@ -41,7 +41,6 @@ class CodeDetailsViewModel(
         code?.let {
             CodeDetailsScreenState.CodeDetails(
                 it,
-                settings.isSaveScannedBarcodesToHistory,
                 settings.isSendingNoteWithCode
             )
         } ?: CodeDetailsScreenState.CodeNotFound

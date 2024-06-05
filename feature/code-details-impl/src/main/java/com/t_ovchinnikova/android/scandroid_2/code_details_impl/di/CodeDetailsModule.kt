@@ -37,8 +37,7 @@ val codeDetailsModule = module {
     single<CodeRepository> {
         CodeRepositoryImpl(
             codeDataSource = get() as CodeDataSource,
-            inMemoryCodeDataStore = get() as InMemoryCodeDataStore,
-            getSettingsUseCase = get() as GetSettingsUseCase
+            inMemoryCodeDataStore = get() as InMemoryCodeDataStore
         )
     }
 

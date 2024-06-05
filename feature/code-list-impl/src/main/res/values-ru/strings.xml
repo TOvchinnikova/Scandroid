@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="delete_all_question_dialog">Очистить историю?</string>
-    <string name="save_settings_disabled_message">Вы отключили сохранение истории сканирования в базу данных \nВключить сохранение можно в меню "Настройки"</string>
     <string name="the_list_is_empty_message">Список пуст</string>
 </resources>

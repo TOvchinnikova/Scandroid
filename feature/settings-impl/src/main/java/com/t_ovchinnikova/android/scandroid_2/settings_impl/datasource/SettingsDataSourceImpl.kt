@@ -20,8 +20,6 @@ class SettingsDataSourceImpl(
         return dataStore.data.map { preferences ->
             SettingsData(
                 isVibrationOnScan = preferences[VIBRATION_ON_SCAN_SETTINGS] ?: true,
-                isSaveScannedBarcodesToHistory = preferences[SAVE_SCANNED_BARCODE_TO_HISTORY_SETTINGS]
-                    ?: true,
                 isFlashlightWhenAppStarts = preferences[FLASHLIGHT_WHEN_APP_STARTS_SETTINGS]
                     ?: false,
                 isSendingNoteWithCode = preferences[SENDING_NOTE_WITH_CODE_SETTINGS] ?: false
@@ -32,8 +30,6 @@ class SettingsDataSourceImpl(
     override suspend fun saveSettings(settings: SettingsData) {
         dataStore.edit { preferences ->
             preferences[VIBRATION_ON_SCAN_SETTINGS] = settings.isVibrationOnScan
-            preferences[SAVE_SCANNED_BARCODE_TO_HISTORY_SETTINGS] =
-                settings.isSaveScannedBarcodesToHistory
             preferences[FLASHLIGHT_WHEN_APP_STARTS_SETTINGS] = settings.isFlashlightWhenAppStarts
             preferences[SENDING_NOTE_WITH_CODE_SETTINGS] = settings.isSendingNoteWithCode
         }
@@ -44,8 +40,6 @@ class SettingsDataSourceImpl(
         private const val SETTINGS_STORAGE = "SETTINGS_STORAGE"
 
         private val VIBRATION_ON_SCAN_SETTINGS = booleanPreferencesKey("vibrate")
-        private val SAVE_SCANNED_BARCODE_TO_HISTORY_SETTINGS =
-            booleanPreferencesKey("save_scanned_barcodes_to_history")
         private val FLASHLIGHT_WHEN_APP_STARTS_SETTINGS = booleanPreferencesKey("flash")
         private val SENDING_NOTE_WITH_CODE_SETTINGS = booleanPreferencesKey("sending note")
 

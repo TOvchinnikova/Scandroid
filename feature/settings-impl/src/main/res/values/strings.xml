@@ -6,8 +6,6 @@
     <string name="fragment_settings_vibrate_hint">Vibrate on scan</string>
     <string name="fragment_settings_flash">Flash</string>
     <string name="fragment_settings_flash_hint">Enable flash on start</string>
-    <string name="fragment_settings_save_scanned_barcodes_to_history">Save</string>
-    <string name="fragment_settings_save_scanned_barcodes_to_history_hint">Save scanned barcodes to history</string>
     <string name="fragment_settings_sending_note">Sending a note</string>
     <string name="fragment_settings_sending_note_hint">Send note along with code text in message</string>
 

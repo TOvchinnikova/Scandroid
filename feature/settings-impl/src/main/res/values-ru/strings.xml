@@ -6,8 +6,6 @@
     <string name="fragment_settings_vibrate_hint">Вибрация при сканировании</string>
     <string name="fragment_settings_flash">Фонарик</string>
     <string name="fragment_settings_flash_hint">Включать фонарик при старте приложения</string>
-    <string name="fragment_settings_save_scanned_barcodes_to_history">Сохранение</string>
-    <string name="fragment_settings_save_scanned_barcodes_to_history_hint">Сохранять отсканированные штрих-коды в истории</string>
     <string name="fragment_settings_sending_note">Отправка заметки</string>
     <string name="fragment_settings_sending_note_hint">Отправлять заметку вместе с текстом кода в сообщении</string>
 </resources>

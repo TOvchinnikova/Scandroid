@@ -53,12 +53,9 @@ class HistoryViewModel(
                         it.format.name.contains(searchCondition)
             }
             if (filteredList.isEmpty()) {
-                HistoryScreenState.EmptyHistory(settings.isSaveScannedBarcodesToHistory)
+                HistoryScreenState.EmptyHistory
             } else {
-                HistoryScreenState.History(
-                    filteredList,
-                    settings.isSaveScannedBarcodesToHistory
-                ) as HistoryScreenState
+                HistoryScreenState.History(filteredList) as HistoryScreenState
             }
         }
             .onStart {
