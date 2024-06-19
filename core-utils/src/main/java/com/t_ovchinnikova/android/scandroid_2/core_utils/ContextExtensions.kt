@@ -31,18 +31,11 @@ val Context.executor: Executor
     get() = ContextCompat.getMainExecutor(this)
 
 fun Context.shareText(
-    text: String,
-    note: String,
-    isSendingNoteWithCode: Boolean
+    text: String
 ) {
-    val message =
-        if (note.isNotBlank() && isSendingNoteWithCode)
-            text + '\n' + note
-        else
-            text
     val sendIntent: Intent = Intent().apply {
         action = Intent.ACTION_SEND
-        putExtra(Intent.EXTRA_TEXT, message)
+        putExtra(Intent.EXTRA_TEXT, text)
         type = "text/plain"
     }
     val shareIntent = Intent.createChooser(sendIntent, null)

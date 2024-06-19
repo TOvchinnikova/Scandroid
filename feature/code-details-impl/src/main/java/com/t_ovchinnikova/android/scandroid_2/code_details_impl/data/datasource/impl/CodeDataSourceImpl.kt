@@ -1,7 +1,7 @@
-package com.t_ovchinnikova.android.scandroid_2.code_details_impl.datasource.impl
+package com.t_ovchinnikova.android.scandroid_2.code_details_impl.data.datasource.impl
 
 import com.t_ovchinnikova.android.scandroid_2.core_db_impl.CodeDao
-import com.t_ovchinnikova.android.scandroid_2.code_details_impl.datasource.CodeDataSource
+import com.t_ovchinnikova.android.scandroid_2.code_details_impl.data.datasource.CodeDataSource
 import com.t_ovchinnikova.android.scandroid_2.core_db_impl.mappers.CodeMapper
 import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
 import kotlinx.coroutines.flow.Flow

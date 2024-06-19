@@ -1,7 +1,6 @@
 package com.t_ovchinnikova.android.scandroid_2.code_details_impl.di
 
-import com.t_ovchinnikova.android.scandroid_2.code_details_impl.datasource.impl.CodeDataSourceImpl
-import com.t_ovchinnikova.android.scandroid_2.code_details_impl.datasource.impl.InMemoryCodeDataStoreImpl
+import com.t_ovchinnikova.android.scandroid_2.code_details_impl.data.datasource.impl.CodeDataSourceImpl
 import com.t_ovchinnikova.android.scandroid_2.code_details_impl.interactors.AddCodeInteractor
 import com.t_ovchinnikova.android.scandroid_2.code_details_impl.interactors.DeleteCodeInteractor
 import com.t_ovchinnikova.android.scandroid_2.code_details_impl.interactors.GetCodeInteractor
@@ -9,23 +8,19 @@ import com.t_ovchinnikova.android.scandroid_2.core_db_impl.mappers.CodeMapper
 import com.t_ovchinnikova.android.scandroid_2.code_details_impl.repository.CodeRepositoryImpl
 import com.t_ovchinnikova.android.scandroid_2.code_details_impl.viewmodel.CodeDetailsViewModel
 import com.t_ovchinnikova.android.scandroid_2.core_db_impl.CodeDao
-import com.t_ovchinnikova.android.scandroid_2.code_details_impl.datasource.CodeDataSource
-import com.t_ovchinnikova.android.scandroid_2.code_details_impl.datasource.InMemoryCodeDataStore
+import com.t_ovchinnikova.android.scandroid_2.code_details_impl.data.datasource.CodeDataSource
 import com.t_ovchinnikova.android.scandroid_2.code_details_api.repository.CodeRepository
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.AddCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.DeleteCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.GetCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.core_executor.CoroutineDispatcherProvider
 import com.t_ovchinnikova.android.scandroid_2.settings_api.usecases.GetSettingsUseCase
+import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import java.util.UUID
 
 val codeDetailsModule = module {
-
-    single<InMemoryCodeDataStore> {
-        InMemoryCodeDataStoreImpl()
-    }
 
     single<CodeDataSource> {
         CodeDataSourceImpl(
@@ -36,8 +31,7 @@ val codeDetailsModule = module {
 
     single<CodeRepository> {
         CodeRepositoryImpl(
-            codeDataSource = get() as CodeDataSource,
-            inMemoryCodeDataStore = get() as InMemoryCodeDataStore
+            codeDataSource = get() as CodeDataSource
         )
     }
 
@@ -68,6 +62,7 @@ val codeDetailsModule = module {
     viewModel<CodeDetailsViewModel> { (codeId: UUID) ->
         CodeDetailsViewModel(
             codeId = codeId,
+            context = androidApplication(),
             deleteCodeUseCase = get() as DeleteCodeUseCase,
             addCodeUseCase = get() as AddCodeUseCase,
             dispatcher = (get() as CoroutineDispatcherProvider).io,
