@@ -1,15 +1,15 @@
 package com.t_ovchinnikova.android.scandroid_2.code_details_impl.di
 
 import com.t_ovchinnikova.android.scandroid_2.code_details_impl.data.datasource.impl.CodeDataSourceImpl
-import com.t_ovchinnikova.android.scandroid_2.code_details_impl.interactors.AddCodeInteractor
-import com.t_ovchinnikova.android.scandroid_2.code_details_impl.interactors.DeleteCodeInteractor
-import com.t_ovchinnikova.android.scandroid_2.code_details_impl.interactors.GetCodeInteractor
+import com.t_ovchinnikova.android.scandroid_2.code_details_impl.domain.interactor.AddCodeInteractor
+import com.t_ovchinnikova.android.scandroid_2.code_details_impl.domain.interactor.DeleteCodeInteractor
+import com.t_ovchinnikova.android.scandroid_2.code_details_impl.domain.interactor.GetCodeInteractor
 import com.t_ovchinnikova.android.scandroid_2.core_db_impl.mappers.CodeMapper
-import com.t_ovchinnikova.android.scandroid_2.code_details_impl.repository.CodeRepositoryImpl
-import com.t_ovchinnikova.android.scandroid_2.code_details_impl.viewmodel.CodeDetailsViewModel
+import com.t_ovchinnikova.android.scandroid_2.code_details_impl.data.repository.CodeRepositoryImpl
+import com.t_ovchinnikova.android.scandroid_2.code_details_impl.presentation.viewmodel.CodeDetailsViewModel
 import com.t_ovchinnikova.android.scandroid_2.core_db_impl.CodeDao
 import com.t_ovchinnikova.android.scandroid_2.code_details_impl.data.datasource.CodeDataSource
-import com.t_ovchinnikova.android.scandroid_2.code_details_api.repository.CodeRepository
+import com.t_ovchinnikova.android.scandroid_2.code_details_impl.domain.repository.CodeRepository
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.AddCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.DeleteCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.GetCodeUseCase

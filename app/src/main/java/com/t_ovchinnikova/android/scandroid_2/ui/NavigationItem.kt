@@ -1,7 +1,7 @@
 package com.t_ovchinnikova.android.scandroid_2.ui
 
 import com.t_ovchinnikova.android.scandroid_2.R
-import com.t_ovchinnikova.android.scandroid_2.code_list_impl.navigation.GRAPH_HISTORY
+import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.navigation.GRAPH_HISTORY
 import com.t_ovchinnikova.android.scandroid_2.scanner_impl.navigation.GRAPH_SCANNER
 import com.t_ovchinnikova.android.scandroid_2.settings_impl.navigation.ROUTE_SETTINGS
 

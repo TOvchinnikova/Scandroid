@@ -2,5 +2,4 @@
 <resources>
     <string name="copy_to_clipboard">Copy to clipboard</string>
     <string name="code_not_found">Code not found</string>
-    <string name="loading">Loading…</string>
 </resources>

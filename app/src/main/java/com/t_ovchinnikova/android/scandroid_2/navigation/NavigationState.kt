@@ -6,7 +6,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
-import com.t_ovchinnikova.android.scandroid_2.code_list_impl.navigation.navigateToCodeListGraph
+import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.navigation.navigateToCodeListGraph
 import com.t_ovchinnikova.android.scandroid_2.scanner_impl.navigation.navigateToScannerGraph
 import com.t_ovchinnikova.android.scandroid_2.settings_impl.navigation.navigateToSettings
 import com.t_ovchinnikova.android.scandroid_2.ui.NavigationItem
