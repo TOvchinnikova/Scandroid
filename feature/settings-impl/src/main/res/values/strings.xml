@@ -8,5 +8,6 @@
     <string name="fragment_settings_flash_hint">Enable flash on start</string>
     <string name="fragment_settings_sending_note">Sending a note</string>
     <string name="fragment_settings_sending_note_hint">Send note along with code text in message</string>
+    <string name="fragment_settings_unknown_exception">Unknown exception</string>
 
 </resources>

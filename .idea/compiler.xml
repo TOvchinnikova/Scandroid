@@ -3,6 +3,7 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="1.7">
       <module name="my.Scandroid_2.core-ui" target="17" />
+      <module name="my.Scandroid_2.feature.settings-impl" target="17" />
       <module name="Scandroid_2.app" target="17" />
       <module name="Scandroid_2.core-db-impl" target="17" />
       <module name="Scandroid_2.core-domain" target="1.8" />

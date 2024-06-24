@@ -1,8 +1,8 @@
-package com.t_ovchinnikova.android.scandroid_2.settings_impl.repository.impl
+package com.t_ovchinnikova.android.scandroid_2.settings_impl.data.repository
 
 import com.t_ovchinnikova.android.scandroid_2.settings_api.entity.SettingsData
-import com.t_ovchinnikova.android.scandroid_2.settings_impl.datasource.SettingsDataSource
-import com.t_ovchinnikova.android.scandroid_2.settings_impl.repository.SettingsRepository
+import com.t_ovchinnikova.android.scandroid_2.settings_impl.data.datasource.SettingsDataSource
+import com.t_ovchinnikova.android.scandroid_2.settings_impl.domain.repository.SettingsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 

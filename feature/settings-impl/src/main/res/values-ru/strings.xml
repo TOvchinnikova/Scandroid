@@ -8,4 +8,5 @@
     <string name="fragment_settings_flash_hint">Включать фонарик при старте приложения</string>
     <string name="fragment_settings_sending_note">Отправка заметки</string>
     <string name="fragment_settings_sending_note_hint">Отправлять заметку вместе с текстом кода в сообщении</string>
+    <string name="fragment_settings_unknown_exception">Неизвестная ошибка</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.t_ovchinnikova.android.scandroid_2.settings_impl.ui
+package com.t_ovchinnikova.android.scandroid_2.settings_impl.presentation.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,13 +20,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.t_ovchinnikova.android.scandroid_2.core_ui.CenterMessage
 import com.t_ovchinnikova.android.scandroid_2.core_ui.CenterProgress
 import com.t_ovchinnikova.android.scandroid_2.core_ui.Divider
 import com.t_ovchinnikova.android.scandroid_2.core_ui.SecondaryText
 import com.t_ovchinnikova.android.scandroid_2.core_ui.theme.ScandroidTheme
 import com.t_ovchinnikova.android.scandroid_2.settings_api.entity.SettingsData
 import com.t_ovchinnikova.android.scandroid_2.settings_impl.R
-import com.t_ovchinnikova.android.scandroid_2.settings_impl.viewmodel.SettingsViewModel
+import com.t_ovchinnikova.android.scandroid_2.settings_impl.presentation.model.mvi.SettingsUiAction
+import com.t_ovchinnikova.android.scandroid_2.settings_impl.presentation.model.mvi.SettingsUiState
+import com.t_ovchinnikova.android.scandroid_2.settings_impl.presentation.viewmodel.SettingsViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Preview
@@ -34,17 +37,18 @@ import org.koin.androidx.compose.koinViewModel
 fun SettingsScreen(
     viewModel: SettingsViewModel = koinViewModel<SettingsViewModel>()
 ) {
-    val screenState = viewModel.screenState.collectAsState(initial = SettingsScreenState.Initial)
+    val screenState = viewModel.uiState.collectAsState()
 
-    Settings(screenState = screenState.value) {
-        viewModel.saveSettings(it)
-    }
+    Settings(
+        screenState = screenState.value,
+        onAction = viewModel::onAction
+    )
 }
 
 @Composable
 private fun Settings(
-    screenState: SettingsScreenState,
-    onChangeSettings: (SettingsData) -> Unit
+    screenState: SettingsUiState,
+    onAction: (SettingsUiAction) -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -57,23 +61,22 @@ private fun Settings(
             )
         }
     ) { paddingValues ->
-        when (screenState) {
-            is SettingsScreenState.SettingsScreen -> {
-                ShowSettings(
-                    modifier = Modifier.padding(paddingValues),
-                    settingsData = screenState.settings
-                ) { settingsData ->
-                    onChangeSettings.invoke(settingsData)
-                }
-            }
-            is SettingsScreenState.LoadingSettings -> {
+        when {
+            screenState.isLoading -> {
                 CenterProgress()
             }
-            is SettingsScreenState.Initial -> {
-                // nothing
+            screenState.isError || screenState.settings == null -> {
+                CenterMessage(
+                    message = stringResource(id = R.string.fragment_settings_unknown_exception),
+                    imageRes = R.drawable.ic_dissatisfied
+                )
             }
-            is SettingsScreenState.Failure -> {
-                // todo добавить обработку ошибок
+            else -> {
+                ShowSettings(
+                    modifier = Modifier.padding(paddingValues),
+                    settingsData = screenState.settings,
+                    onAction = onAction
+                )
             }
         }
     }
@@ -83,7 +86,7 @@ private fun Settings(
 private fun ShowSettings(
     modifier: Modifier = Modifier,
     settingsData: SettingsData,
-    onClickListener: (SettingsData) -> Unit
+    onAction: (SettingsUiAction) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -98,11 +101,7 @@ private fun ShowSettings(
             hintResId = R.string.fragment_settings_vibrate_hint,
             isChecked = settingsData.isVibrationOnScan,
             clickListener = {
-                onClickListener(
-                    settingsData.copy(
-                        isVibrationOnScan = it
-                    )
-                )
+                onAction(SettingsUiAction.ToggleVibrateOnScan)
             }
         )
         Divider()
@@ -111,11 +110,7 @@ private fun ShowSettings(
             hintResId = R.string.fragment_settings_flash_hint,
             isChecked = settingsData.isFlashlightWhenAppStarts,
             clickListener = {
-                onClickListener(
-                    settingsData.copy(
-                        isFlashlightWhenAppStarts = it
-                    )
-                )
+                onAction(SettingsUiAction.ToggleEnableFlashOnScan)
             }
         )
         Divider()
@@ -124,11 +119,7 @@ private fun ShowSettings(
             hintResId = R.string.fragment_settings_sending_note_hint,
             isChecked = settingsData.isSendingNoteWithCode,
             clickListener = {
-                onClickListener(
-                    settingsData.copy(
-                        isSendingNoteWithCode = it
-                    )
-                )
+                onAction(SettingsUiAction.ToggleSendingNote)
             }
         )
         Divider()
@@ -170,13 +161,14 @@ private fun SettingsItem(
 @Composable
 fun SettingsPreview() {
     ScandroidTheme {
-        Settings(screenState = SettingsScreenState.SettingsScreen(
+        Settings(screenState = SettingsUiState(
             settings = SettingsData(
                 isVibrationOnScan = false,
                 isFlashlightWhenAppStarts = true,
                 isSendingNoteWithCode = true
-            )
-        ), onChangeSettings = { })
+            ),
+            isLoading = false
+        ), onAction = { })
     }
 }
 
@@ -184,12 +176,13 @@ fun SettingsPreview() {
 @Composable
 fun SettingsPreviewDark() {
     ScandroidTheme(true) {
-        Settings(screenState = SettingsScreenState.SettingsScreen(
+        Settings(screenState = SettingsUiState(
             settings = SettingsData(
                 isVibrationOnScan = false,
                 isFlashlightWhenAppStarts = true,
                 isSendingNoteWithCode = true
-            )
-        ), onChangeSettings = { })
+            ),
+            isLoading = false
+        ), onAction = { })
     }
 }
