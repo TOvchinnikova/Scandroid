@@ -47,6 +47,7 @@ dependencies {
     implementation(project(":core-utils"))
     implementation(project(":core-ui"))
     implementation(project(":core-executor"))
+    implementation(project(":core-mvi"))
 
     implementation(libs.koin.core)
     implementation(libs.koin.android)

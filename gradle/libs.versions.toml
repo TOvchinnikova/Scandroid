@@ -6,31 +6,33 @@ koinCore = "3.4.2"
 koinAndroid = "3.4.2"
 koinAndroidxCompose = "3.3.0"
 
-kotlin = "1.9.0"
+kotlin = "1.9.22"
 kotlinGradlePlugin = "1.9.0"
-kotlinxCoroutines = "1.7.2"
+kotlinxCoroutines = "1.8.0-RC2"
 
-compose = "1.5.0"
-androidxComposeCompiler = "1.5.1"
-composeNavigation = "2.7.0-rc01"
+compose = "1.6.7"
+androidxComposeCompiler = "1.5.10"
+composeNavigation = "2.7.7"
 composeConstraint = "1.0.1"
-composeActivity = "1.7.2"
+composeActivity = "1.9.0"
 
-androidxDataStore = "1.0.0"
-androidxCore = "1.10.1"
-androidxCamera = "1.3.1"
-androidMaterial = "1.9.0"
+androidxDataStore = "1.1.1"
+androidxCore = "1.13.1"
+androidxCamera = "1.3.3"
+androidMaterial = "1.12.0"
+
+lifecycle = "2.8.1"
 
 # Room
-room = "2.5.2"
+room = "2.6.1"
 
-googleMlkitDetection = "17.0.0"
-googleMlkitScanning = "17.1.0"
+googleMlkitDetection = "17.0.1"
+googleMlkitScanning = "17.2.0"
 
 junit4 = "4.13.2"
 androidJUnit = "1.1.5"
 testEspresso = "3.5.1"
-uiTooling = "1.5.4"
+uiTooling = "1.6.7"
 
 [libraries]
 androidx-dataStore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDataStore" }
@@ -39,6 +41,8 @@ android-material = { group = "com.google.android.material", name = "material", v
 androidx-camera = { group = "androidx.camera", name = "camera-camera2", version.ref = "androidxCamera" }
 androidx-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "androidxCamera" }
 androidx-camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "androidxCamera" }
+
+lifecycleViewModel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 
 google-mlkit-detection = { group = "com.google.mlkit", name = "object-detection", version.ref = "googleMlkitDetection" }
 google-mlkit-scanning = { group = "com.google.mlkit", name = "barcode-scanning", version.ref = "googleMlkitScanning" }

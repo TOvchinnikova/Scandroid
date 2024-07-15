@@ -1,45 +1,52 @@
 package com.t_ovchinnikova.android.scandroid_2.scanner_impl.viewmodel
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
 import androidx.lifecycle.viewModelScope
 import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.AddCodeUseCase
+import com.t_ovchinnikova.android.scandroid_2.core_mvi.BaseViewModel
+import com.t_ovchinnikova.android.scandroid_2.core_utils.vibrate
+import com.t_ovchinnikova.android.scandroid_2.scanner_impl.domain.usecase.GetScannedCodeUseCase
+import com.t_ovchinnikova.android.scandroid_2.scanner_impl.presentation.model.mvi.ScannerScreenUiAction
+import com.t_ovchinnikova.android.scandroid_2.scanner_impl.presentation.model.mvi.ScannerScreenUiSideEffect
+import com.t_ovchinnikova.android.scandroid_2.scanner_impl.presentation.model.mvi.ScannerScreenUiState
 import com.t_ovchinnikova.android.scandroid_2.settings_api.usecases.GetSettingsUseCase
-import com.t_ovchinnikova.android.scandroid_2.scanner_impl.ui.ScannerScreenState
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import java.util.UUID
 
 class ScanningViewModel(
+    private val context: Application,
     private val addCodeUseCase: AddCodeUseCase,
     getSettingsUseCase: GetSettingsUseCase,
-    dispatcher: CoroutineDispatcher
-) : ViewModel() {
+    private val dispatcher: CoroutineDispatcher,
+    getScannedCodeUseCase: GetScannedCodeUseCase
+) : BaseViewModel<ScannerScreenUiState, ScannerScreenUiAction>() {
 
-    private val _screenStateFlow = MutableStateFlow<ScannerScreenState>(ScannerScreenState.Initial)
-    val screenStateFlow: StateFlow<ScannerScreenState> = _screenStateFlow
-
-    private val _flashState = MutableStateFlow(false)
-
-    private val _lastScannedCode = MutableStateFlow<Code?>(null) //todo от этого надо избавляться
-    val lastScannedCode: StateFlow<Code?> = _lastScannedCode.asStateFlow()
+    private val mutableUiSideEffect: MutableSharedFlow<ScannerScreenUiSideEffect> by lazy {
+        MutableSharedFlow(
+            extraBufferCapacity = 1,
+        )
+    }
+    val uiSideEffect: SharedFlow<ScannerScreenUiSideEffect> = mutableUiSideEffect.asSharedFlow()
 
     private val settingsFlow = getSettingsUseCase.invokeAsync()
         .onEach {
-            _flashState.value = it.isFlashlightWhenAppStarts
-            _screenStateFlow.value =
-                ScannerScreenState.Scanning(
+            updateState {
+                copy(
+                    isFlashlightWorks = it.isFlashlightWhenAppStarts,
                     settingsData = it,
-                    isFlashlightWorks = it.isFlashlightWhenAppStarts
+                    isLoading = false
                 )
+            }
         }
         .flowOn(dispatcher)
         .stateIn(
@@ -48,33 +55,59 @@ class ScanningViewModel(
             initialValue = null
         )
 
+    private val scannedCodeFlow: SharedFlow<Code> = getScannedCodeUseCase.invoke()
+        .onEach {
+            if (uiState.value.lastScannedCode?.text != it.text) {
+                onScannedCode(it)
+            }
+        }
+        .flowOn(dispatcher)
+        .shareIn(
+            scope = viewModelScope,
+            started = WhileSubscribed()
+        )
+
     init {
         viewModelScope.launch {
             settingsFlow.collect()
         }
-    }
 
-    fun switchFlash() {
-        _flashState.value = !_flashState.value
-        if (screenStateFlow.value is ScannerScreenState.Scanning) {
-            val oldState = screenStateFlow.value as ScannerScreenState.Scanning
-            _screenStateFlow.value = oldState.copy(
-                isFlashlightWorks = !oldState.isFlashlightWorks
-            )
+        viewModelScope.launch {
+            scannedCodeFlow.collect()
         }
     }
 
-    fun handleCode(code: Code, onScanListener: (codeId: UUID) -> Unit) {
-        _lastScannedCode.value = code
-        _screenStateFlow.value = ScannerScreenState.SavingCode
-        viewModelScope.launch {
+    override fun getInitialState(): ScannerScreenUiState = ScannerScreenUiState()
+
+    override fun onAction(action: ScannerScreenUiAction) {
+        when (action) {
+            ScannerScreenUiAction.SwitchFlash -> switchFlash()
+            is ScannerScreenUiAction.CodeScanned -> onScannedCode(action.code)
+        }
+    }
+
+    private fun switchFlash() {
+        updateState {
+            copy(isFlashlightWorks = !isFlashlightWorks)
+        }
+    }
+
+    private fun onScannedCode(code: Code) {
+        viewModelScope.launch(dispatcher) {
+            updateState {
+                copy(
+                    isSavingCode = true,
+                    lastScannedCode = code
+                )
+            }
+            if (uiState.value.settingsData?.isVibrationOnScan == true) {
+                context.vibrate()
+            }
             addCodeUseCase(code)
-            onScanListener(code.id)
-            _screenStateFlow.value = ScannerScreenState.Scanning(
-                isFlashlightWorks = _flashState.value,
-                lastScannedCode = code,
-                settingsData = settingsFlow.value
-            )
+            updateState {
+                copy(isSavingCode = false)
+            }
+            mutableUiSideEffect.emit(ScannerScreenUiSideEffect.OpenCodeDetails(code.id))
         }
     }
 }

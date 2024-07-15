@@ -6,12 +6,12 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.t_ovchinnikova.android.scandroid_2.code_details_impl.navigation.codeDetailsScreen
-import com.t_ovchinnikova.android.scandroid_2.code_details_impl.navigation.navigateToCodeDetails
-import com.t_ovchinnikova.android.scandroid_2.code_list_impl.navigation.codeListGraph
+import com.t_ovchinnikova.android.scandroid_2.code_details_impl.presentation.navigation.codeDetailsScreen
+import com.t_ovchinnikova.android.scandroid_2.code_details_impl.presentation.navigation.navigateToCodeDetails
+import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.navigation.codeListGraph
 import com.t_ovchinnikova.android.scandroid_2.core_ui.MenuItemScreen
-import com.t_ovchinnikova.android.scandroid_2.scanner_impl.navigation.GRAPH_SCANNER
-import com.t_ovchinnikova.android.scandroid_2.scanner_impl.navigation.scannerGraph
+import com.t_ovchinnikova.android.scandroid_2.scanner_impl.presentation.navigation.GRAPH_SCANNER
+import com.t_ovchinnikova.android.scandroid_2.scanner_impl.presentation.navigation.scannerGraph
 import com.t_ovchinnikova.android.scandroid_2.settings_impl.navigation.settingsScreen
 
 @Composable

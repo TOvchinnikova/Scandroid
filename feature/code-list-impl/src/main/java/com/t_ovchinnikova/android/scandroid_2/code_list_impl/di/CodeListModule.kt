@@ -1,22 +1,21 @@
 package com.t_ovchinnikova.android.scandroid_2.code_list_impl.di
 
-import com.t_ovchinnikova.android.scandroid_2.core_executor.CoroutineDispatcherProvider
-import com.t_ovchinnikova.android.scandroid_2.code_list_impl.HistoryViewModel
-import com.t_ovchinnikova.android.scandroid_2.code_list_impl.datasource.CodeListDataSource
-import com.t_ovchinnikova.android.scandroid_2.code_list_impl.datasource.impl.CodeListDataSourceImpl
-import com.t_ovchinnikova.android.scandroid_2.code_list_impl.usecases.interactors.DeleteAllCodesInteractor
-import com.t_ovchinnikova.android.scandroid_2.code_list_impl.usecases.interactors.GetCodesInteractor
-import com.t_ovchinnikova.android.scandroid_2.code_list_impl.repository.CodeListRepository
-import com.t_ovchinnikova.android.scandroid_2.code_list_impl.repository.impl.CodeListRepositoryImpl
+import com.t_ovchinnikova.android.scandroid_2.code_list_impl.data.datasource.CodeListDataSource
+import com.t_ovchinnikova.android.scandroid_2.code_list_impl.data.datasource.impl.CodeListDataSourceImpl
+import com.t_ovchinnikova.android.scandroid_2.code_list_impl.data.repository.CodeListRepositoryImpl
+import com.t_ovchinnikova.android.scandroid_2.code_list_impl.domain.repository.CodeListRepository
+import com.t_ovchinnikova.android.scandroid_2.code_list_impl.domain.usecase.DeleteAllCodesUseCase
+import com.t_ovchinnikova.android.scandroid_2.code_list_impl.domain.usecase.GetCodesUseCase
+import com.t_ovchinnikova.android.scandroid_2.code_list_impl.domain.usecase.GetCodesWithFilterUseCase
+import com.t_ovchinnikova.android.scandroid_2.code_list_impl.domain.usecase.interactor.DeleteAllCodesInteractor
+import com.t_ovchinnikova.android.scandroid_2.code_list_impl.domain.usecase.interactor.GetCodesInteractor
+import com.t_ovchinnikova.android.scandroid_2.code_list_impl.domain.usecase.interactor.GetCodesWithFilterInteractor
+import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.viewmodel.HistoryViewModel
 import com.t_ovchinnikova.android.scandroid_2.core_db_impl.CodeDao
 import com.t_ovchinnikova.android.scandroid_2.core_db_impl.mappers.CodeMapper
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.AddCodeUseCase
-import com.t_ovchinnikova.android.scandroid_2.code_list_api.repository.usecases.DeleteAllCodesUseCase
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.DeleteCodeUseCase
-import com.t_ovchinnikova.android.scandroid_2.code_list_impl.usecases.GetCodesUseCase
-import com.t_ovchinnikova.android.scandroid_2.code_list_impl.usecases.GetCodesWithFilterUseCase
-import com.t_ovchinnikova.android.scandroid_2.code_list_impl.usecases.interactors.GetCodesWithFilterInteractor
-import com.t_ovchinnikova.android.scandroid_2.settings_api.usecases.GetSettingsUseCase
+import com.t_ovchinnikova.android.scandroid_2.core_executor.CoroutineDispatcherProvider
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -59,7 +58,6 @@ val codeListModule = module {
             deleteCodeUseCase = get() as DeleteCodeUseCase,
             getCodesUseCase = get() as GetCodesUseCase,
             addCodeUseCase = get() as AddCodeUseCase,
-            settingsUseCase = get() as GetSettingsUseCase,
             dispatcher = (get() as CoroutineDispatcherProvider).io
         )
     }

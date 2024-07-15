@@ -11,4 +11,6 @@
 
     <string name="history">History</string>
     <string name="barcode_search_on_list">Search on the list</string>
+
+    <string name="loading">Loading…</string>
 </resources>

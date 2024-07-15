@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="delete_all_question_dialog">Delete history?</string>
-    <string name="save_settings_disabled_message">You have disabled saving the scan history to the database \nYou can enable saving in the "Settings" menu</string>
     <string name="the_list_is_empty_message">The list is empty</string>
 
 </resources>

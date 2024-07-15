@@ -11,4 +11,6 @@
 
     <string name="history">История</string>
     <string name="barcode_search_on_list">Поиск в списке</string>
+
+    <string name="loading">Загрузка…</string>
 </resources>

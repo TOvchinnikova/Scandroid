@@ -48,6 +48,7 @@ dependencies {
     implementation(project(":core-executor"))
     implementation(project(":core-resources"))
     implementation(project(":core-db-impl"))
+    implementation(project(":core-mvi"))
     implementation(project(":feature:settings-api"))
 
     implementation(libs.compose.ui)

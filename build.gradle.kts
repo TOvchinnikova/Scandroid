@@ -13,7 +13,8 @@ buildscript {
 }
 
 plugins {
-    id("com.google.devtools.ksp") version "1.9.0-1.0.11"
+    id("com.google.devtools.ksp") version "1.9.22-1.0.16"
+    alias(libs.plugins.kotlin.jvm) apply false
 }
 
 //allprojects {
