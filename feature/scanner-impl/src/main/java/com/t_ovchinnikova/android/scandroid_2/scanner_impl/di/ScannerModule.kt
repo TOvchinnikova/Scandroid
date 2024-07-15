@@ -7,20 +7,21 @@ import com.t_ovchinnikova.android.scandroid_2.core_executor.CoroutineDispatcherP
 import com.t_ovchinnikova.android.scandroid_2.scanner_api.usecases.CropImageUseCase
 import com.t_ovchinnikova.android.scandroid_2.scanner_api.usecases.RecognizeCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.scanner_impl.ScanAnalyzer
-import com.t_ovchinnikova.android.scandroid_2.scanner_impl.datasource.ScannerDataSource
-import com.t_ovchinnikova.android.scandroid_2.scanner_impl.datasource.ScannerDataSourceImpl
-import com.t_ovchinnikova.android.scandroid_2.scanner_impl.interactors.CropImageInteractor
-import com.t_ovchinnikova.android.scandroid_2.scanner_impl.interactors.GetScannedCodeUseCase
-import com.t_ovchinnikova.android.scandroid_2.scanner_impl.interactors.GetScannedCodeUseCaseImpl
-import com.t_ovchinnikova.android.scandroid_2.scanner_impl.interactors.RecognizeCodeInteractor
-import com.t_ovchinnikova.android.scandroid_2.scanner_impl.interactors.SetScannedCodeUseCase
-import com.t_ovchinnikova.android.scandroid_2.scanner_impl.interactors.SetScannedCodeUseCaseImpl
+import com.t_ovchinnikova.android.scandroid_2.scanner_impl.data.datasource.ScannerDataSource
+import com.t_ovchinnikova.android.scandroid_2.scanner_impl.data.datasource.ScannerDataSourceImpl
+import com.t_ovchinnikova.android.scandroid_2.scanner_impl.data.repository.ScannerRepositoryImpl
+import com.t_ovchinnikova.android.scandroid_2.scanner_impl.domain.repository.ScannerRepository
+import com.t_ovchinnikova.android.scandroid_2.scanner_impl.domain.usecase.GetScannedCodeUseCase
+import com.t_ovchinnikova.android.scandroid_2.scanner_impl.domain.usecase.SetScannedCodeUseCase
+import com.t_ovchinnikova.android.scandroid_2.scanner_impl.domain.usecase.interactor.CropImageInteractor
+import com.t_ovchinnikova.android.scandroid_2.scanner_impl.domain.usecase.interactor.GetScannedCodeUseCaseImpl
+import com.t_ovchinnikova.android.scandroid_2.scanner_impl.domain.usecase.interactor.RecognizeCodeInteractor
+import com.t_ovchinnikova.android.scandroid_2.scanner_impl.domain.usecase.interactor.SetScannedCodeUseCaseImpl
 import com.t_ovchinnikova.android.scandroid_2.scanner_impl.mappers.MlKitFormatToCodeFormatMapper
 import com.t_ovchinnikova.android.scandroid_2.scanner_impl.mappers.MlKitTypeToCodeTypeMapper
-import com.t_ovchinnikova.android.scandroid_2.scanner_impl.repository.ScannerRepository
-import com.t_ovchinnikova.android.scandroid_2.scanner_impl.repository.ScannerRepositoryImpl
 import com.t_ovchinnikova.android.scandroid_2.scanner_impl.viewmodel.ScanningViewModel
 import com.t_ovchinnikova.android.scandroid_2.settings_api.usecases.GetSettingsUseCase
+import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -80,6 +81,7 @@ val scannerModule = module {
 
     viewModel<ScanningViewModel> {
         ScanningViewModel(
+            context = androidApplication(),
             addCodeUseCase = get() as AddCodeUseCase,
             getSettingsUseCase = get() as GetSettingsUseCase,
             getScannedCodeUseCase = get() as GetScannedCodeUseCase,

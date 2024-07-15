@@ -1,4 +1,4 @@
-package com.t_ovchinnikova.android.scandroid_2.scanner_impl.navigation
+package com.t_ovchinnikova.android.scandroid_2.scanner_impl.presentation.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavController
@@ -6,7 +6,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.t_ovchinnikova.android.scandroid_2.scanner_impl.ui.ScannerScreen
+import com.t_ovchinnikova.android.scandroid_2.scanner_impl.presentation.ui.ScannerScreen
 import java.util.UUID
 
 const val ROUTE_SCANNER = "scanner"

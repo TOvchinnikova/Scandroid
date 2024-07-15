@@ -1,4 +1,4 @@
-package com.t_ovchinnikova.android.scandroid_2.scanner_impl.ui
+package com.t_ovchinnikova.android.scandroid_2.scanner_impl.presentation.ui
 
 import android.content.Context
 import android.graphics.Canvas

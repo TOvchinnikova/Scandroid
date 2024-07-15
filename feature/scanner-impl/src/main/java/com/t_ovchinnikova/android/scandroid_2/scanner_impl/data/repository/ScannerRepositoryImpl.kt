@@ -1,7 +1,8 @@
-package com.t_ovchinnikova.android.scandroid_2.scanner_impl.repository
+package com.t_ovchinnikova.android.scandroid_2.scanner_impl.data.repository
 
 import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
-import com.t_ovchinnikova.android.scandroid_2.scanner_impl.datasource.ScannerDataSource
+import com.t_ovchinnikova.android.scandroid_2.scanner_impl.data.datasource.ScannerDataSource
+import com.t_ovchinnikova.android.scandroid_2.scanner_impl.domain.repository.ScannerRepository
 import kotlinx.coroutines.flow.SharedFlow
 
 class ScannerRepositoryImpl(

@@ -116,6 +116,7 @@ fun HistoryContent(
 @Composable
 fun EmptyHistory() {
     CenterMessage(
-        stringResource(id = R.string.the_list_is_empty_message)
+        stringResource(id = R.string.the_list_is_empty_message),
+        imageRes = R.drawable.ic_dissatisfied
     )
 }

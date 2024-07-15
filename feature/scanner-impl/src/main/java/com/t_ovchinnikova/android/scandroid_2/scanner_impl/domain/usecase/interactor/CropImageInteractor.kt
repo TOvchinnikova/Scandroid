@@ -1,4 +1,4 @@
-package com.t_ovchinnikova.android.scandroid_2.scanner_impl.interactors
+package com.t_ovchinnikova.android.scandroid_2.scanner_impl.domain.usecase.interactor
 
 import android.graphics.Bitmap
 import android.graphics.Matrix

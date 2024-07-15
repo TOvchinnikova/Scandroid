@@ -1,14 +1,26 @@
-package com.t_ovchinnikova.android.scandroid_2.scanner_impl.ui
+package com.t_ovchinnikova.android.scandroid_2.scanner_impl.presentation.ui
 
 import android.annotation.SuppressLint
 import android.util.Rational
 import android.view.ViewGroup
-import androidx.camera.core.*
+import androidx.camera.core.Camera
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageAnalysis.Analyzer
+import androidx.camera.core.Preview
+import androidx.camera.core.UseCaseGroup
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
-import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -17,14 +29,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.t_ovchinnikova.android.scandroid_2.core_ui.CenterProgress
 import com.t_ovchinnikova.android.scandroid_2.core_utils.executor
-import com.t_ovchinnikova.android.scandroid_2.core_utils.vibrate
+import com.t_ovchinnikova.android.scandroid_2.scanner_impl.presentation.model.mvi.ScannerScreenUiAction
+import com.t_ovchinnikova.android.scandroid_2.scanner_impl.presentation.model.mvi.ScannerScreenUiSideEffect
 import com.t_ovchinnikova.android.scandroid_2.scanner_impl.viewmodel.ScanningViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.compose.get
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
-import java.util.*
+import java.util.UUID
 import java.util.concurrent.Executors
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -33,7 +46,11 @@ import kotlin.coroutines.suspendCoroutine
 fun ScannerScreen(
     paddingValues: PaddingValues,
     onScanListener: (codeId: UUID) -> Unit,
-    viewModel: ScanningViewModel = koinViewModel<ScanningViewModel>()
+    viewModel: ScanningViewModel = koinViewModel<ScanningViewModel>(parameters = {
+        parametersOf(
+            onScanListener
+        )
+    })
 ) {
     val screenState = viewModel.uiState.collectAsState().value
 
@@ -42,10 +59,6 @@ fun ScannerScreen(
     LaunchedEffect(key1 = Unit) {
         viewModel.uiSideEffect.onEach {
             when (it) {
-                ScannerScreenUiSideEffect.Vibrate -> {
-                    context.vibrate()
-                }
-
                 is ScannerScreenUiSideEffect.OpenCodeDetails -> {
                     onScanListener(it.codeId)
                 }
@@ -142,7 +155,6 @@ private fun buildImageAnalysis(aspectRatio: Int): ImageAnalysis {
     return ImageAnalysis.Builder()
         .setTargetAspectRatio(aspectRatio)
         .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-        //.setTargetRotation(rotation)
         .build()
 }
 

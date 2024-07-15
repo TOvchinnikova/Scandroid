@@ -1,13 +1,15 @@
 package com.t_ovchinnikova.android.scandroid_2.scanner_impl.viewmodel
 
+import android.app.Application
 import androidx.lifecycle.viewModelScope
 import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.AddCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.core_mvi.BaseViewModel
-import com.t_ovchinnikova.android.scandroid_2.scanner_impl.interactors.GetScannedCodeUseCase
-import com.t_ovchinnikova.android.scandroid_2.scanner_impl.ui.ScannerScreenUiAction
-import com.t_ovchinnikova.android.scandroid_2.scanner_impl.ui.ScannerScreenUiSideEffect
-import com.t_ovchinnikova.android.scandroid_2.scanner_impl.ui.ScannerScreenUiState
+import com.t_ovchinnikova.android.scandroid_2.core_utils.vibrate
+import com.t_ovchinnikova.android.scandroid_2.scanner_impl.domain.usecase.GetScannedCodeUseCase
+import com.t_ovchinnikova.android.scandroid_2.scanner_impl.presentation.model.mvi.ScannerScreenUiAction
+import com.t_ovchinnikova.android.scandroid_2.scanner_impl.presentation.model.mvi.ScannerScreenUiSideEffect
+import com.t_ovchinnikova.android.scandroid_2.scanner_impl.presentation.model.mvi.ScannerScreenUiState
 import com.t_ovchinnikova.android.scandroid_2.settings_api.usecases.GetSettingsUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -22,6 +24,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class ScanningViewModel(
+    private val context: Application,
     private val addCodeUseCase: AddCodeUseCase,
     getSettingsUseCase: GetSettingsUseCase,
     private val dispatcher: CoroutineDispatcher,
@@ -98,7 +101,7 @@ class ScanningViewModel(
                 )
             }
             if (uiState.value.settingsData?.isVibrationOnScan == true) {
-                mutableUiSideEffect.emit(ScannerScreenUiSideEffect.Vibrate)
+                context.vibrate()
             }
             addCodeUseCase(code)
             updateState {
