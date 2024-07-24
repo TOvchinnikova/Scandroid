@@ -24,7 +24,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.t_ovchinnikova.android.scandroid_2.code_list_impl.R
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.model.mvi.HistoryUiAction
 import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
 import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.CodeFormat
@@ -39,6 +38,7 @@ import com.t_ovchinnikova.android.scandroid_2.core_utils.toStringRes
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.UUID
+import com.t_ovchinnikova.android.scandroid_2.core_resources.R as CoreResources
 
 @Composable
 fun HistoryItem(
@@ -105,9 +105,9 @@ fun HistoryItem(
                         },
                     painter = painterResource(
                         id = if (code.isFavorite) {
-                            R.drawable.ic_favorite_on
+                            CoreResources.drawable.ic_favorite_on
                         } else {
-                            R.drawable.ic_favorite_off
+                            CoreResources.drawable.ic_favorite_off
                         }
                     ),
                     contentDescription = null

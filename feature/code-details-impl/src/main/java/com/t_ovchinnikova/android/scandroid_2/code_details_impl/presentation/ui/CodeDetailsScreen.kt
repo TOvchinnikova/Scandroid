@@ -47,6 +47,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.UUID
+import com.t_ovchinnikova.android.scandroid_2.core_resources.R as CoreResources
 
 @Composable
 fun CodeDetailsScreen(
@@ -90,13 +91,13 @@ fun CodeDetailsContent(
     ) { paddings ->
         when {
             state.isLoading -> {
-                CenterProgress(message = stringResource(id = R.string.loading))
+                CenterProgress(message = stringResource(id = CoreResources.string.loading))
             }
 
             state.code == null -> {
                 CenterMessage(
                     message = stringResource(id = R.string.code_not_found),
-                    imageRes = R.drawable.ic_dissatisfied
+                    imageRes = CoreResources.drawable.ic_dissatisfied
                 )
             }
 
@@ -112,15 +113,15 @@ fun CodeDetailsContent(
 
     if (deleteDialogState.value) {
         SimpleAlertDialog(
-            title = stringResource(id = R.string.delete_question_dialog_title),
-            subtitle = stringResource(id = R.string.delete_question_dialog),
+            title = stringResource(id = CoreResources.string.delete_question_dialog_title),
+            subtitle = stringResource(id = CoreResources.string.delete_question_dialog),
             dismissClickListener = { deleteDialogState.value = false },
-            dismissButtonText = stringResource(id = R.string.delete_dialog_cancel_button),
+            dismissButtonText = stringResource(id = CoreResources.string.delete_dialog_cancel_button),
             confirmClickListener = {
                 onAction(CodeDetailsUiAction.DeleteBarcode)
                 onBackPressed()
             },
-            confirmButtonText = stringResource(id = R.string.delete_dialog_delete_button)
+            confirmButtonText = stringResource(id = CoreResources.string.delete_dialog_delete_button)
         )
     }
 }
@@ -175,23 +176,23 @@ fun Content(
             onAction(CodeDetailsUiAction.CopyCodeValueToClipboard)
         }
 
-        ActionButton(titleResId = R.string.barcode_search, iconResId = R.drawable.ic_search) {
+        ActionButton(titleResId = CoreResources.string.barcode_search, iconResId = R.drawable.ic_search) {
             onAction(CodeDetailsUiAction.SearchOnWeb)
         }
 
-        ActionButton(titleResId = R.string.barcode_share_text, iconResId = R.drawable.ic_send) {
+        ActionButton(titleResId = CoreResources.string.barcode_share_text, iconResId = R.drawable.ic_send) {
              onAction(CodeDetailsUiAction.ShareCodeValue)
         }
     }
 
     if (changeNoteDialogState.value) {
         AlertDialogWithTextField(
-            title = stringResource(id = R.string.note),
+            title = stringResource(id = CoreResources.string.note),
             text = code.note,
             dismissClickListener = { changeNoteDialogState.value = false },
-            dismissButtonText = stringResource(id = R.string.delete_dialog_cancel_button),
+            dismissButtonText = stringResource(id = CoreResources.string.delete_dialog_cancel_button),
             confirmClickListener = { onAction(CodeDetailsUiAction.NoteChanged(it)) },
-            confirmButtonText = stringResource(id = R.string.save)
+            confirmButtonText = stringResource(id = CoreResources.string.save)
         )
     }
 }

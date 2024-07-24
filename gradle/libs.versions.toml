@@ -1,6 +1,11 @@
 [versions]
 
-androidGradlePlugin = "7.4.2"
+compile-sdk = "34"
+min-sdk = "23"
+target-sdk = "34"
+jvm = "17"
+
+androidGradlePlugin = "8.4.2"
 
 koinCore = "3.4.2"
 koinAndroid = "3.4.2"
@@ -9,6 +14,8 @@ koinAndroidxCompose = "3.3.0"
 kotlin = "1.9.22"
 kotlinGradlePlugin = "1.9.0"
 kotlinxCoroutines = "1.8.0-RC2"
+
+ksp = "1.9.22-1.0.16"
 
 compose = "1.6.7"
 androidxComposeCompiler = "1.5.10"
@@ -47,7 +54,7 @@ lifecycleViewModel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", ve
 google-mlkit-detection = { group = "com.google.mlkit", name = "object-detection", version.ref = "googleMlkitDetection" }
 google-mlkit-scanning = { group = "com.google.mlkit", name = "barcode-scanning", version.ref = "googleMlkitScanning" }
 
-android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
 koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koinCore" }
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koinAndroid" }
 koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koinAndroidxCompose" }
@@ -77,3 +84,6 @@ androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", vers
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

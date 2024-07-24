@@ -31,6 +31,7 @@ import com.t_ovchinnikova.android.scandroid_2.settings_impl.presentation.model.m
 import com.t_ovchinnikova.android.scandroid_2.settings_impl.presentation.model.mvi.SettingsUiState
 import com.t_ovchinnikova.android.scandroid_2.settings_impl.presentation.viewmodel.SettingsViewModel
 import org.koin.androidx.compose.koinViewModel
+import com.t_ovchinnikova.android.scandroid_2.core_resources.R as CoreResources
 
 @Preview
 @Composable
@@ -54,7 +55,7 @@ private fun Settings(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(text = stringResource(id = R.string.settings))
+                    Text(text = stringResource(id = CoreResources.string.settings))
                 },
                 backgroundColor = MaterialTheme.colors.background,
                 elevation = 0.dp
@@ -68,7 +69,7 @@ private fun Settings(
             screenState.isError || screenState.settings == null -> {
                 CenterMessage(
                     message = stringResource(id = R.string.fragment_settings_unknown_exception),
-                    imageRes = R.drawable.ic_dissatisfied
+                    imageRes = CoreResources.drawable.ic_dissatisfied
                 )
             }
             else -> {

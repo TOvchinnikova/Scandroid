@@ -2,14 +2,32 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="1.7">
+      <module name="build-logic.convention" target="17" />
+      <module name="build-logic.convention.main" target="17" />
+      <module name="build-logic.convention.test" target="17" />
       <module name="my.Scandroid_2.core-ui" target="17" />
       <module name="my.Scandroid_2.feature.code-details-impl" target="17" />
       <module name="my.Scandroid_2.feature.settings-impl" target="17" />
       <module name="Scandroid_2.app" target="17" />
+      <module name="Scandroid_2.build-logic" target="1.8" />
+      <module name="Scandroid_2.build-logic.build-utils" target="17" />
+      <module name="Scandroid_2.build-logic.build-utils.main" target="17" />
+      <module name="Scandroid_2.build-logic.build-utils.test" target="17" />
+      <module name="Scandroid_2.build-logic.convention" target="17" />
+      <module name="Scandroid_2.build-logic.convention.main" target="17" />
+      <module name="Scandroid_2.build-logic.convention.test" target="17" />
+      <module name="Scandroid_2.build-logic.lib" target="17" />
+      <module name="Scandroid_2.build-logic.lib.main" target="17" />
+      <module name="Scandroid_2.build-logic.lib.test" target="17" />
+      <module name="Scandroid_2.build-logic.main" target="1.8" />
+      <module name="Scandroid_2.build-logic.test" target="1.8" />
       <module name="Scandroid_2.core-db-impl" target="17" />
-      <module name="Scandroid_2.core-domain" target="1.8" />
-      <module name="Scandroid_2.core-domain.main" target="1.8" />
-      <module name="Scandroid_2.core-domain.test" target="1.8" />
+      <module name="Scandroid_2.core-domain" target="17" />
+      <module name="Scandroid_2.core-domain.main" target="17" />
+      <module name="Scandroid_2.core-domain.test" target="17" />
+      <module name="Scandroid_2.core-executor" target="17" />
+      <module name="Scandroid_2.core-executor.main" target="17" />
+      <module name="Scandroid_2.core-executor.test" target="17" />
       <module name="Scandroid_2.core-mvi" target="17" />
       <module name="Scandroid_2.core-mvi.main" target="17" />
       <module name="Scandroid_2.core-mvi.test" target="17" />
@@ -17,19 +35,19 @@
       <module name="Scandroid_2.core-resources" target="17" />
       <module name="Scandroid_2.core-ui" target="17" />
       <module name="Scandroid_2.core-utils" target="17" />
-      <module name="Scandroid_2.feature.code-details-api" target="1.8" />
-      <module name="Scandroid_2.feature.code-details-api.main" target="1.8" />
-      <module name="Scandroid_2.feature.code-details-api.test" target="1.8" />
+      <module name="Scandroid_2.feature.code-details-api" target="17" />
+      <module name="Scandroid_2.feature.code-details-api.main" target="17" />
+      <module name="Scandroid_2.feature.code-details-api.test" target="17" />
       <module name="Scandroid_2.feature.code-details-impl" target="17" />
-      <module name="Scandroid_2.feature.code-list-api" target="1.8" />
-      <module name="Scandroid_2.feature.code-list-api.main" target="1.8" />
-      <module name="Scandroid_2.feature.code-list-api.test" target="1.8" />
+      <module name="Scandroid_2.feature.code-list-api" target="17" />
+      <module name="Scandroid_2.feature.code-list-api.main" target="17" />
+      <module name="Scandroid_2.feature.code-list-api.test" target="17" />
       <module name="Scandroid_2.feature.code-list-impl" target="17" />
       <module name="Scandroid_2.feature.scanner-api" target="17" />
       <module name="Scandroid_2.feature.scanner-impl" target="17" />
-      <module name="Scandroid_2.feature.settings-api" target="1.8" />
-      <module name="Scandroid_2.feature.settings-api.main" target="1.8" />
-      <module name="Scandroid_2.feature.settings-api.test" target="1.8" />
+      <module name="Scandroid_2.feature.settings-api" target="17" />
+      <module name="Scandroid_2.feature.settings-api.main" target="17" />
+      <module name="Scandroid_2.feature.settings-api.test" target="17" />
       <module name="Scandroid_2.feature.settings-impl" target="17" />
     </bytecodeTargetLevel>
   </component>

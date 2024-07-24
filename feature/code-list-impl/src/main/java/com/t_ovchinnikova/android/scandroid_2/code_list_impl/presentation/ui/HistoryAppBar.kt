@@ -43,6 +43,7 @@ import androidx.constraintlayout.compose.MotionScene
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.R
 import com.t_ovchinnikova.android.scandroid_2.core_ui.EMPTY
 import com.t_ovchinnikova.android.scandroid_2.core_ui.theme.SearchFieldBackgroundColor
+import com.t_ovchinnikova.android.scandroid_2.core_resources.R as CoreResources
 
 @OptIn(ExperimentalMotionApi::class, ExperimentalMaterialApi::class)
 @Composable
@@ -120,7 +121,7 @@ fun HistoryAppBar(
                     enabled = true,
                     interactionSource = interactionSource,
                     placeholder  = { Text(
-                        text = stringResource(id = R.string.barcode_search_on_list),
+                        text = stringResource(id = CoreResources.string.barcode_search_on_list),
                         modifier = Modifier.padding(0.dp)) },
                     contentPadding = PaddingValues(0.dp),
                     trailingIcon = {

@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google()
         mavenCentral()
@@ -12,7 +13,9 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
+
 rootProject.name = "Scandroid_2"
+
 include(":app")
 include(":core-db-impl")
 include(":core-domain")

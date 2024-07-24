@@ -1,19 +1,15 @@
 plugins {
-    id("com.android.application")
-    id("kotlin-android")
-    id("com.google.devtools.ksp")
+    id("AndroidApplicationPlugin")
+    id("AndroidComposePlugin")
 }
 
 android {
-    compileSdk = 34
     buildToolsVersion = "34.0.0"
 
     namespace = "com.t_ovchinnikova.android.scandroid_2"
 
     defaultConfig {
         applicationId = "com.t_ovchinnikova.android.scandroid_2"
-        minSdk = 23
-        targetSdk = 34
         versionCode = 5
         versionName = "1.1.2"
 
@@ -30,21 +26,6 @@ android {
             )
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-    buildFeatures {
-        viewBinding = true
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompiler.get()
-    }
 }
 
 dependencies {
@@ -55,6 +36,7 @@ dependencies {
     implementation(project(":core-utils"))
     implementation(project(":core-executor"))
     implementation(project(":core-mvi"))
+    implementation(project(":core-resources"))
     implementation(project(":feature:code-details-api"))
     implementation(project(":feature:code-details-impl"))
     implementation(project(":feature:scanner-api"))
@@ -66,11 +48,7 @@ dependencies {
 
     implementation(libs.android.material)
 
-    implementation(libs.compose.ui)
-    implementation(libs.compose.material)
-    implementation(libs.compose.uiToolingPreview)
     implementation(libs.compose.activity)
-    implementation(libs.compose.navigation)
 
     implementation(libs.koin.core)
     implementation(libs.koin.android)

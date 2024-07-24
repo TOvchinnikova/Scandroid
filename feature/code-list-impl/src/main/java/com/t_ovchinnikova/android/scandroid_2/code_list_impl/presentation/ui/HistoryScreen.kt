@@ -14,15 +14,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.viewmodel.HistoryViewModel
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.R
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.model.mvi.HistoryUiAction
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.model.mvi.HistoryUiState
+import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.viewmodel.HistoryViewModel
 import com.t_ovchinnikova.android.scandroid_2.core_ui.CenterMessage
 import com.t_ovchinnikova.android.scandroid_2.core_ui.CenterProgress
 import com.t_ovchinnikova.android.scandroid_2.core_ui.SimpleAlertDialog
 import org.koin.androidx.compose.koinViewModel
 import java.util.UUID
+import com.t_ovchinnikova.android.scandroid_2.core_resources.R as CoreResources
 
 private const val MOTION_HEIGHT_KEY = "Motion height"
 private const val PROGRESS_KEY = "Progress"
@@ -73,7 +74,7 @@ fun HistoryContent(
             HistoryAppBar(
                 progress = progress,
                 motionHeight = motionHeight,
-                title = stringResource(id = R.string.history),
+                title = stringResource(id = CoreResources.string.history),
                 onSearchEditingListener = { onAction(HistoryUiAction.UpdateSearchCondition(it)) },
                 deleteClickListener = { deleteDialogState.value = true }
             )
@@ -81,7 +82,7 @@ fun HistoryContent(
     ) { paddingValues ->
         when {
             state.isLoading -> {
-                CenterProgress(message = stringResource(id = R.string.loading))
+                CenterProgress(message = stringResource(id = CoreResources.string.loading))
             }
             state.codes.isEmpty() -> {
                 EmptyHistory()
@@ -100,15 +101,15 @@ fun HistoryContent(
 
     if (deleteDialogState.value) {
         SimpleAlertDialog(
-            title = stringResource(id = R.string.delete_question_dialog_title),
+            title = stringResource(id = CoreResources.string.delete_question_dialog_title),
             subtitle = stringResource(id = R.string.delete_all_question_dialog),
             dismissClickListener = { deleteDialogState.value = false },
-            dismissButtonText = stringResource(id = R.string.delete_dialog_cancel_button),
+            dismissButtonText = stringResource(id = CoreResources.string.delete_dialog_cancel_button),
             confirmClickListener = {
                 onAction.invoke(HistoryUiAction.DeleteAllCodes)
                 deleteDialogState.value = false
             },
-            confirmButtonText = stringResource(id = R.string.delete_dialog_delete_button)
+            confirmButtonText = stringResource(id = CoreResources.string.delete_dialog_delete_button)
         )
     }
 }
@@ -117,6 +118,6 @@ fun HistoryContent(
 fun EmptyHistory() {
     CenterMessage(
         stringResource(id = R.string.the_list_is_empty_message),
-        imageRes = R.drawable.ic_dissatisfied
+        imageRes = CoreResources.drawable.ic_dissatisfied
     )
 }
