@@ -55,7 +55,7 @@ fun CodeDetailsTopAppBar(
                     )
                 }
                 IconButton(
-                    onClick = { onAction(CodeDetailsUiAction.DeleteBarcode) }
+                    onClick = { onAction(CodeDetailsUiAction.ShowDeleteDialog) }
                 ) {
                     Image(
                         imageVector = Icons.Filled.Delete,

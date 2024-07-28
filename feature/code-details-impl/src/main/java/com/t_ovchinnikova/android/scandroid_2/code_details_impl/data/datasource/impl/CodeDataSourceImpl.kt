@@ -21,9 +21,9 @@ class CodeDataSourceImpl(
         codeDao.deleteCode(codeId)
     }
 
-    override fun getCodeByIdAsync(id: UUID): Flow<Code> {
+    override fun getCodeByIdAsync(id: UUID): Flow<Code?> {
         return codeDao.getCodeByIdAsync(id).map {
-            codeMapper.mapDbModelToEntity(it)
+            it?.let { codeMapper.mapDbModelToEntity(it) }
         }
     }
 

@@ -74,9 +74,6 @@ fun CodeDetailsContent(
     onAction: (CodeDetailsUiAction) -> Unit,
     onBackPressed: () -> Unit,
 ) {
-    val deleteDialogState = rememberSaveable {
-        mutableStateOf(false)
-    }
 
     Scaffold(
         topBar = {
@@ -111,11 +108,11 @@ fun CodeDetailsContent(
         }
     }
 
-    if (deleteDialogState.value) {
+    if (state.isVisibleDeleteDialog) {
         SimpleAlertDialog(
             title = stringResource(id = CoreResources.string.delete_question_dialog_title),
             subtitle = stringResource(id = CoreResources.string.delete_question_dialog),
-            dismissClickListener = { deleteDialogState.value = false },
+            dismissClickListener = { onAction(CodeDetailsUiAction.HideDeleteDialog) },
             dismissButtonText = stringResource(id = CoreResources.string.delete_dialog_cancel_button),
             confirmClickListener = {
                 onAction(CodeDetailsUiAction.DeleteBarcode)

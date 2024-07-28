@@ -15,4 +15,8 @@ interface CodeDetailsUiAction : UiAction {
     object SearchOnWeb : CodeDetailsUiAction
 
     object ShareCodeValue : CodeDetailsUiAction
+
+    object ShowDeleteDialog : CodeDetailsUiAction
+
+    object HideDeleteDialog : CodeDetailsUiAction
 }

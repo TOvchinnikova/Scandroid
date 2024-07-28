@@ -1,6 +1,6 @@
 package com.t_ovchinnikova.android.scandroid_2.code_details_impl.presentation.viewmodel
 
-import android.content.Context
+import android.app.Application
 import androidx.lifecycle.viewModelScope
 import com.t_ovchinnikova.android.scandroid_2.code_details_impl.presentation.model.mvi.CodeDetailsUiAction
 import com.t_ovchinnikova.android.scandroid_2.code_details_impl.presentation.model.mvi.CodeDetailsUiState
@@ -24,7 +24,7 @@ import java.util.UUID
 
 class CodeDetailsViewModel(
     private val codeId: UUID,
-    private val context: Context,
+    private val context: Application,
     private val deleteCodeUseCase: DeleteCodeUseCase,
     private val addCodeUseCase: AddCodeUseCase,
     private val dispatcher: CoroutineDispatcher,
@@ -62,6 +62,14 @@ class CodeDetailsViewModel(
 
             CodeDetailsUiAction.ShareCodeValue -> {
                 shareCodeValue()
+            }
+
+            CodeDetailsUiAction.HideDeleteDialog -> {
+                updateState { copy(isVisibleDeleteDialog = false) }
+            }
+
+            CodeDetailsUiAction.ShowDeleteDialog -> {
+                updateState { copy(isVisibleDeleteDialog = true) }
             }
         }
     }
@@ -123,7 +131,6 @@ class CodeDetailsViewModel(
             uiState.value.code?.let {
                 deleteCodeUseCase(it.id)
             }
-
         }
     }
 }
