@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.model.CodeUiModel
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.model.mvi.HistoryUiAction
 import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
 import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.CodeFormat
@@ -44,7 +45,8 @@ import java.util.UUID
 fun HistoryList(
     lazyScrollState: LazyListState,
     paddingValues: PaddingValues,
-    codes: List<Code>,
+    codes: List<CodeUiModel>,
+    isVisibleCheckBox: Boolean,
     onAction: (HistoryUiAction) -> Unit,
     codeItemClickListener: (codeId: UUID) -> Unit
 ) {
@@ -55,8 +57,8 @@ fun HistoryList(
         state = lazyScrollState,
         contentPadding = PaddingValues(
             top = 16.dp,
-            start = 8.dp,
-            end = 8.dp,
+            start = 16.dp,
+            end = 16.dp,
             bottom = 72.dp
         ),
         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -64,14 +66,14 @@ fun HistoryList(
     {
         items(
             items = codes,
-            key = { it.id }
-        ) { code ->
-            val currentItem by rememberUpdatedState(code)
+            key = { it.code.id }
+        ) { codeUiModel ->
+            val currentItem by rememberUpdatedState(codeUiModel)
             val dismissState = rememberDismissState(
                 confirmStateChange = {
                     when (it) {
                         DismissValue.DismissedToStart -> {
-                            onAction.invoke(HistoryUiAction.DeleteCode(currentItem.id))
+                            onAction.invoke(HistoryUiAction.DeleteCode(currentItem.code.id))
                             true
                         }
                         else -> { false }
@@ -90,7 +92,8 @@ fun HistoryList(
                 }
             ) {
                 HistoryItem(
-                    code = code,
+                    codeModel = codeUiModel,
+                    isVisibleCheckBox = isVisibleCheckBox,
                     onAction = onAction,
                     codeItemClickListener = codeItemClickListener
                 )
@@ -131,31 +134,37 @@ private fun HistoryListPreviewDark() {
 
 @Composable
 private fun HistoryListPreview(isDark: Boolean) {
-    val codeList = listOf<Code>(
-        Code(
-            id = UUID.randomUUID(),
-            text = "12345678",
-            format = CodeFormat.DATA_MATRIX,
-            note = "Очень важный штрих-код",
-            date = Date(),
-            isFavorite = true,
-            type = CodeType.TEXT
+    val codeList = listOf<CodeUiModel>(
+        CodeUiModel(
+            code = Code(
+                id = UUID.randomUUID(),
+                text = "12345678",
+                format = CodeFormat.DATA_MATRIX,
+                note = "Очень важный штрих-код",
+                date = Date(),
+                isFavorite = true,
+                type = CodeType.TEXT
+            )
         ),
-        Code(
-            id = UUID.randomUUID(),
-            text = "1234567891234",
-            format = CodeFormat.EAN_13,
-            date = Date(),
-            isFavorite = false,
-            type = CodeType.TEXT
+        CodeUiModel(
+            code = Code(
+                id = UUID.randomUUID(),
+                text = "1234567891234",
+                format = CodeFormat.EAN_13,
+                date = Date(),
+                isFavorite = false,
+                type = CodeType.TEXT
+            )
         ),
-        Code(
-            id = UUID.randomUUID(),
-            text = "89585691785",
-            format = CodeFormat.QR_CODE,
-            date = Date(),
-            isFavorite = false,
-            type = CodeType.PHONE
+        CodeUiModel(
+            code = Code(
+                id = UUID.randomUUID(),
+                text = "89585691785",
+                format = CodeFormat.QR_CODE,
+                date = Date(),
+                isFavorite = false,
+                type = CodeType.PHONE
+            )
         ),
     )
 
@@ -164,6 +173,7 @@ private fun HistoryListPreview(isDark: Boolean) {
             lazyScrollState = rememberLazyListState(),
             paddingValues = PaddingValues(0.dp),
             codes = codeList,
+            isVisibleCheckBox = true,
             codeItemClickListener = {},
             onAction = {},
         )

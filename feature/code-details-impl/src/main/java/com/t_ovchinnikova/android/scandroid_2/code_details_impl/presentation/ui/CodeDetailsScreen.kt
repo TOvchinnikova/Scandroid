@@ -12,14 +12,15 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -101,6 +102,7 @@ fun CodeDetailsContent(
             else -> {
                 Content(
                     code = state.code,
+                    isVisibleCommentDialog = state.isVisibleCommentDialog,
                     onAction = onAction,
                     paddings = paddings
                 )
@@ -126,14 +128,11 @@ fun CodeDetailsContent(
 @Composable
 fun Content(
     code: Code,
+    isVisibleCommentDialog: Boolean,
     onAction: (CodeDetailsUiAction) -> Unit,
     paddings: PaddingValues
 ) {
-
-    val changeNoteDialogState = rememberSaveable {
-        mutableStateOf(false)
-    }
-
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -143,25 +142,25 @@ fun Content(
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             SecondaryText(
                 text = code.date.toStringByPattern(
                     SimpleDateFormat(DATE_PATTERN_STRING, Locale.ENGLISH)
                 )
             )
-            IconButton(onClick = { changeNoteDialogState.value = true }) {
+            IconButton(onClick = { onAction(CodeDetailsUiAction.ShowCommentDialog) }) {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_edit),
+                    imageVector = Icons.Filled.Edit,
                     contentDescription = null
                 )
             }
         }
         if (code.note.isNotBlank()) {
-            Spacer(modifier = Modifier.height(10.dp))
             Text(text = code.note)
+            Spacer(modifier = Modifier.height(10.dp))
         }
 
-        Spacer(modifier = Modifier.height(10.dp))
         Text(text = code.text)
 
         Spacer(modifier = Modifier.height(10.dp))
@@ -174,19 +173,19 @@ fun Content(
         }
 
         ActionButton(titleResId = CoreResources.string.barcode_search, iconResId = R.drawable.ic_search) {
-            onAction(CodeDetailsUiAction.SearchOnWeb)
+            onAction(CodeDetailsUiAction.SearchOnWeb(context))
         }
 
         ActionButton(titleResId = CoreResources.string.barcode_share_text, iconResId = R.drawable.ic_send) {
-             onAction(CodeDetailsUiAction.ShareCodeValue)
+             onAction(CodeDetailsUiAction.ShareCodeValue(context))
         }
     }
 
-    if (changeNoteDialogState.value) {
+    if (isVisibleCommentDialog) {
         AlertDialogWithTextField(
             title = stringResource(id = CoreResources.string.note),
             text = code.note,
-            dismissClickListener = { changeNoteDialogState.value = false },
+            dismissClickListener = { onAction(CodeDetailsUiAction.HideCommentDialog) },
             dismissButtonText = stringResource(id = CoreResources.string.delete_dialog_cancel_button),
             confirmClickListener = { onAction(CodeDetailsUiAction.NoteChanged(it)) },
             confirmButtonText = stringResource(id = CoreResources.string.save)

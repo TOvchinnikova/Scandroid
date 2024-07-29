@@ -24,11 +24,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.t_ovchinnikova.android.scandroid_2.core_ui.CenterProgress
-import com.t_ovchinnikova.android.scandroid_2.core_ui.theme.ScandroidTheme
 import com.t_ovchinnikova.android.scandroid_2.core_utils.executor
 import com.t_ovchinnikova.android.scandroid_2.scanner_impl.presentation.model.mvi.ScannerScreenUiAction
 import com.t_ovchinnikova.android.scandroid_2.scanner_impl.presentation.model.mvi.ScannerScreenUiSideEffect
@@ -38,7 +36,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.compose.get
 import org.koin.androidx.compose.koinViewModel
-import org.koin.core.parameter.parametersOf
 import java.util.UUID
 import java.util.concurrent.Executors
 import kotlin.coroutines.resume
@@ -117,9 +114,7 @@ private fun ScannerContent(
             imageAnalysis.clearAnalyzer()
             cameraProvider.value?.unbindAll()
         } else {
-            val analyzer = get<Analyzer> {
-                parametersOf(74, 20) //todo убрать эти параметры отсюда
-            }
+            val analyzer = get<Analyzer>()
             imageAnalysis.setAnalyzer(cameraExecutor, analyzer)
         }
         LaunchedEffect(cameraSelector) {
@@ -175,22 +170,4 @@ private fun buildUseCaseGroup(preview: CameraPreview, imageAnalysis: ImageAnalys
         .addUseCase(preview)
         .addUseCase(imageAnalysis)
         .build()
-}
-
-@Preview
-@Composable
-fun ScannerScreenContent() {
-    ScandroidTheme(false) {
-        ScannerContent(
-            screenState = ScannerScreenUiState(
-                isFlashlightWorks = true,
-                lastScannedCode = null,
-                settingsData = null,
-                isLoading = true,
-                isSavingCode = false
-            ),
-            paddingValues = PaddingValues(0.dp),
-            onAction = {}
-        )
-    }
 }

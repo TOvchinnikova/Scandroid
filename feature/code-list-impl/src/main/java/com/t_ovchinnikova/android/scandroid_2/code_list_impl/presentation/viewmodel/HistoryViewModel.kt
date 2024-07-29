@@ -3,6 +3,7 @@ package com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.viewm
 import androidx.lifecycle.viewModelScope
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.domain.usecase.DeleteAllCodesUseCase
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.domain.usecase.GetCodesUseCase
+import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.model.CodeUiModel
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.model.mvi.HistoryUiAction
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.model.mvi.HistoryUiState
 import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
@@ -36,6 +37,7 @@ class HistoryViewModel(
             is HistoryUiAction.DeleteCode -> deleteCode(action.id)
             is HistoryUiAction.ToggleFavourite -> toggleFavourite(action.code)
             is HistoryUiAction.UpdateSearchCondition -> updateSearchCondition(action.condition)
+            HistoryUiAction.LongClickItem -> updateState { copy(isVisibleCheckBox = true) }
         }
     }
 
@@ -49,7 +51,7 @@ class HistoryViewModel(
                         it.note.contains(searchCondition) ||
                         it.type.name.contains(searchCondition) ||
                         it.format.name.contains(searchCondition)
-            }
+            }.map { CodeUiModel(code = it, isChecked = false) }
             updateState {
                 copy(codes = filteredList, isLoading = false)
             }

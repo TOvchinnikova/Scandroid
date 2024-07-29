@@ -1,6 +1,7 @@
 package com.t_ovchinnikova.android.scandroid_2.code_details_impl.presentation.viewmodel
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.viewModelScope
 import com.t_ovchinnikova.android.scandroid_2.code_details_impl.presentation.model.mvi.CodeDetailsUiAction
 import com.t_ovchinnikova.android.scandroid_2.code_details_impl.presentation.model.mvi.CodeDetailsUiState
@@ -56,12 +57,12 @@ class CodeDetailsViewModel(
                 context.copyToClipboard(uiState.value.code?.text ?: "")
             }
 
-            CodeDetailsUiAction.SearchOnWeb -> {
-                context.searchWeb(uiState.value.code?.text ?: "")
+            is CodeDetailsUiAction.SearchOnWeb -> {
+                action.context.searchWeb(uiState.value.code?.text ?: "")
             }
 
-            CodeDetailsUiAction.ShareCodeValue -> {
-                shareCodeValue()
+            is CodeDetailsUiAction.ShareCodeValue -> {
+                shareCodeValue(action.context)
             }
 
             CodeDetailsUiAction.HideDeleteDialog -> {
@@ -70,6 +71,14 @@ class CodeDetailsViewModel(
 
             CodeDetailsUiAction.ShowDeleteDialog -> {
                 updateState { copy(isVisibleDeleteDialog = true) }
+            }
+
+            CodeDetailsUiAction.ShowCommentDialog -> {
+                updateState { copy(isVisibleCommentDialog = true) }
+            }
+
+            CodeDetailsUiAction.HideCommentDialog -> {
+                updateState { copy(isVisibleCommentDialog = false) }
             }
         }
     }
@@ -97,7 +106,7 @@ class CodeDetailsViewModel(
             .launchIn(viewModelScope)
     }
 
-    private fun shareCodeValue() {
+    private fun shareCodeValue(context: Context) {
         uiState.value.code?.let { code ->
             val message =
                 if (code.note.isNotBlank() && uiState.value.isSendingNoteWithCode)

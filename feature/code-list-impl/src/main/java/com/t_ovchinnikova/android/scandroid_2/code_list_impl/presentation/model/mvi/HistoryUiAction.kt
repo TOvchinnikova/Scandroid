@@ -13,4 +13,6 @@ sealed interface HistoryUiAction : UiAction {
     data class ToggleFavourite(val code: Code) : HistoryUiAction
 
     data class UpdateSearchCondition(val condition: String) : HistoryUiAction
+
+    data object LongClickItem : HistoryUiAction
 }

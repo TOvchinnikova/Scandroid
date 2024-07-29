@@ -9,8 +9,6 @@ import com.t_ovchinnikova.android.scandroid_2.scanner_api.usecases.RecognizeCode
 class ScanAnalyzer(
     private val recognizeCodeUseCase: RecognizeCodeUseCase,
     private val cropImageUseCase: CropImageUseCase,
-    private val heightCropPercent: Int,
-    private val widthCropPercent: Int
 ) : ImageAnalysis.Analyzer {
 
     override fun analyze(imageProxy: ImageProxy) {
@@ -19,12 +17,17 @@ class ScanAnalyzer(
             cropImageUseCase.invoke(
                 imageProxy,
                 mediaImage,
-                heightCropPercent,
-                widthCropPercent
+                HEIGHT_ANALYZER_DEFAULT_PERCENT,
+                WIDTH_ANALYZER_DEFAULT_PERCENT
             )?.let { croppedBitmap ->
                 recognizeCodeUseCase(InputImage.fromBitmap(croppedBitmap, 0))
                 imageProxy.close()
             }
         }
+    }
+
+    private companion object {
+        const val HEIGHT_ANALYZER_DEFAULT_PERCENT = 74
+        const val WIDTH_ANALYZER_DEFAULT_PERCENT = 20
     }
 }
