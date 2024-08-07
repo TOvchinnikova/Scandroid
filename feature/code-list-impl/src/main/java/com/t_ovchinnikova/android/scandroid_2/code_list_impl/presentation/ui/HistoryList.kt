@@ -56,7 +56,6 @@ fun HistoryList(
             .animateContentSize(),
         state = lazyScrollState,
         contentPadding = PaddingValues(
-            top = 16.dp,
             start = 16.dp,
             end = 16.dp,
             bottom = 72.dp
@@ -171,10 +170,10 @@ private fun HistoryListPreview(isDark: Boolean) {
     ScandroidTheme(isDark) {
         HistoryList(
             lazyScrollState = rememberLazyListState(),
-            paddingValues = PaddingValues(0.dp),
             codes = codeList,
             isVisibleCheckBox = true,
             codeItemClickListener = {},
+            paddingValues = PaddingValues(),
             onAction = {},
         )
     }

@@ -14,7 +14,7 @@
       delete_button: {
         end: ['parent', 'end', 16],
         top: ['parent', 'top', 16]},
-      search_field: {
+      app_bar_content_field: {
         width: 'spread',
         start: ['parent', 'start', 16],
         end: ['parent', 'end', 16],
@@ -38,7 +38,7 @@
       delete_button: {
         end: ['parent', 'end', 16],
         top: ['parent', 'top', 16]},
-      search_field: {
+      app_bar_content_field: {
         width: 'spread',
         height: 40,
         start: ['parent', 'start', 16],
@@ -57,7 +57,7 @@
       KeyFrames: {
         KeyAttributes: [
           {
-            target: ['search_field'],
+            target: ['app_bar_content_field'],
             frames: [0, 100]
           },
         ]

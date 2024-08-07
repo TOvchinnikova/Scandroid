@@ -7,6 +7,7 @@
       <module name="build-logic.convention.test" target="17" />
       <module name="my.Scandroid_2.core-ui" target="17" />
       <module name="my.Scandroid_2.feature.code-details-impl" target="17" />
+      <module name="my.Scandroid_2.feature.code-list-impl" target="17" />
       <module name="my.Scandroid_2.feature.settings-impl" target="17" />
       <module name="Scandroid_2.app" target="17" />
       <module name="Scandroid_2.build-logic" target="1.8" />

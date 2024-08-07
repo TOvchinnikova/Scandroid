@@ -7,4 +7,5 @@ data class HistoryUiState(
     val isLoading: Boolean,
     val codes: List<CodeUiModel> = emptyList(),
     val isVisibleCheckBox: Boolean = false,
+    val isVisibleDeleteDialog: Boolean = false
 ) : UiState

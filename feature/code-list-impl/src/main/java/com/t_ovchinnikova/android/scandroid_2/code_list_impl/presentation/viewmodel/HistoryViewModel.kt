@@ -37,7 +37,11 @@ class HistoryViewModel(
             is HistoryUiAction.DeleteCode -> deleteCode(action.id)
             is HistoryUiAction.ToggleFavourite -> toggleFavourite(action.code)
             is HistoryUiAction.UpdateSearchCondition -> updateSearchCondition(action.condition)
-            HistoryUiAction.LongClickItem -> updateState { copy(isVisibleCheckBox = true) }
+            is HistoryUiAction.LongClickItem -> onLongClickItem(action.codeId)
+            HistoryUiAction.CancelChecking -> onCancelChecking()
+            is HistoryUiAction.CheckCode -> onCheckCode(action.codeId)
+            HistoryUiAction.ShowDeleteDialog -> updateState { copy(isVisibleDeleteDialog = true) }
+            HistoryUiAction.HideDeleteDialog -> updateState { copy(isVisibleDeleteDialog = false) }
         }
     }
 
@@ -84,5 +88,45 @@ class HistoryViewModel(
 
     private fun updateSearchCondition(condition: String) {
         searchConditionFlow.value = condition
+    }
+
+    private fun onCheckCode(codeId: UUID) {
+        updateState {
+            copy(
+                codes = codes.map {
+                    if (it.code.id == codeId) {
+                        CodeUiModel(it.code, !it.isChecked)
+                    } else {
+                        it
+                    }
+                }
+            )
+        }
+    }
+
+    private fun onCancelChecking() {
+        updateState {
+            copy(
+                isVisibleCheckBox = false,
+                codes = codes.map {
+                    CodeUiModel(it.code, false)
+                }
+            )
+        }
+    }
+
+    private fun onLongClickItem(codeId: UUID) {
+        updateState {
+            copy(
+                isVisibleCheckBox = true,
+                codes = codes.map {
+                    if (it.code.id == codeId) {
+                        CodeUiModel(it.code, !it.isChecked)
+                    } else {
+                        it
+                    }
+                }
+            )
+        }
     }
 }
