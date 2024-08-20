@@ -10,7 +10,7 @@ interface CodeDataSource {
 
     suspend fun deleteCode(codeId: UUID)
 
-    fun getCodeByIdAsync(id: UUID): Flow<Code>
+    fun getCodeByIdAsync(id: UUID): Flow<Code?>
 
     fun getCodeById(id: UUID): Code?
 }

@@ -1,5 +1,6 @@
 package com.t_ovchinnikova.android.scandroid_2.code_details_impl.presentation.model.mvi
 
+import android.content.Context
 import com.t_ovchinnikova.android.scandroid_2.core_mvi.UiAction
 
 interface CodeDetailsUiAction : UiAction {
@@ -12,7 +13,15 @@ interface CodeDetailsUiAction : UiAction {
 
     object CopyCodeValueToClipboard : CodeDetailsUiAction
 
-    object SearchOnWeb : CodeDetailsUiAction
+    data class SearchOnWeb(val context: Context) : CodeDetailsUiAction
 
-    object ShareCodeValue : CodeDetailsUiAction
+    data class ShareCodeValue(val context: Context) : CodeDetailsUiAction
+
+    object ShowDeleteDialog : CodeDetailsUiAction
+
+    object HideDeleteDialog : CodeDetailsUiAction
+
+    object ShowCommentDialog: CodeDetailsUiAction
+
+    object HideCommentDialog : CodeDetailsUiAction
 }

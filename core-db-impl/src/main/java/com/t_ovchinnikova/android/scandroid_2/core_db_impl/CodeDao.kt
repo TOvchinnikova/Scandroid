@@ -15,7 +15,7 @@ interface CodeDao {
     fun getCodes(): Flow<List<CodeDbModel>>
 
     @Query("SELECT * FROM codes WHERE id = :id")
-    fun getCodeByIdAsync(id: UUID): Flow<CodeDbModel>
+    fun getCodeByIdAsync(id: UUID): Flow<CodeDbModel?>
 
     @Query("SELECT * FROM codes WHERE id = :id")
     fun getCodeById(id: UUID): CodeDbModel?

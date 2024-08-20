@@ -41,15 +41,16 @@ import androidx.constraintlayout.compose.ExperimentalMotionApi
 import androidx.constraintlayout.compose.MotionLayout
 import androidx.constraintlayout.compose.MotionScene
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.R
+import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.model.mvi.HistoryUiAction
 import com.t_ovchinnikova.android.scandroid_2.core_ui.EMPTY
 import com.t_ovchinnikova.android.scandroid_2.core_ui.theme.SearchFieldBackgroundColor
+import com.t_ovchinnikova.android.scandroid_2.core_resources.R as CoreResources
 
 @OptIn(ExperimentalMotionApi::class, ExperimentalMaterialApi::class)
 @Composable
 fun HistoryAppBar(
     title: String,
-    deleteClickListener: () -> Unit,
-    onSearchEditingListener: (String) -> Unit,
+    onAction: (HistoryUiAction) -> Unit,
     progress: Float,
     motionHeight: Dp
 ) {
@@ -90,55 +91,55 @@ fun HistoryAppBar(
             Image(
                 modifier = Modifier
                     .layoutId("delete_button")
-                    .clickable { deleteClickListener.invoke() },
+                    .clickable { onAction(HistoryUiAction.ShowDeleteDialog) },
                 imageVector = Icons.Filled.Delete,
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground)
             )
-            BasicTextField(
-                value = searchState.value,
-                singleLine = true,
-                onValueChange = {
-                    searchState.value = it
-                    onSearchEditingListener.invoke(it)
-                },
-                interactionSource = interactionSource,
-                textStyle = TextStyle(fontSize = 16.sp),
-                modifier = Modifier
-                    .layoutId("search_field")
-                    .background(
-                        color = SearchFieldBackgroundColor,
-                        shape = RoundedCornerShape(8.dp)
-                    )
-                    .padding(start = 10.dp)
-            ) { innerTextField ->
-                TextFieldDefaults.TextFieldDecorationBox(
+                BasicTextField(
                     value = searchState.value,
-                    visualTransformation = VisualTransformation.None,
-                    innerTextField = innerTextField,
                     singleLine = true,
-                    enabled = true,
+                    onValueChange = {
+                        searchState.value = it
+                        onAction(HistoryUiAction.UpdateSearchCondition(it))
+                    },
                     interactionSource = interactionSource,
-                    placeholder  = { Text(
-                        text = stringResource(id = R.string.barcode_search_on_list),
-                        modifier = Modifier.padding(0.dp)) },
-                    contentPadding = PaddingValues(0.dp),
-                    trailingIcon = {
-                        if (searchState.value != EMPTY) IconButton(
-                            onClick = {
-                                searchState.value = EMPTY
-                                onSearchEditingListener.invoke(EMPTY)
-                            },
-                            modifier = Modifier.size(20.dp)
-                        ) {
-                            Icon(
-                                imageVector = Icons.Filled.Clear,
-                                contentDescription = "Clear"
-                            )
+                    textStyle = TextStyle(fontSize = 16.sp),
+                    modifier = Modifier
+                        .layoutId("app_bar_content_field")
+                        .background(
+                            color = SearchFieldBackgroundColor,
+                            shape = RoundedCornerShape(8.dp)
+                        )
+                        .padding(start = 10.dp)
+                ) { innerTextField ->
+                    TextFieldDefaults.TextFieldDecorationBox(
+                        value = searchState.value,
+                        visualTransformation = VisualTransformation.None,
+                        innerTextField = innerTextField,
+                        singleLine = true,
+                        enabled = true,
+                        interactionSource = interactionSource,
+                        placeholder  = { Text(
+                            text = stringResource(id = CoreResources.string.barcode_search_on_list),
+                            modifier = Modifier.padding(0.dp)) },
+                        contentPadding = PaddingValues(0.dp),
+                        trailingIcon = {
+                            if (searchState.value != EMPTY) IconButton(
+                                onClick = {
+                                    searchState.value = EMPTY
+                                    onAction(HistoryUiAction.UpdateSearchCondition(EMPTY))
+                                },
+                                modifier = Modifier.size(20.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Filled.Clear,
+                                    contentDescription = "Clear"
+                                )
+                            }
                         }
-                    }
-                )
-            }
+                    )
+                }
         }
     }
 }
@@ -149,9 +150,8 @@ fun HistoryAppBarCollapsedPreview() {
     HistoryAppBar(
         title = "History",
         progress = 1f,
-        deleteClickListener = {},
+        onAction = {},
         motionHeight = 56.dp,
-        onSearchEditingListener = {}
     )
 }
 
@@ -161,8 +161,7 @@ fun HistoryAppBarPreview() {
     HistoryAppBar(
         title = "History",
         progress = 0f,
-        deleteClickListener = {},
+        onAction = {},
         motionHeight = 112.dp,
-        onSearchEditingListener = {}
     )
 }

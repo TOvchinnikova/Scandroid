@@ -2,6 +2,7 @@ package com.t_ovchinnikova.android.scandroid_2.core_utils
 
 import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.CodeFormat
 import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.CodeType
+import com.t_ovchinnikova.android.scandroid_2.core_resources.R as CoreResources
 
 fun CodeFormat.toStringRes(): Int {
     return when(this) {
@@ -41,9 +42,9 @@ fun CodeType.toStringRes(): Int {
 
 fun CodeFormat.toImageId(): Int {
     return when(this) {
-        CodeFormat.QR_CODE -> R.drawable.ic_qr_code
-        CodeFormat.DATA_MATRIX -> R.drawable.ic_data_matrix
-        CodeFormat.AZTEC -> R.drawable.ic_aztec
-        else -> R.drawable.ic_barcode
+        CodeFormat.QR_CODE -> CoreResources.drawable.ic_qr_code
+        CodeFormat.DATA_MATRIX -> CoreResources.drawable.ic_data_matrix
+        CodeFormat.AZTEC -> CoreResources.drawable.ic_aztec
+        else -> CoreResources.drawable.ic_barcode
     }
 }

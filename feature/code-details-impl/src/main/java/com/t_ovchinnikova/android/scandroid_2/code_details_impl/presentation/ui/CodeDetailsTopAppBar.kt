@@ -13,8 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.t_ovchinnikova.android.scandroid_2.code_details_impl.R
 import com.t_ovchinnikova.android.scandroid_2.code_details_impl.presentation.model.mvi.CodeDetailsUiAction
+import com.t_ovchinnikova.android.scandroid_2.core_resources.R as CoreResources
 
 @Composable
 fun CodeDetailsTopAppBar(
@@ -45,13 +45,17 @@ fun CodeDetailsTopAppBar(
                 ) {
                     Image(
                         painter = painterResource(
-                            id = if (isFavourite) R.drawable.ic_favorite_on else R.drawable.ic_favorite_off
+                            id = if (isFavourite) {
+                                CoreResources.drawable.ic_favorite_on
+                            } else {
+                                CoreResources.drawable.ic_favorite_off
+                            }
                         ),
                         contentDescription = null
                     )
                 }
                 IconButton(
-                    onClick = { onAction(CodeDetailsUiAction.DeleteBarcode) }
+                    onClick = { onAction(CodeDetailsUiAction.ShowDeleteDialog) }
                 ) {
                     Image(
                         imageVector = Icons.Filled.Delete,

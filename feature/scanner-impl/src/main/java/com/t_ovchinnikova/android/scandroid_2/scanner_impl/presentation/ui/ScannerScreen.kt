@@ -7,7 +7,6 @@ import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageAnalysis.Analyzer
-import androidx.camera.core.Preview
 import androidx.camera.core.UseCaseGroup
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
@@ -31,30 +30,25 @@ import com.t_ovchinnikova.android.scandroid_2.core_ui.CenterProgress
 import com.t_ovchinnikova.android.scandroid_2.core_utils.executor
 import com.t_ovchinnikova.android.scandroid_2.scanner_impl.presentation.model.mvi.ScannerScreenUiAction
 import com.t_ovchinnikova.android.scandroid_2.scanner_impl.presentation.model.mvi.ScannerScreenUiSideEffect
+import com.t_ovchinnikova.android.scandroid_2.scanner_impl.presentation.model.mvi.ScannerScreenUiState
 import com.t_ovchinnikova.android.scandroid_2.scanner_impl.viewmodel.ScanningViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.compose.get
 import org.koin.androidx.compose.koinViewModel
-import org.koin.core.parameter.parametersOf
 import java.util.UUID
 import java.util.concurrent.Executors
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
+import androidx.camera.core.Preview as CameraPreview
 
 @Composable
 fun ScannerScreen(
     paddingValues: PaddingValues,
     onScanListener: (codeId: UUID) -> Unit,
-    viewModel: ScanningViewModel = koinViewModel<ScanningViewModel>(parameters = {
-        parametersOf(
-            onScanListener
-        )
-    })
+    viewModel: ScanningViewModel = koinViewModel<ScanningViewModel>()
 ) {
     val screenState = viewModel.uiState.collectAsState().value
-
-    val context = LocalContext.current
 
     LaunchedEffect(key1 = Unit) {
         viewModel.uiSideEffect.onEach {
@@ -65,6 +59,20 @@ fun ScannerScreen(
             }
         }.launchIn(this)
     }
+    ScannerContent(
+        paddingValues = paddingValues,
+        screenState = screenState,
+        onAction = viewModel::onAction
+    )
+}
+
+@Composable
+private fun ScannerContent(
+    paddingValues: PaddingValues,
+    screenState: ScannerScreenUiState,
+    onAction: (ScannerScreenUiAction) -> Unit
+) {
+    val context = LocalContext.current
 
     val previewCameraView = remember {
         PreviewView(context).apply {
@@ -106,9 +114,7 @@ fun ScannerScreen(
             imageAnalysis.clearAnalyzer()
             cameraProvider.value?.unbindAll()
         } else {
-            val analyzer = get<Analyzer> {
-                parametersOf(74, 20) //todo убрать эти параметры отсюда
-            }
+            val analyzer = get<Analyzer>()
             imageAnalysis.setAnalyzer(cameraExecutor, analyzer)
         }
         LaunchedEffect(cameraSelector) {
@@ -119,7 +125,7 @@ fun ScannerScreen(
                     }, context.executor)
                 }
             }
-            val previewUseCase = Preview.Builder()
+            val previewUseCase = CameraPreview.Builder()
                 .build()
                 .also { it.setSurfaceProvider(previewCameraView.surfaceProvider) }
 
@@ -137,7 +143,7 @@ fun ScannerScreen(
                 .fillMaxSize()
                 .padding(bottom = 30.dp),
             isFlashing = screenState.isFlashlightWorks
-        ) { viewModel.onAction(ScannerScreenUiAction.SwitchFlash) }
+        ) { onAction(ScannerScreenUiAction.SwitchFlash) }
         camera.value?.cameraControl?.enableTorch(screenState.isFlashlightWorks)
     }
     if (screenState.isLoading) {
@@ -159,7 +165,7 @@ private fun buildImageAnalysis(aspectRatio: Int): ImageAnalysis {
 }
 
 @SuppressLint("UnsafeOptInUsageError")
-private fun buildUseCaseGroup(preview: Preview, imageAnalysis: ImageAnalysis): UseCaseGroup {
+private fun buildUseCaseGroup(preview: CameraPreview, imageAnalysis: ImageAnalysis): UseCaseGroup {
     return UseCaseGroup.Builder()
         .addUseCase(preview)
         .addUseCase(imageAnalysis)

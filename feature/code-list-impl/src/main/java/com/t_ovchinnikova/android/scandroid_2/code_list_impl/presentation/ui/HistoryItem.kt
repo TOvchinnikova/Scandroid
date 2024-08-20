@@ -24,7 +24,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.t_ovchinnikova.android.scandroid_2.code_list_impl.R
+import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.model.CodeUiModel
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.model.mvi.HistoryUiAction
 import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
 import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.CodeFormat
@@ -39,16 +39,18 @@ import com.t_ovchinnikova.android.scandroid_2.core_utils.toStringRes
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.UUID
+import com.t_ovchinnikova.android.scandroid_2.core_resources.R as CoreResources
 
 @Composable
 fun HistoryItem(
-    code: Code,
+    codeModel: CodeUiModel,
+    isVisibleCheckBox: Boolean,
     onAction: (HistoryUiAction) -> Unit,
     codeItemClickListener: (codeId: UUID) -> Unit
 ) {
     Card(
         modifier = Modifier
-            .clickable { codeItemClickListener(code.id) }
+            .clickable { codeItemClickListener(codeModel.code.id) }
     ) {
         Row(
             modifier = Modifier
@@ -65,7 +67,7 @@ fun HistoryItem(
                     )
                     .padding(7.dp)
                     .size(24.dp),
-                painter = painterResource(id = code.format.toImageId()),
+                painter = painterResource(id = codeModel.code.format.toImageId()),
                 contentDescription = null
             )
             Spacer(modifier = Modifier.width(10.dp))
@@ -77,16 +79,16 @@ fun HistoryItem(
             ) {
                 Text(
                     modifier = Modifier.padding(bottom = 4.dp),
-                    text = code.text
+                    text = codeModel.code.text
                 )
-                if (code.note.isNotBlank()) {
+                if (codeModel.code.note.isNotBlank()) {
                     SecondaryText(
                         modifier = Modifier.padding(bottom = 4.dp),
-                        text = code.note
+                        text = codeModel.code.note
                     )
                 }
                 SecondaryText(
-                    text = code.date.toStringByPattern(
+                    text = codeModel.code.date.toStringByPattern(
                         SimpleDateFormat(DATE_PATTERN_STRING, Locale.ENGLISH)
                     )
                 )
@@ -101,19 +103,19 @@ fun HistoryItem(
                     modifier = Modifier
                         .padding(bottom = 8.dp)
                         .clickable {
-                            onAction(HistoryUiAction.ToggleFavourite(code))
+                            onAction(HistoryUiAction.ToggleFavourite(codeModel.code))
                         },
                     painter = painterResource(
-                        id = if (code.isFavorite) {
-                            R.drawable.ic_favorite_on
+                        id = if (codeModel.code.isFavorite) {
+                            CoreResources.drawable.ic_favorite_on
                         } else {
-                            R.drawable.ic_favorite_off
+                            CoreResources.drawable.ic_favorite_off
                         }
                     ),
                     contentDescription = null
                 )
                 SecondaryText(
-                    text = stringResource(id = code.format.toStringRes())
+                    text = stringResource(id = codeModel.code.format.toStringRes())
                 )
             }
         }
@@ -125,14 +127,17 @@ fun HistoryItem(
 private fun HistoryItemPreview() {
     ScandroidTheme {
         HistoryItem(
-            code = Code(
-                id = UUID.randomUUID(),
-                text = "12345678910111115454545454454545454545454545454454545454",
-                format = CodeFormat.QR_CODE,
-                type = CodeType.TEXT,
-                note = "Note",
-                isFavorite = true
+            codeModel = CodeUiModel(
+                code = Code(
+                    id = UUID.randomUUID(),
+                    text = "12345678910111115454545454454545454545454545454454545454",
+                    format = CodeFormat.QR_CODE,
+                    type = CodeType.TEXT,
+                    note = "Note",
+                    isFavorite = true
+                )
             ),
+            isVisibleCheckBox = true,
             onAction = { },
             codeItemClickListener = { }
         )
@@ -144,14 +149,17 @@ private fun HistoryItemPreview() {
 private fun HistoryItemPreviewDark() {
     ScandroidTheme(true) {
         HistoryItem(
-            code = Code(
-                id = UUID.randomUUID(),
-                text = "1234567891011111",
-                format = CodeFormat.QR_CODE,
-                type = CodeType.TEXT,
-                note = "Note",
-                isFavorite = true
+            codeModel = CodeUiModel(
+                code = Code(
+                    id = UUID.randomUUID(),
+                    text = "12345678910111115454545454454545454545454545454454545454",
+                    format = CodeFormat.QR_CODE,
+                    type = CodeType.TEXT,
+                    note = "Note",
+                    isFavorite = true
+                )
             ),
+            isVisibleCheckBox = true,
             onAction = { },
             codeItemClickListener = { }
         )

@@ -7,6 +7,8 @@ data class CodeDetailsUiState(
     val toolbarTitle: String = "",
     val code: Code? = null,
     val isSendingNoteWithCode: Boolean = false,
-    val isLoading: Boolean = true
+    val isLoading: Boolean = true,
+    val isVisibleDeleteDialog: Boolean = false,
+    val isVisibleCommentDialog: Boolean = false,
 ) : UiState
 

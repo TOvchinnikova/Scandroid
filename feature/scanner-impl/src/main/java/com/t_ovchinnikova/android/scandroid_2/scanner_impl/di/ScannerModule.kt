@@ -27,12 +27,10 @@ import org.koin.dsl.module
 
 val scannerModule = module {
 
-    factory<ImageAnalysis.Analyzer> { (heightCropPercent: Int, widthCropPercent: Int) ->
+    factory<ImageAnalysis.Analyzer> {
         ScanAnalyzer(
             recognizeCodeUseCase = get() as RecognizeCodeUseCase,
-            cropImageUseCase = get() as CropImageUseCase,
-            heightCropPercent = heightCropPercent,
-            widthCropPercent = widthCropPercent
+            cropImageUseCase = get() as CropImageUseCase
         )
     }
 

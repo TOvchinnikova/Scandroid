@@ -1,5 +1,6 @@
 package com.t_ovchinnikova.android.scandroid_2.code_details_impl.presentation.viewmodel
 
+import android.app.Application
 import android.content.Context
 import androidx.lifecycle.viewModelScope
 import com.t_ovchinnikova.android.scandroid_2.code_details_impl.presentation.model.mvi.CodeDetailsUiAction
@@ -24,7 +25,7 @@ import java.util.UUID
 
 class CodeDetailsViewModel(
     private val codeId: UUID,
-    private val context: Context,
+    private val context: Application,
     private val deleteCodeUseCase: DeleteCodeUseCase,
     private val addCodeUseCase: AddCodeUseCase,
     private val dispatcher: CoroutineDispatcher,
@@ -56,12 +57,28 @@ class CodeDetailsViewModel(
                 context.copyToClipboard(uiState.value.code?.text ?: "")
             }
 
-            CodeDetailsUiAction.SearchOnWeb -> {
-                context.searchWeb(uiState.value.code?.text ?: "")
+            is CodeDetailsUiAction.SearchOnWeb -> {
+                action.context.searchWeb(uiState.value.code?.text ?: "")
             }
 
-            CodeDetailsUiAction.ShareCodeValue -> {
-                shareCodeValue()
+            is CodeDetailsUiAction.ShareCodeValue -> {
+                shareCodeValue(action.context)
+            }
+
+            CodeDetailsUiAction.HideDeleteDialog -> {
+                updateState { copy(isVisibleDeleteDialog = false) }
+            }
+
+            CodeDetailsUiAction.ShowDeleteDialog -> {
+                updateState { copy(isVisibleDeleteDialog = true) }
+            }
+
+            CodeDetailsUiAction.ShowCommentDialog -> {
+                updateState { copy(isVisibleCommentDialog = true) }
+            }
+
+            CodeDetailsUiAction.HideCommentDialog -> {
+                updateState { copy(isVisibleCommentDialog = false) }
             }
         }
     }
@@ -89,7 +106,7 @@ class CodeDetailsViewModel(
             .launchIn(viewModelScope)
     }
 
-    private fun shareCodeValue() {
+    private fun shareCodeValue(context: Context) {
         uiState.value.code?.let { code ->
             val message =
                 if (code.note.isNotBlank() && uiState.value.isSendingNoteWithCode)
@@ -123,7 +140,6 @@ class CodeDetailsViewModel(
             uiState.value.code?.let {
                 deleteCodeUseCase(it.id)
             }
-
         }
     }
 }
