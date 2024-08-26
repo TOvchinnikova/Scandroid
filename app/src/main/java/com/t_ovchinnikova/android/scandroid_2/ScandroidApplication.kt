@@ -2,7 +2,6 @@ package com.t_ovchinnikova.android.scandroid_2
 
 import android.app.Application
 import com.t_ovchinnikova.android.scandroid_2.di.appModules
-import org.koin.android.BuildConfig
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin

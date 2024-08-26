@@ -5,7 +5,7 @@ import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.JavaVersion
 
 internal fun Project.configureKotlinAndroid(
-    commonExtension: CommonExtension<*, *, *, *, *, *>,
+    commonExtension: CommonExtension<*, *, *, *, *>,
 ) {
     commonExtension.apply {
         compileSdk = libs.findVersion("compile-sdk").get().toString().toInt()
