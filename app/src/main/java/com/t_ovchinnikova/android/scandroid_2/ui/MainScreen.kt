@@ -1,6 +1,7 @@
 package com.t_ovchinnikova.android.scandroid_2.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
@@ -25,6 +26,7 @@ fun MainScreen() {
     val navigationState = rememberNavigationState()
 
     Scaffold(
+        modifier = Modifier.navigationBarsPadding(),
         bottomBar = {
             BottomBar(navigationState)
         }
