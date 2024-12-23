@@ -5,20 +5,19 @@ min-sdk = "23"
 target-sdk = "34"
 jvm = "17"
 
-androidGradlePlugin = "8.2.2"
+androidGradlePlugin = "8.7.3"
 
 koinCore = "3.5.0"
 koinAndroid = "3.5.0"
 koinAndroidxCompose = "3.3.0"
 
-kotlin = "1.9.25"
+kotlin = "2.1.0"
 kotlinGradlePlugin = "1.9.0"
-kotlinxCoroutines = "1.8.0-RC2"
+kotlinxCoroutines = "1.10.0"
 
-ksp = "1.9.22-1.0.16"
+ksp = "2.1.0-1.0.29"
 
 compose = "1.6.8"
-androidxComposeCompiler = "1.5.15"
 composeNavigation = "2.7.7"
 composeConstraint = "1.0.1"
 composeActivity = "1.9.1"
@@ -87,3 +86,4 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
