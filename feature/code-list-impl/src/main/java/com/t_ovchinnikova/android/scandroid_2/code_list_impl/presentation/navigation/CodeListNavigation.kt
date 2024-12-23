@@ -6,7 +6,6 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.ui.HistoryScreen
-import java.util.UUID
 
 const val ROUTE_HISTORY = "history"
 const val GRAPH_HISTORY = "history_graph"
@@ -16,7 +15,7 @@ fun NavController.navigateToCodeListGraph(navOptions: NavOptions? = null) {
 }
 
 fun NavGraphBuilder.codeListGraph(
-    codeItemClickListener: (codeId: UUID) -> Unit,
+    codeItemClickListener: (codeId: String) -> Unit,
     nestedGraphs: NavGraphBuilder.() -> Unit
 ) {
     navigation(

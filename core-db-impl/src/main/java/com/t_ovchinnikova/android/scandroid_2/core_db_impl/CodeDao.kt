@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.t_ovchinnikova.android.scandroid_2.core_db_impl.entity.CodeDbModel
 import kotlinx.coroutines.flow.Flow
-import java.util.*
+import java.util.UUID
 
 @Dao
 interface CodeDao {
@@ -32,4 +32,6 @@ interface CodeDao {
     @Query("SELECT * FROM codes WHERE text LIKE '%' || :filterText || '%' ORDER BY date DESC")
     fun getCodesWithFilter(filterText: String): Flow<List<CodeDbModel>>
 
+    @Query("UPDATE codes SET isFavorite = :isFavorite WHERE id = :codeId")
+    fun updateFavoriteToggle(codeId: UUID, isFavorite: Boolean): Int
 }

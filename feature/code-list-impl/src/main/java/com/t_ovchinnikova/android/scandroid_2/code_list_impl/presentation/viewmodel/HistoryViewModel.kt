@@ -3,12 +3,13 @@ package com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.viewm
 import androidx.lifecycle.viewModelScope
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.domain.usecase.DeleteAllCodesUseCase
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.domain.usecase.GetCodesUseCase
+import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.mapper.toUiModel
+import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.model.CodeItemUiModel
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.model.CodeUiModel
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.model.mvi.HistoryUiAction
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.model.mvi.HistoryUiState
-import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
-import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.AddCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.DeleteCodeUseCase
+import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.UpdateCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.core_mvi.BaseViewModel
 import com.t_ovchinnikova.android.scandroid_2.core_ui.EMPTY
 import kotlinx.coroutines.CoroutineDispatcher
@@ -22,12 +23,31 @@ import java.util.UUID
 class HistoryViewModel(
     private val deleteCodeUseCase: DeleteCodeUseCase,
     private val deleteAllCodesUseCase: DeleteAllCodesUseCase,
-    private val addCodeUseCase: AddCodeUseCase,
+    private val updateCodeUseCase: UpdateCodeUseCase,
     getCodesUseCase: GetCodesUseCase,
     private val dispatcher: CoroutineDispatcher
 ) : BaseViewModel<HistoryUiState, HistoryUiAction>() {
 
     private val searchConditionFlow = MutableStateFlow(EMPTY)
+
+    init {
+        combine(
+            getCodesUseCase(),
+            searchConditionFlow
+        ) { codeList, searchCondition ->
+            val filteredList = codeList.filter {
+                it.text.contains(searchCondition) ||
+                        it.note.contains(searchCondition) ||
+                        it.type.name.contains(searchCondition) ||
+                        it.format.name.contains(searchCondition)
+            }.map { CodeItemUiModel(code = it.toUiModel(), isChecked = false) }
+            updateState {
+                copy(codes = filteredList, isLoading = false)
+            }
+        }
+            .flowOn(dispatcher)
+            .launchIn(viewModelScope)
+    }
 
     override fun getInitialState(): HistoryUiState = HistoryUiState(isLoading = true)
 
@@ -45,28 +65,9 @@ class HistoryViewModel(
         }
     }
 
-    init {
-        combine(
-            getCodesUseCase(),
-            searchConditionFlow
-        ) { codeList, searchCondition ->
-            val filteredList = codeList.filter {
-                it.text.contains(searchCondition) ||
-                        it.note.contains(searchCondition) ||
-                        it.type.name.contains(searchCondition) ||
-                        it.format.name.contains(searchCondition)
-            }.map { CodeUiModel(code = it, isChecked = false) }
-            updateState {
-                copy(codes = filteredList, isLoading = false)
-            }
-        }
-            .flowOn(dispatcher)
-            .launchIn(viewModelScope)
-    }
-
-    private fun deleteCode(codeId: UUID) {
+    private fun deleteCode(codeId: String) {
         viewModelScope.launch {
-            deleteCodeUseCase(codeId)
+            deleteCodeUseCase(UUID.fromString(codeId))
         }
     }
 
@@ -76,12 +77,11 @@ class HistoryViewModel(
         }
     }
 
-    private fun toggleFavourite(code: Code) {
+    private fun toggleFavourite(code: CodeUiModel) {
         viewModelScope.launch {
-            addCodeUseCase(
-                code.copy(
-                    isFavorite = !code.isFavorite
-                )
+            updateCodeUseCase(
+                codeId = UUID.fromString(code.id),
+                isFavorite = !code.isFavorite
             )
         }
     }
@@ -90,12 +90,12 @@ class HistoryViewModel(
         searchConditionFlow.value = condition
     }
 
-    private fun onCheckCode(codeId: UUID) {
+    private fun onCheckCode(codeId: String) {
         updateState {
             copy(
                 codes = codes.map {
                     if (it.code.id == codeId) {
-                        CodeUiModel(it.code, !it.isChecked)
+                        CodeItemUiModel(it.code, !it.isChecked)
                     } else {
                         it
                     }
@@ -109,19 +109,19 @@ class HistoryViewModel(
             copy(
                 isVisibleCheckBox = false,
                 codes = codes.map {
-                    CodeUiModel(it.code, false)
+                    CodeItemUiModel(it.code, false)
                 }
             )
         }
     }
 
-    private fun onLongClickItem(codeId: UUID) {
+    private fun onLongClickItem(codeId: String) {
         updateState {
             copy(
                 isVisibleCheckBox = true,
                 codes = codes.map {
                     if (it.code.id == codeId) {
-                        CodeUiModel(it.code, !it.isChecked)
+                        CodeItemUiModel(it.code, !it.isChecked)
                     } else {
                         it
                     }

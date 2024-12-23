@@ -13,6 +13,7 @@ import com.t_ovchinnikova.android.scandroid_2.core_ui.MenuItemScreen
 import com.t_ovchinnikova.android.scandroid_2.scanner_impl.presentation.navigation.GRAPH_SCANNER
 import com.t_ovchinnikova.android.scandroid_2.scanner_impl.presentation.navigation.scannerGraph
 import com.t_ovchinnikova.android.scandroid_2.settings_impl.navigation.settingsScreen
+import java.util.UUID
 
 @Composable
 fun AppNavGraph(
@@ -45,7 +46,7 @@ fun AppNavGraph(
         codeListGraph(
             codeItemClickListener = { codeUuid ->
                 navHostController.navigateToCodeDetails(
-                    codeUuid = codeUuid,
+                    codeUuid = UUID.fromString(codeUuid),
                     parentScreen = MenuItemScreen.HISTORY
                 )
             },

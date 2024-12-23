@@ -16,11 +16,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.R
+import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.model.CodeItemUiModel
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.model.CodeUiModel
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.model.mvi.HistoryUiAction
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.model.mvi.HistoryUiState
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.viewmodel.HistoryViewModel
-import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
 import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.CodeFormat
 import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.CodeType
 import com.t_ovchinnikova.android.scandroid_2.core_ui.CenterMessage
@@ -28,7 +28,6 @@ import com.t_ovchinnikova.android.scandroid_2.core_ui.CenterProgress
 import com.t_ovchinnikova.android.scandroid_2.core_ui.SimpleAlertDialog
 import com.t_ovchinnikova.android.scandroid_2.core_ui.theme.ScandroidTheme
 import org.koin.androidx.compose.koinViewModel
-import java.util.Date
 import java.util.UUID
 import com.t_ovchinnikova.android.scandroid_2.core_resources.R as CoreResources
 
@@ -37,7 +36,7 @@ private const val PROGRESS_KEY = "Progress"
 
 @Composable
 fun HistoryScreen(
-    codeItemClickListener: (codeId: UUID) -> Unit,
+    codeItemClickListener: (codeId: String) -> Unit,
     viewModel: HistoryViewModel = koinViewModel<HistoryViewModel>()
 ) {
     val screenState by viewModel.uiState.collectAsState()
@@ -53,7 +52,7 @@ fun HistoryScreen(
 fun HistoryContent(
     state: HistoryUiState,
     onAction: (HistoryUiAction) -> Unit,
-    codeItemClickListener: (codeId: UUID) -> Unit
+    codeItemClickListener: (codeId: String) -> Unit
 ) {
 
     val lazyScrollState = rememberLazyListState()
@@ -145,34 +144,34 @@ fun HistoryContentPreview(isDark: Boolean) {
         HistoryContent(
             state = HistoryUiState(
                 isLoading = false,
-                codes = listOf<CodeUiModel>(
-                    CodeUiModel(
-                        code = Code(
-                            id = UUID.randomUUID(),
+                codes = listOf<CodeItemUiModel>(
+                    CodeItemUiModel(
+                        code = CodeUiModel(
+                            id = UUID.randomUUID().toString(),
                             text = "12345678",
                             format = CodeFormat.DATA_MATRIX,
                             note = "Очень важный штрих-код",
-                            date = Date(),
+                            date = "23.12.2024 13:31",
                             isFavorite = true,
                             type = CodeType.TEXT
                         )
                     ),
-                    CodeUiModel(
-                        code = Code(
-                            id = UUID.randomUUID(),
+                    CodeItemUiModel(
+                        code = CodeUiModel(
+                            id = UUID.randomUUID().toString(),
                             text = "1234567891234",
                             format = CodeFormat.EAN_13,
-                            date = Date(),
+                            date = "23.12.2024 13:31",
                             isFavorite = false,
                             type = CodeType.TEXT
                         )
                     ),
-                    CodeUiModel(
-                        code = Code(
-                            id = UUID.randomUUID(),
+                    CodeItemUiModel(
+                        code = CodeUiModel(
+                            id = UUID.randomUUID().toString(),
                             text = "89585691785",
                             format = CodeFormat.QR_CODE,
-                            date = Date(),
+                            date = "23.12.2024 13:31",
                             isFavorite = false,
                             type = CodeType.PHONE
                         )

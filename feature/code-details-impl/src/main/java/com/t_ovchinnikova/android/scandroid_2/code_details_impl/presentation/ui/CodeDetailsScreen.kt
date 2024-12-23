@@ -29,7 +29,7 @@ import com.t_ovchinnikova.android.scandroid_2.code_details_impl.R
 import com.t_ovchinnikova.android.scandroid_2.code_details_impl.presentation.model.mvi.CodeDetailsUiAction
 import com.t_ovchinnikova.android.scandroid_2.code_details_impl.presentation.model.mvi.CodeDetailsUiState
 import com.t_ovchinnikova.android.scandroid_2.code_details_impl.presentation.viewmodel.CodeDetailsViewModel
-import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
+import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.CodeEntity
 import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.CodeFormat
 import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.CodeType
 import com.t_ovchinnikova.android.scandroid_2.core_ui.ActionButton
@@ -129,7 +129,7 @@ fun CodeDetailsContent(
 
 @Composable
 fun Content(
-    code: Code,
+    code: CodeEntity,
     isVisibleCommentDialog: Boolean,
     onAction: (CodeDetailsUiAction) -> Unit,
     paddings: PaddingValues
@@ -201,7 +201,7 @@ fun CodeDetailsPreview() {
     ScandroidTheme(false) {
         CodeDetailsContent(
             state = CodeDetailsUiState(
-                code = Code(
+                code = CodeEntity(
                     id = UUID.randomUUID(),
                     text = "12345678",
                     format = CodeFormat.DATA_MATRIX,
@@ -224,7 +224,7 @@ fun CodeDetailsPreviewDark() {
     ScandroidTheme(true) {
         CodeDetailsContent(
             state = CodeDetailsUiState(
-                code = Code(
+                code = CodeEntity(
                     id = UUID.randomUUID(),
                     text = "12345678",
                     format = CodeFormat.DATA_MATRIX,

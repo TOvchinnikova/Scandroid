@@ -9,10 +9,12 @@ import com.t_ovchinnikova.android.scandroid_2.code_details_impl.data.repository.
 import com.t_ovchinnikova.android.scandroid_2.code_details_impl.presentation.viewmodel.CodeDetailsViewModel
 import com.t_ovchinnikova.android.scandroid_2.core_db_impl.CodeDao
 import com.t_ovchinnikova.android.scandroid_2.code_details_impl.data.datasource.CodeDataSource
+import com.t_ovchinnikova.android.scandroid_2.code_details_impl.domain.interactor.UpdateCodeInteractor
 import com.t_ovchinnikova.android.scandroid_2.code_details_impl.domain.repository.CodeRepository
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.AddCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.DeleteCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.GetCodeUseCase
+import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.UpdateCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.core_executor.CoroutineDispatcherProvider
 import com.t_ovchinnikova.android.scandroid_2.settings_api.usecases.GetSettingsUseCase
 import org.koin.android.ext.koin.androidApplication
@@ -54,6 +56,13 @@ val codeDetailsModule = module {
 
     factory<DeleteCodeUseCase> {
         DeleteCodeInteractor(
+            repository = get() as CodeRepository,
+            dispatcher = (get() as CoroutineDispatcherProvider).io
+        )
+    }
+
+    factory<UpdateCodeUseCase> {
+        UpdateCodeInteractor(
             repository = get() as CodeRepository,
             dispatcher = (get() as CoroutineDispatcherProvider).io
         )

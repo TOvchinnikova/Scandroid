@@ -3,7 +3,7 @@ package com.t_ovchinnikova.android.scandroid_2.scanner_impl.domain.usecase.inter
 import com.google.mlkit.vision.barcode.BarcodeScanner
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
-import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
+import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.CodeEntity
 import com.t_ovchinnikova.android.scandroid_2.scanner_api.usecases.RecognizeCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.scanner_impl.domain.usecase.SetScannedCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.scanner_impl.mappers.MlKitFormatToCodeFormatMapper
@@ -25,11 +25,11 @@ class RecognizeCodeInteractor(
         }
     }
 
-    private fun checkList(list: List<Barcode>): Code? {
+    private fun checkList(list: List<Barcode>): CodeEntity? {
         return list.firstOrNull().let { barcode ->
             val rawValue = barcode?.rawValue
             rawValue?.let {
-                Code(
+                CodeEntity(
                     id = UUID.randomUUID(),
                     text = rawValue,
                     format = toCodeFormatMapper.map(barcode.format),

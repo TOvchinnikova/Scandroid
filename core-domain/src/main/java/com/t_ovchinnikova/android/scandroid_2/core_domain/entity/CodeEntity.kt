@@ -2,7 +2,7 @@ package com.t_ovchinnikova.android.scandroid_2.core_domain.entity
 
 import java.util.*
 
-data class Code(
+data class CodeEntity(
     val id: UUID,
     val text: String,
     val format: CodeFormat,

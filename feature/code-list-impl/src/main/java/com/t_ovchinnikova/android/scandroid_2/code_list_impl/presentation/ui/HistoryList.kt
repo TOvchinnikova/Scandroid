@@ -31,13 +31,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.model.CodeItemUiModel
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.model.CodeUiModel
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.model.mvi.HistoryUiAction
-import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
 import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.CodeFormat
 import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.CodeType
 import com.t_ovchinnikova.android.scandroid_2.core_ui.theme.ScandroidTheme
-import java.util.Date
 import java.util.UUID
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
@@ -45,10 +44,10 @@ import java.util.UUID
 fun HistoryList(
     lazyScrollState: LazyListState,
     paddingValues: PaddingValues,
-    codes: List<CodeUiModel>,
+    codes: List<CodeItemUiModel>,
     isVisibleCheckBox: Boolean,
     onAction: (HistoryUiAction) -> Unit,
-    codeItemClickListener: (codeId: UUID) -> Unit
+    codeItemClickListener: (codeId: String) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -133,34 +132,34 @@ private fun HistoryListPreviewDark() {
 
 @Composable
 private fun HistoryListPreview(isDark: Boolean) {
-    val codeList = listOf<CodeUiModel>(
-        CodeUiModel(
-            code = Code(
-                id = UUID.randomUUID(),
+    val codeList = listOf<CodeItemUiModel>(
+        CodeItemUiModel(
+            code = CodeUiModel(
+                id = UUID.randomUUID().toString(),
                 text = "12345678",
                 format = CodeFormat.DATA_MATRIX,
                 note = "Очень важный штрих-код",
-                date = Date(),
+                date = "23.12.2024 13:31",
                 isFavorite = true,
                 type = CodeType.TEXT
             )
         ),
-        CodeUiModel(
-            code = Code(
-                id = UUID.randomUUID(),
+        CodeItemUiModel(
+            code = CodeUiModel(
+                id = UUID.randomUUID().toString(),
                 text = "1234567891234",
                 format = CodeFormat.EAN_13,
-                date = Date(),
+                date = "23.12.2024 13:31",
                 isFavorite = false,
                 type = CodeType.TEXT
             )
         ),
-        CodeUiModel(
-            code = Code(
-                id = UUID.randomUUID(),
+        CodeItemUiModel(
+            code = CodeUiModel(
+                id = UUID.randomUUID().toString(),
                 text = "89585691785",
                 format = CodeFormat.QR_CODE,
-                date = Date(),
+                date = "23.12.2024 13:31",
                 isFavorite = false,
                 type = CodeType.PHONE
             )

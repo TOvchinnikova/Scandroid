@@ -5,7 +5,7 @@ import android.content.Context
 import androidx.lifecycle.viewModelScope
 import com.t_ovchinnikova.android.scandroid_2.code_details_impl.presentation.model.mvi.CodeDetailsUiAction
 import com.t_ovchinnikova.android.scandroid_2.code_details_impl.presentation.model.mvi.CodeDetailsUiState
-import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
+import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.CodeEntity
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.AddCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.DeleteCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.GetCodeUseCase
@@ -129,7 +129,7 @@ class CodeDetailsViewModel(
         }
     }
 
-    private fun updateBarcode(code: Code) {
+    private fun updateBarcode(code: CodeEntity) {
         viewModelScope.launch(dispatcher) {
             addCodeUseCase(code)
         }

@@ -13,8 +13,8 @@ import com.t_ovchinnikova.android.scandroid_2.code_list_impl.domain.usecase.inte
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.viewmodel.HistoryViewModel
 import com.t_ovchinnikova.android.scandroid_2.core_db_impl.CodeDao
 import com.t_ovchinnikova.android.scandroid_2.core_db_impl.mappers.CodeMapper
-import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.AddCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.DeleteCodeUseCase
+import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.UpdateCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.core_executor.CoroutineDispatcherProvider
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -57,7 +57,7 @@ val codeListModule = module {
             deleteAllCodesUseCase = get() as DeleteAllCodesUseCase,
             deleteCodeUseCase = get() as DeleteCodeUseCase,
             getCodesUseCase = get() as GetCodesUseCase,
-            addCodeUseCase = get() as AddCodeUseCase,
+            updateCodeUseCase = get() as UpdateCodeUseCase,
             dispatcher = (get() as CoroutineDispatcherProvider).io
         )
     }

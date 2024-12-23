@@ -2,7 +2,7 @@ package com.t_ovchinnikova.android.scandroid_2.scanner_impl.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.viewModelScope
-import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
+import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.CodeEntity
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.AddCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.core_mvi.BaseViewModel
 import com.t_ovchinnikova.android.scandroid_2.core_utils.vibrate
@@ -55,7 +55,7 @@ class ScanningViewModel(
             initialValue = null
         )
 
-    private val scannedCodeFlow: SharedFlow<Code> = getScannedCodeUseCase.invoke()
+    private val scannedCodeFlow: SharedFlow<CodeEntity> = getScannedCodeUseCase.invoke()
         .onEach {
             if (uiState.value.lastScannedCode?.text != it.text) {
                 onScannedCode(it)
@@ -92,7 +92,7 @@ class ScanningViewModel(
         }
     }
 
-    private fun onScannedCode(code: Code) {
+    private fun onScannedCode(code: CodeEntity) {
         viewModelScope.launch(dispatcher) {
             updateState {
                 copy(

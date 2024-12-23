@@ -24,29 +24,25 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.model.CodeItemUiModel
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.model.CodeUiModel
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.model.mvi.HistoryUiAction
-import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.Code
 import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.CodeFormat
 import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.CodeType
-import com.t_ovchinnikova.android.scandroid_2.core_ui.DATE_PATTERN_STRING
 import com.t_ovchinnikova.android.scandroid_2.core_ui.SecondaryText
 import com.t_ovchinnikova.android.scandroid_2.core_ui.theme.ColorPrimary
 import com.t_ovchinnikova.android.scandroid_2.core_ui.theme.ScandroidTheme
 import com.t_ovchinnikova.android.scandroid_2.core_utils.toImageId
-import com.t_ovchinnikova.android.scandroid_2.core_utils.toStringByPattern
 import com.t_ovchinnikova.android.scandroid_2.core_utils.toStringRes
-import java.text.SimpleDateFormat
-import java.util.Locale
 import java.util.UUID
 import com.t_ovchinnikova.android.scandroid_2.core_resources.R as CoreResources
 
 @Composable
 fun HistoryItem(
-    codeModel: CodeUiModel,
+    codeModel: CodeItemUiModel,
     isVisibleCheckBox: Boolean,
     onAction: (HistoryUiAction) -> Unit,
-    codeItemClickListener: (codeId: UUID) -> Unit
+    codeItemClickListener: (codeId: String) -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -88,9 +84,7 @@ fun HistoryItem(
                     )
                 }
                 SecondaryText(
-                    text = codeModel.code.date.toStringByPattern(
-                        SimpleDateFormat(DATE_PATTERN_STRING, Locale.ENGLISH)
-                    )
+                    text = codeModel.code.date
                 )
             }
             Column(
@@ -127,9 +121,9 @@ fun HistoryItem(
 private fun HistoryItemPreview() {
     ScandroidTheme {
         HistoryItem(
-            codeModel = CodeUiModel(
-                code = Code(
-                    id = UUID.randomUUID(),
+            codeModel = CodeItemUiModel(
+                code = CodeUiModel(
+                    id = UUID.randomUUID().toString(),
                     text = "12345678910111115454545454454545454545454545454454545454",
                     format = CodeFormat.QR_CODE,
                     type = CodeType.TEXT,
@@ -149,9 +143,9 @@ private fun HistoryItemPreview() {
 private fun HistoryItemPreviewDark() {
     ScandroidTheme(true) {
         HistoryItem(
-            codeModel = CodeUiModel(
-                code = Code(
-                    id = UUID.randomUUID(),
+            codeModel = CodeItemUiModel(
+                code = CodeUiModel(
+                    id = UUID.randomUUID().toString(),
                     text = "12345678910111115454545454454545454545454545454454545454",
                     format = CodeFormat.QR_CODE,
                     type = CodeType.TEXT,

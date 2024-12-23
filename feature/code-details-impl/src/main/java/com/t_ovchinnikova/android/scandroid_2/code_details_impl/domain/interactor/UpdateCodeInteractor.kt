@@ -1,19 +1,19 @@
 package com.t_ovchinnikova.android.scandroid_2.code_details_impl.domain.interactor
 
-import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.CodeEntity
 import com.t_ovchinnikova.android.scandroid_2.code_details_impl.domain.repository.CodeRepository
-import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.AddCodeUseCase
+import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.UpdateCodeUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import java.util.UUID
 
-class AddCodeInteractor(
+class UpdateCodeInteractor(
     private val repository: CodeRepository,
     private val dispatcher: CoroutineDispatcher
-) : AddCodeUseCase {
+) : UpdateCodeUseCase {
 
-    override suspend fun invoke(code: CodeEntity): Boolean {
-        return withContext(dispatcher) {
-            repository.addCode(code)
+    override suspend fun invoke(codeId: UUID, isFavorite: Boolean) {
+        withContext(dispatcher) {
+            repository.updateFavoriteToggle(codeId, isFavorite)
         }
     }
 }
