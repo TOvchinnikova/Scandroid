@@ -1,11 +1,19 @@
 package com.t_ovchinnikova.android.scandroid_2.core_ui
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
-import androidx.compose.material.MaterialTheme.typography
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme.typography
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -25,7 +33,7 @@ fun SimpleAlertDialog(
     confirmButtonText: String = EMPTY
 ) {
     AlertDialog(
-        title = { Text(text = title, style = typography.h6) },
+        title = { Text(text = title, style = typography.titleLarge) },
         text = {
             Text(subtitle)
         },
@@ -34,7 +42,6 @@ fun SimpleAlertDialog(
                 onClick = dismissClickListener,
                 modifier = Modifier
                     .padding(8.dp)
-                    .width(100.dp)
             ) {
                 Text(text = dismissButtonText)
             }
@@ -43,7 +50,6 @@ fun SimpleAlertDialog(
                     onClick = it,
                     modifier = Modifier
                         .padding(8.dp)
-                        .width(100.dp)
                 ) {
                     Text(text = confirmButtonText)
                 }
@@ -68,7 +74,7 @@ fun AlertDialogWithTextField(
 
     AlertDialog(
         modifier = Modifier.wrapContentHeight(),
-        title = { Text(text = title, style = typography.h6) },
+        title = { Text(text = title, style = typography.titleLarge) },
         text = {
             subtitle?.let {
                 Text(it)

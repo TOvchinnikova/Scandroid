@@ -105,7 +105,12 @@ private fun ScannerContent(
         )
     }
 
-    Box(modifier = Modifier.padding(paddingValues)) {
+    Box(
+        modifier = Modifier
+            .padding(
+                bottom = paddingValues.calculateBottomPadding()
+            )
+    ) {
         AndroidView(factory = { previewCameraView })
         AndroidView(factory = { ViewFinderOverlay(context = it, attrs = null) })
 

@@ -3,9 +3,10 @@ package com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.ui
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.Scaffold
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
@@ -73,7 +74,9 @@ fun HistoryContent(
     )
 
     Scaffold(
-        modifier = Modifier.statusBarsPadding(),
+        modifier = Modifier
+            .systemBarsPadding()
+            .imePadding(),
         topBar = {
             HistoryAppBar(
                 progress = progress,
@@ -151,7 +154,7 @@ fun HistoryContentPreview(isDark: Boolean) {
                             text = "12345678",
                             format = CodeFormat.DATA_MATRIX,
                             note = "Очень важный штрих-код",
-                            date = "23.12.2024 13:31",
+                            dateTime = "23.12.2024 13:31",
                             isFavorite = true,
                             type = CodeType.TEXT
                         )
@@ -161,7 +164,7 @@ fun HistoryContentPreview(isDark: Boolean) {
                             id = UUID.randomUUID().toString(),
                             text = "1234567891234",
                             format = CodeFormat.EAN_13,
-                            date = "23.12.2024 13:31",
+                            dateTime = "23.12.2024 13:31",
                             isFavorite = false,
                             type = CodeType.TEXT
                         )
@@ -171,7 +174,7 @@ fun HistoryContentPreview(isDark: Boolean) {
                             id = UUID.randomUUID().toString(),
                             text = "89585691785",
                             format = CodeFormat.QR_CODE,
-                            date = "23.12.2024 13:31",
+                            dateTime = "23.12.2024 13:31",
                             isFavorite = false,
                             type = CodeType.PHONE
                         )

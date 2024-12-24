@@ -15,8 +15,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Card
-import androidx.compose.material.Text
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,6 +48,8 @@ fun HistoryItem(
     codeItemClickListener: (codeId: String) -> Unit
 ) {
     Card(
+        colors = CardDefaults.cardColors().copy(containerColor = MaterialTheme.colorScheme.background),
+        elevation = CardDefaults.cardElevation(defaultElevation = 1.0.dp),
         modifier = Modifier
             .clickable { codeItemClickListener(codeModel.code.id) }
     ) {
@@ -75,6 +80,7 @@ fun HistoryItem(
             ) {
                 Text(
                     modifier = Modifier.padding(bottom = 4.dp),
+                    color = MaterialTheme.colorScheme.onBackground,
                     text = codeModel.code.text
                 )
                 if (codeModel.code.note.isNotBlank()) {
@@ -84,7 +90,7 @@ fun HistoryItem(
                     )
                 }
                 SecondaryText(
-                    text = codeModel.code.date
+                    text = codeModel.code.dateTime
                 )
             }
             Column(

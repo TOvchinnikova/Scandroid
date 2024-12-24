@@ -13,7 +13,7 @@ data class CodeUiModel(
     val text: String,
     val format: CodeFormat,
     val type: CodeType,
-    val date: String = "",
+    val dateTime: String = "",
     val note: String = "",
     val isFavorite: Boolean = false
 )

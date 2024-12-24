@@ -12,7 +12,7 @@ fun CodeEntity.toUiModel(): CodeUiModel = CodeUiModel(
     text = this.text,
     format = this.format,
     type = this.type,
-    date = this.date.toStringByPattern(
+    dateTime = this.date.toStringByPattern(
         SimpleDateFormat(DATE_PATTERN_STRING, Locale.getDefault())
     ),
     note = this.note,

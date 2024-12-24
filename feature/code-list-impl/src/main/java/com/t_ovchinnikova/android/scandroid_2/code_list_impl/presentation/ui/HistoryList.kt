@@ -2,7 +2,6 @@ package com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.ui
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,16 +12,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.DismissDirection
-import androidx.compose.material.DismissValue
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.FractionalThreshold
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.SwipeToDismiss
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.rememberDismissState
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
+import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
@@ -39,7 +35,6 @@ import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.CodeType
 import com.t_ovchinnikova.android.scandroid_2.core_ui.theme.ScandroidTheme
 import java.util.UUID
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun HistoryList(
     lazyScrollState: LazyListState,
@@ -57,7 +52,6 @@ fun HistoryList(
         contentPadding = PaddingValues(
             start = 16.dp,
             end = 16.dp,
-            bottom = 72.dp
         ),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     )
@@ -67,10 +61,10 @@ fun HistoryList(
             key = { it.code.id }
         ) { codeUiModel ->
             val currentItem by rememberUpdatedState(codeUiModel)
-            val dismissState = rememberDismissState(
-                confirmStateChange = {
+            val dismissState = rememberSwipeToDismissBoxState(
+                confirmValueChange = {
                     when (it) {
-                        DismissValue.DismissedToStart -> {
+                        SwipeToDismissBoxValue.EndToStart -> {
                             onAction.invoke(HistoryUiAction.DeleteCode(currentItem.code.id))
                             true
                         }
@@ -78,16 +72,13 @@ fun HistoryList(
                     }
                 }
             )
-            SwipeToDismiss(
-                modifier = Modifier.animateItemPlacement(),
+            SwipeToDismissBox (
+                modifier = Modifier.animateItem(),
                 state = dismissState,
-                background = {
+                backgroundContent = {
                     HistoryItemSwipeBackground()
                 },
-                directions = setOf(DismissDirection.EndToStart),
-                dismissThresholds = {
-                    FractionalThreshold(0.66f)
-                }
+                enableDismissFromStartToEnd = false,
             ) {
                 HistoryItem(
                     codeModel = codeUiModel,
@@ -139,7 +130,7 @@ private fun HistoryListPreview(isDark: Boolean) {
                 text = "12345678",
                 format = CodeFormat.DATA_MATRIX,
                 note = "Очень важный штрих-код",
-                date = "23.12.2024 13:31",
+                dateTime = "23.12.2024 13:31",
                 isFavorite = true,
                 type = CodeType.TEXT
             )
@@ -149,7 +140,7 @@ private fun HistoryListPreview(isDark: Boolean) {
                 id = UUID.randomUUID().toString(),
                 text = "1234567891234",
                 format = CodeFormat.EAN_13,
-                date = "23.12.2024 13:31",
+                dateTime = "23.12.2024 13:31",
                 isFavorite = false,
                 type = CodeType.TEXT
             )
@@ -159,7 +150,7 @@ private fun HistoryListPreview(isDark: Boolean) {
                 id = UUID.randomUUID().toString(),
                 text = "89585691785",
                 format = CodeFormat.QR_CODE,
-                date = "23.12.2024 13:31",
+                dateTime = "23.12.2024 13:31",
                 isFavorite = false,
                 type = CodeType.PHONE
             )

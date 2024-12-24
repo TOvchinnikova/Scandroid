@@ -13,15 +13,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -46,7 +46,7 @@ import com.t_ovchinnikova.android.scandroid_2.core_ui.EMPTY
 import com.t_ovchinnikova.android.scandroid_2.core_ui.theme.SearchFieldBackgroundColor
 import com.t_ovchinnikova.android.scandroid_2.core_resources.R as CoreResources
 
-@OptIn(ExperimentalMotionApi::class, ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMotionApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun HistoryAppBar(
     title: String,
@@ -79,13 +79,13 @@ fun HistoryAppBar(
             Box(
                 modifier = Modifier
                     .layoutId("app_bar")
-                    .background(MaterialTheme.colors.background)
+                    .background(MaterialTheme.colorScheme.background)
             )
 
             Text(
                 text = title,
-                color = MaterialTheme.colors.onBackground,
-                style = MaterialTheme.typography.h6,
+                color = MaterialTheme.colorScheme.onBackground,
+                style = MaterialTheme.typography.titleLarge,
                 modifier = Modifier.layoutId("title")
             )
             Image(
@@ -94,7 +94,7 @@ fun HistoryAppBar(
                     .clickable { onAction(HistoryUiAction.ShowDeleteDialog) },
                 imageVector = Icons.Filled.Delete,
                 contentDescription = null,
-                colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground)
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
             )
                 BasicTextField(
                     value = searchState.value,
@@ -111,15 +111,22 @@ fun HistoryAppBar(
                             color = SearchFieldBackgroundColor,
                             shape = RoundedCornerShape(8.dp)
                         )
-                        .padding(start = 10.dp)
+                    .padding(start = 10.dp, end = 10.dp)
+
                 ) { innerTextField ->
-                    TextFieldDefaults.TextFieldDecorationBox(
+                    TextFieldDefaults.DecorationBox(
                         value = searchState.value,
                         visualTransformation = VisualTransformation.None,
                         innerTextField = innerTextField,
                         singleLine = true,
                         enabled = true,
                         interactionSource = interactionSource,
+                        colors = TextFieldDefaults.colors(
+                            focusedContainerColor = SearchFieldBackgroundColor,
+                            unfocusedContainerColor = SearchFieldBackgroundColor,
+                            unfocusedPlaceholderColor = MaterialTheme.colorScheme.secondary,
+                            focusedPlaceholderColor = MaterialTheme.colorScheme.secondary,
+                        ),
                         placeholder  = { Text(
                             text = stringResource(id = CoreResources.string.barcode_search_on_list),
                             modifier = Modifier.padding(0.dp)) },
@@ -134,7 +141,8 @@ fun HistoryAppBar(
                             ) {
                                 Icon(
                                     imageVector = Icons.Filled.Clear,
-                                    contentDescription = "Clear"
+                                    contentDescription = "Clear",
+                                    tint = MaterialTheme.colorScheme.secondary
                                 )
                             }
                         }

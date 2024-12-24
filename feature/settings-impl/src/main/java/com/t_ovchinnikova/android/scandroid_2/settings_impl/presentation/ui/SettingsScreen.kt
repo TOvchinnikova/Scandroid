@@ -8,12 +8,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Switch
-import androidx.compose.material.SwitchDefaults
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -26,6 +27,7 @@ import com.t_ovchinnikova.android.scandroid_2.core_ui.CenterProgress
 import com.t_ovchinnikova.android.scandroid_2.core_ui.Divider
 import com.t_ovchinnikova.android.scandroid_2.core_ui.SecondaryText
 import com.t_ovchinnikova.android.scandroid_2.core_ui.theme.ScandroidTheme
+import com.t_ovchinnikova.android.scandroid_2.core_ui.theme.UncheckedSwitchBackgroundColor
 import com.t_ovchinnikova.android.scandroid_2.settings_api.entity.SettingsData
 import com.t_ovchinnikova.android.scandroid_2.settings_impl.R
 import com.t_ovchinnikova.android.scandroid_2.settings_impl.presentation.model.mvi.SettingsUiAction
@@ -47,6 +49,7 @@ fun SettingsScreen(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun Settings(
     screenState: SettingsUiState,
@@ -59,8 +62,6 @@ private fun Settings(
                 title = {
                     Text(text = stringResource(id = CoreResources.string.settings))
                 },
-                backgroundColor = MaterialTheme.colors.background,
-                elevation = 0.dp
             )
         }
     ) { paddingValues ->
@@ -153,8 +154,9 @@ private fun SettingsItem(
             checked = isChecked,
             onCheckedChange = clickListener,
             colors = SwitchDefaults.colors(
-                checkedThumbColor = MaterialTheme.colors.primaryVariant,
-                uncheckedThumbColor = MaterialTheme.colors.secondary
+                checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
+                uncheckedThumbColor = MaterialTheme.colorScheme.secondary,
+                uncheckedTrackColor = UncheckedSwitchBackgroundColor
             )
         )
     }
