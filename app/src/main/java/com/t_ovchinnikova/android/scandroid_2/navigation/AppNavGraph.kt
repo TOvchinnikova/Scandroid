@@ -3,7 +3,9 @@ package com.t_ovchinnikova.android.scandroid_2.navigation
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.t_ovchinnikova.android.scandroid_2.code_details_impl.presentation.navigation.codeDetailsScreen
@@ -21,6 +23,7 @@ fun AppNavGraph(
     paddingValues: PaddingValues,
 ) {
     NavHost(
+        modifier = Modifier.padding(bottom = paddingValues.calculateBottomPadding()),
         navController = navHostController,
         startDestination = GRAPH_SCANNER,
         enterTransition = { EnterTransition.None },
@@ -29,7 +32,6 @@ fun AppNavGraph(
         popExitTransition = { ExitTransition.None }
     ) {
         scannerGraph(
-            paddingValues = paddingValues,
             onScanListener = { codeUuid ->
                 navHostController.navigateToCodeDetails(
                     codeUuid = codeUuid,

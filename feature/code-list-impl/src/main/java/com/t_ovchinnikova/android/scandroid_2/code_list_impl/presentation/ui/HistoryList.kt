@@ -45,13 +45,12 @@ fun HistoryList(
     codeItemClickListener: (codeId: String) -> Unit
 ) {
     LazyColumn(
-        modifier = Modifier
-            .padding(paddingValues)
-            .animateContentSize(),
+        modifier = Modifier.padding(paddingValues),
         state = lazyScrollState,
         contentPadding = PaddingValues(
             start = 16.dp,
             end = 16.dp,
+            bottom = 16.dp
         ),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     )

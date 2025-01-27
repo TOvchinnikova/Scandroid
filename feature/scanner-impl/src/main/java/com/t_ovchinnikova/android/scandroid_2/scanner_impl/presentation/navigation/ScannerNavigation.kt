@@ -1,6 +1,5 @@
 package com.t_ovchinnikova.android.scandroid_2.scanner_impl.presentation.navigation
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
@@ -17,7 +16,6 @@ fun NavController.navigateToScannerGraph(navOptions: NavOptions? = null) {
 }
 
 fun NavGraphBuilder.scannerGraph(
-    paddingValues: PaddingValues,
     onScanListener: (codeId: UUID) -> Unit,
     nestedGraphs: NavGraphBuilder.() -> Unit
 ) {
@@ -27,7 +25,6 @@ fun NavGraphBuilder.scannerGraph(
     ) {
         composable(route = ROUTE_SCANNER) {
             ScannerScreen(
-                paddingValues = paddingValues,
                 onScanListener = onScanListener
             )
         }

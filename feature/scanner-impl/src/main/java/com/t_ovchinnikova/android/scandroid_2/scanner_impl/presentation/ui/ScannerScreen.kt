@@ -11,7 +11,6 @@ import androidx.camera.core.UseCaseGroup
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -44,7 +43,6 @@ import androidx.camera.core.Preview as CameraPreview
 
 @Composable
 fun ScannerScreen(
-    paddingValues: PaddingValues,
     onScanListener: (codeId: UUID) -> Unit,
     viewModel: ScanningViewModel = koinViewModel<ScanningViewModel>()
 ) {
@@ -60,7 +58,6 @@ fun ScannerScreen(
         }.launchIn(this)
     }
     ScannerContent(
-        paddingValues = paddingValues,
         screenState = screenState,
         onAction = viewModel::onAction
     )
@@ -68,7 +65,6 @@ fun ScannerScreen(
 
 @Composable
 private fun ScannerContent(
-    paddingValues: PaddingValues,
     screenState: ScannerScreenUiState,
     onAction: (ScannerScreenUiAction) -> Unit
 ) {
@@ -105,12 +101,7 @@ private fun ScannerContent(
         )
     }
 
-    Box(
-        modifier = Modifier
-            .padding(
-                bottom = paddingValues.calculateBottomPadding()
-            )
-    ) {
+    Box {
         AndroidView(factory = { previewCameraView })
         AndroidView(factory = { ViewFinderOverlay(context = it, attrs = null) })
 

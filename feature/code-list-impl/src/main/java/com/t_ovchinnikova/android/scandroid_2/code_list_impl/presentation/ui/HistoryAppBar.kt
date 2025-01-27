@@ -96,58 +96,61 @@ fun HistoryAppBar(
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
             )
-                BasicTextField(
-                    value = searchState.value,
-                    singleLine = true,
-                    onValueChange = {
-                        searchState.value = it
-                        onAction(HistoryUiAction.UpdateSearchCondition(it))
-                    },
-                    interactionSource = interactionSource,
-                    textStyle = TextStyle(fontSize = 16.sp),
-                    modifier = Modifier
-                        .layoutId("app_bar_content_field")
-                        .background(
-                            color = SearchFieldBackgroundColor,
-                            shape = RoundedCornerShape(8.dp)
-                        )
+            BasicTextField(
+                value = searchState.value,
+                singleLine = true,
+                onValueChange = {
+                    searchState.value = it
+                    onAction(HistoryUiAction.UpdateSearchCondition(it))
+                },
+                interactionSource = interactionSource,
+                textStyle = TextStyle(fontSize = 16.sp),
+                modifier = Modifier
+                    .layoutId("app_bar_content_field")
+                    .background(
+                        color = SearchFieldBackgroundColor,
+                        shape = RoundedCornerShape(8.dp)
+                    )
                     .padding(start = 10.dp, end = 10.dp)
 
-                ) { innerTextField ->
-                    TextFieldDefaults.DecorationBox(
-                        value = searchState.value,
-                        visualTransformation = VisualTransformation.None,
-                        innerTextField = innerTextField,
-                        singleLine = true,
-                        enabled = true,
-                        interactionSource = interactionSource,
-                        colors = TextFieldDefaults.colors(
-                            focusedContainerColor = SearchFieldBackgroundColor,
-                            unfocusedContainerColor = SearchFieldBackgroundColor,
-                            unfocusedPlaceholderColor = MaterialTheme.colorScheme.secondary,
-                            focusedPlaceholderColor = MaterialTheme.colorScheme.secondary,
-                        ),
-                        placeholder  = { Text(
+            ) { innerTextField ->
+                TextFieldDefaults.DecorationBox(
+                    value = searchState.value,
+                    visualTransformation = VisualTransformation.None,
+                    innerTextField = innerTextField,
+                    singleLine = true,
+                    enabled = true,
+                    interactionSource = interactionSource,
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = SearchFieldBackgroundColor,
+                        unfocusedContainerColor = SearchFieldBackgroundColor,
+                        unfocusedPlaceholderColor = MaterialTheme.colorScheme.secondary,
+                        focusedPlaceholderColor = MaterialTheme.colorScheme.secondary,
+                    ),
+                    placeholder = {
+                        Text(
                             text = stringResource(id = CoreResources.string.barcode_search_on_list),
-                            modifier = Modifier.padding(0.dp)) },
-                        contentPadding = PaddingValues(0.dp),
-                        trailingIcon = {
-                            if (searchState.value != EMPTY) IconButton(
-                                onClick = {
-                                    searchState.value = EMPTY
-                                    onAction(HistoryUiAction.UpdateSearchCondition(EMPTY))
-                                },
-                                modifier = Modifier.size(20.dp)
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Filled.Clear,
-                                    contentDescription = "Clear",
-                                    tint = MaterialTheme.colorScheme.secondary
-                                )
-                            }
+                            modifier = Modifier.padding(0.dp)
+                        )
+                    },
+                    contentPadding = PaddingValues(0.dp),
+                    trailingIcon = {
+                        if (searchState.value != EMPTY) IconButton(
+                            onClick = {
+                                searchState.value = EMPTY
+                                onAction(HistoryUiAction.UpdateSearchCondition(EMPTY))
+                            },
+                            modifier = Modifier.size(20.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.Clear,
+                                contentDescription = "Clear",
+                                tint = MaterialTheme.colorScheme.secondary
+                            )
                         }
-                    )
-                }
+                    }
+                )
+            }
         }
     }
 }
