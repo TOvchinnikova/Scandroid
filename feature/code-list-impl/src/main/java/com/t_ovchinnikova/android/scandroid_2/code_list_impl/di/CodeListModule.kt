@@ -58,7 +58,6 @@ val codeListModule = module {
             deleteCodeUseCase = get() as DeleteCodeUseCase,
             getCodesUseCase = get() as GetCodesUseCase,
             updateCodeUseCase = get() as UpdateCodeUseCase,
-            dispatcher = (get() as CoroutineDispatcherProvider).io
         )
     }
 }

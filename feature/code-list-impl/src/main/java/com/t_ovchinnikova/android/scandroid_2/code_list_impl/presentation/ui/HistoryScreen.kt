@@ -1,21 +1,40 @@
 package com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.ui
 
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.R
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.model.CodeItemUiModel
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.model.CodeUiModel
@@ -26,14 +45,13 @@ import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.CodeFormat
 import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.CodeType
 import com.t_ovchinnikova.android.scandroid_2.core_ui.CenterMessage
 import com.t_ovchinnikova.android.scandroid_2.core_ui.CenterProgress
+import com.t_ovchinnikova.android.scandroid_2.core_ui.EMPTY
 import com.t_ovchinnikova.android.scandroid_2.core_ui.SimpleAlertDialog
 import com.t_ovchinnikova.android.scandroid_2.core_ui.theme.ScandroidTheme
+import com.t_ovchinnikova.android.scandroid_2.core_ui.theme.SearchFieldBackgroundColor
 import org.koin.androidx.compose.koinViewModel
 import java.util.UUID
 import com.t_ovchinnikova.android.scandroid_2.core_resources.R as CoreResources
-
-private const val MOTION_HEIGHT_KEY = "Motion height"
-private const val PROGRESS_KEY = "Progress"
 
 @Composable
 fun HistoryScreen(
@@ -49,40 +67,36 @@ fun HistoryScreen(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HistoryContent(
     state: HistoryUiState,
     onAction: (HistoryUiAction) -> Unit,
     codeItemClickListener: (codeId: String) -> Unit
 ) {
-
-    val lazyScrollState = rememberLazyListState()
-
-    val collapsedState by remember {
-        derivedStateOf {
-            lazyScrollState.firstVisibleItemIndex !in 0..1
-        }
-    }
-
-    val progress by animateFloatAsState(
-        targetValue = if (collapsedState) 1f else 0f,
-        tween(500), label = PROGRESS_KEY
-    )
-    val motionHeight by animateDpAsState(
-        targetValue = if (collapsedState) 56.dp else 112.dp,
-        tween(500), label = MOTION_HEIGHT_KEY
-    )
-
     Scaffold(
         modifier = Modifier
             .systemBarsPadding()
             .imePadding(),
         topBar = {
-            HistoryAppBar(
-                progress = progress,
-                motionHeight = motionHeight,
-                title = stringResource(id = CoreResources.string.history),
-                onAction = onAction,
+            TopAppBar(
+                title = {
+                    Text(
+                        text = stringResource(id = CoreResources.string.history),
+                        color = MaterialTheme.colorScheme.onBackground,
+                        style = MaterialTheme.typography.titleLarge,
+                    )
+                },
+                actions = {
+                    Image(
+                        modifier = Modifier
+                            .padding(end = 8.dp)
+                            .clickable { onAction(HistoryUiAction.ShowDeleteDialog) },
+                        imageVector = Icons.Filled.Delete,
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
+                    )
+                }
             )
         }
     ) { paddingValues ->
@@ -90,12 +104,13 @@ fun HistoryContent(
             state.isLoading -> {
                 CenterProgress(message = stringResource(id = CoreResources.string.loading))
             }
+
             state.codes.isEmpty() -> {
                 EmptyHistory()
             }
+
             else -> {
                 HistoryList(
-                    lazyScrollState = lazyScrollState,
                     paddingValues = paddingValues,
                     codes = state.codes,
                     isVisibleCheckBox = state.isVisibleCheckBox,
@@ -117,6 +132,69 @@ fun HistoryContent(
                 onAction(HistoryUiAction.HideDeleteDialog)
             },
             confirmButtonText = stringResource(id = CoreResources.string.delete_dialog_delete_button)
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun SearchField(
+    searchCondition: String,
+    onAction: (HistoryUiAction) -> Unit,
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+    BasicTextField(
+        value = searchCondition,
+        singleLine = true,
+        onValueChange = {
+            onAction(HistoryUiAction.UpdateSearchCondition(it))
+        },
+        interactionSource = interactionSource,
+        textStyle = TextStyle(fontSize = 16.sp),
+        modifier = Modifier
+            .padding(horizontal = 16.dp)
+            .background(
+                color = SearchFieldBackgroundColor,
+                shape = RoundedCornerShape(8.dp)
+            )
+            .padding(start = 10.dp, end = 10.dp)
+            .fillMaxWidth()
+
+    ) { innerTextField ->
+        TextFieldDefaults.DecorationBox(
+            value = searchCondition,
+            visualTransformation = VisualTransformation.None,
+            innerTextField = innerTextField,
+            singleLine = true,
+            enabled = true,
+            interactionSource = interactionSource,
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = SearchFieldBackgroundColor,
+                unfocusedContainerColor = SearchFieldBackgroundColor,
+                unfocusedPlaceholderColor = MaterialTheme.colorScheme.secondary,
+                focusedPlaceholderColor = MaterialTheme.colorScheme.secondary,
+            ),
+            placeholder = {
+                Text(
+                    text = stringResource(id = CoreResources.string.barcode_search_on_list),
+                    modifier = Modifier.padding(0.dp)
+                )
+            },
+            contentPadding = PaddingValues(0.dp),
+            trailingIcon = {
+                if (searchCondition != EMPTY) IconButton(
+                    onClick = {
+                        onAction(HistoryUiAction.UpdateSearchCondition(EMPTY))
+                    },
+                    modifier = Modifier.size(20.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Clear,
+                        contentDescription = "Clear",
+                        tint = MaterialTheme.colorScheme.secondary
+                    )
+                }
+            }
         )
     }
 }

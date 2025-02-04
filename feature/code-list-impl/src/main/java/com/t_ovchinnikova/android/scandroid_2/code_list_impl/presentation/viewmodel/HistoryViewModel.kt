@@ -12,10 +12,8 @@ import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.DeleteCodeUse
 import com.t_ovchinnikova.android.scandroid_2.core_domain.usecases.UpdateCodeUseCase
 import com.t_ovchinnikova.android.scandroid_2.core_mvi.BaseViewModel
 import com.t_ovchinnikova.android.scandroid_2.core_ui.EMPTY
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
 import java.util.UUID
@@ -25,10 +23,9 @@ class HistoryViewModel(
     private val deleteAllCodesUseCase: DeleteAllCodesUseCase,
     private val updateCodeUseCase: UpdateCodeUseCase,
     getCodesUseCase: GetCodesUseCase,
-    private val dispatcher: CoroutineDispatcher
 ) : BaseViewModel<HistoryUiState, HistoryUiAction>() {
 
-    private val searchConditionFlow = MutableStateFlow(EMPTY)
+    private val searchConditionFlow = MutableStateFlow(EMPTY) // TODO Выглядит излишним, можно обойтись без flow
 
     init {
         combine(
@@ -45,7 +42,6 @@ class HistoryViewModel(
                 copy(codes = filteredList, isLoading = false)
             }
         }
-            .flowOn(dispatcher)
             .launchIn(viewModelScope)
     }
 
@@ -88,6 +84,7 @@ class HistoryViewModel(
 
     private fun updateSearchCondition(condition: String) {
         searchConditionFlow.value = condition
+        updateState { copy(searchCondition = condition) }
     }
 
     private fun onCheckCode(codeId: String) {
