@@ -4,12 +4,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
@@ -32,25 +32,18 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.R
-import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.model.CodeItemUiModel
-import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.model.CodeUiModel
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.model.mvi.HistoryUiAction
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.model.mvi.HistoryUiState
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.viewmodel.HistoryViewModel
-import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.CodeFormat
-import com.t_ovchinnikova.android.scandroid_2.core_domain.entity.CodeType
 import com.t_ovchinnikova.android.scandroid_2.core_ui.CenterMessage
 import com.t_ovchinnikova.android.scandroid_2.core_ui.CenterProgress
 import com.t_ovchinnikova.android.scandroid_2.core_ui.EMPTY
 import com.t_ovchinnikova.android.scandroid_2.core_ui.SimpleAlertDialog
-import com.t_ovchinnikova.android.scandroid_2.core_ui.theme.ScandroidTheme
 import com.t_ovchinnikova.android.scandroid_2.core_ui.theme.SearchFieldBackgroundColor
 import org.koin.androidx.compose.koinViewModel
-import java.util.UUID
 import com.t_ovchinnikova.android.scandroid_2.core_resources.R as CoreResources
 
 @Composable
@@ -75,30 +68,31 @@ fun HistoryContent(
     codeItemClickListener: (codeId: String) -> Unit
 ) {
     Scaffold(
-        modifier = Modifier
-            .systemBarsPadding()
-            .imePadding(),
+        modifier = Modifier.imePadding(),
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = stringResource(id = CoreResources.string.history),
-                        color = MaterialTheme.colorScheme.onBackground,
-                        style = MaterialTheme.typography.titleLarge,
-                    )
-                },
-                actions = {
-                    Image(
-                        modifier = Modifier
-                            .padding(end = 8.dp)
-                            .clickable { onAction(HistoryUiAction.ShowDeleteDialog) },
-                        imageVector = Icons.Filled.Delete,
-                        contentDescription = null,
-                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
-                    )
-                }
-            )
-        }
+            Column {
+                TopAppBar(
+                    title = {
+                        Text(
+                            text = stringResource(id = CoreResources.string.history),
+                            color = MaterialTheme.colorScheme.onBackground,
+                            style = MaterialTheme.typography.titleLarge,
+                        )
+                    },
+                    actions = {
+                        Image(
+                            modifier = Modifier
+                                .padding(end = 8.dp)
+                                .clickable { onAction(HistoryUiAction.ShowDeleteDialog) },
+                            imageVector = Icons.Filled.Delete,
+                            contentDescription = null,
+                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
+                        )
+                    }
+                )
+                SearchField(searchCondition = state.searchCondition, onAction = onAction)
+            }
+        },
     ) { paddingValues ->
         when {
             state.isLoading -> {
@@ -152,7 +146,7 @@ private fun SearchField(
         interactionSource = interactionSource,
         textStyle = TextStyle(fontSize = 16.sp),
         modifier = Modifier
-            .padding(horizontal = 16.dp)
+            .padding(start = 16.dp, end = 16.dp, bottom = 12.dp)
             .background(
                 color = SearchFieldBackgroundColor,
                 shape = RoundedCornerShape(8.dp)
@@ -205,62 +199,4 @@ fun EmptyHistory() {
         stringResource(id = R.string.the_list_is_empty_message),
         imageRes = CoreResources.drawable.ic_dissatisfied
     )
-}
-
-@Preview
-@Composable
-fun HistoryContentPreviewLight() {
-    HistoryContentPreview(false)
-}
-
-@Preview
-@Composable
-fun HistoryContentPreviewDark() {
-    HistoryContentPreview(true)
-}
-
-@Composable
-fun HistoryContentPreview(isDark: Boolean) {
-    ScandroidTheme(isDark) {
-        HistoryContent(
-            state = HistoryUiState(
-                isLoading = false,
-                codes = listOf<CodeItemUiModel>(
-                    CodeItemUiModel(
-                        code = CodeUiModel(
-                            id = UUID.randomUUID().toString(),
-                            text = "12345678",
-                            format = CodeFormat.DATA_MATRIX,
-                            note = "Очень важный штрих-код",
-                            dateTime = "23.12.2024 13:31",
-                            isFavorite = true,
-                            type = CodeType.TEXT
-                        )
-                    ),
-                    CodeItemUiModel(
-                        code = CodeUiModel(
-                            id = UUID.randomUUID().toString(),
-                            text = "1234567891234",
-                            format = CodeFormat.EAN_13,
-                            dateTime = "23.12.2024 13:31",
-                            isFavorite = false,
-                            type = CodeType.TEXT
-                        )
-                    ),
-                    CodeItemUiModel(
-                        code = CodeUiModel(
-                            id = UUID.randomUUID().toString(),
-                            text = "89585691785",
-                            format = CodeFormat.QR_CODE,
-                            dateTime = "23.12.2024 13:31",
-                            isFavorite = false,
-                            type = CodeType.PHONE
-                        )
-                    ),
-                )
-            ),
-            onAction = {},
-            codeItemClickListener = {}
-        )
-    }
 }

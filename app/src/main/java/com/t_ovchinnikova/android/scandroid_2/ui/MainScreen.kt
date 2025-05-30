@@ -1,8 +1,13 @@
 package com.t_ovchinnikova.android.scandroid_2.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -26,19 +31,22 @@ import com.t_ovchinnikova.android.scandroid_2.navigation.rememberNavigationState
 
 @Composable
 fun MainScreen() {
-
     val navigationState = rememberNavigationState()
 
     Scaffold(
-        modifier = Modifier.navigationBarsPadding(),
         bottomBar = {
             BottomBar(navigationState)
+        },
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
+    ) { paddingValues ->
+        Box(
+            Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .consumeWindowInsets(paddingValues)
+        ) {
+            AppNavGraph(navHostController = navigationState.navHostController)
         }
-    ) { paddingValues ->  
-        AppNavGraph(
-            navHostController = navigationState.navHostController,
-            paddingValues = paddingValues
-        )
     }
 }
 
@@ -49,6 +57,7 @@ fun BottomBar(
     NavigationBar(
         containerColor = getNavigationBottomBackgroundColor(),
         modifier = Modifier
+            .navigationBarsPadding()
             .height(70.dp)
     ) {
         val navBackStackEntry by navigationState.navHostController.currentBackStackEntryAsState()
