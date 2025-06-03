@@ -1,6 +1,5 @@
 package com.t_ovchinnikova.android.scandroid_2.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.consumeWindowInsets
@@ -24,7 +23,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.t_ovchinnikova.android.scandroid_2.core_ui.theme.getNavigationBottomBackgroundColor
 import com.t_ovchinnikova.android.scandroid_2.navigation.AppNavGraph
 import com.t_ovchinnikova.android.scandroid_2.navigation.NavigationState
 import com.t_ovchinnikova.android.scandroid_2.navigation.rememberNavigationState
@@ -55,10 +53,9 @@ fun BottomBar(
     navigationState: NavigationState
 ) {
     NavigationBar(
-        containerColor = getNavigationBottomBackgroundColor(),
         modifier = Modifier
             .navigationBarsPadding()
-            .height(70.dp)
+            .height(64.dp)
     ) {
         val navBackStackEntry by navigationState.navHostController.currentBackStackEntryAsState()
 
@@ -72,8 +69,7 @@ fun BottomBar(
                 it.route == item.route
             } ?: false
             NavigationBarItem(
-                modifier = Modifier
-                    .background(getNavigationBottomBackgroundColor()),
+
                 selected = selected,
                 onClick = {
                     if (!selected) {

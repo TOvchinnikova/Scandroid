@@ -1,7 +1,5 @@
 package com.t_ovchinnikova.android.scandroid_2.core_ui.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 val ColorPrimary = Color(0xFF018786)
@@ -13,8 +11,7 @@ val SearchFieldBackgroundColor = Color(0xFFDADDDC)
 val UncheckedSwitchBackgroundColor = Color(0xFFDADDDC)
 val ColorNavigationBackground = Color(0xFFF8F6F6)
 
-@Composable
-fun getNavigationBottomBackgroundColor(): Color = if (isSystemInDarkTheme()) {
+fun getNavigationBottomBackgroundColor(isDarkTheme: Boolean): Color = if (isDarkTheme) {
     DarkColorNavigationBackground
 } else {
     ColorNavigationBackground
