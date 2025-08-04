@@ -33,8 +33,8 @@ import com.t_ovchinnikova.android.scandroid_2.scanner_impl.presentation.model.mv
 import com.t_ovchinnikova.android.scandroid_2.scanner_impl.viewmodel.ScanningViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import org.koin.androidx.compose.get
 import org.koin.androidx.compose.koinViewModel
+import org.koin.java.KoinJavaComponent.get
 import java.util.UUID
 import java.util.concurrent.Executors
 import kotlin.coroutines.resume
@@ -110,7 +110,7 @@ private fun ScannerContent(
             imageAnalysis.clearAnalyzer()
             cameraProvider.value?.unbindAll()
         } else {
-            val analyzer = get<Analyzer>()
+            val analyzer = get<Analyzer>(Analyzer::class.java)
             imageAnalysis.setAnalyzer(cameraExecutor, analyzer)
         }
         LaunchedEffect(cameraSelector) {
