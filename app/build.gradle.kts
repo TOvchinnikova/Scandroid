@@ -4,14 +4,14 @@ plugins {
 }
 
 android {
-    buildToolsVersion = "34.0.0"
+    buildToolsVersion = "35.0.0"
 
     namespace = "com.t_ovchinnikova.android.scandroid_2"
 
     defaultConfig {
         applicationId = "com.t_ovchinnikova.android.scandroid_2"
-        versionCode = 6
-        versionName = "1.1.3"
+        versionCode = 7
+        versionName = "1.1.4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
