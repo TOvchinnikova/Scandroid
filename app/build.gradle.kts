@@ -10,8 +10,8 @@ android {
 
     defaultConfig {
         applicationId = "com.t_ovchinnikova.android.scandroid_2"
-        versionCode = 7
-        versionName = "1.1.4"
+        versionCode = 8
+        versionName = "1.1.5"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
