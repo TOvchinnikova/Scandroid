@@ -6,3 +6,8 @@ plugins {
 android {
     namespace = "com.t_ovchinnikova.android.scandroid_2.core_ui"
 }
+
+dependencies {
+
+    implementation(libs.compose.material.icons)
+}

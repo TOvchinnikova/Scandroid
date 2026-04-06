@@ -1,27 +1,12 @@
 package com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.ui
 
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SwipeToDismissBox
-import androidx.compose.material3.SwipeToDismissBoxValue
-import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.t_ovchinnikova.android.scandroid_2.code_list_impl.presentation.model.CodeItemUiModel
@@ -54,52 +39,19 @@ fun HistoryList(
             items = codes,
             key = { it.code.id }
         ) { codeUiModel ->
-            val currentItem by rememberUpdatedState(codeUiModel)
-            val dismissState = rememberSwipeToDismissBoxState(
-                confirmValueChange = {
-                    when (it) {
-                        SwipeToDismissBoxValue.EndToStart -> {
-                            onAction.invoke(HistoryUiAction.DeleteCode(currentItem.code.id))
-                            true
-                        }
-                        else -> { false }
-                    }
+            SwipeToDismissView(
+                currentItem = codeUiModel,
+                onAction = onAction,
+                content = {
+                    HistoryItem(
+                        codeModel = codeUiModel,
+                        isVisibleCheckBox = isVisibleCheckBox,
+                        onAction = onAction,
+                        codeItemClickListener = codeItemClickListener,
+                    )
                 }
             )
-            SwipeToDismissBox (
-                modifier = Modifier.animateItem(),
-                state = dismissState,
-                backgroundContent = {
-                    HistoryItemSwipeBackground()
-                },
-                enableDismissFromStartToEnd = false,
-            ) {
-                HistoryItem(
-                    codeModel = codeUiModel,
-                    isVisibleCheckBox = isVisibleCheckBox,
-                    onAction = onAction,
-                    codeItemClickListener = codeItemClickListener
-                )
-            }
         }
-    }
-}
-
-@Composable
-private fun HistoryItemSwipeBackground() {
-    val color by animateColorAsState(Color.Red)
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color, shape = MaterialTheme.shapes.medium),
-        contentAlignment = Alignment.CenterEnd
-    ) {
-        Icon(
-            modifier = Modifier.padding(end = 14.dp),
-            imageVector = Icons.Default.Delete,
-            contentDescription = null,
-            tint = Color.White
-        )
     }
 }
 

@@ -20,6 +20,8 @@ dependencies {
     implementation(project(":core-mvi"))
     implementation(project(":feature:settings-api"))
 
+    implementation(libs.compose.material.icons)
+
     testImplementation(libs.junit4)
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)

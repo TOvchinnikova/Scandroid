@@ -2,7 +2,7 @@ package com.t_ovchinnikova.android.scandroid_2.code_details_impl.presentation.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -32,7 +32,7 @@ fun CodeDetailsTopAppBar(
         navigationIcon = {
             IconButton(onClick = { onBackPressed() }) {
                 Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    imageVector = Icons.Filled.ArrowBack,
                     contentDescription = null
                 )
             }

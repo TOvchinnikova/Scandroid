@@ -19,9 +19,6 @@
       <module name="Scandroid_2.build-logic.test" target="1.8" />
       <module name="Scandroid_2.core-mvi.test" target="17" />
       <module name="Scandroid_2.core-platform-utils" target="17" />
-      <module name="Scandroid_2.feature.code-details-impl" target="17" />
-      <module name="Scandroid_2.feature.code-list-impl" target="17" />
-      <module name="Scandroid_2.feature.settings-impl" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>

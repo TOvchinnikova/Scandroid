@@ -19,6 +19,8 @@ dependencies {
     implementation(project(":core-db-impl"))
     implementation(project(":core-mvi"))
 
+    implementation(libs.compose.material.icons)
+
     testImplementation(libs.junit4)
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
