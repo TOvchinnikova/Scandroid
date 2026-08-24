@@ -1,8 +1,8 @@
 [versions]
 
-compile-sdk = "35"
+compile-sdk = "36"
 min-sdk = "23"
-target-sdk = "35"
+target-sdk = "36"
 jvm = "17"
 
 androidGradlePlugin = "8.11.1"
